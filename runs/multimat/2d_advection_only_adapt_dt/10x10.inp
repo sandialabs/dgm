@@ -1,0 +1,21 @@
+# DGM test case
+#
+# One-dimensional advection diffusion
+#
+# Author:  S. Scott Collis
+#
+nsd = 2
+eqntype  = 50       # advection diffusion
+inttype  = 3       # 3-step multistep method
+p        = 4      # polynomial order
+Nt       = 100    # number of time steps
+Ntout    = 100    # restart output interval
+dt       = 0.001   # time step
+tmax     = 0.1
+
+tortuosity_tau = 0.0 
+diffusivity_D = 0.0
+
+rho_water = 1
+rho_CO2   = 1
+porosity_phi = 1.0 

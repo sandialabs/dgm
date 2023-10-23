@@ -1,0 +1,3137 @@
+#!MC 800
+$!VarSet |LFDSFN1| = '"out.plt"'
+$!VarSet |LFDSVL1| = '"x" "y" "R" "U" "V" "E"'
+$!SETSTYLEBASE FACTORY
+$!PAPER 
+  BACKGROUNDCOLOR = WHITE
+  ISTRANSPARENT = YES
+  ORIENTPORTRAIT = NO
+  SHOWGRID = YES
+  SHOWRULER = YES
+  SHOWPAPER = YES
+  PAPERSIZE = LETTER
+  PAPERSIZEINFO
+    {
+    LETTER
+      {
+      WIDTH = 8.5
+      HEIGHT = 11
+      LEFTHARDCLIPOFFSET = 0.125
+      RIGHTHARDCLIPOFFSET = 0.125
+      TOPHARDCLIPOFFSET = 0.125
+      BOTTOMHARDCLIPOFFSET = 0.125
+      }
+    A3
+      {
+      WIDTH = 11.693
+      HEIGHT = 16.535
+      }
+    A4
+      {
+      WIDTH = 8.2677
+      HEIGHT = 11.693
+      }
+    }
+  RULERSPACING = ONEINCH
+  PAPERGRIDSPACING = HALFINCH
+  REGIONINWORKAREA
+    {
+    X1 = -0.05
+    Y1 = -0.05
+    X2 = 11.05
+    Y2 = 8.55
+    }
+$!COLORSPECTRUM 
+  CONTOURCOLORMAP = SMRAINBOW
+  SURFACERGBMIN
+    {
+    R = 0
+    G = 0
+    B = 0
+    }
+  SURFACERGBMAX
+    {
+    R = 255
+    G = 255
+    B = 255
+    }
+$!COLORMAPCONTROL RESETTOFACTORY
+### Frame Number 1 ###
+$!READDATASET  '|LFDSFN1|' 
+  INCLUDETEXT = NO
+  INCLUDEGEOM = NO
+  VARLOADMODE = BYNAME
+  VARNAMELIST = '|LFDSVL1|' 
+$!REMOVEVAR |LFDSVL1|
+$!FRAMELAYOUT 
+  HEADERCOLOR = RED
+  XYPOS
+    {
+    X = 1
+    Y = 1
+    }
+  WIDTH = 4
+  HEIGHT = 3
+$!FRAMEMODE  = TWOD
+$!FRAMENAME  = 'Density' 
+$!ACTIVEFIELDZONES  =  [1-26]
+$!GLOBALCONTOUR 
+  VAR = 3
+$!CONTOURLEVELS NEW
+  RAWDATA
+15
+0.821718811989
+0.837082266808
+0.852445721626
+0.867809176445
+0.883172631264
+0.898536086082
+0.913899540901
+0.92926299572
+0.944626450539
+0.959989905357
+0.975353360176
+0.990716814995
+1.00608026981
+1.02144372463
+1.03680717945
+$!FIELD  [1]
+  MESH
+    {
+    COLOR = RED
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = RED
+    }
+  SCATTER
+    {
+    COLOR = RED
+    }
+  SHADE
+    {
+    COLOR = RED
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [2]
+  MESH
+    {
+    COLOR = GREEN
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = GREEN
+    }
+  SCATTER
+    {
+    COLOR = GREEN
+    }
+  SHADE
+    {
+    COLOR = GREEN
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [3]
+  MESH
+    {
+    COLOR = BLUE
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = BLUE
+    }
+  SCATTER
+    {
+    COLOR = BLUE
+    }
+  SHADE
+    {
+    COLOR = BLUE
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [4]
+  MESH
+    {
+    COLOR = CYAN
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = CYAN
+    }
+  SCATTER
+    {
+    COLOR = CYAN
+    }
+  SHADE
+    {
+    COLOR = CYAN
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [5]
+  MESH
+    {
+    COLOR = YELLOW
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = YELLOW
+    }
+  SCATTER
+    {
+    COLOR = YELLOW
+    }
+  SHADE
+    {
+    COLOR = YELLOW
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [6]
+  MESH
+    {
+    COLOR = PURPLE
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = PURPLE
+    }
+  SCATTER
+    {
+    COLOR = PURPLE
+    }
+  SHADE
+    {
+    COLOR = PURPLE
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [7]
+  MESH
+    {
+    COLOR = RED
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = RED
+    }
+  SCATTER
+    {
+    COLOR = RED
+    }
+  SHADE
+    {
+    COLOR = RED
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [8]
+  MESH
+    {
+    COLOR = GREEN
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = GREEN
+    }
+  SCATTER
+    {
+    COLOR = GREEN
+    }
+  SHADE
+    {
+    COLOR = GREEN
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [9]
+  MESH
+    {
+    COLOR = BLUE
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = BLUE
+    }
+  SCATTER
+    {
+    COLOR = BLUE
+    }
+  SHADE
+    {
+    COLOR = BLUE
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [10]
+  MESH
+    {
+    COLOR = CYAN
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = CYAN
+    }
+  SCATTER
+    {
+    COLOR = CYAN
+    }
+  SHADE
+    {
+    COLOR = CYAN
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [11]
+  MESH
+    {
+    COLOR = YELLOW
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = YELLOW
+    }
+  SCATTER
+    {
+    COLOR = YELLOW
+    }
+  SHADE
+    {
+    COLOR = YELLOW
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [12]
+  MESH
+    {
+    COLOR = PURPLE
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = PURPLE
+    }
+  SCATTER
+    {
+    COLOR = PURPLE
+    }
+  SHADE
+    {
+    COLOR = PURPLE
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [13]
+  MESH
+    {
+    COLOR = RED
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = RED
+    }
+  SCATTER
+    {
+    COLOR = RED
+    }
+  SHADE
+    {
+    COLOR = RED
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [14]
+  MESH
+    {
+    COLOR = GREEN
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = GREEN
+    }
+  SCATTER
+    {
+    COLOR = GREEN
+    }
+  SHADE
+    {
+    COLOR = GREEN
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [15]
+  MESH
+    {
+    COLOR = BLUE
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = BLUE
+    }
+  SCATTER
+    {
+    COLOR = BLUE
+    }
+  SHADE
+    {
+    COLOR = BLUE
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [16]
+  MESH
+    {
+    COLOR = CYAN
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = CYAN
+    }
+  SCATTER
+    {
+    COLOR = CYAN
+    }
+  SHADE
+    {
+    COLOR = CYAN
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [17]
+  MESH
+    {
+    COLOR = YELLOW
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = YELLOW
+    }
+  SCATTER
+    {
+    COLOR = YELLOW
+    }
+  SHADE
+    {
+    COLOR = YELLOW
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [18]
+  MESH
+    {
+    COLOR = PURPLE
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = PURPLE
+    }
+  SCATTER
+    {
+    COLOR = PURPLE
+    }
+  SHADE
+    {
+    COLOR = PURPLE
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [19]
+  MESH
+    {
+    COLOR = RED
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = RED
+    }
+  SCATTER
+    {
+    COLOR = RED
+    }
+  SHADE
+    {
+    COLOR = RED
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [20]
+  MESH
+    {
+    COLOR = GREEN
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = GREEN
+    }
+  SCATTER
+    {
+    COLOR = GREEN
+    }
+  SHADE
+    {
+    COLOR = GREEN
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [21]
+  MESH
+    {
+    COLOR = BLUE
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = BLUE
+    }
+  SCATTER
+    {
+    COLOR = BLUE
+    }
+  SHADE
+    {
+    COLOR = BLUE
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [22]
+  MESH
+    {
+    COLOR = CYAN
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = CYAN
+    }
+  SCATTER
+    {
+    COLOR = CYAN
+    }
+  SHADE
+    {
+    COLOR = CYAN
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [23]
+  MESH
+    {
+    COLOR = YELLOW
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = YELLOW
+    }
+  SCATTER
+    {
+    COLOR = YELLOW
+    }
+  SHADE
+    {
+    COLOR = YELLOW
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [24]
+  MESH
+    {
+    COLOR = PURPLE
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = PURPLE
+    }
+  SCATTER
+    {
+    COLOR = PURPLE
+    }
+  SHADE
+    {
+    COLOR = PURPLE
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [25]
+  MESH
+    {
+    COLOR = RED
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = RED
+    }
+  SCATTER
+    {
+    COLOR = RED
+    }
+  SHADE
+    {
+    COLOR = RED
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [26]
+  MESH
+    {
+    COLOR = GREEN
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = GREEN
+    }
+  SCATTER
+    {
+    COLOR = GREEN
+    }
+  SHADE
+    {
+    COLOR = GREEN
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!TWODAXIS 
+  XVAR = 1
+  YVAR = 2
+$!VIEW FIT
+$!TWODAXIS 
+  GRIDAREA
+    {
+    EXTENTS
+      {
+      X1 = 13.054
+      X2 = 92.08
+      }
+    DRAWBORDER = YES
+    TICKSALLSIDES = YES
+    }
+  DEPXTOYRATIO = 1
+  XDETAIL
+    {
+    RANGEMIN = -0.0815087746275
+    RANGEMAX = 6.24120343337
+    GRSPACING = 1
+    }
+  YDETAIL
+    {
+    AXISPOSITION = 13.05
+    RANGEMIN = -1.35153894865
+    RANGEMAX = 3.26892305135
+    GRSPACING = 0.5
+    }
+$!FIELDLAYERS 
+  SHOWMESH = NO
+  SHOWCONTOUR = YES
+### Frame Number 2 ###
+$!CREATENEWFRAME 
+$!FRAMELAYOUT 
+  HEADERCOLOR = RED
+  XYPOS
+    {
+    X = 1
+    Y = 4.4975
+    }
+  WIDTH = 4
+  HEIGHT = 3
+$!FRAMEMODE  = TWOD
+$!FRAMENAME  = 'v-momentum' 
+$!ACTIVEFIELDZONES  =  [1-26]
+$!GLOBALCONTOUR 
+  VAR = 5
+$!CONTOURLEVELS NEW
+  RAWDATA
+15
+-0.847052250057
+-0.723695404828
+-0.600338559598
+-0.476981714368
+-0.353624869138
+-0.230268023908
+-0.106911178678
+0.0164456665516
+0.139802511781
+0.263159357011
+0.386516202241
+0.509873047471
+0.633229892701
+0.756586737931
+0.879943583161
+$!FIELD  [1]
+  MESH
+    {
+    COLOR = RED
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = RED
+    }
+  SCATTER
+    {
+    COLOR = RED
+    }
+  SHADE
+    {
+    COLOR = RED
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [2]
+  MESH
+    {
+    COLOR = GREEN
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = GREEN
+    }
+  SCATTER
+    {
+    COLOR = GREEN
+    }
+  SHADE
+    {
+    COLOR = GREEN
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [3]
+  MESH
+    {
+    COLOR = BLUE
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = BLUE
+    }
+  SCATTER
+    {
+    COLOR = BLUE
+    }
+  SHADE
+    {
+    COLOR = BLUE
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [4]
+  MESH
+    {
+    COLOR = CYAN
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = CYAN
+    }
+  SCATTER
+    {
+    COLOR = CYAN
+    }
+  SHADE
+    {
+    COLOR = CYAN
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [5]
+  MESH
+    {
+    COLOR = YELLOW
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = YELLOW
+    }
+  SCATTER
+    {
+    COLOR = YELLOW
+    }
+  SHADE
+    {
+    COLOR = YELLOW
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [6]
+  MESH
+    {
+    COLOR = PURPLE
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = PURPLE
+    }
+  SCATTER
+    {
+    COLOR = PURPLE
+    }
+  SHADE
+    {
+    COLOR = PURPLE
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [7]
+  MESH
+    {
+    COLOR = RED
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = RED
+    }
+  SCATTER
+    {
+    COLOR = RED
+    }
+  SHADE
+    {
+    COLOR = RED
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [8]
+  MESH
+    {
+    COLOR = GREEN
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = GREEN
+    }
+  SCATTER
+    {
+    COLOR = GREEN
+    }
+  SHADE
+    {
+    COLOR = GREEN
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [9]
+  MESH
+    {
+    COLOR = BLUE
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = BLUE
+    }
+  SCATTER
+    {
+    COLOR = BLUE
+    }
+  SHADE
+    {
+    COLOR = BLUE
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [10]
+  MESH
+    {
+    COLOR = CYAN
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = CYAN
+    }
+  SCATTER
+    {
+    COLOR = CYAN
+    }
+  SHADE
+    {
+    COLOR = CYAN
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [11]
+  MESH
+    {
+    COLOR = YELLOW
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = YELLOW
+    }
+  SCATTER
+    {
+    COLOR = YELLOW
+    }
+  SHADE
+    {
+    COLOR = YELLOW
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [12]
+  MESH
+    {
+    COLOR = PURPLE
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = PURPLE
+    }
+  SCATTER
+    {
+    COLOR = PURPLE
+    }
+  SHADE
+    {
+    COLOR = PURPLE
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [13]
+  MESH
+    {
+    COLOR = RED
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = RED
+    }
+  SCATTER
+    {
+    COLOR = RED
+    }
+  SHADE
+    {
+    COLOR = RED
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [14]
+  MESH
+    {
+    COLOR = GREEN
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = GREEN
+    }
+  SCATTER
+    {
+    COLOR = GREEN
+    }
+  SHADE
+    {
+    COLOR = GREEN
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [15]
+  MESH
+    {
+    COLOR = BLUE
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = BLUE
+    }
+  SCATTER
+    {
+    COLOR = BLUE
+    }
+  SHADE
+    {
+    COLOR = BLUE
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [16]
+  MESH
+    {
+    COLOR = CYAN
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = CYAN
+    }
+  SCATTER
+    {
+    COLOR = CYAN
+    }
+  SHADE
+    {
+    COLOR = CYAN
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [17]
+  MESH
+    {
+    COLOR = YELLOW
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = YELLOW
+    }
+  SCATTER
+    {
+    COLOR = YELLOW
+    }
+  SHADE
+    {
+    COLOR = YELLOW
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [18]
+  MESH
+    {
+    COLOR = PURPLE
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = PURPLE
+    }
+  SCATTER
+    {
+    COLOR = PURPLE
+    }
+  SHADE
+    {
+    COLOR = PURPLE
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [19]
+  MESH
+    {
+    COLOR = RED
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = RED
+    }
+  SCATTER
+    {
+    COLOR = RED
+    }
+  SHADE
+    {
+    COLOR = RED
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [20]
+  MESH
+    {
+    COLOR = GREEN
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = GREEN
+    }
+  SCATTER
+    {
+    COLOR = GREEN
+    }
+  SHADE
+    {
+    COLOR = GREEN
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [21]
+  MESH
+    {
+    COLOR = BLUE
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = BLUE
+    }
+  SCATTER
+    {
+    COLOR = BLUE
+    }
+  SHADE
+    {
+    COLOR = BLUE
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [22]
+  MESH
+    {
+    COLOR = CYAN
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = CYAN
+    }
+  SCATTER
+    {
+    COLOR = CYAN
+    }
+  SHADE
+    {
+    COLOR = CYAN
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [23]
+  MESH
+    {
+    COLOR = YELLOW
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = YELLOW
+    }
+  SCATTER
+    {
+    COLOR = YELLOW
+    }
+  SHADE
+    {
+    COLOR = YELLOW
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [24]
+  MESH
+    {
+    COLOR = PURPLE
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = PURPLE
+    }
+  SCATTER
+    {
+    COLOR = PURPLE
+    }
+  SHADE
+    {
+    COLOR = PURPLE
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [25]
+  MESH
+    {
+    COLOR = RED
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = RED
+    }
+  SCATTER
+    {
+    COLOR = RED
+    }
+  SHADE
+    {
+    COLOR = RED
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [26]
+  MESH
+    {
+    COLOR = GREEN
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = GREEN
+    }
+  SCATTER
+    {
+    COLOR = GREEN
+    }
+  SHADE
+    {
+    COLOR = GREEN
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!TWODAXIS 
+  XVAR = 1
+  YVAR = 2
+$!VIEW FIT
+$!TWODAXIS 
+  GRIDAREA
+    {
+    EXTENTS
+      {
+      X1 = 13.054
+      X2 = 92.08
+      }
+    DRAWBORDER = YES
+    TICKSALLSIDES = YES
+    }
+  DEPXTOYRATIO = 1
+  XDETAIL
+    {
+    RANGEMIN = -0.0815087746275
+    RANGEMAX = 6.24120343337
+    GRSPACING = 1
+    }
+  YDETAIL
+    {
+    AXISPOSITION = 13.05
+    RANGEMIN = -1.35153894865
+    RANGEMAX = 3.26892305135
+    GRSPACING = 0.5
+    }
+$!FIELDLAYERS 
+  SHOWMESH = NO
+  SHOWCONTOUR = YES
+### Frame Number 3 ###
+$!CREATENEWFRAME 
+$!FRAMELAYOUT 
+  HEADERCOLOR = RED
+  XYPOS
+    {
+    X = 6.0037
+    Y = 4.4975
+    }
+  WIDTH = 4
+  HEIGHT = 3
+$!FRAMEMODE  = TWOD
+$!FRAMENAME  = 'Total Energy' 
+$!ACTIVEFIELDZONES  =  [1-26]
+$!GLOBALCONTOUR 
+  VAR = 6
+$!CONTOURLEVELS NEW
+  RAWDATA
+15
+17.1726738214
+17.444268465
+17.7158631086
+17.9874577522
+18.2590523958
+18.5306470394
+18.802241683
+19.0738363266
+19.3454309702
+19.6170256138
+19.8886202574
+20.160214901
+20.4318095446
+20.7034041882
+20.9749988317
+$!FIELD  [1]
+  MESH
+    {
+    COLOR = RED
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = RED
+    }
+  SCATTER
+    {
+    COLOR = RED
+    }
+  SHADE
+    {
+    COLOR = RED
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [2]
+  MESH
+    {
+    COLOR = GREEN
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = GREEN
+    }
+  SCATTER
+    {
+    COLOR = GREEN
+    }
+  SHADE
+    {
+    COLOR = GREEN
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [3]
+  MESH
+    {
+    COLOR = BLUE
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = BLUE
+    }
+  SCATTER
+    {
+    COLOR = BLUE
+    }
+  SHADE
+    {
+    COLOR = BLUE
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [4]
+  MESH
+    {
+    COLOR = CYAN
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = CYAN
+    }
+  SCATTER
+    {
+    COLOR = CYAN
+    }
+  SHADE
+    {
+    COLOR = CYAN
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [5]
+  MESH
+    {
+    COLOR = YELLOW
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = YELLOW
+    }
+  SCATTER
+    {
+    COLOR = YELLOW
+    }
+  SHADE
+    {
+    COLOR = YELLOW
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [6]
+  MESH
+    {
+    COLOR = PURPLE
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = PURPLE
+    }
+  SCATTER
+    {
+    COLOR = PURPLE
+    }
+  SHADE
+    {
+    COLOR = PURPLE
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [7]
+  MESH
+    {
+    COLOR = RED
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = RED
+    }
+  SCATTER
+    {
+    COLOR = RED
+    }
+  SHADE
+    {
+    COLOR = RED
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [8]
+  MESH
+    {
+    COLOR = GREEN
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = GREEN
+    }
+  SCATTER
+    {
+    COLOR = GREEN
+    }
+  SHADE
+    {
+    COLOR = GREEN
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [9]
+  MESH
+    {
+    COLOR = BLUE
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = BLUE
+    }
+  SCATTER
+    {
+    COLOR = BLUE
+    }
+  SHADE
+    {
+    COLOR = BLUE
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [10]
+  MESH
+    {
+    COLOR = CYAN
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = CYAN
+    }
+  SCATTER
+    {
+    COLOR = CYAN
+    }
+  SHADE
+    {
+    COLOR = CYAN
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [11]
+  MESH
+    {
+    COLOR = YELLOW
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = YELLOW
+    }
+  SCATTER
+    {
+    COLOR = YELLOW
+    }
+  SHADE
+    {
+    COLOR = YELLOW
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [12]
+  MESH
+    {
+    COLOR = PURPLE
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = PURPLE
+    }
+  SCATTER
+    {
+    COLOR = PURPLE
+    }
+  SHADE
+    {
+    COLOR = PURPLE
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [13]
+  MESH
+    {
+    COLOR = RED
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = RED
+    }
+  SCATTER
+    {
+    COLOR = RED
+    }
+  SHADE
+    {
+    COLOR = RED
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [14]
+  MESH
+    {
+    COLOR = GREEN
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = GREEN
+    }
+  SCATTER
+    {
+    COLOR = GREEN
+    }
+  SHADE
+    {
+    COLOR = GREEN
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [15]
+  MESH
+    {
+    COLOR = BLUE
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = BLUE
+    }
+  SCATTER
+    {
+    COLOR = BLUE
+    }
+  SHADE
+    {
+    COLOR = BLUE
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [16]
+  MESH
+    {
+    COLOR = CYAN
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = CYAN
+    }
+  SCATTER
+    {
+    COLOR = CYAN
+    }
+  SHADE
+    {
+    COLOR = CYAN
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [17]
+  MESH
+    {
+    COLOR = YELLOW
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = YELLOW
+    }
+  SCATTER
+    {
+    COLOR = YELLOW
+    }
+  SHADE
+    {
+    COLOR = YELLOW
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [18]
+  MESH
+    {
+    COLOR = PURPLE
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = PURPLE
+    }
+  SCATTER
+    {
+    COLOR = PURPLE
+    }
+  SHADE
+    {
+    COLOR = PURPLE
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [19]
+  MESH
+    {
+    COLOR = RED
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = RED
+    }
+  SCATTER
+    {
+    COLOR = RED
+    }
+  SHADE
+    {
+    COLOR = RED
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [20]
+  MESH
+    {
+    COLOR = GREEN
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = GREEN
+    }
+  SCATTER
+    {
+    COLOR = GREEN
+    }
+  SHADE
+    {
+    COLOR = GREEN
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [21]
+  MESH
+    {
+    COLOR = BLUE
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = BLUE
+    }
+  SCATTER
+    {
+    COLOR = BLUE
+    }
+  SHADE
+    {
+    COLOR = BLUE
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [22]
+  MESH
+    {
+    COLOR = CYAN
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = CYAN
+    }
+  SCATTER
+    {
+    COLOR = CYAN
+    }
+  SHADE
+    {
+    COLOR = CYAN
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [23]
+  MESH
+    {
+    COLOR = YELLOW
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = YELLOW
+    }
+  SCATTER
+    {
+    COLOR = YELLOW
+    }
+  SHADE
+    {
+    COLOR = YELLOW
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [24]
+  MESH
+    {
+    COLOR = PURPLE
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = PURPLE
+    }
+  SCATTER
+    {
+    COLOR = PURPLE
+    }
+  SHADE
+    {
+    COLOR = PURPLE
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [25]
+  MESH
+    {
+    COLOR = RED
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = RED
+    }
+  SCATTER
+    {
+    COLOR = RED
+    }
+  SHADE
+    {
+    COLOR = RED
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [26]
+  MESH
+    {
+    COLOR = GREEN
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = GREEN
+    }
+  SCATTER
+    {
+    COLOR = GREEN
+    }
+  SHADE
+    {
+    COLOR = GREEN
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!TWODAXIS 
+  XVAR = 1
+  YVAR = 2
+$!VIEW FIT
+$!TWODAXIS 
+  GRIDAREA
+    {
+    EXTENTS
+      {
+      X1 = 13.054
+      X2 = 92.08
+      }
+    DRAWBORDER = YES
+    TICKSALLSIDES = YES
+    }
+  DEPXTOYRATIO = 1
+  XDETAIL
+    {
+    RANGEMIN = -0.0815087746275
+    RANGEMAX = 6.24120343337
+    GRSPACING = 1
+    }
+  YDETAIL
+    {
+    AXISPOSITION = 13.05
+    RANGEMIN = -1.35153894865
+    RANGEMAX = 3.26892305135
+    GRSPACING = 0.5
+    }
+$!FIELDLAYERS 
+  SHOWMESH = NO
+  SHOWCONTOUR = YES
+### Frame Number 4 ###
+$!CREATENEWFRAME 
+$!FRAMELAYOUT 
+  HEADERCOLOR = RED
+  XYPOS
+    {
+    X = 6.0037
+    Y = 1
+    }
+  WIDTH = 4
+  HEIGHT = 3
+$!FRAMEMODE  = TWOD
+$!FRAMENAME  = 'u-momentum' 
+$!ACTIVEFIELDZONES  =  [1-26]
+$!GLOBALCONTOUR 
+  VAR = 4
+$!CONTOURLEVELS NEW
+  RAWDATA
+15
+0.101549812593
+0.221889050677
+0.342228288762
+0.462567526847
+0.582906764932
+0.703246003017
+0.823585241102
+0.943924479187
+1.06426371727
+1.18460295536
+1.30494219344
+1.42528143153
+1.54562066961
+1.6659599077
+1.78629914578
+$!FIELD  [1]
+  MESH
+    {
+    COLOR = RED
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = RED
+    }
+  SCATTER
+    {
+    COLOR = RED
+    }
+  SHADE
+    {
+    COLOR = RED
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [2]
+  MESH
+    {
+    COLOR = GREEN
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = GREEN
+    }
+  SCATTER
+    {
+    COLOR = GREEN
+    }
+  SHADE
+    {
+    COLOR = GREEN
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [3]
+  MESH
+    {
+    COLOR = BLUE
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = BLUE
+    }
+  SCATTER
+    {
+    COLOR = BLUE
+    }
+  SHADE
+    {
+    COLOR = BLUE
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [4]
+  MESH
+    {
+    COLOR = CYAN
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = CYAN
+    }
+  SCATTER
+    {
+    COLOR = CYAN
+    }
+  SHADE
+    {
+    COLOR = CYAN
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [5]
+  MESH
+    {
+    COLOR = YELLOW
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = YELLOW
+    }
+  SCATTER
+    {
+    COLOR = YELLOW
+    }
+  SHADE
+    {
+    COLOR = YELLOW
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [6]
+  MESH
+    {
+    COLOR = PURPLE
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = PURPLE
+    }
+  SCATTER
+    {
+    COLOR = PURPLE
+    }
+  SHADE
+    {
+    COLOR = PURPLE
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [7]
+  MESH
+    {
+    COLOR = RED
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = RED
+    }
+  SCATTER
+    {
+    COLOR = RED
+    }
+  SHADE
+    {
+    COLOR = RED
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [8]
+  MESH
+    {
+    COLOR = GREEN
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = GREEN
+    }
+  SCATTER
+    {
+    COLOR = GREEN
+    }
+  SHADE
+    {
+    COLOR = GREEN
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [9]
+  MESH
+    {
+    COLOR = BLUE
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = BLUE
+    }
+  SCATTER
+    {
+    COLOR = BLUE
+    }
+  SHADE
+    {
+    COLOR = BLUE
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [10]
+  MESH
+    {
+    COLOR = CYAN
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = CYAN
+    }
+  SCATTER
+    {
+    COLOR = CYAN
+    }
+  SHADE
+    {
+    COLOR = CYAN
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [11]
+  MESH
+    {
+    COLOR = YELLOW
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = YELLOW
+    }
+  SCATTER
+    {
+    COLOR = YELLOW
+    }
+  SHADE
+    {
+    COLOR = YELLOW
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [12]
+  MESH
+    {
+    COLOR = PURPLE
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = PURPLE
+    }
+  SCATTER
+    {
+    COLOR = PURPLE
+    }
+  SHADE
+    {
+    COLOR = PURPLE
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [13]
+  MESH
+    {
+    COLOR = RED
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = RED
+    }
+  SCATTER
+    {
+    COLOR = RED
+    }
+  SHADE
+    {
+    COLOR = RED
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [14]
+  MESH
+    {
+    COLOR = GREEN
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = GREEN
+    }
+  SCATTER
+    {
+    COLOR = GREEN
+    }
+  SHADE
+    {
+    COLOR = GREEN
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [15]
+  MESH
+    {
+    COLOR = BLUE
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = BLUE
+    }
+  SCATTER
+    {
+    COLOR = BLUE
+    }
+  SHADE
+    {
+    COLOR = BLUE
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [16]
+  MESH
+    {
+    COLOR = CYAN
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = CYAN
+    }
+  SCATTER
+    {
+    COLOR = CYAN
+    }
+  SHADE
+    {
+    COLOR = CYAN
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [17]
+  MESH
+    {
+    COLOR = YELLOW
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = YELLOW
+    }
+  SCATTER
+    {
+    COLOR = YELLOW
+    }
+  SHADE
+    {
+    COLOR = YELLOW
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [18]
+  MESH
+    {
+    COLOR = PURPLE
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = PURPLE
+    }
+  SCATTER
+    {
+    COLOR = PURPLE
+    }
+  SHADE
+    {
+    COLOR = PURPLE
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [19]
+  MESH
+    {
+    COLOR = RED
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = RED
+    }
+  SCATTER
+    {
+    COLOR = RED
+    }
+  SHADE
+    {
+    COLOR = RED
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [20]
+  MESH
+    {
+    COLOR = GREEN
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = GREEN
+    }
+  SCATTER
+    {
+    COLOR = GREEN
+    }
+  SHADE
+    {
+    COLOR = GREEN
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [21]
+  MESH
+    {
+    COLOR = BLUE
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = BLUE
+    }
+  SCATTER
+    {
+    COLOR = BLUE
+    }
+  SHADE
+    {
+    COLOR = BLUE
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [22]
+  MESH
+    {
+    COLOR = CYAN
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = CYAN
+    }
+  SCATTER
+    {
+    COLOR = CYAN
+    }
+  SHADE
+    {
+    COLOR = CYAN
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [23]
+  MESH
+    {
+    COLOR = YELLOW
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = YELLOW
+    }
+  SCATTER
+    {
+    COLOR = YELLOW
+    }
+  SHADE
+    {
+    COLOR = YELLOW
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [24]
+  MESH
+    {
+    COLOR = PURPLE
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = PURPLE
+    }
+  SCATTER
+    {
+    COLOR = PURPLE
+    }
+  SHADE
+    {
+    COLOR = PURPLE
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [25]
+  MESH
+    {
+    COLOR = RED
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = RED
+    }
+  SCATTER
+    {
+    COLOR = RED
+    }
+  SHADE
+    {
+    COLOR = RED
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!FIELD  [26]
+  MESH
+    {
+    COLOR = GREEN
+    }
+  CONTOUR
+    {
+    COLOR = MULTI
+    LINETHICKNESS = 0.4
+    }
+  VECTOR
+    {
+    COLOR = GREEN
+    }
+  SCATTER
+    {
+    COLOR = GREEN
+    }
+  SHADE
+    {
+    COLOR = GREEN
+    }
+  BOUNDARY
+    {
+    COLOR = CUSTOM2
+    LINETHICKNESS = 0.1
+    }
+$!TWODAXIS 
+  XVAR = 1
+  YVAR = 2
+$!VIEW FIT
+$!TWODAXIS 
+  GRIDAREA
+    {
+    EXTENTS
+      {
+      X1 = 13.054
+      X2 = 92.08
+      }
+    DRAWBORDER = YES
+    TICKSALLSIDES = YES
+    }
+  DEPXTOYRATIO = 1
+  XDETAIL
+    {
+    RANGEMIN = -0.0815087746275
+    RANGEMAX = 6.24120343337
+    GRSPACING = 1
+    }
+  YDETAIL
+    {
+    AXISPOSITION = 13.05
+    RANGEMIN = -1.35153894865
+    RANGEMAX = 3.26892305135
+    GRSPACING = 0.5
+    }
+$!FIELDLAYERS 
+  SHOWMESH = NO
+  SHOWCONTOUR = YES
+$!REMOVEVAR |LFDSFN1|
+$!SETSTYLEBASE CONFIG

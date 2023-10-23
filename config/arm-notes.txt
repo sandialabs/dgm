@@ -1,0 +1,5 @@
+env BOOSTDIR=$BOOST_DIR USE_CMC_LAPACK=1 ./make_dgm -s -D CMC_USE_INTERNAL_CLAPACK -a ARM
+
+With recent updates this is now simply:
+
+env BOOSTDIR=$BOOST_DIR USE_OPENBLAS=1 ./make_dgm -s -a ARM

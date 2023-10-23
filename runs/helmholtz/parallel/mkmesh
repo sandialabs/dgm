@@ -1,0 +1,1 @@
+dgm_mesh.exe -nsd 2 -Lx 5 -Ly 1 -nx 5 -ny 1 -r helmholtz

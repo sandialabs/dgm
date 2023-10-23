@@ -1,0 +1,126 @@
+\documentclass{report}
+\usepackage[T1]{fontenc}
+\usepackage[latin9]{inputenc}
+\usepackage{geometry}
+\geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{3}
+\usepackage{verbatim}
+\usepackage{calc}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{esint}
+\PassOptionsToPackage{normalem}{ulem}
+\usepackage{ulem}
+\usepackage[unicode=true,pdfusetitle,
+ bookmarks=true,bookmarksnumbered=false,bookmarksopen=false,
+ breaklinks=false,pdfborder={0 0 1},backref=false,colorlinks=false]
+ {hyperref}
+\hypersetup{
+ unicode=true, pdfusetitle, bookmarks=true,bookmarksnumbered=false,bookmarksopen=false, breaklinks=false,pdfborder={0 0 0},backref=false,colorlinks=true}
+
+\makeatletter
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%% User specified LaTeX commands.
+\usepackage{pdflscape}
+\lhead{}
+\chead{DGM Developer's Guide}
+\rhead{\thepage}
+\lfoot{}
+\cfoot{DGM Developer's Guide}
+\rfoot{}
+
+\makeatother
+
+\begin{document}
+
+\title{DGM Developer's Guide}
+
+
+\author{S. Scott Collis, Curtis C. Ober}
+\maketitle
+\begin{abstract}
+The DGM developer's guide is a collection of notes for developer's to
+help document and educate developer's with conventions and coding practices
+for the development of DGM.
+\end{abstract}
+
+\chapter{Basics}
+
+\section{Formatting}
+
+The basic formatting conversions are:
+\begin{enumerate}
+  \item Text will fit in 80 columns.  Many editing packages, webviewing,
+        and other GUIs default to 80 columns.  This way text wrapping
+        can be avoided.
+\end{enumerate}
+
+\section{Use of Ordinal, int, Size, LocalSize, GlobalSize, Scalar}
+
+From Scott: Here is a quick version:
+
+\begin{itemize}
+  \item DGM::Scalar (the type held by Elements to represent the PDE solution)
+  \item DGM::Real (a real number, used for coordinates and such), currently
+  \item DGM::Real is DGM::Scalar but one day DGM::Scalar could be
+  \item std::complex<DGM::Real> for example.
+  \item DGM::Ordinal $\equiv$ DGM::LocalSize and is used to index on-node
+        quantities
+  \item DGM::Size $\equiv$ DGM::GlobalSize and is used to index full-scale
+        quantities
+\end{itemize}
+
+Notes:
+\begin{enumerate}
+  \item In general, DGM::Ordinal and DGM::Size must be okay to be either
+        signed or unsigned.
+  \item The basic types are Ordinal and Size but we sometimes may typedefs
+        (or template on) LocalSize and GlobalSize as this can make the code
+        easier to decipher.
+  \item All CMC::Vector are indexed on DGM::Ordinal since this must fit on
+        one core.
+  \item If you want a maximally 64bit version then you build with
+        DGM::Ordinal = size\_t and DGM::Size = unsigned long long.
+        This works great, but due to limits in Trilinos, we cannot
+        enable it when this combination.
+\end{enumerate}
+
+int is only used when it *must* be (like for MPI and Epetra) and for
+return values that get communicated back to the OS.  When we need too, we
+use boost::numeric\_cast<int> to convert Ordinal and Size to ints and this
+will catch overflows.
+
+It is bad when int or unsigned are used directly (even locally deep in a
+kernel) and I've had to tease a number of these out as they may lead to
+overflows one day.
+
+From Drew: Running ROL in DGM.  
+\begin{enumerate}
+  \item To choose ROL optimizers, change the {\tt opttype} parameter in {\tt root.inp} 
+        to 4.
+  \item The specific optimization algorithm used is determined through parameters 
+        in {\tt root.rol}.  For an example of {\tt root.rol} see 
+        \begin{verbatim}
+           /dgm/examples/dakota/heat-dgm/heat.rol.
+        \end{verbatim} 
+  \item The ROL-DGM interface has the feature to mimic either DGM or PEopt {\tt root.ocs} 
+        output.  This output specification is controlled through the parameter 
+        {\tt output\_type} in {\tt root.inp}.  The parameter {\tt output\_type} corresponds 
+        to an unsigned integer.  Independent of the value of {\tt output\_type}, the ROL 
+        optimizer creates {\tt root.ocs} in ROL format.  If {\tt output\_type} is 1, then 
+        we create the file {\tt root\_dgm.ocs} using DGM-style output.  If {\tt output\_type} 
+        is 2, then we create the file {\tt root\_peopt.ocs} using PEopt-style.  If 
+        {\tt output\_type} is 0 or greater than 2, then we only create {\tt root.ocs}.  Note 
+        that in DGM style output, the ``{\tt Alpha}'' corresponds to the norm of the 
+        optimization step, not the linesearch parameter size.  Similarly, for peopt-style 
+        output, ``{\tt ||dx||}'' corresponds to the norm of the optimization step, not the 
+        preconditioned step.  Furthermore, for PEopt-style output, we do not include 
+        ``{\tt LSIter}'' or the Krylov columns because ROL manages these components internally.    
+\end{enumerate}
+
+
+\end{document}

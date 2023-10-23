@@ -1,0 +1,13 @@
+{
+  "$schema" : "http://json-schema.org/schema#",
+  "title" : "Field properties",
+  "type" : "object",
+  "properties" : {
+    "Write weights" : {
+      "description" : "If not compiled with DGM_NO_WEIGHTS can be used to write Field weights.",
+      "type" : "boolean",
+      "default" : true
+    }
+  },
+  "additionalProperties" : false
+}

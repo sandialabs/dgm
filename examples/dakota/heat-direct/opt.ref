@@ -1,0 +1,50 @@
+************************************************************
+OPT++ version 2.4
+Job run at Tue Jan 20 14:48:03 2009
+
+************************************************************
+
+				Nonlinear CG
+  Iter      F(x)       ||grad||    ||step||     beta       gtp        fcn
+
+    0        47.57        45.09
+checkConvg: gnorm =    4.979e-13  gtol =     0.002999
+    1        29.99    4.979e-13      0.7798
+
+
+=========  Solution from Opt++  ===========
+
+Optimization method       = Nonlinear CG
+Dimension of the problem  = 1
+Return code               = 3 (Algorithm converged - Norm of gradient is less than gradient tolerance)
+No. iterations taken      = 1
+No. function evaluations  = 3
+No. gradient evaluations  = 3
+
+
+==========  Tolerances  ===========
+
+Machine Epsilon      = 2.22045e-16
+Maximum Step         = 1000
+Minimum Step         = 1.49012e-08
+Maximum Iter         = 20
+Maximum Backtracks   = 5
+Maximum Fcn Eval     = 1000
+Step Tolerance       = 1.49012e-08
+Function Tolerance   = 1e-06
+Constraint Tolerance = 1.49012e-08
+Gradient Tolerance   = 0.0001
+LineSearch Tolerance = 0.0001
+
+
+=========  Solution from Opt++  ===========
+
+
+    i	    xc 		 grad  		 fcn_accrcy 
+     1      0.7798	  -4.979e-13	    2.22e-16
+Function Value     =        29.99
+Norm of gradient   =    4.979e-13
+
+
+==============================================
+

@@ -1,0 +1,7 @@
+eqntype  = 1
+inttype  = 3
+p        = 0
+Nt       = 3000
+Ntout    = 100
+dt       = 0.001
+vis      = 0.00

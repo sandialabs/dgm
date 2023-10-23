@@ -1,0 +1,4 @@
+XMom Bob
+YMom Sue
+#          x0  y0  t0    sx  sy  st   hamp
+G3D bump { 0.0 0.0 0.05 0.05 0.05 0.005 100.0 }

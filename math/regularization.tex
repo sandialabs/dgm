@@ -1,0 +1,148 @@
+\documentclass[a4paper,12pt]{article}
+\usepackage[utf8]{inputenc}
+
+\usepackage{fullpage}
+\usepackage{amsmath,amssymb}
+\usepackage{cancel}
+\usepackage{amsthm}
+\usepackage{stmaryrd}
+
+\title{DGM::Regularization}
+\author{Greg von Winckel}
+\date{\today}
+\begin{document}
+\maketitle
+\section{Total Variation on elements}
+Let the computational domain be denoted as $\Omega\subset \mathbb{R}^n$.
+The Sobolev space $W^{1,1}(\Omega)$ denotes the closure of $C_0^1(\Omega)$ with respect to the norm
+\begin{equation}
+\|u\|_W^{1,1}(\Omega) = \int\limits_{\Omega} |u(x)|+\sum\limits_{i=1}^n 
+\Big|\frac{\partial u}{\partial x_i}\Big|\,\mathrm{d}x
+\end{equation}
+
+The total variation of a function $u\in L^1(\Omega)$ is defined as 
+\begin{equation}
+\int\limits_\Omega |Du|=\sup\left\{\int\limits_{\Omega} u\nabla\cdot\varphi\mathrm{d}x\;:\;
+\varphi\in C_0^1(\Omega;\mathbb{R}^n)\;:\;\|\varphi\|_{L^\infty(\Omega)}\leq 1\right\}
+\end{equation}
+
+Now suppose that the domain is partitioned into a set of nonoverlapping elements
+
+\[
+\Omega = \bigcup_k \Omega_k
+\]
+and let the boundary of the $k$th element be $\partial\Omega_k=\Gamma_k$
+
+Partitioning and integrating by parts, we have
+
+\begin{equation}
+-\int\limits_\Omega u\nabla\cdot\varphi\,\mathrm{d}x =
+-\sum\limits_k \int\limits_{\Omega_k}u\nabla\cdot\varphi\,\mathrm{d}x
+=\sum\limits_k \left(
+-\int\limits_{\Gamma_k} f\varphi\cdot\vec\nu\,\mathrm{d}s + \int\limits_{\Omega_k}\varphi\cdot\nabla u\,\mathrm{d}x
+\right)
+\end{equation}
+If we take the supremum over all $\varphi\in[C_0^1(\Omega)]^n$ with $\|\varphi\|_\infty\leq 1$, we obtain the total 
+variation
+\begin{equation}
+\text{TV}[u] = \sum\limits_k\left(\int\limits_{\Gamma_k} |\llbracket u\rrbracket|\,\mathrm{d}s
++\int\limits_{\Omega_k} |\nabla u|\,\mathrm{d}x\right)
+\end{equation}
+This amounts to summing local $L^1$ norms of the jump on the boundary and the gradient in the interior. This functional
+is not differentiable in the classical sense and its gradient consists of subgradients. To avoid this complication,
+we can approximate the terms by smooth functions
+\begin{equation}
+\text{TV}[u] =  \sum\limits_k\left(\int\limits_{\Gamma_k} \sqrt{\llbracket u\rrbracket^2+\alpha} \,\mathrm{d}s
++\int\limits_{\Omega_k} \sqrt{(\nabla u)^2 +\beta }\,\mathrm{d}x\right)
+\end{equation}
+Where $\alpha$ and $\beta$ are small positive parameters. More generally, we can think of separating this into a surface
+and volume penalty term with different weights $\text{TV}[u]=a \text{TV}^S[u] + b \text{TV}^V[u]$ where $a,b>0$.
+Let $v\in L^1(\Omega)$ be a test function. We take the 
+G\^ateaux derivative of the TV surface functional
+\begin{equation}
+\lim_{\epsilon\rightarrow 0}\frac{d}{d\epsilon}\text{TV}^S[u+\epsilon v] = 
+\lim_{\epsilon\rightarrow 0}\frac{d}{d\epsilon}
+\sum\limits_k\int\limits_{\Gamma_k} \sqrt{\llbracket u+\epsilon v\rrbracket^2+\alpha} \,\mathrm{d}s
+=
+\underbrace{\sum\limits_k\int\limits_{\Gamma_k} \frac{\llbracket u\rrbracket \llbracket v \rrbracket}
+{\sqrt{\llbracket u+\epsilon v\rrbracket^2+\alpha}} \,\mathrm{d}s}_{(v,\nabla\text{TV}^S[u])}
+\end{equation}
+For the volume term we get
+\begin{equation}
+\lim_{\epsilon\rightarrow 0}\frac{d}{d\epsilon}\text{TV}^V[u+\epsilon v] = 
+\lim_{\epsilon\rightarrow 0}\frac{d}{d\epsilon}
+\sum\limits_k\int\limits_{\Omega_k} \sqrt{(\nabla u)^2+\beta } \,\mathrm{d}x
+=
+\underbrace{\sum\limits_k\int\limits_{\Omega_k} \frac{\nabla v\cdot \nabla u}{\sqrt{(\nabla u)^2+\beta }} \,\mathrm{d}x}_{
+(v,\nabla\text{TV}^V[u])}
+\end{equation}
+\section{IPG discretized total variation}
+As an alternative, we could also think about computing the gradient for the functional on the whole
+domain and then discretizing second. The (smoothed) TV functional on the whole domain is
+\begin{equation}
+\text{TV}[u] = \int\limits_{\Omega} \sqrt{(\nabla u)^2+\alpha} \,\mathrm{d}x
+\end{equation}
+Taking the G\^ateux derivative, we obtain 
+\begin{equation}
+\lim_{\epsilon\rightarrow 0}\frac{\partial}{\partial \epsilon}\text{TV}[u+\epsilon v] =
+\lim_{\epsilon\rightarrow 0}\frac{\partial}{\partial \epsilon}
+\int\limits_{\Omega} \sqrt{(\nabla u+\epsilon \nabla v)^2+\alpha} \,\mathrm{d}x = 
+\int\limits_{\Omega} \frac{\nabla v\cdot\nabla u}
+{\sqrt{(\nabla u)^2+\alpha}} \,\mathrm{d}x  
+\end{equation}
+Integrating by parts we obtain the gradient 
+\begin{equation}
+\nabla \text{TV}[u] = \begin{cases}
+-\nabla\cdot (w\nabla u)&\text{in}\;\Omega\\
+w\nabla u\cdot \vec\nu &\text{on}\;\Gamma
+\end{cases}\quad\text{where}\;w=\frac{1}{\sqrt{(\nabla u)^2+\alpha}}
+\end{equation}
+Now we apply the same partitioning as above and integrate against a test function $v$
+\begin{align}
+\int\limits_\Omega (-\nabla\cdot[w\nabla u])v\,\mathrm{d}x &= 
+\sum\limits_k\int\limits_{\Omega_k} (w \nabla u)\cdot \nabla v\,\mathrm{d}x -
+\sum\limits_k\int\limits_{\Gamma_k} (w \nabla u)\cdot \vec\nu v\,\mathrm{d}s \\
+& = 
+\sum\limits_k\int\limits_{\Omega_k} (w \nabla u)\cdot \nabla v\,\mathrm{d}x -
+\sum\limits_k\int\limits_{\Gamma_k} \{w\nabla u\cdot\vec \nu\}\llbracket u\rrbracket\,\mathrm{d}s
+\end{align}
+To this we add two terms to obtain the discrete approximation to the gradient
+\begin{equation}
+(v,\nabla \text{TV}[u])= 
+\sum\limits_k\int\limits_{\Omega_k} (w \nabla u)\cdot \nabla v\,\mathrm{d}x -
+\sum\limits_k\int\limits_{\Gamma_k} \{w\nabla u\cdot\vec \nu\}\llbracket v\rrbracket
+-\tau  \{w\nabla v\cdot\vec \nu\}\llbracket u\rrbracket -
+\sigma_k\llbracket u\rrbracket\llbracket v\rrbracket\,\mathrm{d}s
+\end{equation}
+Where $\sigma_k$ is a penalty term that is inversely proportional to the volume of element $k$ and $\tau$
+is a parameter which specifies the variety of interior penalty Galerkin method (IPG) we have. In particular,
+$\tau = -1$ makes the method symmetric. 
+
+%\section{LDG discretized total variation}
+%#Another possibility is to use only first derivative terms and define the auxilliary variable $\vec q=\nabla u$
+%and have the pair of test functions $(v,\vec\pi)$\footnote{Loosely following the notation in Hesthaven \& Warburton}.
+%We return to the gradient from the previous section
+%\begin{equation}
+%\nabla \text{TV}(u) = \begin{cases}
+%-\nabla\cdot (w\nabla u)&\text{in}\;\Omega\\
+%w\nabla u\cdot \vec\nu &\text{on}\;\Gamma
+%\end{cases}\quad\text{where}\;w=\frac{1}{\sqrt{(\nabla u)^2+\alpha}}
+%\end{equation}
+%Rewriting this with the auxilliary variable, we get 
+%\begin{equation}
+%\nabla \text{TV}(u,\vec q) = \begin{cases}
+%\begin{pmatrix}
+%-\nabla\cdot (w \vec q) \\
+%\nabla u - \vec q
+%\end{pmatrix} & \text{in}\; \Omega \\
+%\quad\quad\vec q \cdot \vec\nu &\text{on}\;\Gamma
+%\end{cases}\quad\text{where}\;w=\frac{1}{\sqrt{|\vec q|^2+\alpha}}
+%\end{equation}
+
+%\begin{equation}
+%\int\limits_{\Omega_k} \vec q\cdot \vec v \,\mathrm{d}x + = 
+%\end{equation}
+
+
+
+\end{document}

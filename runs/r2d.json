@@ -1,0 +1,9 @@
+{ "Domain": { "Space": { "Binary mesh": true}},
+  "Field Slice": [ { "Format": "float",
+                     "Frequency": 1000,
+                     "Lattice": [ [0.05, 0.0],
+                                  [0.0, 0.05]],
+                     "Outputs": [ { "Default": 0.0,
+                                    "Field": "u",
+                                    "File": "r2d.u"}],
+                     "Verbosity": 0}]}

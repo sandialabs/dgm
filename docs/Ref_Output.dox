@@ -1,0 +1,206 @@
+namespace DGM {
+
+/**
+
+\page DGM_OutputSpec DGM Output Specification
+
+\htmlonly
+<b>Output Specification Table of Contents</b>
+<ul>
+<li> <a href="DGM_OutputSpec.html#DGM_OutputFiles">Output Files</a>
+<li> <a href="DGM_OutputSpec.html#DGM_RestartFile">Restart file</a>
+<li> <a href="DGM_OutputSpec.html#DGM_TecplotFile">Tecplot file</a>
+<li> <a href="DGM_OutputSpec.html#DGM_GraphFile">Graph files</a>
+<li> <a href="DGM_OutputSpec.html#DGM_ProbeFile">Probe files</a>
+<li> <a href="DGM_OutputSpec.html#DGM_RakeFile">Rake files</a>
+</ul>
+\endhtmlonly
+
+\section DGM_OutputFiles Output Files
+
+The DGM input files for a particular run case are indentified by each having a
+unique root file name.  If we look in the \c dgm/runs directory you will see
+many examples of input files each identified by a unique root file name,
+e.g. \c 1d or \c vortex or \c bump.  Given a root name for the input files,
+there are both required and optional files that define the input parameters
+for a DGM run.  The following table lists the extensions for each of these
+files, provides a brief description and indicates whether the file is required
+or optional.  If a file is optional and that the file exists, it will be read
+by DGM and that feature/capability will be activated.  Note that the example
+runs available in \c dgm/runs is a great place to explore DGM capabilties and
+the input files and syntac required.
+
+<center>
+<table border="1" cellpadding="4" cellspacing="0">
+<tr>
+  <th>Extension</th>
+  <th>Name</th>
+  <th>Purpose</th>
+  <th>Status</th>
+</tr>
+<tr>
+  <td>\c rst</td>
+  <td><a href="OutputSpec.html#RestartFile">Restart file</a></td>
+  <td>Complete checkpoint/restart file</td>
+  <td>allways</td>
+</tr>
+<tr>
+  <td>\c dat</td>
+  <td><a href="OutputSpec.html#TecplotFile">Tecplot file</a></td>
+  <td>Tecplot files in ASCII format</td>
+  <td>optional, never in parallel or 3d</td>
+</tr>
+<tr>
+  <td>\c grf</td>
+  <td><a href="OutputSpec.html#GraphFile">Graph file</a></td>
+  <td>A Side connectivity graph for mesh partitioning</td>
+  <td>always in serial execution</td>
+</tr>
+<tr>
+  <td>\c wgf</td>
+  <td><a href="OutputSpec.html#GraphFile">Weighted Graph file</a></td>
+  <td>Element weights for use in mesh partitioning</td>
+  <td>always in serial execution</td>
+</tr>
+<tr>
+  <td>\c prb</td>
+  <td><a href="OutputSpec.html#ProbeFile">Probe file</a></td>
+  <td>Solution at a probe point as a function of time</td>
+  <td>Only when specified in an \c anl input file</td>
+</tr>
+<tr>
+  <td>\c rak</td>
+  <td><a href="OutputSpec.html#RakeFile">Rake file</a></td>
+  <td>Snapshot of the solution at each defined probe point</td>
+  <td>Only when specified in an \c anl input file</td>
+</tr>
+</table>
+</center>
+
+\section DGM_RestartFile Restart File
+
+The DGM \c rst file has a 10-line ASCII header that can be displayed with the
+unix \c head command
+\verbatim
+> head 1d.rst
+dgm.exe                                  Session
+Sun Oct 18 05:52:54 2009                 Created
+1d.rst                                   Name
+2            1            11             Nel, Nsd, Lmax
+1000                                     Step
+4                                        Time
+0.004                                    Time step
+0.01                                     Viscosity
+u                                        Field names
+Normalized                               Format
+\endverbatim
+
+The remainder of the file is binary data that fully specifies the DGM solution
+for the conditions described in the header.  The files are written in such a
+way that one can arbitrarily restart DGM from any \c rst file and continue the
+simulation as it the original execution had never stopped.  Furthermore, one
+can arbitrarily change the polynomial-order (either globally with \c p in the
+\c root.inp file or locally with a \c root.ord file).
+
+\section DGM_TecplotFile Tecplot File
+
+Since DGM uses an unstructed, variable polynomial-order discretization,
+plotting the solution in a consistent manner is an important capability.  To
+this end, we use one of several available third-party tools.  A particularly
+useful tool is \c Tecplot which allows us to visualize the full DG solution on
+each element in a way that is truthful to the actual DG representation.
+
+When run in serial on 1d or 2d problems, DGM automatically generates Tecplot
+\c dat files each time it would normally output a \c rst file.  However, when
+run in parallel or for all 3d problems, DGM only outputs \c rst files and one
+uses a post-processing utility to generate visualization files
+
+\subsection DGM_2_Tecplot Converting to Tecplot format
+
+To generate a Tecplot compatible file from a DGM \c rst file one uses the \c
+dgm_post.exe utility.  Since this is a very common operation and one usually
+wants to visualize multiple files, there is a simple helper script in \c
+$DGM_DIST/util/dgm2tec that simplifies the process.
+
+To convert a single \c rst file to a Teplot \c dat file use the command
+\verbatim
+> dgm_post -r root.100.rst root
+\endverbatim
+or equivalently
+\verbatim
+> dgm2tec root.100.rst
+\endverbatim
+To convert all \c rst files in a given directory, one would use
+\verbatim
+> dgm2tec *.rst
+\endverbatim
+\b Notes:
+-# All DGM input files for this run must be in the same directory as the \c
+   rst files for these postprocessing utilities to work
+-# The output file is the same name as the input \c rst file but with \c rst
+   replaced by \c dat and these \c dat files are ASCII Tecplot data files.
+   Since the files are ASCII, they can get quite large, making Tecplot mainly
+   useful for 1d and 2d problems but not as useful for 3d setups.  We
+   currently use Paraview for 3d visualization (see below).
+-# Currently, \c dgm_post.exe can only execute in serial which means that for
+   large problems, again more common in 3d, there may not be enough memory on
+   your system to run \c dgm_post.exe.
+
+\subsection DGM_2_Plot3d Converting to Plot3d format
+
+Instructions for generating Plot3d format files for use with Paraview go here...
+
+\section DGM_GraphFile Graph Files
+
+Currently upon serial execution, \c dgm.exe generates a graph file and
+associated element weights that represent the inter-element connection graph
+weighted by an estimate of the computational expense for each element.  The \c
+grf file can be input to a tool such as Sandia's Zoltan or Metis/Parmetis to
+generated a partition input file that DGM will use for subsequent parallel
+execution.
+
+For example, consider the \c $DGM_DIST/runs/cyl case and run in serial for
+zero timestep using the command
+\verbatim
+> dgm.exe -Nt 0 cyl
+\endverbatim
+This generates the \c cyl.grf file that can be partitioned using Metis
+\verbatim
+> cp cyl.grf cyl
+> kmetis cyl 16
+\endverbatim
+Which will generate the partition file \c cyl.part.16 which is the correct
+naming convention to be read by DGM for parallel execution on 16 MPI ranks.
+
+If one is using local p-refinement or if there are other features of the
+problem setup that lead to load-inbalance, then one should used a weighted
+graph partition.  DGM provides the \c wgf file which lists relative weights
+for each element based on an internal estimate of the computational expense
+for each element. There is a utility in \c $DGM_DIST/util/weight-graph that
+takes \c root.wgt and \c root.grf and outputs a weighted graph file
+\verbatim
+> $DGM_DIST/util/weight-graph cyl.grf cyl
+\endverbatim
+will generate a weighted graph file called \c cyl that can be directly
+partitioned with \c kmetis as described above.
+
+\b Notes:
+-# You will need to run \c kmetis for each core number that you want to run on
+-# If you don't supply a \c root.part.# file for the core number that you are
+   using, DGM will use a very simple (and likely non-optimal) internal
+   partition based upon an equipartition of elements on each node based on
+   simple element ids.
+-# In the future, we plan to combine Zoltan and/or ParMetis with DGM so that
+   partitions are computed inline.
+
+\section DGM_ProbeFile Probe File
+
+Describe the DGM probe file format here...
+
+\section DGM_RakeFile Rake File
+
+Describe the DGM rake file format here...
+
+*/
+
+}  // namespace DGM

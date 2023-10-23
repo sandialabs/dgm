@@ -1,0 +1,10 @@
+Dirichlet xm
+{
+  1.00
+}
+
+Neumann xp
+{
+  2.00
+}
+

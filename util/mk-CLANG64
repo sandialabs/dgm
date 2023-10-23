@@ -1,0 +1,3 @@
+#!/bin/bash
+./make_dgm "$@" -a CLANG -spy -D DTK_ORDINAL_SIZE_T -D DTK_SIZE_UINT64 -b CLANG64
+exit

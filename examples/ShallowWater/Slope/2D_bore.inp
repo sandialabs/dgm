@@ -1,0 +1,27 @@
+#
+# Forward solver parameters
+#
+eqntype = 30
+p       = 1
+inttype = 4
+dt      = 0.0001
+Nt      = 1000 
+ntout   = 10
+Ntout   = 100 
+Ntprb   = 1 
+#
+# DGM Optimization parameters
+#
+opttype       = 1          # 1 = Steepest descent with linesearch
+npredict      = 1000       # number of steps for optimization; overrides Nt
+nadvance      = 0          # nadvance should be equal to npredict
+tol_j         = 0.000001   # rel. tolerance for the decrease in objective
+max_iter      = 10         # maximum optimization iterations
+alpha         = 8.0e5      # initial guess for linesearch step length
+tol_alpha     = 1.0e-2     # rel. tolerance for linesearch
+max_sub_iter  = 10         # maximum number of linesearch iterations
+adj_type      = 0          # Not currently used
+gradient      = 2          # Flavor of NCG
+io_type       = 0          # Not currently used
+grad_check    = 1          # 1 = compare adjoint to directional FD
+fd_eps        = 1.0e-6     # step-size for directional finite difference

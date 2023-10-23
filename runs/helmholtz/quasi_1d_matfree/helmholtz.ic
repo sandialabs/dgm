@@ -1,0 +1,7 @@
+** Initial Condition **
+Given
+ur(x,y) := 0.0;
+ui(x,y) := 0.0;
+
+Restart
+helmholtz.rst

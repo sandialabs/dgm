@@ -1,0 +1,62 @@
+#!/bin/bash -e
+usage () {
+cat << EOF
+Usage: $0 [options] filelist
+
+This script performs Paraview postprocessing on a list of DGM rst files
+
+Options:
+  -h      Show this message
+  -n #    Run in parallel on n processors
+  -o name Send output to this file
+  -v      Verbose
+
+EOF
+}
+OUTFILE=/dev/null
+while getopts ":hvo:n:" OPTION
+do
+  case $OPTION in
+    h)
+      usage
+      exit 1
+      ;;
+    n)
+      NCPUS=$OPTARG
+      ;;
+    o)
+      OUTFILE=$OPTARG
+      ;;
+    v)
+      VERBOSE=1
+      ;;
+  esac
+done
+shift $((OPTIND-1))
+if [ $VERBOSE ]; then
+  set -x
+fi
+shopt -s nullglob
+for f in $@
+do
+  if [ -e $f ]; then
+    echo Processing $f
+    if [ -z $NCPUS ]; then
+      if [[ $PBS_NODEFILE || $SLURM_JOB_NODELIST ]]; then
+        mpiexec pdgm_post.exe -paraview -notec -r $f ${f%%.*} > $OUTFILE
+      else
+        dgm_post.exe -paraview -notec -r $f ${f%%.*} > $OUTFILE
+      fi
+    else
+      mpiexec -n $NCPUS pdgm_post.exe -paraview -notec -r $f ${f%%.*} > $OUTFILE
+    fi
+  else
+    echo File: $f does not exist
+  fi
+done
+
+if [ $VERBOSE ]; then
+  set +x
+fi
+
+exit

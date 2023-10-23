@@ -1,0 +1,24 @@
+# DGM test case
+#
+# One-dimensional advection diffusion
+#
+# Author:  S. Scott Collis
+#
+nsd = 2
+eqntype  = 50       # advection diffusion
+inttype  = 2      
+p        = 4        # polynomial order
+Nt       = 300      # number of time steps
+Ntout    = 300      # restart output interval
+ntout    = 100      # output frequency
+dt       = 0.0003   # time step
+dtmax    = 0.0003
+
+tortuosity_tau = 1.0 
+diffusivity_D = 0.01
+
+stab = 1
+
+rho_water = 1
+rho_CO2   = 1
+porosity_phi = 1.0 

@@ -1,0 +1,21 @@
+#!/bin/csh -f
+#
+# Make all versions of DGM code
+#
+cd ~/chamisa/GCCd 
+make -j2 dall ADDONS="CMC_CHECK_BOUNDS CMC_CHECK_ALL_BOUNDS" USE_NEW_BISON=1 
+#make -j2 derr USE_NEW_BISON=1
+#make tdd
+#
+#cd ~/chamisa/GCCp
+#make -j2 pdgm ADDONS="GCC4 MPICH_IGNORE_CXX_SEEK" USE_NEW_BISON=1
+#make -j2 popt ADDONS="GCC4 MPICH_IGNORE_CXX_SEEK" USE_NEW_BISON=1
+#
+#cd ~/chamisa/GCCt
+#make -j2 dgm ADDONS="DGM_USE_EPETRA" TRILINOS=/Users/sscoll/local/trilinos \
+# USE_NEW_BISON=1
+#cd ~/dgm_opt/dgm/GCCp
+#make -j2 pdgm USE_NEW_BISON=1
+#make -j2 popt USE_NEW_BISON=1
+#make -j2 ptdd USE_NEW_BISON=1
+exit

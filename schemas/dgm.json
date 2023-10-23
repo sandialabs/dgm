@@ -1,0 +1,494 @@
+{
+  "id" : "#DGM",
+  "description" : "DGM input specification",
+  "type" : "object",
+  "properties" : {
+    "Title" : { "type" : "string", "required" : true },
+    "Problem" : {
+      "id" : "#Problem",
+      "description" : "DGM Problem parameters",
+      "type" : "object",
+      "properties" : {
+        "Type" : { "type" : "string", "default" : "forward" },
+        "Domains" : { "type" : "array", "items" : { "type" : "string" } }
+      },
+      "additionalProperties" : false
+    },
+    "MultiOptProblem" : {
+      "id" : "#MultiOptProblem",
+      "description" : "DGM MultiOptProblem parameters",
+      "type" : "object",
+      "properties" : {
+        "Verbosity" : { "type" : "integer", "default" : 0, 
+                        "minimum" : 0, "maximum" : 1 },
+        "Recompute state" : { "type" : "boolean", "default" : "true" }
+      },
+      "additionalProperties" : false
+    },
+    "Domain" : { 
+      "id" : "#Domain",
+      "description" : "DGM Domain parameters",
+      "type" : "object",
+      "properties" : {
+        "Type" : { "type" : "string", "required" : true },
+        "Name" : { "type" : "string", "default" : "Reo" },
+        "Root" : { "type" : "string", "required" : true },
+        "Space" : { 
+          "type" : "object",
+          "properties" : { 
+            "p" : { "type" : "integer", "default" : 1, "minimum" : 0 },
+            "q" : { "type" : "integer", "default" : 3, "minimum" : 1 },
+            "Mesh" : { "type" : "string" },
+            "Connectivity" : { "type" : "string" },
+            "Binary mesh" : { "type" : "boolean", "default" : "false" }
+          },
+          "additionalProperties" : false
+        },
+        "Time" : {
+          "type" : "object",
+          "properties" : { 
+            "Integrator" : { "type" : "string", "default" : "DGM::TimeInt" },
+            "Method" : { "type" : "string", "default" : "RK4" },
+            "Nt" : { "type" : "integer", "default" : 100, "minimum" : 0 },
+            "Ntout" : { "type" : "integer", "default" : 10, "minimum" : 0 },
+            "ntout" : { "type" : "integer", "default" : 1, "minimum" : 0 },
+            "dt" : { "type" : "number", "default" : 0.001, "minimum" : 0.0 },
+            "tf" : { "type" : "number", "default" : 1.0, "minimum" : 0.0 },
+            "Verbosity" : { "type" : "integer", "default" : 1, 
+                            "minimum" : 0, "maximum" : 3}
+          },
+          "additionalProperties" : false
+        },
+        "Slice" : { "$ref" : "#/definitions/Slice" },
+        "Verbosity" : { "type" : "integer", "default" : 1, 
+                        "minimum" : 0, "maximum" : 3}
+      },
+      "additionalProperties" : false
+    },
+    "Field" : {
+      "id" : "#Field",
+      "description" : "DGM Field input specification",
+      "type" : "object",
+      "properties" : {
+        "Write weights" : { "type" : "boolean", "default" : "true" }
+      },
+      "additionalProperties" : false
+    },
+    "Zoltan" : {
+      "id" : "#Zoltan",
+      "description" : "DGM Zoltan input specification",
+      "type" : "object",
+      "properties" : {
+        "Partition" : {
+          "type" : "object",
+          "description" : "How to partition the mesh",
+          "properties" : {
+            "algorithm" : {
+              "type" : "string",
+              "enum" : [ "pqjagged", "hypergraph", "rcb" ],
+              "required" : true
+            },
+            "imbalance_tolerance" : { "type" : "number", "default" : 1.1 },
+            "compute_metrics" : { "type" : "string", "default" : "true" }
+          }
+        },
+       "Parameters" : {
+         "debug_level" : { "type" : "string", "default" : "basic_status" },
+         "debug_procs" : { "type" : "integer", "default" : 0 },
+         "error_check_level" : { "type" : "string", 
+                                 "default" : "debug_mode_assertions" }
+       },
+       "Geometry" : {
+         "bisection_num_test_cuts" : { "type" : "integer", "default" : 1 }
+       }
+      },
+      "additionalProperties" : false
+    },
+    "Response" : {
+      "id" : "#Response",
+      "description" : "DGM Response input specification",
+      "type": "object",
+      "properties" : {
+        "Verbosity" : {
+          "type" : "integer", 
+          "default" : 0, 
+          "minimum" : 0,
+          "maximum" : 2
+        },
+        "Filename" : {
+          "type" : "string",
+          "default" : "root.anl",
+          "description" : "Response setup file name"
+        },
+        "Name" : {
+          "type" : "string",
+          "description" : "Name of this Reponse object"
+        },
+        "Format" : { 
+          "type" : "string", 
+          "default" : "ascii",
+          "enum" : [ "ascii", "double", "float" ],
+          "description" : "File format for response data",
+          "required" : true
+        },
+        "Type" : { 
+          "type" : "string", 
+          "default" : "default",
+          "enum" : [ "default", "separate", "combined" ],
+          "description" : "File type for Response data",
+          "required" : true
+        },
+        "Transposed" : { 
+          "type" : "boolean", 
+          "default" : false,
+          "description" : "Default is probe, time" 
+        },
+        "Time trace" : { 
+          "type" : "boolean", 
+          "default" : false,
+          "description" : "Whether there is a time probe" 
+        },
+        "Max open files" : { 
+          "type" : "integer", 
+          "default" : 1,
+          "description" : "How many files to process simultaneously." 
+        },
+        "Simulation time step" : { 
+          "type" : "number", 
+          "default" : 0.0,
+          "minimum" : 0.0,
+          "description" : "Must nonzero to activate interpolation"
+        },
+        "Time step" : { 
+           "type" : "number", 
+           "default" : 0.0, 
+           "minimum" : 0.0,
+           "description" : "Must nonzero to activate interpolation" 
+        },
+        "Number of samples" : { 
+          "type" : "integer", 
+          "default" : 0,
+          "minimum" : 0,
+          "description" : "Must set to activate interpolation" 
+        },
+        "Memory storage" : { 
+          "type" : "string", 
+          "default" : "where needed",
+          "enum" : [ "where needed", "proc with center", "evenly distributed" ],
+          "description" : "How Response data is distributed in memory" 
+        },
+        "Probes" : {
+          "id" : "#Probes",
+          "description" : "Array of Probe data describing each probe",
+          "type": "array",
+          "minItems" : 1,
+          "items" : {
+            "id" : "0",
+            "type" : "object",
+            "properties" : {
+              "Probe type" : { 
+                "type" : "string", 
+                "default" : "Gaussian",
+                "enum" : ["Delta", "Line", "Gaussian", "Sideset","GaussianEllipse"],
+                "description" : "The type of probe this block defines."
+              },
+              "Probe File" : {
+                "type" : "string",
+                "description" : "File name of probe data."
+              },
+              "Probe File Format" : { 
+                "type" : "string", 
+                "default" : "Text",
+                "enum" : ["Text"],
+                "description" : "Reserved for future use when binary is an option."
+              },
+              "Standard deviation" : {
+                "type" : "number",
+                "default" : 0.0,
+                "description" : "Only for Gaussian Probes. SD of Gaussian."
+              },
+              "Number of standard deviations" : {
+                "type" : "number",
+                "default" : 3.0,
+                "description" : "For Gaussian Probes. Cutoff distance in SD."
+              },
+              "Average" : {
+                "type" : "boolean",
+                "default" : "false",
+                "description" : "Only for Delta Probes. Average if on element boundary."
+              },
+              "x0" : {
+                "type" : "number",
+                "default" : 0.0,
+                "description" : "For GaussianEllipse Probes."
+              },
+              "y0" : {
+                "type" : "number",
+                "default" : 0.0,
+                "description" : "For GaussianEllipse Probes."
+              },
+              "z0" : {
+                "type" : "number",
+                "default" : 0.0,
+                "description" : "For GaussianEllipse Probes."
+              },
+              "dx" : {
+                "type" : "number",
+                "default" : 0.0,
+                "description" : "For GaussianEllipse Probes."
+              },
+              "dy" : {
+                "type" : "number",
+                "default" : 0.0,
+                "description" : "For GaussianEllipse Probes."
+              },
+              "dz" : {
+                "type" : "number",
+                "default" : 0.0,
+                "description" : "For GaussianEllipse Probes."
+              },
+              "Parameters" : {
+                "id" : "#Parameters",
+                "description" : "Array of Probe data, varies with probe type",
+                "type": "array",
+                "minItems" : 1,
+                "items" : {
+                  "id" : "0",
+                  "type" : "object",
+                  "properties" : {
+                    "Name" : { 
+                      "type" : "string", 
+                      "description" : "Name of this particular probe instance."
+                    },
+                    "Center" : { 
+                      "type": "array",
+                      "minItems" : 1,
+                      "description" : "Array of length spatical dimension with the probe center.",
+                      "items" : {
+                        "id" : "0",
+                        "type" : "number"
+                      }
+                    },
+                    "Elements" : {
+                      "type": "array",
+                      "minItems" : 0,
+                      "description" : "Array of element numbers. If empty do a search.",
+                      "items" : {
+                        "id" : "0",
+                        "type" : "integer"
+                      }
+                    },
+                    "xs" : {
+                      "type" : "number",
+                      "default" : 0.0,
+                      "description" : "For GaussianEllipse Probes."
+                    },
+                    "ys" : {
+                      "type" : "number",
+                      "default" : 0.0,
+                      "description" : "For GaussianEllipse Probes."
+                    },
+                    "zs" : {
+                      "type" : "number",
+                      "default" : 0.0,
+                      "description" : "For GaussianEllipse Probes."
+                    },
+                    "sigma1" : {
+                      "type" : "number",
+                      "default" : 0.0,
+                      "description" : "For GaussianEllipse Probes."
+                    },
+                    "sigma2" : {
+                      "type" : "number",
+                      "description" : "For GaussianEllipse Probes. Default=sigma1"
+                    },
+                    "sigma3" : {
+                      "type" : "integer",
+                      "description" : "For GaussianEllipse Probes. Default=sigma1"
+                    },
+                    "derivativeOrder1" : {
+                      "type" : "integer",
+                      "default" : 0,
+                      "description" : "For GaussianEllipse Probes."
+                    },
+                    "derivativeOrder2" : {
+                      "type" : "integer",
+                      "default" : 0,
+                      "description" : "For GaussianEllipse Probes."
+                    },
+                    "derivativeOrder3" : {
+                      "type" : "integer",
+                      "default" : 0,
+                      "description" : "For GaussianEllipse Probes."
+                    },
+                    "direction1x" : {
+                      "type" : "number",
+                      "default" : 1.0,
+                      "description" : "For GaussianEllipse Probes."
+                    },
+                    "direction1y" : {
+                      "type" : "number",
+                      "default" : 0.0,
+                      "description" : "For GaussianEllipse Probes."
+                    },
+                    "direction1z" : {
+                      "type" : "number",
+                      "default" : 0.0,
+                      "description" : "For GaussianEllipse Probes."
+                    },
+                    "direction2x" : {
+                      "type" : "number",
+                      "default" : 0.0,
+                      "description" : "For GaussianEllipse Probes."
+                    },
+                    "direction2y" : {
+                      "type" : "number",
+                      "default" : 1.0,
+                      "description" : "For GaussianEllipse Probes."
+                    },
+                    "direction2z" : {
+                      "type" : "number",
+                      "default" : 0.0,
+                      "description" : "For GaussianEllipse Probes."
+                    },
+                    "direction3x" : {
+                      "type" : "number",
+                      "default" : 0.0,
+                      "description" : "For GaussianEllipse Probes."
+                    },
+                    "direction3y" : {
+                      "type" : "number",
+                      "default" : 0.0,
+                      "description" : "For GaussianEllipse Probes."
+                    },
+                    "direction3z" : {
+                      "type" : "number",
+                      "default" : 1.0,
+                      "description" : "For GaussianEllipse Probes."
+                    },
+                    "Number of standard deviations" : {
+                      "type" : "number",
+                      "default" : 5.0,
+                      "description" : "For GaussianEllipse Probes. Cutoff distance in SD."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "additionalProperties" : false
+    },
+    "Field Slice" : {
+      "id" : "#Slice",
+      "description" : "Slice of DGM fields",
+      "type" : "array",
+      "minItems" : 1,
+      "items" : {
+        "id" : "0",
+        "type" : "object",
+        "properties" : {
+          "Verbosity" : { "type" : "integer", "default" : 0, "minimum" : 0,
+                          "maximum" : 10 },
+          "Format" : { "type" : "string", "default" : "ASCII" },
+          "Frequency" : { "type" : "integer", "default" : 100, "minimum" : 0 },
+          "Lattice" : { 
+            "id" : "Lattice",
+            "required" : true,
+            "type" : "array", 
+            "items" : { 
+              "id" : "lattice items",
+              "type" : "array", 
+              "items" : { "type" : "number", "minItems" : 1 }
+            }
+          },
+          "Outputs" : {
+            "id" : "Outputs",
+            "required" : true,
+            "type" : "array",
+            "minItems" : 1,
+            "items" : {
+              "id" : "Output items",
+              "type" : "object",
+              "properties" : {
+                "Default" : { "type" : "number", "default" : 0.0 },
+                "Field" : { "type" : "string", "required" : true },
+                "File" : { "type" : "string", "required" : true }
+              }
+            }
+          }
+        },
+        "additionalProperties" : false
+      }
+    },
+    "InCore" : {
+      "id" : "#InCore",
+      "description" : "Use In Core memory storage",
+      "type" : "object",
+      "properties" : {
+        "Statistics"                : { "type" : "number",  "default" : 1, "minimum" : 0, "maximum" : 10},
+        "Processors Per Node"       : { "type" : "number",  "default" : 1, "minimum" : 1 },
+        "Use Out-of-Core Memory"    : { "type" : "boolean", "default" : "true" },
+        "Save as Single Precision"  : { "type" : "boolean", "default" : "false" },
+        "Use Asynchronous I/O"      : { "type" : "boolean", "default" : "false" },
+        "Percent of Memory to Use"  : { "type" : "number",  "default" : 100, "minimum" : 1},
+        "Megabytes of Memory to Use": { "type" : "number",  "default" : 1000000000, "minimum" : 1},
+        "Limit by Available Memory" : { "type" : "boolean", "default" : "true" }
+      }
+    },
+    "Griewank" : {
+      "id" : "#Griewank",
+      "description" : "Use Griewank type memory storage",
+      "type" : "object",
+      "properties" : {
+        "Statistics" : { "type" : "number", "default" : 1 },
+        "Number of Snapshots" : { "type" : "number", "default" : 0 } 
+      }
+    }
+  },
+  "additionalProperties" : false,
+  "definitions" : {
+    "Slice" : {
+      "description" : "Slice of DGM fields",
+      "type" : "array",
+      "minItems" : 1,
+      "items" : {
+        "id" : "0",
+        "type" : "object",
+        "properties" : {
+          "Verbosity" : { "type" : "integer", "default" : 0, "minimum" : 0,
+                          "maximum" : 10 },
+          "Format" : { "type" : "string", "default" : "ASCII" },
+          "Frequency" : { "type" : "integer", "default" : 100, "minimum" : 0 },
+          "Lattice" : {
+            "id" : "Lattice",
+            "required" : true,
+            "type" : "array",
+            "items" : {
+              "id" : "lattice items",
+              "type" : "array",
+              "items" : { "type" : "number", "minItems" : 1 }
+            }
+          },
+          "Outputs" : {
+            "id" : "Outputs",
+            "required" : true,
+            "type" : "array",
+            "minItems" : 1,
+            "items" : {
+              "id" : "Output items",
+              "type" : "object",
+              "properties" : {
+                "Default" : { "type" : "number", "default" : 0.0 },
+                "Field" : { "type" : "string", "required" : true },
+                "File" : { "type" : "string", "required" : true }
+              }
+            }
+          }
+        },
+        "additionalProperties" : false
+      }
+    }
+  }
+}

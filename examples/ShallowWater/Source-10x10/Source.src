@@ -1,0 +1,14 @@
+#
+# Source terms
+#
+ForceSourceCtrlII force { 
+  "Verbosity" : 1,
+  "Penalty"   : 1.0,
+  "x0" : 0.0,
+  "y0" : 0.0,
+  "t0" : 0.05,
+  "Sigma x" : 0.15,
+  "Sigma y" : 0.15,
+  "Sigma t" : 0.015,
+  "Hamp"    : 760.0
+}

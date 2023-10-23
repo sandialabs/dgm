@@ -1,0 +1,4 @@
+** Boundary Conditions **
+2 nbc
+xm 0 3
+xp 5 1

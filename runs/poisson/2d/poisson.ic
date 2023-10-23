@@ -1,0 +1,12 @@
+** Initial Condition **
+Given
+p(x,y) := 0.0;
+
+Given
+p(x,y) := 1.0;
+
+Given
+p(x,y) := sin(2*PI*x/16.0)*sin(2*PI*y/16.0);
+
+Restart
+darcy.rst

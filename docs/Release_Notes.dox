@@ -1,0 +1,60 @@
+namespace DGM {
+
+/**
+
+\page DGMRelease DGM Release Notes
+
+\section DGM_v12 DGM v1.2
+
+\subsection DGM_v1210_features Updates in DGM v1.2.10
+-# Initial design and implementation of DTK general API
+-# Templated update to Polylib
+-# Support for 64bit ordinal types
+-# New Json input file format
+-# Json headers on most binary files
+-# New templated DTK::TimeIntegrate class
+-# Support for implicit time-integration using Trilinos
+-# Online partitioning using Zoltan
+-# Initial support for hanging node (non-conforming) elements
+-# Nodal Tetrahedral elements
+-# Support for Modal, Nodal, and Spetral elements
+
+\subsection DGM_v12_features Features
+-# New binary mesh reader that supports MPI-IO.  This addresses the first "known issue" in v1.1
+-# Now handles C++ exceptions correctly with nice error messages
+-# New Python interface for basic DGM::Program and DGM::OptProblem.  Includes
+wrapping of DGM::Control so that you have full access to a basic optimization
+interface from within Python.
+-# Fixed memory errors in InCore/Griewank (issue 2 in v1.1)
+-# Testing environment updated to use Jenkins
+-# Significant improvements in underlying documentation
+-# Improved build scripts with the "-y" option to build shared libraries needed for the Python interface.
+
+\section DGM_v11 DGM v1.1
+
+\subsection DGM_v11_features Features
+-# New Response that allows for sensors anywhere in the spatial domain
+-# New InCore storage that greatly reduces computational costs when things
+   can fit in memory
+-# New Griewank class that manages incore and recomputation.  This remains
+   a "beta" feature in that we are seeing memory problems on some
+   platforms.
+-# New non-blocking communication that greatly improves scalability and
+   performance
+-# New python-based testing infrastructure that is compatible with Hudson
+-# More use of shared-pointers to improve memory management
+-# Improved documentation and installation instructions
+-# New build scripts that greatly simplify building and managing multiple
+   types of DGM builds
+-# Support for Peopt and trust-region methods (beta)
+-# Fixed memory leak in Control::Entry and Objective::Entry
+
+\subsection DGM_v11_issues Known issues:
+-# There is still a serial bottleneck in reading a mesh in parallel.  There
+   is a new mesh format and reader underdevelopment that will scale in
+   parallel but this is not yet ready.
+-# Griewank has a memory error on some systems.
+
+**/
+
+} // namespace DGM

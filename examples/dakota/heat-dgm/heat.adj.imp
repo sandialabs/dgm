@@ -1,0 +1,9 @@
+newton_max_iter = 3
+newton_rtol = 1.0e-13
+newton_atol = 1.0e-13
+newton_stol = 1.0e-13
+
+gmres_max_iter = 1 
+gmres_restart = 80 
+gmres_rtol = 1.0e-5 
+gmres_atol = 1.0e-16

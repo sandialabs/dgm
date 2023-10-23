@@ -1,0 +1,52 @@
+#!/bin/bash
+#
+# Make the DGM python interface
+#
+# Print the usage for this script
+usage() {
+cat << EOF
+Usage: $0 [options]
+
+This script builds the DGM python interface
+
+Options:
+  -h    Show this message
+  -p    Parallel build
+
+EOF
+}
+
+# Use getopts to parse the arguments
+while getopts ":hp" OPTION
+do
+  case $OPTION in
+    h)
+      usage
+      exit 1
+      ;;
+    p)
+      PARALLEL=1
+      ;;
+    \?)
+      usage
+      exit
+      ;;
+  esac
+done
+
+# clean up from prior builds
+
+rm config.pxi
+rm dgm.cpp 
+rm dgm.so
+rm -rf build
+
+# The empty ARCHFLAGS is needed when using the non-Appled GCC compiler
+
+if [ $PARALLEL ]; then
+  DGM_PARALLEL=1 ARCHFLAGS="" python setup.py build_ext --inplace
+else
+  ARCHFLAGS="" python setup.py build_ext --inplace
+fi
+
+exit

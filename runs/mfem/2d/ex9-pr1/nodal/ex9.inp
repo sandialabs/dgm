@@ -1,0 +1,13 @@
+eqntype  = 0
+inttype  = 4
+p        = 3 
+Nt       = 1800 
+Ntout    = 5 
+ntout    = 1 
+dt       = 0.005
+cfield   = 1
+cx       = 0.707106781187 
+cy       = 0.57735026919 
+cz       = 0.408248290464 
+vis      = 0.0
+useRTC   = 0

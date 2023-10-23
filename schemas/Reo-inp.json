@@ -1,0 +1,15 @@
+{
+  "$schema" : "http://json-schema.org/schema#",
+  "title" : "Reo input specification",
+  "description" : "Input specification for all Reo flow solver problems",
+  "id" : "file:Reo-inp.json#",
+  "properties" : {
+    "Domain" : { "$ref" : "Domain-inp.json#" },
+    "AdvDiff" : { "allOf" : [
+      { "$ref" : "Problem-inp.json#" },
+      { "$ref" : "Domain-inp.json#" },
+      { "$ref" : "AdvDiff-inp.json#" }
+    ] }
+  },
+  "additionalProperties" : false
+}

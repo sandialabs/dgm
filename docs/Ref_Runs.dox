@@ -1,0 +1,142 @@
+namespace DGM {
+
+/**
+
+\page DGM_Runs_Examples DGM Runs and Examples
+
+\htmlonly
+<b>Table of Contents</b>
+<ul>
+<li> <a href="DGM_Runs.html#DGM_Runs">Types of Runs</a>
+<li> <a href="DGM_Runs.html#DGM_Examples">Examples</a>
+<li> <a href="DGM_Runs.html#DGM_Regression">Regression</a>
+</ul>
+\endhtmlonly
+
+\section DGM_Runs Types of Runs
+
+The <tt>$DGM_DIST/runs</tt> directory holds a number of sample runs that
+exercise a range of DGM capabilities and provide an intial test harness.
+That said, the runs do not provide complete coverage of the extensive
+capabilities within DGM.  To execute all the runs use
+\verbatim
+> cd $DGM_DIST/runs
+> ../util/dgm_test *.tst | tee results
+\endverbatim
+where we have used the <tt>dgm_test</tt> script to execute all \c tst
+scripts and to summarize the results.  After all runs are completed, you should 
+see a message the message
+\verbatim
+*******************************
+****   ALL TESTS PASSED   *****
+*******************************
+\endverbatim
+If you do not see this message, then one or more tests have failed and you
+should consult the \c results file to see which test failed. 
+
+The tests use the \c dgm_diff.exe utility which does a difference between two
+DGM \c rst files.  This utility computes a variety of different norms of the
+difference and evaluates the differences between the computed solutions and
+reference solutions using both absolute and relative tolerances.  These
+tolerances have been set to ensure that tests pass on standard Linux and
+Darwin systems.  However, it is possible that a failure is just do to slightly
+larger round-off error on a particular platform so that may be the first place
+to look
+
+If instead, there is a significant difference in the computed and reference
+solutions, then there is something wrong with your DGM build or you have found
+a bug in DGM that should be reported.
+
+The following table gives a brief summary of the DGM runs:
+\verbatim
+Name       Physics         Description
+-----------------------------------------------------------------------------
+1d         Adv_Diff        Simple 1d advection diffusion on a Line mesh
+2d         Adv_Diff        Simple 2d advection diffusion on a Quad mesh
+3d         Adv_Diff        Simple 3d advection diffusion on a Hex mesh
+2dtri      Adv_Diff        Same as 2d but using a triangular mesh
+2dtri2     Adv_Diff        Same as 2dtri but with different triangularization
+1dlayer    Adv_Diff        Advection diffusion with a boundary layer
+1dlayer2   Adv_Diff        Varient of 1dlayer
+bump       Euler           Inviscid flow over a bump
+burg1d     Burgers         1d Burgers with a shock
+burger1d   Burgers         1d Burgers with a shock
+c2d        Adv_Diff        Same as 2d but using curved Quad elements
+ctri       Adv_Diff        Save at 2dtri but with curved Tri elements
+cvquad     Navier_Stokes   Vortex on curved Quads
+cvtri      Navier_Stokes   Vortex on curved Tris
+shock      Burgers         1d shock capturing test
+tri        Adv_Diff        Advection diffusion on a Tri mesh
+vhex       NavierStokes3d  Acoustic wave
+vortex     Navier_Stokes   Single vortex with local p-refinement
+vquad      Navier_Stokes   Single vortex on a Quad mesh
+vtri       Navier_Stokes   Single vortex on a Tri mesh
+vtri2      Navier_Stokes   Single vortex on a different Tri mesh
+\endverbatim
+
+\section DGM_Examples Examples
+
+Currently there are no specific examples but these may following in the future
+as part of this users guide.
+
+\section DGM_Regression Regression
+
+The \c $DGM_DIST/regression directory contains scripts and utilities to
+perform simple regression tests of DGM using the runs described above.
+Scripts are provided for both <a href="http://hudson-ci.org/">Hudson</a> and a
+simple Bash-based cron regression setup.
+
+The primary DGM regression testing capability is based on the <a
+href="http://hudson-ci.org/">Hudson</a> continuous integration server.  The
+Hudson utilities are located in \c $DGM_DIST/regression/hudson.  As part of
+this set of tools, there is a Python script called \c runtests.py which
+provides a very flexible way of conducting DGM tests.  For example, if in the
+$DGM_DIST/runs directory, you could do
+
+\verbatim
+% ../regression/hudson/runtests.py 
+Wed Jan  5 07:23:27 2011
+Test Results from Directory: /Users/sscoll/dgm/runs
+Total number of test(s): 47
+------------------------------------------------------------------------
+  pass         0.74s  1d.tst
+  pass         0.60s  1dlayer.tst
+  pass         0.60s  1dlayer2.tst
+  pass         0.89s  2d.tst
+  pass         0.64s  2dtri.tst
+  pass         0.61s  2dtri2.tst
+  pass         1.95s  2dwave.tst
+  pass        19.68s  3d.tst
+  pass         4.88s  bump.tst
+  pass         0.38s  burg1d.tst
+  pass         0.08s  burger1d.tst
+  pass         0.59s  c2d.tst
+  pass         0.30s  cbshock.tst
+  pass         1.67s  ctri.tst
+  pass         5.40s  cvquad.tst
+  pass         9.09s  cvtri.tst
+  pass         0.51s  oned.tst
+  pass         0.39s  shock.tst
+  pass         1.24s  tri.tst
+  pass        51.94s  vhex.tst
+  pass         4.62s  vortex.tst
+  pass         3.03s  vquad.tst
+  pass         7.31s  vtri.tst
+  pass         3.13s  vtri2.tst
+  pass        93.01s  chan/chan.tst
+  pass        40.44s  cyl/cyl.tst
+  skipped      0.02s  poisson/poisson.tst
+------------------------------------------------------------------------
+ Pass: 26    Fail: 0    Skipped: 21    Total: 47
+
+Total Runtime:     253.97s
+\endverbatim
+
+Note that each \c .tst file includes information that tells the Hudson testing
+system whether it is \c active as well as additional parameters that should be
+used during testing.  In the example given above, the \c poisson test was
+skipped since it required a Trilinos-enabled build.
+
+*/
+
+}  // namespace DGM

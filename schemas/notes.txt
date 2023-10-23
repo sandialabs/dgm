@@ -1,0 +1,33 @@
+Using Python jsonschema:  https://pypi.python.org/pypi/jsonschema
+
+# import the stuff you need
+
+import json
+from jsonschema import Draft4Validator, RefResolver
+
+# Load the schema from a file
+
+file = open("schema.json")
+schema = json.load(file)
+
+# load the JSON root to validate
+
+file = open("root.json")
+root = json.load(file)
+
+# Make a reference resolver to give the base URI
+
+base = RefResolver("file:///Users/sscoll/dgm/schemas/",{})
+
+# Then validate
+
+Draft4Validator(schema,resolver=base).validate(root)
+
+# here is a full test using the Number.json schema as a reference
+
+import json
+from jsonschema import Draft4Validator, RefResolver
+file = open("test-schema.json"); schema = json.load(file)
+file = open("test.json"); root = json.load(file)
+base = RefResolver("file:///Users/sscoll/dgm/schemas/",{})
+Draft4Validator(schema,resolver=base).validate(root)

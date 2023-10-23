@@ -1,0 +1,47 @@
+#!/bin/csh -f
+#
+# DGM-Dakota run script
+#
+set root = heat
+
+# $argv[1] is params.in.(fn_eval_num) FROM Dakota
+# $argv[2] is results.out.(fn_eval_num) returned to Dakota
+
+# ------------------------
+# Set up working directory
+# ------------------------
+
+set num = `echo $argv[1] | cut -c 11-`
+
+cp -r templatedir workdir.$num
+mv $argv[1] workdir.$num
+cd workdir.$num
+
+# --------------
+# PRE-PROCESSING
+# --------------
+
+dprepro $argv[1] $root.inp.template $root.inp
+dprepro $argv[1] $root.bct.template $root.bct.tmp
+sed 's/\[/\{/' $root.bct.tmp | sed 's/\]/\}/' >! $root.bct
+/bin/rm $root.bct.tmp
+
+# --------
+# ANALYSIS
+# --------
+
+dgm_opt.exe $root >! $root.run
+
+# ---------------
+# POST-PROCESSING
+# ---------------
+mv $root.ocs $argv[2]
+mv $argv[2] ../.
+/bin/mv -f $root.*.dat ..
+
+# --------
+# Clean up
+# --------
+
+cd ..
+rm -rf workdir.$num

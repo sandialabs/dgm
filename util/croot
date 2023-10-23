@@ -1,0 +1,10 @@
+#!/bin/csh -f
+#
+# croot root files 
+#
+# Copies files with new root name
+#
+foreach i ($argv[2-])
+	cp $i $1.$i:e
+end
+exit

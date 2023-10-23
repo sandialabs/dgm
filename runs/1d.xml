@@ -1,0 +1,22 @@
+<ParameterList>
+  <Parameter name="Piro Solver" type="string" value="Rythmos"/>
+  <ParameterList name="Rythmos">
+    <Parameter name="Num Time Steps" type="int" value="1000"/>
+    <Parameter name="Final Time" type="double" value="4.0"/>
+    <Parameter name="Stepper Type" type="string" value="Explicit RK"/>
+    <ParameterList name="Rythmos Stepper">
+      <ParameterList name="VerboseObject">
+        <Parameter name="Verbosity Level" type="string" value="low"/>
+      </ParameterList>
+    </ParameterList>
+    <ParameterList name="Stratimikos">
+    </ParameterList>
+    <ParameterList name="Rythmos Integration Control">
+    </ParameterList>
+    <ParameterList name="Rythmos Integrator">
+      <ParameterList name="VerboseObject">
+        <Parameter name="Verbosity Level" type="string" value="low"/>
+      </ParameterList>
+    </ParameterList>
+  </ParameterList>
+</ParameterList>

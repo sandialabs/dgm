@@ -1,0 +1,24 @@
+eqntype = 0
+inttype = 1
+vis     = 0.01
+cx      = 0.0 
+dt      = 0.02
+Nt      = 50 
+Ntout   = 10 
+ntout   = 1
+p       = 2
+
+opttype       = 1
+asv           = 3
+npredict      = 50
+nadvance      = 50
+tol_j         = 0.000001
+max_iter      = 10
+alpha         = 9.3998342554e-03
+tol_alpha     = 1.0e-2
+max_sub_iter  = 10
+adj_type      = 0
+gradient      = 3
+io_type       = 0
+grad_check    = 1
+fd_eps        = 1.0e-1

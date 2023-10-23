@@ -1,0 +1,16 @@
+eqntype  = 24 
+inttype  = 4
+p        = 3
+Nt       = 500 
+Ntout    = 100 
+viscosity = 30.0
+density = 0.5
+
+g_y = -1
+
+stab = 5.0
+matrix_solve = 0
+solver = 1
+tecplot = 0
+use_ldg = 0
+use_new_bc = 0

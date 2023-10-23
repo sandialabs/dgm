@@ -1,0 +1,3 @@
+{ "Domain": { "Space": { "Binary mesh": true},
+              "Time": { "Integrator": "DTK::TimeIntegrate",
+                        "Method": "LSRK14"}}}

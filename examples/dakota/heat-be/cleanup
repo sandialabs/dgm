@@ -1,0 +1,5 @@
+/bin/rm -r workdir*
+/bin/rm *.dat *.rst fort.* idr* result*
+cd templatedir
+./cleanup
+exit

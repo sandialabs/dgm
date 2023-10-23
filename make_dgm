@@ -1,0 +1,366 @@
+#!/bin/bash -e
+#
+# Make all versions of DGM code
+#
+# Print the usage for this script
+#
+usage () {
+cat << EOF
+Usage: $0 [options]
+
+This script builds DGM in both serial and mpi, and defaults to a serial build
+
+Options:
+  -h    Show this message
+  -a s  Specify the architecture type
+  -s    Serial build
+  -d    Debug build
+  -r    Release build
+  -b s  Name this build (overide the default name)
+  -f    Minimal (Fast) build, omits some executables
+  -p    Parallel build
+  -n #  Set the number of cpus for parallel build
+  -i    Build all and install
+  -I    Remove installation directories, build all and install
+  -t s  Enable trilinos with path to location
+  -T    Enable trilinos located at
+          \$TRILINOS_HOME = $TRILINOS_HOME
+        if defined, else at
+          \$HOME/local/trilinos = $HOME/local/trilinos
+  -c    Clean before build
+  -C    Distribution clean before build
+        (clean + remove flex files + remove installation directories)
+  -m    Make documentation manuals
+  -y    Make shared (dynamic) libraries
+  -x    Exit before build
+  -D s  Added defines
+  -u    Build DGM utility executables
+  -v    Verbose
+
+EOF
+}
+#
+# Initialize some variables
+#
+D=
+P=
+FAST=
+TARGET=all
+ADDONS=
+if [ -e .ARCH ]; then
+  ARCH=`cat .ARCH`
+  ARCHSET=1
+else
+  ARCH=GCC
+fi
+OPT=opt
+#
+# Use getopts to parse the arguments
+#
+while getopts ":sLdrpn:iIa:t:fcCyuvmxTD:b:" OPTION
+do
+  case $OPTION in
+    h)
+      usage
+      exit 1
+      ;;
+    s)
+      SERIAL=1
+      ;;
+    p)
+      PARALLEL=1
+      P=p
+      ;;
+    d)
+      DEBUG=1
+      D=d
+      OPT=debug
+      ;;
+    r)
+      D=m
+      OPT=mopt
+      ;;
+    f)
+      FAST=1
+      ;;
+    n)
+      NCPUS=$OPTARG
+      ;;
+    b)
+      NAME=$OPTARG
+      ;;
+    i)
+      TARGET=install
+      ;;
+    I)
+      INSTALLCLEAN=1
+      TARGET=install
+      ;;
+    a)
+      ARCH=$OPTARG
+      ARCHSET=1
+      echo $ARCH > .ARCH
+      ;;
+    t)
+      TRILINOS=$OPTARG
+      T=t
+      ;;
+    T)
+      if [ -n "${TRILINOS_HOME:x}" ]; then
+        TRILINOS=$TRILINOS_HOME
+      else
+        TRILINOS=$HOME/local/trilinos
+      fi
+      T=t
+      ;;
+    D)
+      ADDONS="$ADDONS $OPTARG"
+      ;;
+    c)
+      CLEAN=1
+      ;;
+    C)
+      DISTCLEAN=1
+      ;;
+    u)
+      UTILITIES=1
+      ;;
+    v)
+      VERBOSE=1
+      ;;
+    x)
+      EXIT=1
+      ;;
+    y)
+      SHARED=1
+      ;;
+    m)
+      MANUAL=1
+      ;;
+    L)
+      TARGET=installlib
+      ;;
+    \?)
+      usage
+      exit
+      ;;
+  esac
+done
+
+if [ $VERBOSE ]; then
+  set -x
+fi
+
+if [ -z $DGM_HOME ]; then
+  DGM_HOME=$HOME/local/dgm
+  echo "DGM_HOME is not set in your environment. Setting it to default value..."
+  echo "  DGM_HOME=$DGM_HOME"
+fi
+
+if [ $FAST ]; then
+  TARGET=fastinstall
+fi
+
+if [ $UTILITIES ]; then
+  # Build utilities, e.g., exo2ien, zoltan2
+  echo =====================================================================
+  echo Building DGM utilities
+  echo =====================================================================
+  cd util
+  make
+  cd ..
+fi
+#
+# Figure out (using a DGM utility) how many cores are available for the build
+#
+if [ ! $NCPUS ]; then
+  if [ -e $DGM_HOME/util/ncpus ]; then
+    NCPUS=`$DGM_HOME/util/ncpus`
+  elif [ -e $DGM_HOME/bin/ncpus ]; then
+    NCPUS=`$DGM_HOME/bin/ncpus`
+  elif [ -e util/ncpus ]; then
+    NCPUS=`util/ncpus`
+  else
+    echo WARNING:  Could not figure out the number of cpus:  using NCPUS=1
+    NCPUS=1
+  fi
+fi
+#
+# Sets the default behavior to a SERIAL build unless you request the docs
+# or utilities
+if [ -z $SERIAL ] && [ -z $PARALLEL ]; then
+  if [ ! $MANUAL ] && [ ! $UTILITIES ]; then
+    SERIAL=1
+  fi
+fi
+#
+# Sets up for shared libaries
+#
+if [ $SHARED ]; then
+  ENV="env DGM_SHARED=1"
+else
+  ENV=""
+fi
+#
+# Begin building
+#
+echo Building DGM on $NCPUS cores
+#
+# Check the Trilinos install
+#
+if [ $TRILINOS ]; then
+  if [ ! -e ${TRILINOS} ]; then
+    echo Trilinos installation ${TRILINOS} does not exist
+    exit 1
+  fi
+fi
+#
+# Serial builds
+#
+if [ $SERIAL ]; then
+  if [ $NAME ]; then
+    BUILD=${NAME}${T}${D}
+  else
+    BUILD=${ARCH}${T}${D}
+  fi
+  if [ ! -d $BUILD ]; then
+    mkdir $BUILD
+  fi
+  echo =====================================================================
+  echo Building DGM in $BUILD
+  echo =====================================================================
+  cd $BUILD
+  if [ ! -e Makefile ]; then
+    ln -s ../src/Makefile .
+  fi
+  if [ $ARCHSET ]; then
+    echo $ARCH > ARCH
+  fi
+  if [ $CLEAN ]; then
+    make clean CLEAN=1
+  fi
+  if [ $INSTALLCLEAN ] || [ $DISTCLEAN ]; then
+    echo Cleaning installation ...
+    TMPDIRDGM=${DGM_HOME}
+    if [ "${T}" == "t" ]; then
+      TMPDIRDGM=${TMPDIRDGM}/trilinos
+    fi
+    TMPDIRDGM=${TMPDIRDGM}/serial
+    if [ "${D}" == "d" ]; then
+      TMPDIRDGM=${TMPDIRDGM}/debug
+    elif [ "${D}" == "m" ]; then
+      TMPDIRDGM=${TMPDIRDGM}/mopt
+    else
+      TMPDIRDGM=${TMPDIRDGM}/opt
+    fi
+    echo rm -rf ${DGM_HOME}/python
+    rm -rf ${DGM_HOME}/python
+    echo rm -rf ${TMPDIRDGM}
+    rm -rf ${TMPDIRDGM}
+  fi
+  if [ $DISTCLEAN ]; then
+    echo Cleaning distribution ...
+    make distclean CLEAN=1
+    rm -f Makefile dgm.def
+    ln -s ../src/Makefile .
+  fi
+  if [ ! $EXIT ]; then
+    if [ $TRILINOS ]; then
+      TPATH=${TRILINOS}/serial/${OPT}
+      if [ ! -e ${TPATH} ]; then
+        echo Trilinos installation ${TPATH} does not exist
+        exit 1
+      fi
+      $ENV make -j $NCPUS ADDONS="${ADDONS}" ${D}${TARGET} TRILINOS=${TPATH}
+    else
+      echo $ENV make -j $NCPUS ADDONS="${ADDONS}" ${D}${TARGET}
+      $ENV make -j $NCPUS ADDONS="${ADDONS}" ${D}${TARGET}
+    fi
+  fi
+  cd ..
+fi
+#
+# Parallel builds
+#
+if [ $PARALLEL ]; then
+  if [ $NAME ]; then
+    BUILD=${NAME}${T}${P}${D}
+  else
+    BUILD=${ARCH}${T}${P}${D}
+  fi
+  if [ ! -d $BUILD ]; then
+    mkdir $BUILD
+  fi
+  echo =====================================================================
+  echo Building DGM in $BUILD
+  echo =====================================================================
+  cd $BUILD
+  if [ ! -e Makefile ]; then
+    ln -s ../src/Makefile .
+  fi
+  if [ $ARCHSET ]; then
+    echo $ARCH > ARCH
+  fi
+  if [ $CLEAN ]; then
+    make clean CLEAN=1
+  fi
+  if [ $INSTALLCLEAN ] || [ $DISTCLEAN ]; then
+    echo Cleaning installation ...
+    TMPDIRDGM=${DGM_HOME}
+    if [ "${T}" == "t" ]; then
+      TMPDIRDGM=${TMPDIRDGM}/trilinos
+    fi
+    TMPDIRDGM=${TMPDIRDGM}/mpi
+    if [ "${D}" == "d" ]; then
+      TMPDIRDGM=${TMPDIRDGM}/debug
+    elif [ "${D}" == "m" ]; then
+      TMPDIRDGM=${TMPDIRDGM}/mopt
+    else
+      TMPDIRDGM=${TMPDIRDGM}/opt
+    fi
+    echo rm -rf ${DGM_HOME}/python
+    rm -rf ${DGM_HOME}/python
+    echo rm -rf ${TMPDIRDGM}
+    rm -rf ${TMPDIRDGM}
+  fi
+  if [ $DISTCLEAN ]; then
+    echo Cleaning distribution ...
+    make distclean CLEAN=1
+    rm -f Makefile dgm.def
+    ln -s ../src/Makefile .
+  fi
+  if [ ! $EXIT ]; then
+    if [ $TRILINOS ]; then
+      TPATH=${TRILINOS}/mpi/${OPT}
+      if [ ! -e ${TPATH} ]; then
+        echo Trilinos installation ${TPATH} does not exist
+        exit 1
+      fi
+      $ENV make -j $NCPUS ADDONS="${ADDONS}" ${P}${D}${TARGET} TRILINOS=${TPATH}
+    else
+      $ENV make -j $NCPUS ADDONS="${ADDONS}" ${P}${D}${TARGET}
+    fi
+  fi
+  cd ..
+fi
+#
+#
+# Build documentation
+#
+if [ $MANUAL ]; then
+  echo =====================================================================
+  echo Building DGM documentation
+  echo =====================================================================
+  cd docs
+  if [ ! -e Makefile ]; then
+    ln -s ../src/Makefile .
+  fi
+  make ADDONS="${ADDONS}" docs
+  cd ..
+fi
+
+if [ $VERBOSE ]; then
+  set +x
+fi
+
+exit

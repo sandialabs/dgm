@@ -1,0 +1,26 @@
+** Initial Condition **
+Given
+u(x,y,z) := cos(PI * x/10) * cos(PI * y/10);
+
+Given
+u(x,y.z) := 1.0 - sin(PI * x/2048); 
+
+Given
+u(x,y.z) :=  exp(-(x-4096)^2/100^2);
+
+restart
+3d.10.rst
+
+Vortex
+1
+2.0 2.0 0.3 1.0  0.5
+X0  Y0   R  amp  Ma
+
+Given
+R(x,y) := 1.0 + 1.0e-4 * 0.5 * sin(PI * x);
+U(x,y) := 1.0e-4 * 0.5 * sin(PI * x);
+V(x,y) := 0.0;
+E(x,y) := 1.78571428571429 + 1.0e-4 * 0.5 * sin(PI * x);
+
+Restart
+2d.rst

@@ -1,0 +1,20 @@
+function funcMMS
+{
+  f1 := (49.0*x*(sin(PI/2.0 + t)*cos(x)*sin(y) + 11.0))/(20.0*PI^2) - \
+        (49.0*cos(PI/2.0 + t)*cos(x)*sin(y))/5.0 - \
+        (49.0*y*(sin(PI/2.0 + t)*cos(x)*sin(y) + 11.0))/(20.0*PI^2) + \
+        (49.0*x*y*sin(PI/2.0 + t)*sin(x)*sin(y))/(20.0*PI^2) + \
+        (49.0*x*y*sin(PI/2.0 + t)*cos(x)*cos(y))/(20.0*PI^2);
+  f2 := (49.0*x^2*y*(sin(PI/2.0 + t)*cos(x)*sin(y) + 11.0))/(40.0*PI^4) - \
+        (49.0*x*y^2*(sin(PI/2.0 + t)*cos(x)*sin(y) + 11.0))/(40.0*PI^4) + \
+        (2401.0*sin(PI/2.0 + t)*sin(x)*sin(y)*(sin(PI/2.0 + t)*cos(x)*sin(y) +\
+        11.0))/25.0 + (49.0*x^2*y^2*sin(PI/2.0 + t)*cos(x)*cos(y))/ \
+        (80.0*PI^4) + (49.0*x^2*y^2*sin(PI/2.0 + t)*sin(x)*sin(y))/ \
+        (80.0*PI^4) - (49.0*x*y*cos(PI/2.0 + t)*cos(x)*sin(y))/(20.0*PI^2);
+  f3 := (49.0*x*y^2*(sin(PI/2.0 + t)*cos(x)*sin(y) + 11.0))/(40.0*PI^4) - \
+        (49.0*x^2*y*(sin(PI/2.0 + t)*cos(x)*sin(y) + 11.0))/(40.0*PI^4) - \
+        (2401.0*sin(PI/2.0 + t)*cos(x)*cos(y)*(sin(PI/2.0 + t)*cos(x)*sin(y) + \
+         11.0))/25.0 - (49.0*x^2*y^2*sin(PI/2.0 + t)*cos(x)*cos(y))/ \
+         (80.0*PI^4) - (49.0*x^2*y^2*sin(PI/2.0 + t)*sin(x)*sin(y))/ \
+         (80.0*PI^4) + (49.0*x*y*cos(PI/2.0 + t)*cos(x)*sin(y))/(20.0*PI^2);
+}

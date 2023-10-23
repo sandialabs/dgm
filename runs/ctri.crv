@@ -1,0 +1,36 @@
+** Curved Sides **
+
+4 Number of curve type(s)
+
+Arc
+arc -1.0
+Arc
+arc2 1.0
+Sine
+sin -1 -1 0.1 1.0
+Sine
+sin2 -1 1 0.1 1.0
+
+8 Number of curved side(s)
+
+0 0 arc
+1 0 arc
+5 0 arc2
+6 0 arc2
+2 0 arc
+3 0 arc
+4 0 arc2 
+7 0 arc2
+
+8 Number of curved side(s)
+
+0 0 sin
+6 0 sin 
+
+5 0 sin2 
+1 0 sin2 
+
+2 0 arc
+3 0 arc
+4 0 arc2 
+7 0 arc2

@@ -1,0 +1,193 @@
+namespace DGM {
+
+/**
+
+\page License DGM License 
+
+//
+// DGM v1.2 (the "Software")
+//
+// Copyright (c)2014, Sandia Corporation.  All rights reserved. 
+// Under the terms of Contract DE-AC04-94AL85000 with Sandia Corporation, 
+// the U.S. Government retains certain rights in this software.
+//
+// The Software is available for download and use subject to the terms and
+// conditions of this License.  Access or use of the Software constitutes
+// acceptance and agreement to the terms and conditions of this License.
+// Redistribution and use of the Software in source and binary forms, with or
+// without modification, are permitted provided that the following conditions
+// are met:
+//
+// 1. Redistributions of source code must retain the above copyright notice,
+// this list of conditions and the capitalized paragraph below.
+//
+// 2. Redistributions in binary form must reproduce the above copyright
+// notice, this list of conditions and the capitalized paragraph below in the
+// documentation and/or other materials provided with the distribution.
+//
+// 3. The names of Sandia Corporation or its staff may not be used to
+// endorse or promote products derived from the Software without specific
+// prior written permission.
+//
+// THE SOFTWARE IS PROVIDED "AS IS" AND WITHOUT ANY EXPRESS, IMPLIED
+// OR STATUTORY WARRANTIES, INCLUDING, BUT NOT LIMITED TO, WARRANTIES
+// OF ACCURACY, COMPLETENESS, NONINFRINGEMENT, MERCHANTABILITY AND
+// FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  ACCESS OR USE OF
+// THE SOFTWARE IS ENTIRELY AT THE USER'S RISK.  IN NO EVENT SHALL
+// SANDIA CORPORATION OR ITS STAFF BE LIABLE FOR ANY DIRECT, INDIRECT,
+// INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING,
+// BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+// LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+// CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+// LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN
+// ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE
+// POSSIBILITY OF SUCH DAMAGE.  THE SOFTWARE USER SHALL INDEMNIFY,
+// DEFEND AND HOLD HARMLESS SANDIA CORPORATION AND ITS STAFF FROM ANY
+// AND ALL CLAIMS, ACTIONS, DAMAGES, LOSSES, LIABILITIES, COSTS AND
+// EXPENSES, INCLUDING ATTORNEY' FEES AND COURT COSTS, DIRECTLY OR
+// INDIRECTLY ARISING OUR OF OR IN CONNECTION WITH ACCESS OR USE OF
+// THE SOFTWARE.
+//
+<HR>
+//
+// This version of DGM is derived from DGM v0 under the following license
+//
+// DGM v0 (the "Software")
+//
+// Copyright (c)2003, Rice University.  All rights reserved.
+//
+// The Software is available for download and use subject to the terms and
+// conditions of this License.  Access or use of the Software constitutes
+// acceptance and agreement to the terms and conditions of this License.
+// Redistribution and use of the Software in source and binary forms, with or
+// without modification, are permitted provided that the following conditions
+// are met:
+//
+// 1. Redistributions of source code must retain the above copyright notice,
+// this list of conditions and the capitalized paragraph below.
+//
+// 2. Redistributions in binary form must reproduce the above copyright
+// notice, this list of conditions and the capitalized paragraph below in the
+// documentation and/or other materials provided with the distribution.
+//
+// 3. The names of Rice University or its faculty, staff or students may not
+// be used to endorse or promote products derived from the Software without
+// specific prior written permission.
+//
+// THE SOFTWARE IS PROVIDED "AS IS" AND WITHOUT ANY EXPRESS, IMPLIED OR
+// STATUTORY WARRANTIES, INCLUDING, BUT NOT LIMITED TO, WARRANTIES OF
+// ACCURACY, COMPLETENESS, NONINFRINGEMENT, MERCHANTABILITY AND FITNESS FOR A
+// PARTICULAR PURPOSE ARE DISCLAIMED.  ACCESS OR USE OF THE SOFTWARE IS
+// ENTIRELY AT THE USER'S RISK.  IN NO EVENT SHALL RICE UNIVERSITY OR ITS
+// FACULTY, STAFF OR STUDENTS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL,
+// SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED
+// TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+// PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+// LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+// NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+// SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.  THE SOFTWARE
+// USER SHALL INDEMNIFY, DEFEND AND HOLD HARMLESS RICE UNIVERSITY AND ITS
+// FACULTY, STAFF AND STUDENTS FROM ANY AND ALL CLAIMS, ACTIONS, DAMAGES,
+// LOSSES, LIABILITIES, COSTS AND EXPENSES, INCLUDING ATTORNEY' FEES AND
+// COURT COSTS, DIRECTLY OR INDIRECTLY ARISING OUR OF OR IN CONNECTION WITH
+// ACCESS OR USE OF THE SOFTWARE.
+//
+<HR>
+//
+// Portions of this code are adapted or inspired from Nektar++ and its use 
+// of the underlying Polylib. For more information, please see: 
+//   http://www.nektar.info.
+// Nektar++ is a continuation and adaptation of Nektar and Polylib is a
+// Library distributed within Nektar++ and both are used under the 
+// following license
+//
+// The MIT License
+//
+// Copyright (c)2006 Division of Applied Mathematics, Brown University
+// (USA), Department of Aeronautics, Imperial College London (UK), and
+// Scientific Computing and Imaging Institute, University of Utah (USA).
+//
+// License for the specific language governing rights and limitations under
+// Permission is hereby granted, free of charge, to any person obtaining a
+// copy of this software and associated documentation files (the "Software"),
+// to deal in the Software without restriction, including without limitation
+// the rights to use, copy, modify, merge, publish, distribute, sublicense,
+// and/or sell copies of the Software, and to permit persons to whom the
+// Software is furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included
+// in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+// OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+// THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+// FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
+// DEALINGS IN THE SOFTWARE.
+//
+<HR>
+//
+// Portions of this code use jsoncpp which is written by Baptiste Lepilleur
+// and is distrubted under the following license.
+//
+// Copyright (c) 2007-2010 Baptiste Lepilleur
+//
+// Permission is hereby granted, free of charge, to any person
+// obtaining a copy of this software and associated documentation
+// files (the "Software"), to deal in the Software without
+// restriction, including without limitation the rights to use, copy,
+// modify, merge, publish, distribute, sublicense, and/or sell copies
+// of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be
+// included in all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+// EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+// MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+// NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS
+// BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+// ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+// CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+//
+<HR>
+//
+// tv4.js used and distribted under the following license.
+// Author: Geraint Luff
+// Year: 2013
+//
+// This code is released into the "public domain" by its author.  Anybody may
+// use, alter and distribute the code without restriction.  The author makes
+// no guarantees, and takes no liability of any kind for use of this code.
+//
+// If you find a bug or make an improvement, it would be courteous to let the
+// author know, but it is not compulsory.
+//
+<HR>
+//
+// The original QUADPACK routines were part of SLATEC and are in the PUBLIC
+// DOMAIN.
+//
+// I started with the C port found at www.crbond.com where it is stated "This
+// website contains a variety of materials related to technology and
+// engineering. Downloadable software, much of it original, is available from
+// some of the pages. All downloadable software is offered freely and without
+// restriction -- although in most cases the files should be considered as
+// works in progress (alpha or beta level)."
+//
+<HR>
+//
+// Netlib::Brents_fmin
+//   For reference see Richard Brent, 1973, Algorithms
+//   for Minimization without Derivatives (Englewood Cliffs, N.J.,
+//   Prentice-Hall), Chapter 5.  As well as the function fmin available from
+//   NetLib.  Given a valid bracket, Brent's method uses inverse parabolic
+//   interpolation to find the minimum.
+//
+
+*/
+
+}  // namespace DGM

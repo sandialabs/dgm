@@ -1,0 +1,10 @@
+eqntype  = 0
+p        = 10  
+Nt       = 1000
+Ntout    = 100
+ntout    = 10
+dt       = 0.001
+cx       = 1.0
+cy       = 0.0
+cz       = 0.0
+vis      = 0.00

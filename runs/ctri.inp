@@ -1,0 +1,12 @@
+# Input file for Triangle problem
+eqntype  = 0
+p        = 10
+dt       = 0.002
+Nt       = 2000
+ntout    = 100
+Ntout    = 1000
+
+# wave parameters
+cx       = 1.0
+cy       = 0.0
+vis      = 0.0

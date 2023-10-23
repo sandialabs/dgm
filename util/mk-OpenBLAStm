@@ -1,0 +1,7 @@
+#!/bin/bash
+#
+# Maximum optimization (release) with OpenBlas and Trilinos
+#
+env USE_OPENBLAS=1 ./make_dgm "$@" -spyrT -a CLANG -b OpenBLAS \
+-D JSONCPP_CASE_SENSITIVE -D DGM_JSON_TO_TABLE
+exit

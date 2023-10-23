@@ -1,0 +1,8 @@
+** Initial Condition **
+Given
+u(x,y) := exp(-(x-4096)^2 / 1024^2);
+
+u(x,y) := 1.0 - cos(PI * x/1024) * cos(PI * (y-512)/1024) * cos(PI * (z-512)/1024);
+
+Given
+u(x,y,z) := 1.0 - cos(PI * x) * cos(PI * y) * cos(PI * z);

@@ -1,0 +1,20 @@
+**BOUNDARY CONDITION DATA**
+18 nbc
+bc100          3          3
+bc101          0          4
+bc101          1          4
+bc101          2          4
+bc101          3          4
+bc101          0          2
+bc101          1          2
+bc101          2          2
+bc101          3          2
+bc101          0          0
+bc101          1          0
+bc101          2          0
+bc101          3          0
+bc101          0          5
+bc101          1          5
+bc101          2          5
+bc101          3          5
+bc102          0          1

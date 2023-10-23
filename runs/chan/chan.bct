@@ -1,0 +1,9 @@
+Isothermal_Wall T
+{
+  1.0 5.513081886073858e+03
+}
+
+Isoflux_Wall A
+{
+  0.0
+}

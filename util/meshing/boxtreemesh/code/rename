@@ -1,0 +1,14 @@
+svn mv  01_hextet/zone_rock_hex.txt     01_hextet/zone_elastic_hex.txt     
+svn mv  04_layers copy/zone_rock_salt_tet_exo.txt   04_layers copy/zone_elastic_inclusion_tet_exo.txt  
+svn mv  05_layers-good/zone_rock_hex.txt  05_layers-good/zone_elastic_hex.txt
+svn mv 01_hextet/zone_rock_salt_tet_exo.txt        01_hextet/zone_elastic_inclusion_tet_exo.txt        
+svn mv 04_layers-save/zone_rock_hex.txt                04_layers-save/zone_elastic_hex.txt                
+svn mv 02_hextet-acoustic/zone_rock_hex.txt            02_hextet-acoustic/zone_elastic_hex.txt            
+svn mv 05_layers/zone_rock_hex.txt       05_layers/zone_elastic_hex.txt
+svn mv 02_hextet-acoustic/zone_rock_salt_tet_exo.txt   02_hextet-acoustic/zone_elastic_inclusion_tet_exo.txt   
+svn mv 04_layers/zone_rock_hex.txt                     04_layers/zone_elastic_hex.txt                     
+svn mv 05_layers/zone_rock_salt_tet_exo.txt          05_layers/zone_elastic_inclusion_tet_exo.txt
+svn mv 03_hextet-acoustic/zone_rock_hex.txt            03_hextet-acoustic/zone_elastic_hex.txt            
+svn mv 04_layers/zone_rock_salt_tet_exo.txt            04_layers/zone_elastic_inclusion_tet_exo.txt            
+svn mv 03_hextet-acoustic/zone_rock_salt_tet_exo.txt   03_hextet-acoustic/zone_elastic_inclusion_tet_exo.txt   
+

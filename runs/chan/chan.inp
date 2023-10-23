@@ -1,0 +1,8 @@
+eqntype = 9                # 3d Compressible Navier-Stokes
+inttype = 3                # 3rd order RK
+dt      = 0.0001
+Nt      = 100              # 500000
+ntout   = 10
+Ntout   = 50               # 5000 
+p       = 3 
+vis     = 0.01             # Re_\tau = 100

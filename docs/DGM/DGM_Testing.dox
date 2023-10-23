@@ -1,0 +1,12 @@
+namespace DGM {
+
+/**
+
+\page DGM_Testing
+
+\section DGM_Testing Testing
+The DGM tests can be found in $DGM_DIST/runs, located here $(DGM_DIST)/runs on my system.
+
+**/
+
+}  // namespace DGM

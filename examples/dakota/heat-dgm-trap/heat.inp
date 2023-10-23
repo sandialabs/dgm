@@ -1,0 +1,34 @@
+eqntype = 0
+inttype = 102
+vis     = 0.01
+cx      = 0.0 
+dt      = 0.02
+Nt      = 50 
+Ntout   = 10 
+ntout   = 1
+p       = 2
+#
+# Optimization parameters
+#
+opttype       = 1                 # set to 4 for ROL, set to 0 for peopt
+asv           = 3
+npredict      = 50 
+nadvance      = 50 
+tol_j         = 0.000001
+max_iter      = 10
+alpha         = 2.0e-02 
+tol_alpha     = 1.0e-4
+max_sub_iter  = 10
+adj_type      = 0
+gradient      = 3
+io_type       = 0
+grad_check    = 0
+fd_eps        = 1.0
+use_aux       = 0                 # may need to turn on for ROL
+#
+# Additional ROL interface parameters
+#
+output_type     = 2
+useTrustRegion  = 0
+scaleFDstepsize = 0
+useFDhessvec    = 0               # how does this interact with ROL parameter?

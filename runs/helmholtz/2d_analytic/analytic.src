@@ -1,0 +1,4 @@
+Function f {
+freal(x,y,z) := (1/4)*(-4 + 5*PI*PI)*sin(2*PI*(x/2+y/4));
+fimag(x,y,z) := 0;
+}

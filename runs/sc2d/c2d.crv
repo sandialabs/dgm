@@ -1,0 +1,16 @@
+** Curved Sides **
+
+2 Number of curve type(s)
+
+Circle
+arc  0.0 0.0 -4.0
+
+Circle
+arc2 0.0 0.0 4.0
+
+4 Number of curved side(s)
+
+0 0 arc
+1 0 arc2
+2 2 arc2
+3 2 arc

@@ -1,0 +1,14 @@
+eqntype  = 0
+inttype  = 3
+p        = 10
+Nt       = 1000
+Ntout    = 1000
+ntout    = 100
+dt       = 0.002
+#
+# Advection-diffusion parameters
+#
+cx       = 1.0
+cy       = 0.0
+cz       = 0.0
+vis      = 0.01

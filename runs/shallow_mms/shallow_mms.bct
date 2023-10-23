@@ -1,0 +1,6 @@
+function dansMMSFunction
+{
+ phi := (49.0*sin(PI/2.0 + t)*cos(x)*sin(y))/5.0 + 539.0/5.0;
+ uphi := (49.0*x*y*(sin(PI/2.0 + t)*cos(x)*sin(y) + 11.0))/(20.0*PI^2);
+ vphi := -(49.0*x*y*(sin(PI/2.0 + t)*cos(x)*sin(y) + 11.0))/(20.0*PI^2);
+}

@@ -1,0 +1,10 @@
+eqntype = 1
+inttype = 3
+dt      = 0.004
+Nt      = 1000
+Ntout   = 100
+ntout   = 20
+p       = 5
+vis     = 0.01
+
+npredict = 100

@@ -1,0 +1,168 @@
+{
+  "$schema" : "http://json-schema.org/schema#",
+  "title" : "Solver",
+  "description" : "Trilinos solver settings",
+  "type" : "object",
+  "properties" : {
+    "Read parameters from XML" : {
+      "type" : "boolean",
+      "default" : "false"
+    },
+    "Write parameters to XML" : {
+      "type" : "boolean",
+      "default" : "true"
+    },
+    "Nonlinear solver" : {
+      "type" : "string",
+      "default" : "Line search based"
+    },
+    "Line search" : {
+      "type" : "object",
+      "properties" : {
+        "Method" : {
+          "type" : "string",
+          "default" : "Full step"
+        }
+      }
+    },
+    "Direction" : {
+      "type" : "object",
+      "properties" : {
+        "Method" : {
+          "type" : "string",
+          "default" : "Newton"
+        },
+        "Newton" : {
+          "type" : "object",
+          "properties" : {
+            "Forcing term method" : {
+              "type" : "string",
+              "default" : "Constant"
+            },
+            "Linear solver" : {
+              "type" : "object",
+              "properties" : {
+                "Aztec solver" : {
+                  "type" : "string",
+                  "default" : "GMRES"
+                },
+                "Max iterations" : {
+                  "type" : "integer",
+                  "default" : 60
+                },
+                "Size of Krylov subspace" : {
+                  "type" : "integer",
+                  "default" : 60
+                },
+                "Tolerance" : {
+                  "type" : "number",
+                  "default" : 0.0005
+                },
+                "Output frequency" : {
+                  "type" : "number",
+                  "default" : 1
+                },
+                "Preconditioner" : {
+                  "type" : "string",
+                  "default" : "None"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "Solver options" : {
+      "type" : "object",
+      "properties" : {
+        "Status test check type" : {
+          "type" : "string",
+          "default" : "Complete"
+        },
+        "Maximum iterations" : {
+          "type" : "integer",
+          "default" : 5
+        },
+        "Norm F" : {
+          "type" : "number",
+          "default" : 1.0e-12 
+        },
+        "Norm F relative" : {
+          "type" : "number",
+          "default" : 0.01
+        },
+        "Norm update" : {
+          "type" : "number",
+          "default" : 1.0e-12
+        }
+      }
+    },
+    "Printing" : {
+      "type" : "object",
+      "properties" : {
+        "Output Precision" : {
+          "type" : "integer",
+          "default" : 3
+        },
+        "Output Information" : {
+          "type" : "object",
+          "properties" : {
+            "Outer Iteration" : {
+              "type" : "boolean",
+              "default" : "true"
+            },
+            "Outer Iteration StatusTest" : {
+              "type" : "boolean",
+              "default" : "false"
+            },
+            "Inner Iteration" : {
+              "type" : "boolean",
+              "default" : "false"
+            },
+            "Parameters" : {
+              "type" : "boolean",
+              "default" : "false"
+            },
+            "Details" : {
+              "type" : "boolean",
+              "default" : "false"
+            },
+            "Test Details" : {
+              "type" : "boolean",
+              "default" : "false"
+            },
+            "Stepper Iteration" : {
+              "type" : "boolean",
+              "default" : "false"
+            },
+            "Stepper Details" : {
+              "type" : "boolean",
+              "default" : "false"
+            },
+            "Stepper Parameters" : {
+              "type" : "boolean",
+              "default" : "false"
+            },
+            "Linear Solver Details" : {
+              "type" : "boolean",
+              "default" : "true"
+            },
+            "Warning" : {
+              "type" : "boolean",
+              "default" : "true"
+            },
+            "Error" : {
+              "type" : "boolean",
+              "default" : "true"
+            },
+            "Debug" : {
+              "type" : "boolean",
+              "default" : "false"
+            }
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties" : false
+}

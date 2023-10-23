@@ -1,0 +1,27 @@
+{
+ "$schema" : "http://json-schema.org/schema#",
+ "title" : "XYZ Probe",
+ "type" : "object",
+ "required" : [ "Name", "Kernel" ],
+ "properties" : {
+   "Name" : { "type" : "string" },
+   "Names" : { "type": "array", "items": {"type": "string"} },
+   "Kernel" : { "type" : "string" },
+   "Xs" : { "type": "array", "items": {"type": "number"} },
+   "Ys" : { "type": "array", "items": {"type": "number"} },
+   "Zs" : { "type": "array", "items": {"type": "number"} },
+   "Elements" : { "type": "array", "items":{"type": "array", "items":{"type": "integer"} } },
+   "Segments" : { "type": "array", "items":{"type": "array", "items":{"type":"array","minItems":2,"maxItems":2,"items":{"type":"number"}}}},
+   "Derivative" : { "type":"array","items":{"type":"array", "items":"number"} },
+   "Direction" : { "type":"array", "items":{"type":"array",
+                   "items":{"type":"array","items":{"type":"number"}}} }
+  },
+  "patternProperties" : {
+   "^Sigma[1-3]$" : { "oneOf" : [  
+     { "type":"number", "minimum":0 },
+     { "type":"array", "items":{"type":"number","minimum":0} }
+   ] }
+  },
+  "additionalProperties" : false,
+  "dependencies" : { "Zs" : [ "Xs", "Ys" ], "Ys" : [ "Xs" ] }
+}

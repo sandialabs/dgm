@@ -1,0 +1,12 @@
+## /Applications/Cubit-14.1/Cubit.app/Contents/MacOS/Cubitx
+## Cubit Version 14.1
+## Cubit Build 393673
+## Revised 2014-08-11 09:13:47 -0600 (Mon, 11 Aug 2014)
+## Running 12/23/2016 06:07:28 PM
+## Command Options:
+## -warning = On
+## -information = On
+cd "../06_full/"
+import facets "hexes.facet"
+import facets "salt_surface_triangulation_2.facet"
+import facets "salt_surface_triangulation_1.facet"

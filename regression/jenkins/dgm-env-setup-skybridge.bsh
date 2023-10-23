@@ -1,0 +1,47 @@
+#!/bin/bash
+# DGM
+
+# Default Intel version on Skybridge is 16.0
+export PATH=/opt/rh/devtoolset-1.1/root/usr/bin:$PATH
+export LD_LIBRARY_PATH=/opt/rh/devtoolset-1.1/root/usr/lib64:/opt/rh/devtoolset-1.1/root/usr/lib/gcc/x86_64-redhat-linux/4.7.2:$LD_LIBRARY_PATH
+
+# Distribution, third-party libraries and home (install) directories
+export DGM_DIST=/projects/dgm/dgm       # Standard location
+export DGM_TPL=/projects/dgm/local.skybridge
+export DGM_HOME=$DGM_TPL/dgm
+export DGM_NO_SCRATCH=1
+export DGM_SCRATCH=.
+
+export TRILINOS_HOME=$DGM_TPL/trilinos
+
+export PEOPT_HOME=$DGM_TPL/peopt        # Standard location
+#export PEOPT_HOME=$WORKSPACE/peopt     # Jenkins checkout
+
+export LD_LIBRARY_PATH=$DGM_TPL/boost/lib:$LD_LIBRARY_PATH:$DGM_TPL/fftw/lib
+
+export HDF5_BASE_DIR=$DGM_TPL/hdf5/serial/opt
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HDF5_BASE_DIR/lib
+export NETCDF_BASE_DIR=$DGM_TPL/netcdf/serial/opt
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$NETCDF_BASE_DIR/lib
+
+# load cmake-3.11.1 (Trilinos requires 3.10)
+module load cmake/3.11.1
+
+export PATH=$DGM_HOME/trilinos/serial/opt/bin:$PATH
+export PATH=$DGM_HOME/trilinos/mpi/opt/bin:$PATH
+export PATH=/projects/dgm/local/cubit/bin:$PATH
+
+# export PYTHONPATH=/home/kbelco/local/python/bin:$DGM_HOME/python:$PYTHONPATH
+export PATH=$DGM_HOME/trilinos/mpi/opt/python:$PATH
+export PYTHONPATH=$DGM_HOME/trilinos/mpi/opt/python:$PYTHONPATH
+
+export ROMIO_HINTS=$HOME/.romio-hints
+
+# Intel license file
+export INTEL_LICENSE_FILE=/opt/modules/etc/license.client.intel
+
+# Python don't write byte code
+export PYTHONDONTWRITEBYTECODE=1
+
+# Python w/Canopy for Numpy and Scipy
+# module load canopy/1.6.2

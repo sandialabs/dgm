@@ -1,0 +1,144 @@
+{
+  "Title" : "Two-dimensional advection diffusion test problem",
+/*
+  "NO Field Slice" : [
+    {
+      "Verbosity" : 0,
+      "Format" : "float",
+      "Frequency" : 1000,
+      "Lattice" : [
+         [ 0.1, 0.0 ],
+         [ 0.0, 0.1 ]
+      ],
+      "Outputs" : [
+        {
+          "Default" : 0.0,
+          "Field" : "u",
+          "File" : "2d.u"
+        }
+      ]
+    }
+  ],
+*/
+  "Domain" : {
+    "Verbosity" : 0,
+    "Response": {
+      "Name" : "DomainResponse",
+      "Verbosity": 1,
+      "Kernels" : {
+        "G0" : { "Type" : "Gaussian", "Standard deviation" : 0.2,
+                 "Number of standard deviations" : 3 },
+        "D0" : { "Type" : "Delta", "Average" : false }
+      },
+      "Probes": [
+        { "Name" : "d", "Kernel" : "D0", "File" : "2d.anl" },
+        { "Name" : "g", "Kernel" : "G0", "Xs": [ 0.5, 0.75 ], 
+          "Ys": [ 1.0, 0.75 ] },
+        { "Name" : "f", "Kernel" : "D0", "File" : "2d.f.anl" }
+      ]
+    },
+    "Title" : "Space-time domain",
+    "Type" : "Advection diffusion",
+    "Time" : {
+      "Integrator" : "DTK::TimeIntegrate",
+      "Method" : "TVD"  // "LSRK14"
+    },
+    "Space" : {
+      "Binary mesh" : true
+    },
+    "Backward Euler" : {
+      "Read parameters from XML" : false,
+      "Write parameters to XML" : true,
+      "Nonlinear solver" : "Line search based",
+      "Line search" : {
+        "Method" : "Full step"
+      },
+      "Direction" : {
+        "Method" : "Newton",
+        "Newton" : {
+          "Linear solver" : {
+            "Aztec solver" : "GMRES",
+            "Max iterations" : 20,
+            "Size of Krylov subspace" : 20,
+            "Tolerance" : 1.0e-3,
+            "Output frequency" : 1,
+            "Preconditioner" : "None"
+          },
+          "Forcing term method" : "Constant"
+        }
+      },
+      "Solver options" : {
+        "Status test check type" : "Complete",
+        "Maximum iterations" : 4,
+        "Norm F" : 1.0e-8,
+        "Norm F relative" : 1.0e-3,
+        "Norm update" : 1.0e-19
+      },
+      "Printing" : {
+        "Output Precision" : 3,
+        "Output Information" : { 
+          "Outer Iteration" : true, 
+          "Outer Iteration StatusTest" : false,
+          "Inner Iteration" : false, 
+          "Parameters" : false, 
+          "Details" : false, 
+          "Test Details" : false,
+          "Stepper Iteration" : false, 
+          "Stepper Details" : false, 
+          "Stepper Parameters" : false,
+          "Linear Solver Details" : true,
+          "Warning" : true,
+          "Error" : true,
+          "Debug" : false
+        }
+      }
+    },
+    "Trapezoidal" : {
+      "Read parameters from XML" : false,
+      "Write parameters to XML" : true,
+      "Nonlinear solver" : "Line search based",
+      "Line search" : {
+        "Method" : "Full step"
+      },
+      "Direction" : {
+        "Method" : "Newton",
+        "Newton" : {
+          "Linear solver" : {
+            "Aztec solver" : "GMRES",
+            "Max iterations" : 20,
+            "Size of Krylov subspace" : 20,
+            "Tolerance" : 1.0e-3,
+            "Output frequency" : 1,
+            "Preconditioner" : "None"
+          },
+          "Forcing term method" : "Constant"
+        }
+      },
+      "Solver options" : {
+        "Status test check type" : "Complete",
+        "Maximum iterations" : 5,
+        "Norm F" : 1.0e-9,
+        "Norm F relative" : 1.0e-3,
+        "Norm update" : 1.0e-19
+      },
+      "Printing" : {
+        "Output Precision" : 3,
+        "Output Information" : { 
+          "Outer Iteration" : true, 
+          "Outer Iteration StatusTest" : false,
+          "Inner Iteration" : false, 
+          "Parameters" : false, 
+          "Details" : false, 
+          "Test Details" : false,
+          "Stepper Iteration" : false, 
+          "Stepper Details" : false, 
+          "Stepper Parameters" : false,
+          "Linear Solver Details" : true,
+          "Warning" : true,
+          "Error" : true,
+          "Debug" : false
+        }
+      }
+    }
+  }
+}

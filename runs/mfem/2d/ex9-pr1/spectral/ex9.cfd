@@ -1,0 +1,4 @@
+# Convective field
+Given
+u := w=PI/2.0;  w*y;
+v := -w*x;

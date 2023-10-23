@@ -1,0 +1,55 @@
+{
+  "$schema" : "http://json-schema.org/schema#",
+  "title" : "DGM Domain",
+  "description" : "DGM Domain input specification",
+  "id" : "file:Domain.json#",
+  "type" : "object",
+  "properties" : {
+    "Type" : {
+      "type" : "string"
+    },
+    "Title" : {
+      "$ref" : "#definitions/title"
+    },
+    "Verbosity" : {
+      "type" : "integer",
+      "default" : 0,
+      "minimum" : 0,
+      "maximum" : "4"
+    },
+    "Name" : {
+      "type" : "string",
+      "default" : "Reo"
+    },
+    "Root" : {
+      "type" : "string"
+    },
+    "Time" : {
+      "$ref" : "Time.json#"
+    },
+    "Space" : {
+      "$ref" : "Space.json#"
+    },
+    "Response" : {
+      "$ref" : "Response.json#"
+    },
+    "Slice" : {
+      "$ref" : "Slice.json#"
+    },
+    "Solver" : {
+      "$ref" : "Solver.json#"
+    },
+    "Backward Euler" : {
+      "$ref" : "Solver.json#"
+    },
+    "Trapezoidal" : {
+      "$ref" : "Solver.json#"
+    }
+  },
+  "additionalProperties" : false,
+  "definitions" : {
+    "title" : {
+      "type" : "string"
+    }
+  }
+}

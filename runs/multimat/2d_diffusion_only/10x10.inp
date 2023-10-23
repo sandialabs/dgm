@@ -1,0 +1,23 @@
+# DGM test case
+#
+# One-dimensional advection diffusion
+#
+# Author:  A. Gerstenberger
+#
+nsd = 2
+eqntype  = 50       # advection diffusion
+inttype  = 4
+p        = 4      # polynomial order
+Nt       = 100    # number of time steps
+Ntout    = 100    # restart output interval
+dt       = 0.00001   # time step
+tmax     = 0.02
+CFLmax   = 0.1
+
+tortuosity_tau = 1.0 
+diffusivity_D = 0.01
+
+rho_water = 1
+rho_CO2   = 1
+porosity_phi = 1.0 
+tecplot = 0

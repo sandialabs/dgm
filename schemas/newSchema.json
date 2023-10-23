@@ -1,0 +1,20 @@
+{
+  "$schema" : "http://json-schema.org/schema#",
+  "title" : "Test schema",
+  "description" : "This is a test of a DGM schema using references",
+  "type" : "object",
+  "required" : [ "Title", "Domain" ],
+  "properties" : {
+    "Title" : { "type" : "string" },
+    "Problem" : { "$ref" : "Problem.json#" },
+    "Domain" : { "$ref" : "Domain.json#" },
+    "AdvDiff" : { "$ref" : "AdvDiff.json#" },
+    "InCore" : { "$ref" : "InCore.json#" },
+    "Griewank" : { "$ref" : "Griewank.json#" },
+    "Slice" : { "$ref" : "Slice.json#" },
+    "Solver" : { "$ref" : "Solver.json#" },
+    "Zoltan" : { "$ref" : "Zoltan.json#" },
+    "Field Slice" : { "$ref" : "Slice.json#" }
+  },
+  "additionalProperties" : false 
+}

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "BoxSurfaceSaltTool::best_node(BoxSurfaceSaltTool::AdvanceContext&amp;, Triangle*, BoxSurfaceSaltTool::FrontEdge const&amp;, BoxSurfaceSaltTool::NodePool&amp;, bool):boxsurfacesalttool.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "Triangulation::new_node(Point):triangulation.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "BoxSurfaceSaltTool::vet_candidates(BoxSurfaceSaltTool::AdvanceContext&amp;, Triangle*, BoxSurfaceSaltTool::FrontEdge const&amp;, BoxSurfaceSaltTool::FrontNode const&amp;, BoxSurfaceSaltTool::FrontNode const&amp;, BoxSurfaceSaltTool::NodePool&amp;):boxsurfacesalttool.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "BoxSurfaceSaltTool::push_back(BoxSurfaceSaltTool::AdvanceContext&amp;, BoxSurfaceSaltTool::FrontEdges&amp;, BoxSurfaceSaltTool::FrontEdge const&amp;, bool, bool):boxsurfacesalttool.cpp">
+         <PersistentStrings>
+            <PersistentString
+               value = "*_watch_me">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "BoxSurfaceSaltTool::check_coordinates(std::__1::vector&lt;BoxSurfaceSaltTool::GridMark&lt;Node*&gt;*, std::__1::allocator&lt;BoxSurfaceSaltTool::GridMark&lt;Node*&gt;*&gt; &gt;&amp;, BoxSurfaceSaltTool::FrontNode const&amp;) const:boxsurfacesalttool.cpp">
+      </ContextState>
+      <ContextState
+         contextName = "BoxSurfaceSaltTool::check_coordinates(std::__1::vector&lt;BoxSurfaceSaltTool::GridMark&lt;Node*&gt;*, std::__1::allocator&lt;BoxSurfaceSaltTool::GridMark&lt;Node*&gt;*&gt; &gt;&amp;, BoxSurfaceSaltTool::FrontNode const&amp;):boxsurfacesalttool.h">
+      </ContextState>
+      <ContextState
+         contextName = "BoxSurfaceSaltTool::best_node(BoxSurfaceSaltTool::AdvanceContext&amp;, Triangle*, BoxSurfaceSaltTool::FrontEdge const&amp;, BoxSurfaceSaltTool::NodePool&amp;):boxsurfacesalttool.cpp">
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

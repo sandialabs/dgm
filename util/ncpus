@@ -1,0 +1,31 @@
+#!/bin/bash
+
+# return the max of two integers
+function max2 () {
+  if [ "$1" -gt "$2" ]; then 
+    return $1
+  else
+    return $2
+  fi
+}
+
+# determine the number of available CPUs under Linux and or Darwin
+if [ $# -gt 1 ]; then
+    echo 1>&2 Usage:  $0 [inc] 
+    exit 2
+fi
+if [ `uname` = "Darwin" ]; then
+    cpu=`/usr/sbin/sysctl -n hw.ncpu`
+elif [ `uname` = "Linux" ]; then
+    cpu=`cat /proc/cpuinfo | grep processor | awk '{a++} END {print a}'`
+else
+    echo Unknown OS `uname`
+    exit 1
+fi
+if [ $# = 1 ]; then
+    max2 $(($cpu-$1)) 1
+    echo $?
+else
+    echo $cpu
+fi
+exit 0

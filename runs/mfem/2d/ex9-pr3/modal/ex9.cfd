@@ -1,0 +1,10 @@
+# Convective field
+Given
+u :=  w=PI/2.0; d=max((x+1.0)*(1.0-x),0.0)*max((y+1.0)*(1.0-y),0.0); d=d*d;\
+      d*w*y;
+v :=  d=max((x+1.0)*(1.0-x),0.0)*max((y+1.0)*(1.0-y),0.0); d=d*d;\
+     -d*w*x;
+
+# rotation around (0,0)
+u := w=PI/2.0;  w*y;
+v := -w*x;

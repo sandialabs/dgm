@@ -1,0 +1,51 @@
+srcdir = .
+
+TNTDIR = /home/collis/dist/tnt
+BZDIR = /home/collis/dist/blitz
+MTLDIR = /home/collis/dist/mtl
+ATLASDIR = /home/collis/dist/atlas
+
+CXX = KCC
+CXXFLAGS = +K3 -O3 --abstract_pointer --abstract_float \
+--one_instantiation_per_object -I$(BZDIR) -I$(MTLDIR) -I$(TNTDIR)
+LDFLAGS = 
+
+CC = KCC
+CCFLAGS = -O3
+
+LIBS = -L$(BZDIR)/lib -lblitz -L. -llapack -lcblas -latlas -lblas -lg2c -lm 
+#LIBS = -llapack -lblas -lg2c -lm 
+
+############################################################################
+
+EXAMPLES =  blitz
+
+.SUFFIXES: .o .cpp 
+
+.cpp.o:
+	$(CXX) $(CXXFLAGS) -c $(srcdir)/$*.cpp
+
+.c.o:
+	$(CC) $(CCFLAGS) -c $(srcdir)/$*.c
+
+$(EXAMPLES):
+	$(CXX) $(LDFLAGS) $@.o mmio.o -o $@ $(LIBS)
+
+mtl:
+	$(CXX) $(LDFLAGS) $@.o mmio.o -o $@ $(LIBS)
+
+###########################################################################
+
+all:	$(EXAMPLES)
+
+examples:	$(EXAMPLES)
+
+blitz: blitz.o mmio.o
+
+mtl: mtl.o mmio.o
+
+###########################################################################
+
+
+clean:
+	rm -f *.o *.ii *.int.c *.s $(EXAMPLES)

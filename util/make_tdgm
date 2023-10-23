@@ -1,0 +1,105 @@
+#!/bin/bash
+#
+# Make all versions of DGM code that use Trilinos
+#
+# Initialize some variables
+#
+# Figure out how many cores are available for the build
+if [ ! $NCPUS ]; then
+  if [ -e $DGM_HOME/util/ncpus ]; then
+    NCPUS=`$DGM_HOME/util/ncpus`
+  elif [ -e $DGM_HOME/bin/ncpus ]; then
+    NCPUS=`$DGM_HOME/bin/ncpus`
+  elif [ -e util/ncpus ]; then
+    NCPUS=`util/ncpus`
+  else
+    echo WARNING:  Could figure out the number of cpus:  using NCPUS=1
+    NCPUS=1
+  fi
+fi
+echo Building DGM on $NCPUS cores
+if [ -e .ARCH ]; then
+  ARCH=`cat .ARCH`
+  ARCHSET=1
+else
+  ARCH=GCC
+fi
+if [ ! -e $HOME/local/trilinos ]; then
+  echo Trilinos must be installed in $HOME/local/trilinos
+  echo Exiting DGM build...
+  exit 1
+fi
+#
+# Serial version
+#
+if [ ! -d ${ARCH}t ]; then
+    mkdir ${ARCH}t
+fi
+echo =====================================================================
+echo Building DGM in ${ARCH}t
+echo =====================================================================
+cd ${ARCH}t
+if [ ! -e Makefile ]; then
+    ln -s ../src/Makefile .
+fi
+if [ $ARCHSET ]; then
+  echo $ARCH > ARCH
+fi
+TRILINOS=$HOME/local/trilinos/serial/opt
+if [ ! -e $TRILINOS/include/Makefile.export.Trilinos ]; then
+  echo Trilinos is not installed correctly for use by DGM! Could not find: 
+  echo $TRILINOS/include/Makefile.export.Trilinos
+  echo exiting
+  exit 1
+fi
+make -j$NCPUS all ADDONS="DGM_USE_EPETRA" USE_RYTHMOS=1 \
+TRILINOS=$TRILINOS
+make -j$NCPUS me ADDONS="DGM_USE_EPETRA DGM_USE_RYTHMOS" USE_RYTHMOS=1 \
+TRILINOS=$TRILINOS
+cd ..
+#
+# Parallel versions
+#
+if [ ! -d ${ARCH}tp ]; then
+    mkdir ${ARCH}tp
+fi
+echo =====================================================================
+echo Building DGM in ${ARCH}tp
+echo =====================================================================
+cd ${ARCH}tp
+if [ ! -e Makefile ]; then
+    ln -s ../src/Makefile .
+fi
+if [ $ARCHSET ]; then
+    echo $ARCH > ARCH
+fi
+TRILINOS=$HOME/local/trilinos/mpi/opt
+if [ ! -e $TRILINOS/include/Makefile.export.Trilinos ]; then
+  echo Trilinos is not installed correctly for use by DGM! Could not find: 
+  echo $TRILINOS/include/Makefile.export.Trilinos
+  echo exiting
+  exit 1
+fi
+make -j$NCPUS pall ADDONS="DGM_USE_EPETRA" USE_RYTHMOS=1 \
+TRILINOS=$HOME/local/trilinos/mpi/opt 
+if [ -e $TRILINOS/include/Makefile.export.Thyra ]; then
+  make -j$NCPUS pme ADDONS="DGM_USE_EPETRA" USE_RYTHMOS=1 \
+  TRILINOS=$HOME/local/trilinos/mpi/opt
+else
+  echo dgm_me requires Trilinos with Thyra enabled
+fi
+if [ -e $TRILINOS/include/Makefile.export.MOOCHO ]; then
+  make -j$NCPUS pmoocho ADDONS="DGM_USE_EPETRA" USE_RYTHMOS=1 \
+  TRILINOS=$HOME/local/trilinos/mpi/opt
+else
+  echo dgm_moocho requires Trilinos with Moocho enabled
+fi
+if [ -e $TRILINOS/include/Makefile.export.TriKota ]; then
+  make -j$NCPUS ptrikota ADDONS="DGM_USE_EPETRA" USE_RYTHMOS=1 \
+  TRILINOS=$HOME/local/trilinos/mpi/opt
+else
+  echo dgm_trikota requires Trilinos with TriKota enabled
+fi
+cd ..
+#
+exit

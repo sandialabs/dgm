@@ -1,0 +1,20 @@
+{
+  "$schema" : "http://json-schema.org/schema#",
+  "title" : "Griewank",
+  "description" : "DGM Griewank type memory storage",
+  "id" : "http://www.sandia.gov/DGM/schemas/Griewank.json",
+  "type" : "object",
+  "properties" : {
+    "Statistics" : {
+      "type" : "number",
+      "default" : 1,
+      "minimum" : 0,
+      "maximum" : 2
+    },
+    "Number of Snapshots" : {
+      "type" : "number",
+      "default" : 0
+    }
+  },
+  "additionalProperties" : false
+}

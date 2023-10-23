@@ -1,0 +1,699 @@
+\documentclass[12pt]{article}
+\usepackage{fullpage}
+\usepackage{comment}
+
+\usepackage{amsbsy}
+\input{macros}
+
+\begin{document}
+
+\begin{center}
+{\Large\bf Adjoint Analysis for DG Discretizations of \\[0.5ex]
+Burgers Equation}\\[2ex]
+S.\ Scott Collis \\
+Sandia National Laboratories \\
+Optimization and Uncertainty Quantification \\
+Albuquerque, NM 87815-0370 \\
+sscoll@sandia.gov \\[1ex]
+\today
+\end{center}
+
+\section{Introduction}
+
+The purpose of this article is to present the derivation of the adjoint
+equations for a mixed hyperbolic-elliptic equation using a discontinuous
+Galerkin (DG) discretization.  As a protypical example, we work with the
+viscous Burgers equation in one space dimension which takes the strong form
+\begin{equation} \label{e:Burgers_strong_form}
+u_{,t} + (f(u))_{,x} - (\nu u_{,x})_{,x} = s
+\end{equation}
+subject to appropriate initial and boundary conditions.
+
+We emphasize to the reader that the analysis presented here is formal in the
+sense that we assume existence of solutions and are vague in defining the
+function spaces in which the solution and dual states reside.  Such details
+can be important, but detract from the main goal of the current presentation
+which is to provide a succict description of the State and Adjoint methods for
+DG discretizations.
+
+%==============================================================================
+%                            D I F F U S I O N
+%==============================================================================
+
+\section{Diffusion}
+
+In this first draft, we focus the discussion only on the elliptic part of
+(\ref{e:Burgers_strong_form}) since the fomulation and implementation of
+elliptic operators in DG methods is less natural (and therefore more prone to
+mistakes in the formulation) than are first-order convective operators.
+Future versions of this document will discuss both convection and diffusion
+operators.
+
+\subsection{State Equation}
+Start with the weak form (with only diffusion present) on one element
+\begin{equation}
+\int_{\Omega_e} w \left( u_{,t} - (\nu u_{,x})_{,x} \right) d\Omega = 0
+\end{equation}
+Let $f_x^v(u_{,x}) = \nu u_{,x}$ and apply DG
+\begin{equation}
+\int_{\Omega_e} w \left( u_{,t} - (\nu\sigma)_{,x} \right) d\Omega -
+\int_{\partial\Omega_e} w \left( \hat f^v_n(\sigma^+,\sigma^-) - 
+                            f^v_n(\sigma^-) \right) d\partial\Omega = 0
+\end{equation}
+for all $w \in {\cal V}$.  The ``jump savy'' gradient $\sigma$ is computed
+using the auxillary equation
+\begin{equation}
+ \int_{\Omega_e} \left( \tau\sigma - \tau u_{,x} \right) d\Omega -
+ \int_{\partial\Omega_e} n \tau\left( \hat u(u^+,u^-) - u^- \right) 
+ d\partial\Omega = 0
+\end{equation}
+for all $\tau \in {\cal S}$.  The numerical fluxes are
+\begin{equation}
+  \hat f^v_n(\sigma^+,\sigma^-) = \frac{1}{2}\left( f^v_n(\sigma^-) - 
+                                                    f^v_{-n}(\sigma^+) \right)
+\end{equation}
+\begin{equation}
+  \hat u(u^+,u^-) = \frac{1}{2}\left( u^+ + u^- \right)
+\end{equation}
+On a Neumann boundary, currently I set $f^v_{-n}(\sigma^+)=-\phi_b$ and $u^+ =
+u^-$.  Assuming that we have such BC's on both sides, this yields
+\begin{equation}
+\int_{\Omega_e} w \left( u_{,t} - (\nu\sigma)_{,x} \right) d\Omega -
+\int_{\partial\Omega_e} \frac{w}{2}\left( \phi_b - n^-\nu\sigma^- \right) 
+d\partial\Omega = 0
+\end{equation}
+for all $w \in {\cal V}$ with $\sigma$ computed using the auxillary equation
+\begin{equation}
+ \int_{\Omega_e} \left( \tau\sigma - \tau u_{,x} \right) d\Omega = 0
+\end{equation}
+for all $\tau \in {\cal S}$.
+
+\medskip
+\noindent{\bf Remarks:}
+\begin{enumerate}
+\item By setting the boundary condition through the numerical fluxes, we still
+  retain a weighted residual formulation, but the boundary condition term has
+  a factor of 1/2.
+\item This could have been prevented by instead setting $\hat
+  f^v_{n}(\sigma^+,\sigma^-) = \phi_b$ on the boundary.
+\item One way to accomplish this is to instead set $f^v_{-n}(\sigma^+) =
+  -2\phi_b + f^v_{n}(\sigma^-)$ when evaluating the numerical flux on the
+  boundary.
+\end{enumerate}
+
+\subsection{Continuous Adjoint Equation}
+The weak form of the state equation one element is
+\begin{equation}
+\int_0^T \int_{\Omega_e} w \left( u_{,t} - (\nu u_{,x})_{,x} \right) 
+d\Omega = 0 \qquad \forall w\in{\cal V}
+\end{equation}
+Now, form the Euler-Lagrange identity by integrating by parts
+\begin{eqnarray}
+& \int_0^T \int_{\Omega_e} w \left( u_{,t} - 
+  (\nu u_{,x})_{,x} \right) d\Omega =  \nonumber \\ 
+& \int_0^T \int_{\Omega_e} u \left( -w_{,t} - 
+  (\nu w_{,x})_{,x} \right) d\Omega +
+  \int_{\Omega_e} \left[ w u \right]_0^T d\Omega + 
+  \int_0^T\int_{\partial\Omega_e} 
+  \left( u \nu w_{,n} - w \nu u_{,n} \right) d\partial\Omega_e 
+\end{eqnarray}
+So, the continuous adjoint equation on one element is simply
+\begin{equation}
+\int_0^T \int_{\Omega_e} u \left( -w_{,t} - 
+  (\nu w_{,x})_{,x} \right) \, d\Omega = 0  \qquad \forall u\in{\cal V}
+\end{equation}
+We can now discretize this equation using DG to obtain
+\begin{equation}
+\int_{\Omega_e} u \left( w_{,t} + (\nu\tau)_{,x} \right) d\Omega +
+\int_{\partial\Omega_e} u \left( \hat g^v_n(\tau^+,\tau^-) - 
+                                 g^v_n(\tau^-) \right) d\partial\Omega = 0
+\end{equation}
+for all $u \in {\cal V}$.  The ``jump savy'' gradient $\tau$ is computed
+using the auxillary equation
+\begin{equation}
+ \int_{\Omega_e} \left( \sigma\tau - \sigma w_{,x} \right) d\Omega -
+ \int_{\partial\Omega_e} n \sigma\left( \hat w(w^+,w^-) - w^- \right) 
+ d\partial\Omega = 0
+\end{equation}
+for all $\sigma \in {\cal S}$. Finally, the continuous {\em gradient} equation
+is then
+\begin{equation}
+\int_{\partial\Omega_e} -w \phi_b \, d\partial\Omega + 
+\int_{\Omega_e} \left[ w u \right]_0^T d\Omega = 0
+\end{equation}
+
+\medskip
+\noindent{\bf Remarks:}
+\begin{enumerate}
+\item From the Euler-Lagrange equations for the continuous adjoint equation,
+  we require that for diffusive flux control, $\phi_b = \nu u_{,n} = f^v_n$,
+  the adjoint boundary condition is $\nu w_{,n} = 0 = g^v_n$
+\item Likewise, the gradient is then given by $w$ on the boundary which means
+  that $w^+=w^-$ on the boundary.  
+\item In practise, I actually set the adjoint BC through the numerical flux
+  which means that I (again) introduce a factor of 1/2 in the boundary term.
+\item From the point of view of the continuous optimality conditions, this
+  isn't a real problem in the sense that final discrete state and adjoint
+  equations {\em are} consistent DG discretization of the continuous problems.
+  However, they do {\em not} satisfy a discrete duality equation.
+\end{enumerate}
+
+\subsection{Discrete Adjoint Equation}
+The second way to construct the adjoint equations is to construct an
+Euler-Lagrange equation by beginning with the DG weak form of the state
+equation.
+
+\begin{eqnarray}
+\int_{\Omega_e} w \left( u_{,t} - (\nu\sigma)_{,x} \right) d\Omega -
+\int_{\partial\Omega_e} w \left( \hat f^v_n(\sigma^+,\sigma^-) - 
+                            f^v_n(\sigma^-) \right) d\partial\Omega + 
+\nonumber\\
+ \int_{\Omega_e} \left( \tau\sigma - \tau u_{,x} \right) d\Omega -
+ \int_{\partial\Omega_e} n \tau \left( \hat u(u^+,u^-) - u^- \right) 
+ d\partial\Omega = 0
+\end{eqnarray}
+for all $w \in {\cal V}$ and $\tau \in {\cal S}$.
+\begin{eqnarray}
+\int_{\Omega_e} w \left( u_{,t} - (\nu\sigma)_{,x} \right) d\Omega -
+\int_{\partial\Omega_e} w \left( \hat f^v_n(\sigma^+,\sigma^-) - 
+                            f^v_n(\sigma^-) \right) d\partial\Omega + 
+\nonumber\\
+ \int_{\Omega_e} \left( \tau\sigma - \tau u_{,x} \right) d\Omega -
+ \int_{\partial\Omega_e} n \tau\left( \hat u(u^+,u^-) - u^- \right) 
+ d\partial\Omega =
+\nonumber\\
+\int_{\Omega_e} \left( -w_{,t} u + w_{,x} (\nu\sigma) \right) d\Omega -
+\int_{\partial\Omega_e} w \left( \hat f^v_n(\sigma^+,\sigma^-) \right) 
+d\partial\Omega + 
+\nonumber\\
+ \int_{\Omega_e} \left( \tau\sigma + \tau_{,x} u \right) d\Omega -
+ \int_{\partial\Omega_e} n \tau\left( \hat u(u^+,u^-) \right) 
+ d\partial\Omega + \int_{\Omega_e} \left[ w u \right]_0^T d\Omega =
+\nonumber\\
+\int_{\Omega_e} \left( -w_{,t} u + \tau_{,x} u \right) d\Omega -
+ \int_{\partial\Omega_e} n \tau\left( \hat u(u^+,u^-) \right) 
+ d\partial\Omega + 
+\nonumber\\
+ \int_{\Omega_e} \left( \tau\sigma +  \nu w_{,x} \sigma \right) d\Omega -
+\int_{\partial\Omega_e} w \left( \hat f^v_n(\sigma^+,\sigma^-) \right) 
+d\partial\Omega + \int_{\Omega_e} \left[ w u \right]_0^T d\Omega 
+\begin{comment}
+= \nonumber\\
+\int_{\Omega_e} \left( -w_{,t} u + \tau_{,x} u \right) d\Omega -
+ \int_{\partial\Omega_e} \tau u^- d\partial\Omega + 
+\nonumber\\
+ \int_{\Omega_e} \left( \tau\sigma +  \nu w_{,x} \sigma \right) d\Omega -
+\int_{\partial\Omega_e} w \phi_b d\partial\Omega + 
+\int_{\Omega_e} \left[ w u \right]_0^T d\Omega
+\end{comment}
+\end{eqnarray}
+Let $\tau = -\tilde\tau\nu$, then the adjoint equation can be written as
+\begin{equation}
+\int_{\Omega_e} u \left( w_{,t} + (\nu\tilde\tau)_{,x} \right) d\Omega -
+ \int_{\partial\Omega_e}n\nu\tilde\tau\left(\hat u(u^+,u^-)\right)
+\, d\partial\Omega = 0
+\end{equation}
+for all $u\in{\cal V}$ and
+\begin{equation}
+ \int_{\Omega_e} \left( \sigma\tilde\tau - \sigma w_{,x} \right) d\Omega +
+\int_{\partial\Omega_e} \frac{w}{\nu} \left( \hat f^v_n(\sigma^+,\sigma^-) 
+\right) d\partial\Omega = 0
+\end{equation} 
+for all $\sigma\in{\cal S}$.  Finally, the {\em gradient} equation is then
+\begin{equation}
+\int_{\partial\Omega_e} -w \phi_b \, d\partial\Omega + 
+\int_{\Omega_e} \left[ w u \right]_0^T d\Omega = 0
+\end{equation}
+
+\begin{comment}
+\begin{equation}
+\int_{\Omega_e} u \left( w_{,t} + (\nu\tilde\tau)_{,x} \right) d\Omega +
+ \int_{\partial\Omega_e} u \left( 0 - \nu\tilde\tau \right) d\partial\Omega = 0
+\end{equation}
+for all $u\in{\cal V}$ and
+\begin{equation}
+ \int_{\Omega_e} \left( \sigma\tilde\tau - \sigma w_{,x} \right) d\Omega = 0
+\end{equation} 
+for all $\sigma\in{\cal S}$.  Finally, the {\em gradient} equation is then
+\begin{equation}
+\int_{\partial\Omega_e} -w \phi_b \, d\partial\Omega + 
+\int_{\Omega_e} \left[ w u \right]_0^T d\Omega = 0
+\end{equation}
+\end{comment}
+
+\medskip
+\noindent{\bf Remarks:}
+\begin{enumerate}
+\item With averages fluxes, the continuous and discrete formulations should
+  give the save solution.
+\item So, due to the fact that we use a Galerkin method, the continuous and
+  discrete adjoint equations are the same, as long as we set the boundary
+  conditions consistently.
+\end{enumerate}
+
+%==============================================================================
+%                            C O N V E C T I O N
+%==============================================================================
+
+\section{Convection}
+
+In this section, we present a similar analysis for the convection term in
+Burgers equation.  I haven't yet done a good job of merging these two sections
+together. In particular, the notation is quite different between the two
+sections --- sorry.
+
+\subsection{State Equation}
+Start with the Burgers equation in strong form
+\[ y_{,t} + F_{,x}(y) 
+%  - \left( \nu y_{,x} \right)_{,x} 
+   - u_d = 0 \qquad (x,t)\in\Omega\times(0,T] \]
+%
+with periodic boundary conditions, where $F(y) = y^2/2$.  The Galerkin weak
+form on one space-time element:
+%
+\[ \int_{Q_e} w  \left( y_{,t} + F_{,x}(y) - u_d
+%  \left( \nu y_{,x} \right)_{,x} - f 
+   \right) \,dQ = 0  \qquad \forall w\in{\cal P}_e \] 
+%
+Now use discontinuous Galerkin to couple elements
+%
+\[ \int_{Q_e} w \left( y_{,t} + F_{,x}(y) 
+   % - \left( \nu y_{,x} \right)_{,x} 
+   - u_d \right) \,dQ +
+   \int_{P_e} w \left( \widehat F_n(y^-,y^+) - F_n(y) \right) \,dP = 0 \]
+%
+where $\widehat F_n(y^-,y^+)$ is the numerical flux.  If we use the Lax
+Friedrichs then
+%
+\[ \widehat F_n(y^-,y^+) = \frac{1}{2}\left( F_n(y^-) + F_n(y^+) + 
+   \ell \left( y^- - y^+ \right) \right) \]
+
+\subsection{Linearized Burgers}
+Linearize (take the \frechet derivative):
+\[ \int_{Q_e} w \left( y'_{,t} + \left(y y'\right)_{,x} 
+   % - \left( \nu y'_{,x} \right)_{,x} 
+   - u'_d \right) \,dQ +
+   \int_{P_e} w \left( \widehat F'_n(y'^-,y'^+;y^-,y^+) - 
+                                F'_n(y';y) \right) \,dP  = 0 \]
+%
+The linearized Lax-Friedrichs flux is given by
+\[ \widehat F'_n(y^-,y^+;y^-,y^+) = 
+   \frac{1}{2}\left( 
+     F'_n(y'^-;y^-) + F'_n(y'^+;y^+) + 
+     \ell \left( y'^- - y'^+ \right) +
+     \ell' \left( y^- - y^+ \right) 
+   \right) 
+\]
+For Burgers
+\[ \ell(y^-,y^+) = \max( |y^-|, |y^+| ) \]
+However, we use a regularized version of Lax-Friedrichs where 
+\[ \ell(y^-,y^+) = \frac{1}{2}( |y^-| + |y^+| ) \]
+where we define the derivative of the absolute value function as
+\begin{equation} \label{e:dabs}
+d(|y|) \equiv 
+\left\{ 
+\begin{array}{rl} 
+  -1, & y<0 \\
+   0, & y=0 \\
+   1, & y>0
+\end{array}
+\right.
+\end{equation}
+So that
+\[ \ell'(y'^-,y'^+;y^-,y^+) = \frac{1}{2}( d(|y^-|)y'^- + d(|y^+|)y'^+ ) \]
+%
+Summing over both element interfaces
+\[ \frac{w^-}{2}( d(|y^-|)y'^- + d(|y^+|)y'^+ )(y^- - y^+) +
+   \frac{w^+}{2}( d(|y^+|)y'^+ + d(|y^-|)y'^- )(y^+ - y^-) \]
+and collecting terms that multiply $y'^-$ yields
+\[ \ell^* (y^- - y^+) y'^- = \frac{d(|y^-|)}{2}(w^- - w^+)(y^- - y^+)y'^- \]
+and the terms multiplying $y'^+$ are
+\[ \ell^* (y^+ - y^-) y'^+ = \frac{d(|y^+|)}{2}(w^+ - w^-)(y^+ - y^-)y'^+ \]
+
+\subsection{Adjoint Equation}
+Form the Lagrange identity
+\begin{eqnarray}
+   \int_{Q_e} \left( -w_{,t} y' - w_{,x} y y' + J'_{\tt Obs} y' \right) \,dQ
+   % - w \left( \nu y_{,x} \right)_{,x} 
+   + \int_{P_e} y' \widehat F^*_n(w'^-,w'^+;y^-,y^+) \,dP    && \nonumber\\
+   + \int_{Q_e} \left( -w u'_d - J'_{\tt Obs} y' \right) \,dQ 
+   + \int_{\Omega_e} [w y']_o^T \,d\Omega &=& 0 \nonumber
+\end{eqnarray}
+where the adjoint flux is
+\[ \widehat F^*_n(w^-,w^+;y^-,y^+) = \frac{1}{2}\left( 
+   y^- n w^- - y^- n w^+ + \ell \left( w^- - w^+ \right) 
+   + d(|y^-|)(w^- - w^+)(y^- - y^+) \right) \]
+%\[ y' ( y^- n w^- - y^- n w^- ) \]
+Note that we can extract the adjoint equation
+\begin{eqnarray} 
+   \int_{Q_e} \left( w_{,t} y' + w_{,x} y y' 
+   % + w \left( \nu y_{,x} \right)_{,x} 
+   - J'_{\tt Obs} y' \right) \,dQ &+& \nonumber \\
+   \int_{P_e} y' \left( \frac{1}{2}\left( y^- n w^- + y^- n w^+ - 
+                 \ell \left( w^- - w^+ \right) \right) - y^- n w^- \right)\,dP
+   &=& 0 \nonumber
+\end{eqnarray}
+%
+So, the adjoint equation can be written as
+\[ \int_{Q_e} w_{,t} y' + (w y)_{,x} y' - w y_{,x} y'  
+   % + w \left( \nu y_{,x} \right)_{,x} 
+   \,dQ +
+   \int_{P_e} y' \left( \widehat F^*_n(w^-,w^+;y^-) - F^*_n(w;y) \right)\,dP 
+   = 0 \]
+where the adjoint Lax-Freidrichs flux is simply
+\[ \widehat F^*_n(w^-,w^+;y^-) = \frac{1}{2}\left( y^- n w^- + y^- n w^+ - 
+                                 \ell \left( w^- - w^+ \right) \right) \]
+%
+This numerical flux is nonconservative.  One way to interpret this is if you
+add and subtract $y^+nw^+$ to the ``average'' portion of the flux then
+\[ \widehat F^*_n(w^-,w^+;y^-,y^+) = \frac{1}{2}\left( 
+   (y^- n w^- + y^+ n w^+) + (y^- n w^+ - y^+ n w^+) - \ell \left( w^- - w^+
+\right) \right) \] which is equivalent to Lax-Friedrichs applied to the
+adjoint with the addition of a source term.  If we add the source term from
+both sides of an interelement boundary then
+\[ \frac{1}{2} (y^l - y^r ) (w^l + w^r) \]
+
+\medskip
+\noindent{\bf Remarks:}
+\begin{enumerate}
+\item The discrete adjoint for Lax-Friedrichs flux is nonconservative for the
+  adjoint. However it {\em is} consistent and stablizing!
+\item The source term is due to the jumps in the base solution.  If we have a
+  high order base solution, then this term will be very small. Likewise, if
+  the base flow has no jumps then this term disappears.
+\item If we use a Lax-Friedrichs flux for the adjoint then this source term
+  will not be present and will result in an error in the gradient equation
+  that can only be improved by refining the state solution.
+\item The gradient equation is then
+\[ -\int_{Q_e} w u_d' \, dQ + \int_{\Omega_e} [w y']_0^T \,d\Omega + 
+   b'(w,u'_b) - J'_{\tt Obs} y' = 0 \]
+\end{enumerate}
+
+%=============================================================================
+%                       E U L E R   E Q U A T I O N S
+%=============================================================================
+
+\section{Euler Equations}
+
+The strong form of the Euler equations in conservation variables can be
+written as
+\begin{equation} \label{e:Euler_strong_form}
+\bU_{,t} + \bF_{i,i} = \bS \qquad\mbox{in }\sQ
+\end{equation}
+where $\sQ= \Omega \times [0,T]$ is the space-time domain with perimeter $\sP
+= \Gamma \times [0,T]$ for spatial domain $\Omega$ with
+$\Gamma=\partial\Omega$.  The vector of conservative variables is given by
+\begin{equation}
+\bU = \left\{ \begin{array}{c} \rho \\ \rho \bu \\ \rho E \end{array} \right\}
+\end{equation}
+Formally, we assume that weak solutions to \eref{e:Euler_strong_form} exist
+where $\bU \in \cV$ as we introduce the test functions $\bW \in \cV$ so that
+the weak form of the Euler equations in $\sQ$ is given by
+\begin{equation}
+\int_\sQ \bW^T \left(\bU_{,t} + \bF_{i,i} - \bS \right) \,d\sQ = 0 
+\qquad \forall \bW \in \cV
+\end{equation}
+which is the starting point for a standard Galerkin method applied to the
+Euler equations.
+
+Since we are interested in DG discretizations of the Euler equations, we
+consider the following DG weak form
+\begin{equation} \label{e:euler_dg}
+\int_{\sQ_e} \bW^T \left(\bU_{,t} + \bF_{i,i} - \bS \right) \,d\sQ +
+\int_{\sP_e} \bW^T \left( \hbF_n(\bU^-,\bU^+) - \bF_n(\bU^-) \right) \,d\sP 
+= 0 \qquad \forall \bW \in \cV
+\end{equation}
+on the space-time element $\sQ_e$ with boundary $\sP_e$.  In this expression,
+$\hbF_n(\bU^-,\bU^+)$ is a numerical flux, normal to the boundary $\sP_e$.
+
+To construct the linearized Euler equations, we formally take the \frechet
+derivative of \eref{e:euler_dg} about the state $\bU$ which yields
+\begin{eqnarray}
+&&\int_{\sQ_e} \bW^T \left(\bU'_{,t} + (\bA_i\bU')_{,i} - \bS \right) \,d\sQ +
+\nonumber\\
+&&\int_{\sP_e} \bW^T \left( \hbF'_n(\bU^-,\bU^+) - 
+\bA^-_n\bU'^-) \right) \,d\sP = 0 \qquad \forall \bW \in \cV 
+\end{eqnarray}
+The adjoint Euler equations with DG discretization are then given by the
+following Euler-Lagrange equation
+\begin{eqnarray} \label{e:dg_euler_lagrange}
+\int_{\sQ_e} \bW^T \left(\bU'_{,t} + (\bA_i\bU')_{,i} - \bS' \right) \,d\sQ +
+\int_{\sP_e} \bW^T \left( \hbF'_n(\bU^-,\bU^+) - 
+\bA^+_n\bU'^+) \right) \,d\sP &=& \nonumber\\
+\int_{\sQ_e} \left(-\bW'_{,t} - \bA^T_i\bW_{,i} \right) \bU'^T \,d\sQ +
+\int_{\sP_e} \bW^T \hbF'_n(\bU^-,\bU^+) \,d\sP - \int_{\sQ_e} \bW^T\bS'\,d\sQ 
+&=& 0 % \qquad \forall \bW \in \cV \nonumber
+\end{eqnarray}
+In order to complete the adjoint formulation, we need to pay special attention
+to the {\em flux} term appearing on the RHS of of \eref{e:dg_euler_lagrange}.
+We will write the orginal numerical flux in the form
+\begin{equation}
+\hbF_n(\bU^-,\bU^+) = \frac{1}{2}\left( \bF_n(\bU^-) + \bF_n(\bU^+) - 
+                      \bD(\bU^-,\bU^+;\bn) \right)
+\end{equation}
+The first term in this expression is simply a {\em centered} flux evaluted
+using the local and adjacent states, while the second term is a {\em
+  dissipation} term. All numerical fluxes for the conservations laws can be
+written in this form (although in practise one may not want to implement the
+flux in this form.).  In this form, the \frechet derivative of the numerical
+flux can be written as
+\begin{eqnarray}
+\hbF'_n(\bU'^-,\bU'^+;\bU^-,\bU^+,\bn) &=& 
+  \frac{1}{2} \biggl( \bA_n(\bU^-)\bU'^- + \bA_n(\bU^+)\bU'^+ - 
+\nonumber\\ && \,\,\quad
+  \bD'(\bU'^-,\bU'^+;\bU^-,\bU^+,\bn) \biggr)
+\end{eqnarray}
+With this, the linearized Euler equations with LF flux can be written out in
+full as
+\begin{eqnarray}
+&&\int_{\sQ_e} \bW^T \left(\bU'_{,t} + (\bA_i\bU')_{,i} - \bS \right) \,d\sQ +
+\nonumber\\
+&&\int_{\sP_e} \bW^T \Biggl( \frac{1}{2} \biggl( \bA_n(\bU^-)\bU'^- + 
+  \bA_n(\bU^+)\bU'^+ - \nonumber\\ &&
+  \qquad\qquad\bD'(\bU'^-,\bU'^+;\bU^-,\bU^+,\bn) \biggr) - 
+  \bA^-_n\bU'^- \Biggr) \,d\sP = 0 \qquad \forall \bW \in \cV 
+\end{eqnarray}
+
+Now, all we have to do is convert this expression to an equivalent adjoint
+flux so that the adjoint equation can be written as
+\begin{eqnarray} \label{e:Euler_adjoint}
+&&\int_{\sQ_e} \bU'^T \left(-\bW'_{,t} - \bA^T_i\bW_{,i} \right) \,d\sQ + 
+\nonumber\\
+&&\int_{\sP_e} \bU'^T \frac{1}{2}\left( \bA^T_n(\bU^-) \bW^- - 
+                                        \bA^T_n(\bU^-) \bW^+ -
+                               \bD^*(\bW^-,\bW^+;\bU^-,\bU^+,\bn) \right) 
+                               \,d\sP = 0
+\end{eqnarray}
+where we have explicitly written the adjoint of the {\em central} part of the
+numerical flux, but have used the notation $\bD^*$ to denote the adjoint of
+the {\em dissipation} component of the numerical flux.  This portion depends
+on the particular choice of numerical flux utilized and we consider the
+Lax-Friedrichs flux in the next section.
+
+\subsection{Lax-Freidrichs Dissipation}
+
+The dissipation term for the Lax-Freidrichs flux is given by
+\begin{equation}
+\bD_{LF} \equiv \ell_{max}(\bU^-,\bU^+;\bn)\left( \bU^+ - \bU^- \right)
+\end{equation}
+where $\ell_{max}(\bU^-,\bU^+;\bn)$ depends on the eigenvalues of the Euler
+Jacobians, $\bA_n(\bU^-)$ and $\bA_n(\bU^-)$.  Formally taking the \frechet
+derivative yields
+\begin{equation}
+\bD'_{LF} \equiv \ell_{max}(\bU^-,\bU^+;\bn)
+                 \left( \bU'^+ - \bU'^- \right) +
+                 \ell'_{max}(\bU'^-,\bU'^+;\bU^-,\bU^+,\bn)
+                 \left( \bU^+ - \bU^- \right)
+\end{equation}
+The first term is straightforward to compute while the second can be
+challenging since $\ell_{max}$ is often not a differentiable function of
+$\bU^-$ and $\bU^+$.  While one can attempt to ignore this term, experience
+with Burgers equation suggests that this is not a tenable approach, especially
+when using low polynomial orders (i.e.\ FV methods) or when additional
+linearizations are required (such as Newton methods applied to the
+optimization problem.)
+
+Focusing on the first term, the adjoint is given by
+\begin{equation}
+\bD^*_{LF_1}  = \ell_{max}(\bU^-,\bU^+;\bn)\left( \bW'^+ - \bW'^- \right)
+\end{equation}
+For the second term, we begin with the definition
+\begin{equation}
+\ell_{max} = \max_{\bU\in[\bU^-,\bU^+]} \, \max_{m\in[1,4]}
+             \left( |\lambda_m| \right)
+\end{equation}
+where $\lambda_m$ are the eigenvalues of the Euler Jacobians, $\bA_n(\bU)$, in
+the $n$-direction.  For the Euler equations in two spatial dimensions, the
+eigenvalues are
+\begin{equation}
+\blambda = \left\{ \begin{array}{c} u_n - c \\ u_n \\ u_n \\ u_n + c
+\end{array} \right\}
+\end{equation}
+where $c$ is the local sound speed.  Typically, the maximum value will always
+be associated with one of the two acoustic modes depending on the sign of
+$u_n$.  That means that the variation of $\ell_{max}$ will require the
+variation of both $u_n$ (which is not difficult) 
+\[ u_n = \frac{m_1 n_1 + m_2 n_2}{\rho} \]
+\[ u'_n = -\rho'\frac{u_n}{\rho} + \frac{ m'_1 n_1 + m'_2 n_2 }{\rho} \]
+\begin{equation}
+\frac{\partial u_n}{\partial\bU} = \frac{1}{\rho}\left\{\begin{array}{cccc}
+-u_n & n_1 & n_2 & 0 
+\end{array}\right\}
+\end{equation}
+and the variation of $c$ (which is more cumbersome)
+\begin{eqnarray}
+c&=&\sqrt{ (\gamma-1) \left( E + \frac{p}{\rho} - 
+            \onehalf( u^2 + v^2 )\right) } \nonumber\\
+ &=&\sqrt{ (\gamma-1) \left( \frac{\rho E + p}{\rho} - 
+                             \frac{1}{2\rho^2}( m_1^2 + m_2^2 ) \right) }
+\end{eqnarray}
+\begin{eqnarray} 
+p &=& (\gamma-1)\left( \rho E - \frac{\rho}{2}(u^2 + v^2)\right) \nonumber\\
+  &=& (\gamma-1)\left( \rho E - \frac{1}{2\rho}(m_1^2 + m_2^2) \right)
+\end{eqnarray}
+\begin{equation}\frac{\partial p}{\partial \bU} = 
+(\gamma-1)\left\{
+\begin{array}{cccc}
+\frac{1}{2\rho^2}(m_1^2 + m_2^2) & -\frac{m_1}{\rho} & -\frac{m_2}{\rho} & 1 
+\end{array}
+\right\}
+\end{equation}
+\begin{eqnarray}
+\frac{\partial c}{\partial \bU} &=& 
+\left\{
+\begin{array}{cccc}
+\left(-\frac{c}{\rho}+\frac{\gamma(\gamma-1)\rho E}{2c\rho^2}\right) &
+-\frac{\gamma(\gamma-1)m_1}{2c\rho^2} &
+-\frac{\gamma(\gamma-1)m_2}{2c\rho^2} &
+\frac{\gamma(\gamma-1)}{2c\rho}
+\end{array}
+\right\} \nonumber\\
+%\frac{\partial c}{\partial \bU} 
+&=& 
+\frac{\gamma(\gamma-1)}{2c\rho^2}
+\left\{
+\begin{array}{cccc}
+\left(\frac{-2\rho c^2}{\gamma(\gamma-1)}+\rho E\right) & -m_1 & -m_2 & \rho
+\end{array}
+\right\}
+\end{eqnarray}
+
+Now, because $c$ is always positive, it turns out that the maximum eigenvalue
+(in absolute value) can always be expressed as $|u_n|+c$.  Likewise, since the
+LF flux also takes the maximum over both the local and adjacent states, we can
+introduce a {\em smoothed} LF-flux of the form
+\begin{equation}
+\ell_{max} = \onehalf\left( |u^-_n| + c^- + |u^+_n| + c^+ \right)
+\end{equation}
+so that
+\begin{equation} \label{e:lmax_prime}
+\ell'_{max} = 
+  \onehalf\left( d(|u^-_n|)\frac{\partial u_n}{\partial\bU}(\bU^-) +
+  \frac{\partial c}{\partial \bU}(\bU^-)\right)\bU'^- +
+  \onehalf\left( d(|u^+_n|)\frac{\partial u_n}{\partial\bU}(\bU^+) +
+  \frac{\partial c}{\partial \bU}(\bU^+)\right)\bU'^+
+\end{equation}
+where the derivative of the absolute value function is defined in
+\eref{e:dabs}.  With \eref{e:lmax_prime} we can now complete the definition of
+the adjoint {\em smoothed} LF-flux.
+
+Focusing on the second term, the adjoint is given by
+\begin{eqnarray}
+\bD^*_{LF_2} &=&  
+  \frac{1}{2}\left( d(|u^-_n|)\frac{\partial u_n}{\partial\bU}(\bU^-) +
+  \frac{\partial c}{\partial \bU}(\bU^-)\right)^T (\bU^+-\bU^-)^T \,\bW^- 
+  \nonumber\\  &-& 
+  \frac{1}{2}\left( d(|u^-_n|)\frac{\partial u_n}{\partial\bU}(\bU^-) +
+  \frac{\partial c}{\partial \bU}(\bU^-)\right)^T (\bU^--\bU^+)^T \,\bW^+
+\end{eqnarray}
+Note the minus sign that is required due to the change in norm in the second
+term.  Let's define the rank-one matrix
+\begin{equation}
+ {\boldsymbol\ell}^*_{max}(\bU^-,\bU^+;\bn) \equiv 
+  \frac{1}{2}\left( d(|u^-_n|)\frac{\partial u_n}{\partial\bU}(\bU^-) +
+  \frac{\partial c}{\partial \bU}(\bU^-)\right)^T (\bU^--\bU^+)^T
+\end{equation}
+So the total adjoint of the LF dissipation term is
+\begin{eqnarray}
+\bD^*_{LF} = \left( \ell_{max}(\bU^-,\bU^+;\bn) + 
+             {\boldsymbol\ell}^*_{max}(\bU^-,\bU^+;\bn) \right) 
+             (\bW^+ - \bW^-)
+\end{eqnarray}
+{\em SSC:  Need to verify all signs!}
+
+\medskip
+\noindent{\bf Remarks:}
+\begin{enumerate}
+\item For systems, the adjoint of the dissipation term becomes a matrix
+  operator (albeit of rank-one).
+\item Just like Burgers, I have introduced a {\em smoothed} Lax-Friedrichs
+  flux.  This flux may or may NOT be entropy stable and this needs to be
+  established.
+\item This adjoint flux an be readily implemented (although all terms need to
+  be checked for correctness).
+\item Equation \eref{e:Euler_adjoint} is the exact {\em discrete} adjoint for
+  the Euler equations and can (in principle) be implemented for any numerical
+  flux.
+\end{enumerate}
+
+\subsection{Boundary Conditions}
+
+\subsubsection{State Boundary: $\Gamma_s$}
+
+For a state boundary we prescribe the $\bU^+$ state as
+\begin{equation}
+\bU_s = \left\{ \begin{array}{c} 
+\rho_s \\
+(\rho u)_s \\
+(\rho v)_s \\
+(\rho E)_s \\
+\end{array} \right\}
+\end{equation}
+so that the flux term on the wall boundary is given by
+\begin{equation}
+\int_{\sP_s} \bW^T \left( \hbF_n(\bU^-,\bU_s) - \bF_n(\bU^-) \right) \,d\sP
+\end{equation}{\em Need more here\dots}
+
+\subsubsection{Wall Boundary: $\Gamma_w$}
+For a wall boundary with wall transpiration velocity $g$, we prescribe a wall
+state as
+\begin{equation}
+\bU_w = \left\{ \begin{array}{c} 
+\rho^- \\
+\tilde m_1 \equiv n_2 ( m^-_1 n_2 - m^-_2 n_1 ) + n_1 g \\
+\tilde m_2 \equiv n_1 ( m^-_2 n_1 - m^-_1 n_2 ) + n_2 g \\
+(\rho E)^- - \frac{1}{2\rho^-}\left( (m^-_1)^2 - (\tilde m^-_1)^2 + 
+                                (m^-_2)^2 - (\tilde m^-_2)^2 \right)
+\end{array} \right\}
+\end{equation}
+so that the flux term on the wall boundary is given by
+\begin{equation}
+\int_{\sP_w} \bW^T \left( \hbF_n(\bU^-,\bU_w) - \bF_n(\bU^-) \right) \,d\sP
+\end{equation}
+Note that in this expression $\bU_w$ depends on $\bU^-$ which
+changes the structure of the adjoint to
+\begin{equation}
+\int_{\sP_e}  \frac{1}{2}\left( \bU'^T \bA^T_n(\bU^-) \bW^- +
+                                \bU'^R_w \bA^T_n(\bU^-) \bW^- -
+                               \bD^*(\bW^-,\bW^+;\bU^-,\bU^-_w,\bn) \right) 
+                               \,d\sP
+\end{equation}
+{\em This still needs work\dots}
+\end{document}
+
+%==============================================================================
+%                               T H E   E N D 
+%==============================================================================
+
+%
+% perhaps this is not useful here...
+%
+\begin{comment}
+One way to construct the eigenvalues of the Euler Jacobian is via a similarity
+transformation of the form
+\begin{equation}
+{\boldsymbol\Lambda} = {\bf L}\bA_n{\bf L}^{-1}
+\end{equation}
+where the columns of ${\bf L}$ are the eigenvectors of $\bA_n$ and the
+diagonal entries of ${\boldsymbol\Lambda}$ are the associated eigenvalues.
+\end{comment}

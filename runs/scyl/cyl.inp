@@ -1,0 +1,11 @@
+eqntype = 1      # 1 = Euler
+inttype = 3      # TVD-RK3
+dt      = 0.001  # time step
+Nt      = 1000   # number of time steps
+Ntout   = 100    # restart output interval
+ntout   = 20     # minor output interval
+#tf     = 1.0    # final time to integrate too
+p       = 5      # polynomial order
+vis     = 0.01   # viscosity (ignored for Euler)
+#bmesh  = 1      # whether to use the binary mesh 
+filter  = 1      # Must filter for nonlinear stability

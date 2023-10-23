@@ -1,0 +1,25 @@
+EXTRA_ARGS=$@
+TRILINOS_HOME=..
+/bin/rm CMakeCache.txt
+cmake \
+-D TPL_ENABLE_MPI:BOOL=ON \
+  -D MPI_BASE_DIR:PATH=/usr/local/mpich \
+-D Trilinos_ENABLE_Epetra:BOOL=ON \
+-D Trilinos_ENABLE_ML:BOOL=ON \
+-D Trilinos_ENABLE_Ifpack:BOOL=ON \
+-D Trilinos_ENABLE_Thyra:BOOL=ON \
+-D Trilinos_ENABLE_EpetraExt:BOOL=ON \
+-D Trilinos_ENABLE_Amesos:BOOL=ON \
+-D Trilinos_ENABLE_AztecOO:BOOL=ON \
+-D Trilinos_ENABLE_Anasazi:BOOL=ON \
+-D Trilinos_ENABLE_OptiPack:BOOL=ON \
+-D Trilinos_ENABLE_Galeri:BOOL=ON \
+-D Trilinos_ENABLE_TESTS:BOOL=ON \
+-D Trilinos_ENABLE_STRONG_C_COMPILE_WARNINGS:BOOL=OFF \
+-D Trilinos_ENABLE_STRONG_CXX_COMPILE_WARNINGS:BOOL=OFF \
+-D CMAKE_INSTALL_PREFIX:PATH=$HOME/local/trilinos/mpi/opt \
+-D NOX_ENABLE_Epetra=ON \
+$EXTRA_ARGS \
+$TRILINOS_HOME
+
+#-D Trilinos_ENABLE_NOX:BOOL=ON \

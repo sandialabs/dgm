@@ -1,0 +1,14 @@
+**BOUNDARY CONDITION DATA**
+12 nbc
+xm 0  3 
+xm 8  3 
+xm 16  3 
+xm 24  3 
+xm 32  3 
+xm 40  3 
+xp 7  1 
+xp 15  1 
+xp 23  1 
+xp 31  1 
+xp 39  1 
+xp 47  1 

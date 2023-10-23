@@ -1,0 +1,53 @@
+#!/bin/bash
+
+. /opt/modules/default/etc/modules.sh
+module swap PrgEnv-cray PrgEnv-gnu
+# load this instead if rebuilding exo2ien and zoltan2
+module load cray-libsci
+module load cray-netcdf-hdf5parallel cray-hdf5-parallel
+module load craype-interlagos
+
+# Seems to be required now on Curie
+export CRAY_CPU_TARGET=x86-64
+
+# DGM
+# Distribution, third-party libraries and home (install) directories
+export DGM_DIST=/nscratch1/kbelco/dgm           # Standard location
+export DGM_TPL=/nscratch1/kbelco/local
+export DGM_HOME=$DGM_TPL/dgm
+
+export DGM_NO_SCRATCH=1
+export DGM_SCRATCH=.
+
+export TRILINOS_DIST=$HOME/Trilinos
+export TRILINOS_HOME=$DGM_TPL/trilinos
+#export TRILINOS_DEST=$TRILINOS_HOME/mpi/opt    # For example
+
+export PEOPT_HOME=$DGM_TPL/peopt        # Standard location
+
+export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=$DGM_TPL/boost/lib:$LD_LIBRARY_PATH
+
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/cray/libsci_acc/3.0.00/GNU/48/x86_64/lib
+
+export NETCDF_DIR=/opt/cray/netcdf/default/cray/83/ # Needed by make_trilinos
+export NETCDF_BASE_DIR=/opt/cray/netcdf/default/cray/83/ #Needed by make_trilinos
+export HDF5_BASE_DIR=/opt/cray/hdf5/default/cray/83/  # Needed by make_trilinos
+
+# Cmake
+export PATH=$DGM_TPL/cmake/bin:$PATH
+
+# Cubit
+export PATH=$PATH:/home/kbelco/Cubit/bin
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/kbelco/Cubit/bin
+
+export PATH=$DGM_HOME/trilinos/serial/opt/bin:$PATH
+export PATH=$DGM_HOME/trilinos/mpi/opt/bin:$PATH
+export PATH=$DGM_HOME/trilinos/mpi/opt/python:$PATH
+export PYTHONPATH=$DGM_HOME/trilinos/mpi/opt/python:$PYTHONPATH
+
+# Unsupported Numpy and Sciy
+export PYTHONPATH=$PYTHONPATH:/usr/local/unsupported/lib64/python2.6/site-packages
+
+# dgm/util requires SYSTEM be defined
+export SYSTEM=curie

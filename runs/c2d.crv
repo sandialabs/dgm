@@ -1,0 +1,31 @@
+{
+  "Verbosity" : 2,
+  "Curve types" : [
+    {
+      "Verbosity" : 0,
+      "Type" : "Arc",
+      "Name" : "arc",
+      "Radius" : -4.0,
+      "Center" : [ 0.0, 0.0 ],
+      "Check center" : false 
+    },
+    {
+      "Verbosity" : 0,
+      "Type" : "Arc",
+      "Name" : "arc2",
+      "Radius" : 4.0
+    }
+  ],
+  "Curved side location" : "Inline",
+  "Curved sides" : [
+    {"Element" : 0, "Side" : 0, "Curve" : "arc" },
+    {"Element" : 1, "Side" : 0, "Curve" : "arc2" },
+    {"Element" : 2, "Side" : 2, "Curve" : "arc2" },
+    {"Element" : 3, "Side" : 2, "Curve" : "arc" }
+  ]
+}
+4           # number of curved sides
+0 0 arc
+1 0 arc2
+2 2 arc2
+3 2 arc

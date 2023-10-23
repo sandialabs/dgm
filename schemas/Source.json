@@ -1,0 +1,10 @@
+{
+  "$schema" : "http://json-schema.org/schema#",
+  "title" : "Source",
+  "description" : "Allow for all legal source types",
+  "oneOf" : [
+    { "$ref" : "ConstSource.json#" },
+    { "$ref" : "FileSource.json#" },
+    { "$ref" : "FuncSource.json#" }
+  ]
+}

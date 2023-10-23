@@ -1,0 +1,497 @@
+namespace DGM {
+
+/**
+
+\page DGM_InputSpec DGM Input Specification
+
+\htmlonly
+<b>Input Specification Table of Contents</b>
+<ul>
+<li> <a href="DGM_InputSpec.html#DGM_Summary">Input File Summary</a>
+<li> <a href="DGM_InputSpec.html#DGM_InputFile">Main Input File</a>
+<li> <a href="DGM_InputSpec.html#DGM_MeshFile">Mesh File</a>
+<li> <a href="DGM_InputSpec.html#DGM_ConFile">Connectivity File</a>
+<li> <a href="DGM_InputSpec.html#DGM_ICFile">Initial Condition File</a>
+<li> <a href="DGM_InputSpec.html#DGM_BCFile">Boundary Condition File</a>
+<li> <a href="DGM_InputSpec.html#DGM_BCTFile">Boundary condition types</a>
+<li> <a href="DGM_InputSpec.html#DGM_OrderFile">Order file</a>
+<li> <a href="DGM_InputSpec.html#DGM_SourceFile">Source file</a>
+<li> <a href="DGM_InputSpec.html#DGM_AnalysisFile">Analysis file</a>
+<li> <a href="DGM_InputSpec.html#DGM_RefFile">Reference solution</a>
+<li> <a href="DGM_InputSpec.html#DGM_CurveFile">Curved side control</a>
+<li> <a href="DGM_InputSpec.html#DGM_ImplicitFile">Implicit solver control</a>
+</ul>
+\endhtmlonly
+
+\section DGM_Input_Summary Input File Summary
+
+The DGM input files for a particular run case are identified by each
+having a unique root file name.  If we look in the \c dgm/runs directory
+you will see many examples of input files each identified by a unique root
+file name, e.g. \c 1d or \c vortex or \c bump.  Given a root name for the
+input files, there are both required and optional files that define the
+input parameters for a DGM run.  The following table lists the extensions
+for each of these files, provides a brief description and indicates whether
+the file is required or optional.  If a file is optional and that the file
+exists, it will be read by DGM and that feature/capability will be
+activated.  Note that the example runs available in \c dgm/runs is a great
+place to explore DGM capabilties and the input files and syntax required.
+
+<center>
+<table border="1" cellpadding="4" cellspacing="0">
+<tr>
+  <th>Extension</th>
+  <th>Full Name</th>
+  <th>Purpose</th>
+  <th>Status</th>
+</tr>
+<tr>
+  <td>\c inp</td>
+  <td><a href="DGM_InputSpec.html#DGM_InputFile">Input file</a></td>
+  <td>Sets overall problem parameters</td>
+  <td>\b required</td>
+</tr>
+<tr>
+  <td>\c msh</td>
+  <td><a href="DGM_InputSpec.html#DGM_MeshFile">Mesh file</a></td>
+  <td>Specifies element geomtry</td>
+  <td>\b required</td>
+</tr>
+<tr>
+  <td>\c con</td>
+  <td><a href="DGM_InputSpec.html#DGM_ConFile">Connectivity</a></td>
+  <td>Shows how element sides are connected</td>
+  <td>\b required</td>
+</tr>
+<tr>
+  <td>\c ic</td>
+  <td><a href="DGM_InputSpec.html#DGM_ICFile">Initial condition</a></td>
+  <td>Specifies the initial solution values</td>
+  <td>\b required</td>
+</tr>
+<tr>
+  <td>\c bc</td>
+  <td><a href="DGM_InputSpec.html#DGM_BCFile">Boundary conditions</a></td>
+  <td>Prescribes the boundary conditions on element sides</td>
+  <td>\b required</td>
+</tr>
+<tr>
+  <td>\c bct</td>
+  <td><a href="DGM_InputSpec.html#DGM_BCTFile">Boundary condition types</a></td>
+  <td>Defines new boundary condition types</td>
+  <td>optional</td>
+</tr>
+<tr>
+  <td>\c ord</td>
+  <td><a href="DGM_InputSpec.html#DGM_OrderFile">Order file</a></td>
+  <td>List of elements with custom polynomial order and quadrature</td>
+  <td>optional</td>
+</tr>
+<tr>
+  <td>\c src</td>
+  <td><a href="DGM_InputSpec.html#DGM_SourceFile">Source file</a></td>
+  <td>Defines the source terms</td>
+  <td>optional</td>
+</tr>
+<tr>
+  <td>\c anl</td>
+  <td><a href="DGM_InputSpec.html#DGM_AnalysisFile">Analysis file</a></td>
+  <td>Defines the Response analysis which extracts solution values</td>
+  <td>optional</td>
+</tr>
+<tr>
+  <td>\c ref</td>
+  <td><a href="DGM_InputSpec.html#DGM_RefFile">Reference solution</a></td>
+  <td>Defines a reference solution in \c rst format for testing</td>
+  <td>optional</td>
+</tr>
+<tr>
+  <td>\c crv</td>
+  <td><a href="DGM_InputSpec.html#DGM_CurveFile">Curved side control</a></td>
+  <td>Defines curved side types and which elements sides they live on</td>
+  <td>optional</td>
+</tr>
+<tr>
+  <td>\c imp</td>
+  <td><a href="DGM_InputSpec.html#DGM_ImplicitFile">Implicit solver control</a></td>
+  <td>Specifies parameters to implicit solvers</td>
+  <td>optional</td>
+</tr>
+</table>
+</center>
+
+\section DGM_InputFile DGM Input File
+
+The primary input file for DGM is denoted by <tt>root.inp</tt> and is used
+to set many of the overall input parameters that control the execution of
+DGM.  The file uses a very simple but robust parser.  Input parameters are
+specified by name with the syntax <tt>name = value</tt>.  The parser
+ignores white space and it also ignores all information on a line that
+follows a "#" sign.  An example \c inp file for the \c dgm/runs/1d case is:
+\verbatim
+# DGM test case
+#
+# One-dimensional advection diffusion
+#
+# Author:  S. Scott Collis
+#
+eqntype  = 0       # advection diffusion
+inttype  = 2       # 3-step multistep method
+p        = 10      # polynomial order
+Nt       = 1000    # number of time steps
+Ntout    = 1000    # restart output interval
+dt       = 0.004   # time step
+cx       = 1.0     # convection velocity in x-direction
+vis      = 0.01    # viscosity coefficient
+\endverbatim
+\b Notes:
+-# Enumerations currently must be assigned a numerical value
+-# If a parameter is defined more than once, the last value is used
+-# There is only limited checking and validation of parameters
+-# If a parameter is defined that is not used it will be ignored with no
+warning
+-# Each parameter has a default value, the \c inp file overrides the default
+-# Some parameters may be set as commandline arguments.  
+These override the values in the \c inp file
+-# To see what parameters can be set via the commandline, type 
+<tt>dgm.exe -help 1d</tt> where \c 1d should be replaced by your root 
+filename. 
+
+Example <tt>-help</tt> output:
+\verbatim
+> cd $DGM_DIST/runs
+> dgm.exe -help 1d
+================================================================
+Discontinuous Galerkin Solver
+================================================================
+Usage:  	dgm.exe [Options] run_name 
+----------------------------------------------------------------
+Options: 	Description
+----------------------------------------------------------------
+-help    	Detailed help
+----------------------------------------------------------------
+Problem Class Options 
+----------------------------------------------------------------
+		None currently supported
+----------------------------------------------------------------
+Domain Class Options                                            
+----------------------------------------------------------------
+-p       	Polynomial order     
+-q       	Quadrature order     
+-inttype 	Time integration     
+-dt      	Time step            
+-CFLmax  	Max allowable CFL    
+-dtmax   	Max allowable time step (0=ignore) 
+-Nt      	Number of time steps 
+-Ntout   	Restart file output interval 
+-ntout   	Minor information output interval 
+-Ntprb   	Response probe output interval 
+-tf      	Final time           
+-vis     	Diffusion coefficient
+-stab    	Diffusion stabilization parameter 
+-bstab   	Boundary stabilization parameter 
+-noIO    	Turn off Domain IO 
+----------------------------------------------------------------
+Adv_Diff Class Options 
+----------------------------------------------------------------
+-cx       	Wave speed in x-direction
+-cy       	Wave speed in y-direction
+-cz       	Wave speed in z-direction
+-fv       	Finite volume reconstuction (0=none)
+-cfield   	File name for convective field
+----------------------------------------------------------------
+\endverbatim
+
+\section DGM_MeshFile Mesh File
+
+The required \c msh file is used to specify the number of elements, the
+number of space dimensions, the element topology and the element nodal
+coordinates.  A sample of the file format is given here:
+
+\verbatim
+** Mesh Data **
+2 1 Ne Nsd
+Element 0 Line
+ 2.5000000e-16  2.0000000e+00 
+Element 1 Line
+ 2.0000000e+00  4.0000000e+00 
+\endverbatim
+
+\b Notes:
+-# In general, lines surounded by "**" are \b required comment lines.
+-# \c Ne is the number of elements
+-# \c Nsd is the number of space dimensions
+-# Comments denoted by "#" are \e not currently supported in this file
+-# Elements do \e not have to be listed in numerical order
+-# The keyword "Element" is currently required followed by its id and type
+-# Each Element then reads the required information to define its geometry
+-# Line elements are assumed to always be in \f$x\f$ and their geometry is
+   fully specified by the \f$x\f$-coordinates of the end points.
+-# For a multi-dimensional problem, one first lists the \f$x\f$-coordinates,
+   then the \f$y\f$-coordinates, and in three-dimensions then the
+   \f$z\f$-coordinates.
+-# Keywords are not case-sensitive
+-# Here is a two-dimensional example from <tt>$DGM_DIST/runs/2d.msh</tt>
+
+\verbatim
+** MESH DATA **
+4 2 NE NSD
+ELEMENT 0  QUAD
+ 0.0000000e+00  2.0000000e+00  2.0000000e+00  0.0000000e+00 
+ 0.0000000e+00  0.0000000e+00  2.0000000e+00  2.0000000e+00 
+ELEMENT 1  QUAD
+ 2.0000000e+00  4.0000000e+00  4.0000000e+00  2.0000000e+00 
+ 0.0000000e+00  0.0000000e+00  2.0000000e+00  2.0000000e+00 
+ELEMENT 2  QUAD
+ 0.0000000e+00  2.0000000e+00  2.0000000e+00  0.0000000e+00
+ 2.0000000e+00  2.0000000e+00  4.0000000e+00  4.0000000e+00 
+ELEMENT 3  QUAD
+ 2.0000000e+00  4.0000000e+00  4.0000000e+00  2.0000000e+00 
+ 2.0000000e+00  2.0000000e+00  4.0000000e+00  4.0000000e+00 
+\endverbatim
+
+\section DGM_ConFile Connectivity File
+
+The required \c con file describes how element sides are connected.  Note
+that this is different from standard finite element method connectivity
+which normally shows how element nodes are connected.  An example \c con
+file from <tt>$DGM_DIST/runs/1d.con</tt> is
+
+\verbatim
+** Connectivity **
+2 ne
+E       0       0       1       1
+E       0       1       1       0
+E       1       0       0       1
+E       1       1       0       0
+\endverbatim
+
+\b Notes:
+-# The first line is a required comment line and is ignored
+-# The second line gives the total number of elements, \c ne
+-# The remaining lines are of the form "E" followed by the element id, side
+id, linked element id, linked side id
+-# Not that it is okay (in fact it is the default of \c dgm_mesh.exe) that 
+sides be doubly connected in order to specify periodicity
+-# If a side is \e not connected to another side, then it \e must have a
+boundary condition specified on that side (see \ref DGM_BCFile).
+
+\section DGM_ICFile Initial Condition File
+
+The required \c ic file describes how the initial solution variables are
+initialized.  There are a variety of ways that initial conditions can be
+specified, in fact, each physics Domain can and likely does add some of
+their own.  However, there are several default methods for setting initial
+conditions that are described here.  The following is a sample \c ic file
+from <tt>$DGM_DIST/runs/1d.ic</tt>.
+
+\verbatim
+** Initial Conditions **
+Given
+u(x) := 1.0 - cos(1.0 * PI * x);
+\endverbatim
+
+\b Notes:
+-# The first line is a required comment line and is ignored
+-# The second line declares the \e type of initial condition
+-# default types include \c Given and \c Restart
+-# The \c Given initial condition is a simple but powerful way of
+specifying the solution variables in terms of expressions of the spatial
+coordinates. On the line following the keyword "Given" DGM reads
+expressions (one per line) for each of the dependent variables. <b>Order
+matters</b>.  The dependent variables are read in exactly the same order
+that they are allocated in DGM.  The expression parser looks for ":=" and
+then takes the expression as all characters to the right of this symbol.
+Therefore, you can think of characters to the left of ":=" as a
+description/comment for each expression.  Typically we use the symbol for
+the dependent variable. A ";" is required at the end of the expression
+-# The \c Restart initial condition reads the solution variables from a DGM
+\c rst (restart) file.  This provides a easy method to continue a
+simulation from a prior run.  The following examples show how one could
+continue the \c 1d run starting from the solution in \c 1d.rst.
+
+\verbatim
+** Initial Conditions **
+Restart
+1d.rst
+\endverbatim
+
+\section DGM_BCFile Boundary Condition File
+
+A typical boundary condition file is shown below.  It is similar in form to
+the \c con file.  After the required comment line, the number of boundary
+condition sides \c nbc is given followed by a listing of boundary
+conditions in the form
+
+\verbatim
+BCname ElementID SideID [Value]
+\endverbatim
+
+The \c BCname is physics Domain dependent which each Domain assigning
+particular names to its supported boundary conditions.  That said, "D" is
+often used for Dirichlet and "F" for flux boundary condition.  "Z" is
+commonly a zero state boundary condition and the "S" is used for a
+prescribed state (generalized Dirichlet) boundary condition.  Note that new
+boundary conditions can be defined at runtime using the \c bct file.
+
+\verbatim
+** Boundary condition data **
+0 nbc
+D       0      0       0.0
+F       1      1       0.1
+\endverbatim
+
+\section DGM_BCTFile Boundary Condition Type File
+
+The \c bct file is used to declare new boundary condition types at runtime
+that can then be used in the \c bc file.  The idea is that DGM provides the
+based types of boundary conditions that are appropriate for each supported
+physics and then the use can instantiate specific versions of these
+boundary conditions in the \c bct file along with appropriate \c BCname
+tags that can be used to associated boundary conditions with specific
+element sides in the \c bc file.
+
+\verbatim
+State S_M=0.2
+{
+  1.0 1.0 0.0 45.14285714285715
+}
+State S_M=0.3 
+{
+  1.0
+  1.0 
+  0.0 
+  20.34126984126985
+}
+Isothermal_Wall W_M=0.2
+{
+  1.0 45.14285714285715
+}
+Isothermal_Wall W_M=0.3
+{
+  1.0 20.34126984126984 
+}
+Isoflux_Wall AW
+{
+  0.0
+}
+\endverbatim
+
+\section DGM_OrderFile Element Order File
+
+The \c ord file defines the element polynomial order and quadrature order
+for each element individually.  After the required comment line, there is
+simply a list of \c ElementID, \c Porder, and \c Qorder for each element.
+Only a subset of elements need be listed (or none at all) and they do not
+have to be in numerical order. Note that \c Qorder may be zero which uses
+the internally computed quadrature for the selected value of \c Porder.
+\verbatim
+** Order data **
+0 10  0
+1  5 12
+\endverbatim
+
+\section DGM_SourceFile Source-term File
+
+Defines the body source terms.  The supported types are physics dependent
+although there are three default types ConstSource, FileSource, FuncSource.
+An example of a FuncSource input specification is
+\verbatim
+Function f { f := sin(x); }
+\endverbatim
+Which defines a function \c f(x) that is a sine wave in \c x.
+
+\section DGM_AnalysisFile Analysis File
+
+The \c anl file describes the points where one whats to extract time series
+traces of the solution using a DGM::Response. An example analysis file is:
+\verbatim
+*** Analysis input ***
+2 1
+NodeID    NodeX    Nelemts  ElementID 
+0          1.0        1         0
+2          3.0        1         1
+\endverbatim
+\b Notes:
+-# First and third lines are required comment lines (they are ignored)
+-# In the second line the number of analyzer nodes is 2 and the number of 
+   space dimensions is one (i.e. 1d problem).
+-# The \c NodeX values are the x-coordinate of the analyzer point
+-# \c Nelemts is the number of elements that this point touches.  While this
+   can be greater than one in general, DGM requires that this only be one
+   currently.
+-# The \c ElementID is the global element number that the point lives in (see
+   the .msh file).  For structured meshes this can often be figured out by
+   hand.  For more complex meshes there is a utility called \c dgm_loc.exe
+   that can compute the element ids for a list of points.
+
+\section DGM_RefFile Reference Solution File 
+
+The reference solution file is used to define either analytic (or
+high-fidelity computed) solution that can be used as a reference for computing
+either errors (e.g. for convergence studies) or as a reference solution for
+evaluating that the code has not changed.  In this latter capacity, one might
+use the <tt>dgm_diff.exe</tt> to compare a recently computed solution with
+this reference to make sure that the solution has not changed do to code
+updates.  This is commonly done in the <tt>root.tst</tt> scripts that are
+availabed in <tt>$DGM_DIST/runs</tt>.
+
+\section DGM_CurveFile Curved Side File
+
+\b Important: DGM by default assumes that all elements use an affine mapping
+from physical space to computational space.  This is done to increase
+efficiency since such a mapping results in a constant determinate of the
+Jacobian of the mapping over the element.  For simplicial elements such as Tri
+and Tet, the mapping is affine as long as there is not a curved element side.
+For Quad and Hex the situation is a bit more complex.
+
+In practice, however, one often does \e not have affine elements.  The primary
+case of this with higher-order methods is the presense of a curved side on an
+otherwise straight-sided element.  Another case, which arrises in
+non-simplicial elements (such as Quad and Hex) is if the sides of the element
+are not parallel.
+
+A classic example case for both non-affine and curved element sides is given
+by the \c runs/cyl test case which solves Mach=0.3 inviscid flow over a 2d
+circular cylinder.  The \c cyl.crv file looks like
+
+\verbatim
+** Curved Sides **
+2 Number of curve type(s)
+
+Circle
+ arc 0.0 0.0 -0.5
+
+Straight
+ skew
+
+144 Number of curved side(s)
+0 3  arc
+6 3  arc
+...
+138 3  arc
+
+1 0 skew
+2 0 skew
+...
+143 0 skew
+\endverbatim
+
+where \c ... denotes lines that have been removed to shorten the file for
+display in this manual.  This curve file declares two types of curved
+elements, one of type \c Circle which is given the name \c arc, and one of
+type \c Straight that is given the name \c skew.  The \c arc curved element
+type is applied to denote the sides of the circular cylinder which is centered
+at (x,y)=(0,0) and with a radius of 0.5 (the minus sign denotes that the mesh
+is outside the cylinder.  The second curve type, \c skew, is applied to all
+unstructred, non-affine, quadralateral elements which, for this mesh, are
+elements 0 through 143 excepting the elments that touch the cylinder surface
+which are of type \c arc.
+
+\section DGM_ImplicitFile Implicit Solver File
+
+Work in progress...
+
+*/
+
+}  // namespace DGM

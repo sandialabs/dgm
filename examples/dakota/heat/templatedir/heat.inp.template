@@ -1,0 +1,14 @@
+eqntype = 0
+inttype = 4
+vis     = 0.01
+cx      = 0.0 
+dt      = 0.002
+Nt      = 500 
+Ntout   = 100 
+ntout   = 10
+p       = 2
+
+opttype       = 0
+asv           = {ASV_1:obj_fn}
+npredict      = 500
+nadvance      = 500

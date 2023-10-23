@@ -1,0 +1,20 @@
+#!/bin/csh -f
+#set echo on
+set s = 0
+foreach i ($argv[1-])
+  echo ================================
+  echo Running test:  $i
+  echo ================================
+  ./$i
+  @ s = $s + $status
+end
+if ($s) then
+  echo "*******************************"
+  echo "******   A TEST FAILED   ******"
+  echo "*******************************"
+else
+  echo "*******************************"
+  echo "****   ALL TESTS PASSED   *****"
+  echo "*******************************"
+endif
+exit $s 

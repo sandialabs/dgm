@@ -1,0 +1,35 @@
+{
+  "Title" : "Two-dimensional advection diffusion test problem",
+  "Problem" : {
+    "Type" : "Reo"
+  },
+  "Domain" : {
+    "Verbosity" : 0, 
+    "Type" : "Advection diffusion",
+    "Advection diffusion" : {
+      "Verbosity" : 0,
+      "cx" : 1.0,
+      "cy" : 0.0,
+      "vis" : 0.01
+    },
+    "Time" : {
+      "Integrator" : "DTK::TimeIntegrate",
+      "Method" : "TVD",
+      "Nt" : 1000,
+      "Ntout" : 1000,
+      "ntout" : 100,
+      "dt" : 0.002
+    },
+    "Space" : {
+      "bmesh" : true,
+      "p" : 10 
+    }
+  },
+  "Field Slice" : [ {
+    "Verbosity" : 0,
+    "Format" : "float",
+    "Frequency" : 1000,
+    "Lattice" : [ [ 0.1, 0.0 ], [ 0.0, 0.1 ] ],
+    "Outputs" : [ { "Default" : 0.0, "Field" : "u", "File" : "2d.u" } ]
+  } ]
+}

@@ -1,0 +1,6 @@
+#!/bin/csh -f
+#set echo on
+foreach i ($argv[1-])
+  echo Processing $i
+  dgm_post.exe -r $i $i:ar > /dev/null
+end

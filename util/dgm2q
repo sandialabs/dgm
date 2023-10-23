@@ -1,0 +1,7 @@
+#!/bin/csh -f
+#set echo on
+foreach i ($argv[1-])
+  echo Processing $i
+  dgm_post.exe -notec -nox -p3d -r $i $i:ar > /dev/null
+  /bin/mv $i:r.x $i:r.xyz
+end

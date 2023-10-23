@@ -1,0 +1,14 @@
+eqntype = 0
+inttype = 1
+vis     = 0.01
+cx      = 0.0 
+dt      = 0.02
+Nt      = 50 
+Ntout   = 10 
+ntout   = 1 
+p       = 2
+
+opttype       = 0
+asv           = {ASV_1}
+npredict      = 50
+nadvance      = 50

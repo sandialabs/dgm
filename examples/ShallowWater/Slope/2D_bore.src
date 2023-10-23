@@ -1,0 +1,24 @@
+
+#ForceSource force {
+#  "Verbsoity" : 0
+#}
+
+ForceSourceCtrl force { 
+  "Verbosity" : 1,
+  "Penalty" : 0.0,
+  "dh/dx" : 2.25,
+  "dh/dy" : 2.25 
+} 
+#  "dh/dx" : 2.375,
+#  "dh/dy" : 2.375 
+
+GaussianSource bump {
+  "x0" : 0.0,
+  "y0" : 0.0,
+  "t0" : 0.05,
+  "Sigma x" : 0.15,
+  "Sigma y" : 0.15,
+  "Sigma t" : 0.015,
+  "Hamp" : 750.0
+}
+

@@ -1,0 +1,13 @@
+namespace DGM {
+
+//\image html logo-halfsize.jpg
+
+/**
+
+\page PEOpt_Main PEOpt
+
+The Parameter Estimation Optimization (PEOpt) library ...
+
+**/
+
+} // namespace DGM

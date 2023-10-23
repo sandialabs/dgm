@@ -1,0 +1,334 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		D205F51E1CC03E4E00A8F397 /* windingnumber.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D205F51C1CC03E4E00A8F397 /* windingnumber.cpp */; };
+		D205F5211CC6F04100A8F397 /* random.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D205F51F1CC6F04100A8F397 /* random.cpp */; };
+		D205F5241CC7EA0700A8F397 /* surfacefactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D205F5221CC7EA0700A8F397 /* surfacefactory.cpp */; };
+		D23452501C696A5700500374 /* boxtreetool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D234524F1C696A5700500374 /* boxtreetool.cpp */; };
+		D236D4051C3C6DB500ED0E97 /* boxtree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D236D4021C3C6DB500ED0E97 /* boxtree.cpp */; };
+		D236D4061C3C6DB500ED0E97 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D236D4041C3C6DB500ED0E97 /* main.cpp */; };
+		D236D4091C3C94CF00ED0E97 /* point.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D236D4071C3C94CF00ED0E97 /* point.cpp */; };
+		D236D40C1C3C965A00ED0E97 /* testboxtree.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D236D40A1C3C965A00ED0E97 /* testboxtree.cpp */; };
+		D2490BFF1DB97C79006918E9 /* triangulation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D2490BFD1DB97C79006918E9 /* triangulation.cpp */; };
+		D29B763A1CDD417500AB8D68 /* boxsurfaceinclusiontool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D29B76381CDD417500AB8D68 /* boxsurfaceinclusiontool.cpp */; };
+		D2A893FE1C866DB400DC325A /* surface.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D2A893FC1C866DB400DC325A /* surface.cpp */; };
+		D2A894011C879AAF00DC325A /* boxsurfacetool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D2A893FF1C879AAF00DC325A /* boxsurfacetool.cpp */; };
+		D2A894031CA3678C00DC325A /* tribox3.c in Sources */ = {isa = PBXBuildFile; fileRef = D2A894021CA3678C00DC325A /* tribox3.c */; };
+		D2BB89791C73BD7000B30BDE /* example.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D2BB89771C73BD7000B30BDE /* example.cpp */; };
+		D2EC39C01CD928C200367327 /* surfaceinclusion.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D2EC39BE1CD928C200367327 /* surfaceinclusion.cpp */; };
+		D2EC66A81DC456050099114A /* triangulationtool.cpp in Sources */ = {isa = PBXBuildFile; fileRef = D2EC66A61DC456050099114A /* triangulationtool.cpp */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		D236D3F61C3C6D5500ED0E97 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		D205F51C1CC03E4E00A8F397 /* windingnumber.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = windingnumber.cpp; path = ../../code/windingnumber.cpp; sourceTree = "<group>"; };
+		D205F51D1CC03E4E00A8F397 /* windingnumber.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = windingnumber.h; path = ../../code/windingnumber.h; sourceTree = "<group>"; };
+		D205F51F1CC6F04100A8F397 /* random.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = random.cpp; path = ../../code/random.cpp; sourceTree = "<group>"; };
+		D205F5201CC6F04100A8F397 /* random.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = random.h; path = ../../code/random.h; sourceTree = "<group>"; };
+		D205F5221CC7EA0700A8F397 /* surfacefactory.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = surfacefactory.cpp; path = ../../code/surfacefactory.cpp; sourceTree = "<group>"; };
+		D205F5231CC7EA0700A8F397 /* surfacefactory.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = surfacefactory.h; path = ../../code/surfacefactory.h; sourceTree = "<group>"; };
+		D234524E1C696A3A00500374 /* boxtreetool.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = boxtreetool.h; path = ../../code/boxtreetool.h; sourceTree = "<group>"; };
+		D234524F1C696A5700500374 /* boxtreetool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = boxtreetool.cpp; path = ../../code/boxtreetool.cpp; sourceTree = "<group>"; };
+		D236D3F81C3C6D5500ED0E97 /* BoxTreeMesh */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = BoxTreeMesh; sourceTree = BUILT_PRODUCTS_DIR; };
+		D236D4021C3C6DB500ED0E97 /* boxtree.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = boxtree.cpp; path = ../../code/boxtree.cpp; sourceTree = "<group>"; };
+		D236D4031C3C6DB500ED0E97 /* boxtree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = boxtree.h; path = ../../code/boxtree.h; sourceTree = "<group>"; };
+		D236D4041C3C6DB500ED0E97 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = ../../code/main.cpp; sourceTree = "<group>"; };
+		D236D4071C3C94CF00ED0E97 /* point.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = point.cpp; path = ../code/point.cpp; sourceTree = SOURCE_ROOT; };
+		D236D4081C3C94CF00ED0E97 /* point.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = point.h; path = ../code/point.h; sourceTree = SOURCE_ROOT; };
+		D236D40A1C3C965A00ED0E97 /* testboxtree.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = testboxtree.cpp; path = ../code/testboxtree.cpp; sourceTree = SOURCE_ROOT; };
+		D236D40B1C3C965A00ED0E97 /* testboxtree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = testboxtree.h; path = ../code/testboxtree.h; sourceTree = SOURCE_ROOT; };
+		D2490BFD1DB97C79006918E9 /* triangulation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = triangulation.cpp; path = ../../code/triangulation.cpp; sourceTree = "<group>"; };
+		D2490BFE1DB97C79006918E9 /* triangulation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = triangulation.h; path = ../../code/triangulation.h; sourceTree = "<group>"; };
+		D29B76381CDD417500AB8D68 /* boxsurfaceinclusiontool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = boxsurfaceinclusiontool.cpp; path = ../code/boxsurfaceinclusiontool.cpp; sourceTree = SOURCE_ROOT; };
+		D29B76391CDD417500AB8D68 /* boxsurfaceinclusiontool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = boxsurfaceinclusiontool.h; path = ../code/boxsurfaceinclusiontool.h; sourceTree = SOURCE_ROOT; };
+		D2A893FC1C866DB400DC325A /* surface.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = surface.cpp; path = ../../code/surface.cpp; sourceTree = "<group>"; };
+		D2A893FD1C866DB400DC325A /* surface.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = surface.h; path = ../../code/surface.h; sourceTree = "<group>"; };
+		D2A893FF1C879AAF00DC325A /* boxsurfacetool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = boxsurfacetool.cpp; path = ../../code/boxsurfacetool.cpp; sourceTree = "<group>"; };
+		D2A894001C879AAF00DC325A /* boxsurfacetool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = boxsurfacetool.h; path = ../../code/boxsurfacetool.h; sourceTree = "<group>"; };
+		D2A894021CA3678C00DC325A /* tribox3.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = tribox3.c; path = ../../code/tribox3.c; sourceTree = "<group>"; };
+		D2BB89771C73BD7000B30BDE /* example.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = example.cpp; path = ../../code/example.cpp; sourceTree = "<group>"; };
+		D2BB89781C73BD7000B30BDE /* example.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = example.h; path = ../../code/example.h; sourceTree = "<group>"; };
+		D2EC39BE1CD928C200367327 /* surfaceinclusion.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = surfaceinclusion.cpp; path = ../../code/surfaceinclusion.cpp; sourceTree = "<group>"; };
+		D2EC39BF1CD928C200367327 /* surfaceinclusion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = surfaceinclusion.h; path = ../../code/surfaceinclusion.h; sourceTree = "<group>"; };
+		D2EC66A61DC456050099114A /* triangulationtool.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = triangulationtool.cpp; path = ../../code/triangulationtool.cpp; sourceTree = "<group>"; };
+		D2EC66A71DC456050099114A /* triangulationtool.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = triangulationtool.h; path = ../../code/triangulationtool.h; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		D236D3F51C3C6D5500ED0E97 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		D236D3EF1C3C6D5500ED0E97 = {
+			isa = PBXGroup;
+			children = (
+				D236D3FA1C3C6D5500ED0E97 /* BoxTreeMesh */,
+				D236D3F91C3C6D5500ED0E97 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		D236D3F91C3C6D5500ED0E97 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D236D3F81C3C6D5500ED0E97 /* BoxTreeMesh */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D236D3FA1C3C6D5500ED0E97 /* BoxTreeMesh */ = {
+			isa = PBXGroup;
+			children = (
+				D236D4041C3C6DB500ED0E97 /* main.cpp */,
+				D29B76381CDD417500AB8D68 /* boxsurfaceinclusiontool.cpp */,
+				D29B76391CDD417500AB8D68 /* boxsurfaceinclusiontool.h */,
+				D2A893FF1C879AAF00DC325A /* boxsurfacetool.cpp */,
+				D2A894001C879AAF00DC325A /* boxsurfacetool.h */,
+				D236D4021C3C6DB500ED0E97 /* boxtree.cpp */,
+				D236D4031C3C6DB500ED0E97 /* boxtree.h */,
+				D234524F1C696A5700500374 /* boxtreetool.cpp */,
+				D234524E1C696A3A00500374 /* boxtreetool.h */,
+				D2BB89771C73BD7000B30BDE /* example.cpp */,
+				D2BB89781C73BD7000B30BDE /* example.h */,
+				D236D4071C3C94CF00ED0E97 /* point.cpp */,
+				D236D4081C3C94CF00ED0E97 /* point.h */,
+				D205F51F1CC6F04100A8F397 /* random.cpp */,
+				D205F5201CC6F04100A8F397 /* random.h */,
+				D2A893FC1C866DB400DC325A /* surface.cpp */,
+				D2A893FD1C866DB400DC325A /* surface.h */,
+				D205F5221CC7EA0700A8F397 /* surfacefactory.cpp */,
+				D205F5231CC7EA0700A8F397 /* surfacefactory.h */,
+				D2EC39BE1CD928C200367327 /* surfaceinclusion.cpp */,
+				D2EC39BF1CD928C200367327 /* surfaceinclusion.h */,
+				D236D40A1C3C965A00ED0E97 /* testboxtree.cpp */,
+				D236D40B1C3C965A00ED0E97 /* testboxtree.h */,
+				D2490BFD1DB97C79006918E9 /* triangulation.cpp */,
+				D2490BFE1DB97C79006918E9 /* triangulation.h */,
+				D2EC66A61DC456050099114A /* triangulationtool.cpp */,
+				D2EC66A71DC456050099114A /* triangulationtool.h */,
+				D2A894021CA3678C00DC325A /* tribox3.c */,
+				D205F51C1CC03E4E00A8F397 /* windingnumber.cpp */,
+				D205F51D1CC03E4E00A8F397 /* windingnumber.h */,
+			);
+			path = BoxTreeMesh;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		D236D3F71C3C6D5500ED0E97 /* BoxTreeMesh */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D236D3FF1C3C6D5500ED0E97 /* Build configuration list for PBXNativeTarget "BoxTreeMesh" */;
+			buildPhases = (
+				D236D3F41C3C6D5500ED0E97 /* Sources */,
+				D236D3F51C3C6D5500ED0E97 /* Frameworks */,
+				D236D3F61C3C6D5500ED0E97 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = BoxTreeMesh;
+			productName = BoxTreeMesh;
+			productReference = D236D3F81C3C6D5500ED0E97 /* BoxTreeMesh */;
+			productType = "com.apple.product-type.tool";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		D236D3F01C3C6D5500ED0E97 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0710;
+				ORGANIZATIONNAME = "Sandia National Labs";
+				TargetAttributes = {
+					D236D3F71C3C6D5500ED0E97 = {
+						CreatedOnToolsVersion = 6.2;
+					};
+				};
+			};
+			buildConfigurationList = D236D3F31C3C6D5500ED0E97 /* Build configuration list for PBXProject "BoxTreeMesh" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = D236D3EF1C3C6D5500ED0E97;
+			productRefGroup = D236D3F91C3C6D5500ED0E97 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				D236D3F71C3C6D5500ED0E97 /* BoxTreeMesh */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		D236D3F41C3C6D5500ED0E97 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D205F5211CC6F04100A8F397 /* random.cpp in Sources */,
+				D2A894011C879AAF00DC325A /* boxsurfacetool.cpp in Sources */,
+				D236D4061C3C6DB500ED0E97 /* main.cpp in Sources */,
+				D236D40C1C3C965A00ED0E97 /* testboxtree.cpp in Sources */,
+				D2490BFF1DB97C79006918E9 /* triangulation.cpp in Sources */,
+				D2EC66A81DC456050099114A /* triangulationtool.cpp in Sources */,
+				D205F5241CC7EA0700A8F397 /* surfacefactory.cpp in Sources */,
+				D2BB89791C73BD7000B30BDE /* example.cpp in Sources */,
+				D236D4051C3C6DB500ED0E97 /* boxtree.cpp in Sources */,
+				D29B763A1CDD417500AB8D68 /* boxsurfaceinclusiontool.cpp in Sources */,
+				D2EC39C01CD928C200367327 /* surfaceinclusion.cpp in Sources */,
+				D205F51E1CC03E4E00A8F397 /* windingnumber.cpp in Sources */,
+				D2A893FE1C866DB400DC325A /* surface.cpp in Sources */,
+				D2A894031CA3678C00DC325A /* tribox3.c in Sources */,
+				D236D4091C3C94CF00ED0E97 /* point.cpp in Sources */,
+				D23452501C696A5700500374 /* boxtreetool.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		D236D3FD1C3C6D5500ED0E97 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		D236D3FE1C3C6D5500ED0E97 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PREPROCESSOR_DEFINITIONS = "";
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		D236D4001C3C6D5500ED0E97 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CLANG_OPTIMIZATION_PROFILE_FILE[arch=*]" = "$(SRCROOT)/OptimizationProfiles/$(PROJECT_NAME).profdata";
+				"OTHER_CFLAGS[arch=*]" = "-DEBUG";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		D236D4011C3C6D5500ED0E97 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				"CLANG_OPTIMIZATION_PROFILE_FILE[arch=*]" = "$(SRCROOT)/OptimizationProfiles/$(PROJECT_NAME).profdata";
+				"OTHER_CFLAGS[arch=*]" = "-DNDEBUG";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		D236D3F31C3C6D5500ED0E97 /* Build configuration list for PBXProject "BoxTreeMesh" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D236D3FD1C3C6D5500ED0E97 /* Debug */,
+				D236D3FE1C3C6D5500ED0E97 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		D236D3FF1C3C6D5500ED0E97 /* Build configuration list for PBXNativeTarget "BoxTreeMesh" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D236D4001C3C6D5500ED0E97 /* Debug */,
+				D236D4011C3C6D5500ED0E97 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = D236D3F01C3C6D5500ED0E97 /* Project object */;
+}

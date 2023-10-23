@@ -1,0 +1,8 @@
+
+Function bl {
+  u := mollifier(9.0/20.0, abs(x-0.5))*(1.0 - mollifier(9.0/20.0,abs(x-1.0/20.0)));
+}
+
+Function br {
+  u := mollifier(9.0/20.0, abs(x-0.5))*(1.0 - mollifier(9.0/20.0,abs(x-19.0/20.0)));
+}

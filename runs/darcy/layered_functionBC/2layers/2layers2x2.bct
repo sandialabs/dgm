@@ -1,0 +1,30 @@
+Dirichlet_Function BC_SIDE1
+{
+  p(y) := 1.00;
+}
+
+Dirichlet_Function BC_SIDE2
+{
+  p(y) := 1.00;
+}
+
+
+Dirichlet_Function BC_SIDE4
+{
+  p(y) := 5.00;
+}
+
+Dirichlet_Function BC_SIDE5
+{
+  p(y) := 5.00;
+}
+
+Neumann BC_SIDE3
+{
+  0.00
+}
+
+Neumann BC_SIDE6
+{
+  0.00
+}

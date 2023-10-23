@@ -1,0 +1,6 @@
+#!/bin/bash
+#
+# Maximum optimization (release) with Trilinos
+#
+./make_dgm "$@" -ispyrT -a CLANG -D JSONCPP_CASE_SENSITIVE -D DGM_JSON_TO_TABLE
+exit

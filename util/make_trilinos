@@ -1,0 +1,700 @@
+#! /usr/bin/env python
+
+"""
+make_trilinos is a script for configuring, building and installing one or more
+Trilinos builds suitable for linking to DGM.  The user must specify a serial
+(-s) or parallel (-p) build or both, which will build optimized versions of
+Trilinos.  If the debug option is set (-d), then debug versions will also be
+built.  These builds can be augmented to also install or include dynamic
+libraries (-y) as well.  If the install option (-i) is chosen, the results will
+be installed in the following directories:
+
+  $TRILINOS_HOME/serial/opt
+  $TRILINOS_HOME/serial/debug
+  $TRILINOS_HOME/mpi/opt
+  $TRILINOS_HOME/mpi/debug
+
+If the TRILINOS_HOME environment variable is not set, then it defaults to
+$HOME/local/trilinos.
+
+If the dynamic option is set and the prerequisites for PyTrilinos (python, swig
+and numpy) are present, then PyTrilinos will be automatically enabled as well.
+
+Note that DGM, which this script is designed to support, is capable of using the
+Trilinos package TriKota, but that in order for TriKota to build, you must
+manually install the Dakota source files within the Trilinos packages/TriKota
+directory.  This script checks to see if
+
+  TRILINOS_SOURCE/packages/TriKota/Dakota/src/DakotaOptimizer.H
+
+exists.  If so, then TriKota is enabled.  If not, then TriKota is disabled.
+
+Optional environment variables that can be set to affect the behavior of
+make_trilinos:
+    TRILINOS_HOME    Installation location for Trilinos
+    MPI_BASE_DIR     Base directory for MPI compilers
+    NETCDF_BASE_DIR  Base directory for NetCDF package
+    HDF5_BASE_DIR    Base directory for Hdf5 package
+"""
+
+# This list is the list of Trilinos packages that should be built for supporting
+# DGM.  It should not include TriKota, which will only be enabled if Dakota has
+# been copied to the packages/TriKota directory.  It should not include
+# SEACASExodus, which will be enabled if NetCDF is found.  It should not include
+# PyTrilinos, which will be enabled if shared libraries is enabled and the
+# PyTrilinos prerequisites are present.  It should not include Xpetra, which
+# could be in the packages directory, in an optional preCopyrightTrilinos
+# directory, or nonexistent depending on the version of Trilinos.  It should not
+# include Zoltan or Zoltan2, as the script will check for their presence.
+packages = ["Kokkos",
+            "KokkosCore",
+            "Teuchos",
+            "Sacado",
+            "Epetra",
+            "EpetraExt",
+            "Domi",
+            "Thyra",
+            "Tpetra",
+            "Amesos",
+            "AztecOO",
+            "Ifpack",
+            "ML",
+            "NOX",
+            "Belos",
+            "Stratimikos"
+            ]
+
+# Imports
+from copy import copy
+try:
+  import exceptions
+except ImportError:
+  pass
+import optparse
+import os
+import re
+import shlex
+import subprocess
+import sys
+import socket
+import shutil
+
+################################################################################
+# Run a command, given as a single string argument.  If the verbose flag is set,
+# print the command.  Run the command and wait for the process to end.  The
+# **kwargs argument can be used to pass any keyword arguments that are
+# appropriate for the subprocess.Popen constructor.  If the command returns with
+# a non-zero code, print a warning message.  Return the subprocess return code.
+################################################################################
+def runCommand(cmd, verbose=False, **kwargs):
+    if verbose: print(cmd)
+    args = shlex.split(cmd)
+    p = subprocess.Popen(args, **kwargs)
+    returncode = p.wait()
+    if returncode:
+        print("Command '%s' exited with code %s" % (args[0], str(returncode)))
+    return returncode
+
+############################################################
+# Return the number of processors on this platform
+############################################################
+def ncpus():
+    utilDir, scriptName = os.path.split(__file__)
+    ncpusScript = os.path.join(os.path.abspath(utilDir), "ncpus")
+    try:
+        return int(subprocess.check_output([ncpusScript]))
+    except:
+        return 1
+
+############################################################
+# Trilinos build error exception
+############################################################
+class TrilinosBuildError(RuntimeError):
+    def __init__(self, errorCode=0):
+        self.__errorCode = errorCode
+    def __str__(self):
+        return "Trilinos build error, code = %d", self.__errorCode
+    def errorCode(self):
+        return self.__errorCode
+
+############################################################
+# Trilinos Builder class
+############################################################
+class TrilinosBuilder:
+
+    # Constructor
+    def __init__(self, srcPath, serial, buildPath="BUILD", installPath=None,
+                 debug=False, numproc=None, mpi=False, mpiPath=None,
+                 netcdfPath=None, hdf5Path=None, verbose=False, dynamic=False,
+                 packages=[], defines=[], configure="configure_trilinos.sh",
+                 CC=None, CXX=None, exodus=True):
+        self.__configured  = False
+        self.__built       = False
+        self.__installed   = False
+        self.__srcPath     = os.path.abspath(srcPath)
+        self.__buildPath   = os.path.abspath(buildPath)
+        self.__installPath = os.path.abspath(installPath)
+        self.__debug       = debug
+        self.__numproc     = numproc
+        self.__mpi         = mpi
+        self.__serial      = serial
+        self.__mpiPath     = mpiPath
+        self.__netcdfPath  = netcdfPath
+        self.__hdf5Path    = hdf5Path
+        self.__verbose     = verbose
+        self.__dynamic     = dynamic
+        self.__exodus      = exodus
+        self.__packages    = copy(packages)
+        self.__disabled    = [ ]
+        self.__defines     = copy(defines)
+        self.__configure   = os.path.join(self.__buildPath, configure)
+        self.__CC          = CC
+        self.__CXX         = CXX
+        self._setDefines()
+        # Give logical values to empty defaults
+        if self.__numproc is None:
+            self.__numproc = ncpus()
+
+    # Set the Trilinos cmake define variables
+    def _setDefines(self):
+        # Installation location
+        if self.__installPath:
+            self.__defines.append("CMAKE_INSTALL_PREFIX:PATH=%s" % self.__installPath)
+        # Build type: debug/release, verbosity and shared libraries
+        if self.__debug:
+            self.__defines.append("CMAKE_BUILD_TYPE:STRING=DEBUG")
+        else:
+            self.__defines.append("CMAKE_BUILD_TYPE:STRING=RELEASE")
+        if self.__verbose:
+            self.__defines.append("CMAKE_VERBOSE_MAKEFILE:BOOL=ON")
+        if self.__dynamic:
+            self.__defines.append("BUILD_SHARED_LIBS:BOOL=ON")
+        else:
+            self.__defines.append("BUILD_SHARED_LIBS:BOOL=FALSE")
+        # Disable C++11 mode that is on by default
+        # self.__defines.append("Trilinos_ENABLE_CXX11=OFF")
+        # MPI builds
+        if self.__mpi:
+            self.__defines.append("TPL_ENABLE_MPI:BOOL=ON")
+            if self.__mpiPath:
+                self.__defines.append("MPI_BASE_DIR:FILEPATH=%s" % self.__mpiPath)
+        # C++ Standard
+        self.__defines.append("CMAKE_CXX_STANDARD=14")
+        # Disable Pthread
+        self.__defines.append("TPL_ENABLE_Pthread=OFF")
+        # Disable Fortran
+        self.__defines.append("Trilinos_ENABLE_Fortran:BOOL=FALSE")
+        # Disable deprecated warnings
+        self.__defines.append("Epetra_SHOW_DEPRECATED_WARNINGS:BOOL=OFF")
+        # Trilinos packages
+        self.__defines.append("Trilinos_ENABLE_ALL_PACKAGES:BOOL=FALSE")
+        if self.__packages:
+            self.__defines.append("Trilinos_ENABLE_ALL_OPTIONAL_PACKAGES:BOOL=FALSE")
+            for package in self.__packages:
+                self.__defines.append("Trilinos_ENABLE_%s:BOOL=ON" % package)
+        else:
+            self.__defines.append("Trilinos_ENABLE_ALL_OPTIONAL_PACKAGES:BOOL=ON")
+        # Kokkos package
+        if "Kokkos" in self.__packages:
+            self.__defines.append("Kokkos_ENABLE_Serial:BOOL=ON")
+            self.__defines.append("Kokkos_ENABLE_OpenMP:BOOL=OFF")
+            self.__defines.append("Kokkos_ENABLE_Pthread:BOOL=OFF")
+        # SEACAS/Exodus package
+        if self.__exodus and (self.__serial and self.__netcdfPath is not None):
+            if os.path.isdir(self.__netcdfPath):
+                self.__defines.append("Netcdf_INCLUDE_DIRS:FILEPATH=%s" %
+                                      os.path.join(self.__netcdfPath, "include"))
+                self.__defines.append("Netcdf_LIBRARY_DIRS:FILEPATH=%s" %
+                                      os.path.join(self.__netcdfPath, "lib"))
+                if self.__hdf5Path is not None:
+                    self.__defines.append("HDF5_INCLUDE_DIRS:FILEPATH=%s" %
+                                          os.path.join(self.__hdf5Path, "include"))
+                    self.__defines.append("HDF5_LIBRARY_DIRS:FILEPATH=%s" %
+                                          os.path.join(self.__hdf5Path, "lib"))
+                self.__defines.append("Trilinos_ENABLE_SEACASExodus:BOOL=ON")
+                self.__packages.append("SEACAS/Exodus")
+            else:
+                self.__disabled.append("SEACAS/Exodus")
+        else:
+            self.__disabled.append("SEACAS/Exodus")
+        # PyTrilinos package
+        if self.__dynamic and self._pyTrilinosPrerequisites():
+            self.__defines.append("Trilinos_ENABLE_PyTrilinos:BOOL=ON")
+            self.__packages.append("PyTrilinos")
+        else:
+            self.__disabled.append("PyTrilinos")
+        # Kokkos package
+#       if os.path.isdir(os.path.join(self.__srcPath, "packages", "kokkos")):
+#           self.__defines.append("Trilinos_ENABLE_Kokkos:BOOL=ON")
+#           self.__defines.append("Trilinos_ENABLE_KokkosCore:BOOL=ON")
+#           # self.__defines.append("Kokkos_ENABLE_Cuda:BOOL=ON")
+#           # self.__defines.append("TPL_ENABLE_CUDA:BOOL=ON")
+#           self.__packages.append("Kokkos")
+        # TriKota package
+        if os.path.isfile(os.path.join(self.__srcPath, "packages", "TriKota",
+                                       "Dakota", "src", "DakotaOptimizer.H")):
+            self.__defines.append("Trilinos_ENABLE_TriKota:BOOL=ON")
+            self.__packages.append("TriKota")
+        else:
+            self.__disabled.append("TriKota")
+        # Xpetra package
+        if os.path.isdir(os.path.join(self.__srcPath, "packages", "xpetra")):
+            self.__defines.append("Trilinos_ENABLE_Xpetra:BOOL=ON")
+            self.__defines.append("Xpetra_ENABLE_Epetra:BOOL=ON")
+            self.__defines.append("Tpetra_INST_INT_INT:BOOL=ON")
+            self.__packages.append("Xpetra")
+        elif os.path.isdir(os.path.join(self.__srcPath, "preCopyrightTrilinos",
+                                        "muelu")):
+            self.__defines.append("Trilinos_ENABLE_MueLu:BOOL=ON")
+            self.__packages.append("MueLu/Xpetra")
+        else:
+            self.__disabled.append("Xpetra")
+        # Zoltan package
+        if os.path.isdir(os.path.join(self.__srcPath, "packages", "zoltan")):
+            self.__defines.append("Trilinos_ENABLE_Zoltan:BOOL=ON")
+            self.__packages.append("Zoltan")
+        else:
+            self.__disabled.append("Zoltan")
+        # Zoltan2 package
+        if (os.path.isdir(os.path.join(self.__srcPath, "packages", "zoltan2"))):
+            self.__defines.append("Trilinos_ENABLE_Zoltan2:BOOL=ON")
+            self.__defines.append("Zoltan2_ENABLE_Experimental:BOOL=ON")
+            self.__defines.append("HAVE_ZOLTAN2_SCOTCH:BOOL=ON")
+            self.__packages.append("Zoltan2")
+        else:
+            self.__disabled.append("Zoltan2")
+        # Disable the tests and example code to reduce compilation time
+        self.__defines.append("Trilinos_ENABLE_TESTS:BOOL=FALSE")
+        self.__defines.append("Trilinos_ENABLE_EXAMPLES:BOOL=FALSE")
+        # ROL package
+        if (os.path.isdir(os.path.join(self.__srcPath, "packages", "rol"))):
+            self.__defines.append("Trilinos_ENABLE_ROL:BOOL=ON")
+            self.__packages.append("rol")
+        # Pamgen package
+        if (os.path.isdir(os.path.join(self.__srcPath, "packages", "pamgen"))):
+            self.__defines.append("Trilinos_ENABLE_Pamgen:BOOL=ON")
+            self.__packages.append("pamgen")
+
+    def _pyTrilinosPrerequisites(self):
+        # Check for SWIG (here I am assuming that the swig used to generate the
+        # PyTrilinos code is the swig provided by the environment)
+        try:
+            swig = subprocess.check_output(["which", "swig"])
+        except:
+            # Ideally we would catch a subprocess.CalledProcessError here, but
+            # we need this script to be python 2.4 compatible
+            return False
+        # Check SWIG version
+        lines = subprocess.check_output(["swig", "-version"]).split("\n")
+        version = [line for line in lines if line.startswith("SWIG Version")]
+        if len(version) == 0: return False
+        (major, minor, micro) = version[0].split()[2].split(".")
+        if major < 2: return False
+        # Check for NumPy (here I am assuming that the python interpreter
+        # running this script is the same python interpreter that PyTrilinos
+        # would be compiled against)
+        try:
+            import numpy
+        except ImportError:
+            return False
+        # Prerequisites are found
+        return True
+
+    # Configure the build directory.  First create the build directory, if it
+    # does not exist.  Then remove the CMakeCache.txt file, if it exists.  Run
+    # cmake to configure the build.
+    def configure(self, reportOnly=False):
+        if self.__configured:
+            return
+        if not os.path.exists(self.__buildPath):
+            if self.__verbose:
+                print("Creating", self.__buildPath)
+            if reportOnly:
+                print("mkdir -p", self.__buildPath)
+            else:
+                os.makedirs(self.__buildPath)
+        else:
+            if not os.path.isdir(self.__buildPath):
+                raise(OSError, "File " + self.__buildPath + \
+                      " already exists and is not a directory")
+        cacheFile = os.path.join(self.__buildPath, "CMakeCache.txt")
+        if os.path.exists(cacheFile):
+            self.__configured = True
+            return
+        do_configure = "cmake"
+        if not self.__CC == None:
+            do_configure += " -D CMAKE_C_COMPILER=%s" % self.__CC
+        if not self.__CXX == None:
+            do_configure += " -D CMAKE_CXX_COMPILER=%s" % self.__CXX
+        for define in self.__defines:
+            do_configure += " \\\n    -D %s" % define
+        do_configure += " \\\n -D CMAKE_C_FLAGS=-Wno-implicit-function-declaration"
+        do_configure += " \\\n    %s" % self.__srcPath
+        if self.__verbose:
+            print("\n*** Configuring Build Directory ***\n")
+        if reportOnly:
+            print("cd", self.__buildPath, "&&", do_configure)
+        else:
+            configfile = open(self.__configure, 'w')
+            configfile.write("#! /bin/sh\n")
+            configfile.write(do_configure + "\n")
+            configfile.close()
+            print('  Writing %s' % (self.__configure))
+            err = runCommand(do_configure, self.__verbose, cwd=self.__buildPath)
+            if err:
+                if os.path.isfile(cacheFile):
+                    os.remove(cacheFile)
+                raise(TrilinosBuildError(err))
+            self._fixMakefileExportBug()
+            self._fixConfigCmakeBug()
+            self.__configured = True
+
+    # Return the build directory configuration status
+    def configured(self):
+        return self.__configured
+
+    # Fix a bug in the Trilinos Makefile export generation that results in the
+    # compiled pytrilinos library being listed as a Trilinos library to link
+    # against.  This library only works when loaded into the python interpreter.
+    # Other code that links to it will have unresolved symbols from the Python/C
+    # API, so we remove it from the generated files Makefile.export.Trilinos and
+    # Makefile.export.Trilinos_install.
+    def _fixMakefileExportBug(self):
+        fileBaseNames = ["Makefile.export.Trilinos",
+                         "Makefile.export.Trilinos_install"]
+        fileNames = [os.path.join(self.__buildPath, name)
+                     for name in fileBaseNames]
+        for fileName in fileNames:
+            if os.path.isfile(fileName):
+                backup = fileName + ".bak"
+                backupFile = open(backup, "w")
+                for line in open(fileName, "r"):
+                    backupFile.write(line.replace("-lpytrilinos", ""))
+                backupFile.close()
+                os.rename(backup, fileName)
+
+    # Fix a bug in the Trilinos CMake config export generation that results in
+    # the compiled pytrilinos library being listed as a Trilinos library to link
+    # against.  This library only works when loaded into the python interpreter.
+    # Other code that links to it will have unresolved symbols from the Python/C
+    # API, so we remove it from the generated file TrilinosConfig_install.cmake.
+    def _fixConfigCmakeBug(self):
+        fileBaseNames = ["TrilinosConfig_install.cmake"]
+        fileNames = [os.path.join(self.__buildPath, name)
+                     for name in fileBaseNames]
+        for fileName in fileNames:
+            if os.path.isfile(fileName):
+                backup = fileName + ".bak"
+                backupFile = open(backup, "w")
+                for line in open(fileName, "r"):
+                    out = line.replace("pytrilinos;", "")
+                    backupFile.write(out.replace("PyTrilinos;", ""))
+                backupFile.close()
+                os.rename(backup, fileName)
+
+    # Build Trilinos
+    def build(self, reportOnly=False):
+        if self.__built:
+            return
+        if not self.__configured:
+            self.configure(reportOnly)
+        command = "make"
+        if self.__numproc > 1:
+            command += " -j %d" % self.__numproc
+        if reportOnly:
+            print("cd", self.__buildPath, "&&", command)
+        else:
+            err = runCommand(command, self.__verbose, cwd=self.__buildPath)
+            if err: sys.exit(err)
+            self.__built = True
+
+    # Return build status
+    def built(self):
+        return self.__built
+
+    # Install Trilinos
+    def install(self, reportOnly=False):
+        if self.__installed:
+            return
+        if not self.__configured:
+            self.configure(reportOnly)
+        self._fixMakefileExportBug()
+        self._fixConfigCmakeBug()
+        command = "make"
+        if self.__numproc > 1:
+            command += " -j %d" % self.__numproc
+        command += " install"
+        if reportOnly:
+            print("cd", self.__buildPath, "&&", command)
+        else:
+            err = runCommand(command, self.__verbose, cwd=self.__buildPath)
+            if err: sys.exit(err)
+            self.__installed = True
+
+    # Return install status
+    def installed(self):
+        return self.__installed
+
+    # Clean the build directory
+    def clean(self, reportOnly=False):
+        makefile = os.path.join(self.__buildPath, "Makefile")
+        if os.path.isfile(makefile):
+            command = "make clean"
+            if reportOnly:
+                print("cd", self.__buildPath, "&&", command)
+            else:
+                err = runCommand(command, self.__verbose, cwd=self.__buildPath)
+                if err: sys.exit(err)
+        cacheFile = os.path.join(self.__buildPath, "CMakeCache.txt")
+        if os.path.isfile(cacheFile):
+            if reportOnly:
+                print("rm", cacheFile)
+            else:
+                os.remove(cacheFile)
+
+    # String output
+    def __str__(self):
+        if self.__packages:
+            packages = ",".join(self.__packages)
+        else:
+            packages = "Default"
+        if self.__disabled:
+            disabled = ",".join(self.__disabled)
+        else:
+            disabled = "None"
+        if self.__installed:
+            buildDirStatus = "Installed"
+        else:
+            if self.__built:
+                buildDirStatus = "Built"
+            else:
+                if self.__configured:
+                    buildDirStatus = "Configured"
+                else:
+                    buildDirStatus = "Not configured"
+        result = "Trilinos Builder:\n"               + \
+                 "  Configure script:          %s\n" + \
+                 "  Trilinos source directory: %s\n" + \
+                 "  Install directory:         %s\n" + \
+                 "  Build directory:           %s\n" + \
+                 "  Build directory status:    %s\n" + \
+                 "  Explicitly enabled packages:\n    %s\n"     + \
+                 "  Disabled packages:\n    %s"
+        result = result % (self.__configure,
+                           self.__srcPath,
+                           self.__installPath,
+                           self.__buildPath,
+                           buildDirStatus,
+                           packages,
+                           disabled
+                           )
+        return result
+
+############################################################
+# Main routine
+############################################################
+def main():
+
+    # Obtain the HOME environment variable
+    HOME = os.environ["HOME"]
+    # Obtain the Trilinos installation destination
+    TRILINOS_HOME = os.environ.get("TRILINOS_HOME",
+                                   os.path.join(HOME, "local", "trilinos"))
+    # Obtain the MPI base directory
+    localMpi = os.path.join(HOME, "local", "openmpi")
+    if not os.path.isdir(localMpi): localMpi = None
+    MPI_BASE_DIR = os.environ.get("MPI_BASE_DIR", localMpi)
+    # Obtain the NetCDF base directory
+    localNetCDF = os.path.join(HOME, "local", "netcdf")
+    if not os.path.isdir(localNetCDF): localNetCDF = None
+    NETCDF_BASE_DIR = os.environ.get("NETCDF_BASE_DIR", localNetCDF)
+    # Obtain the Hdf5 base directory
+    localHdf5 = os.path.join(HOME, "local", "hdf5")
+    if not os.path.isdir(localHdf5): localHdf5 = None
+    HDF5_BASE_DIR = os.environ.get("HDF5_BASE_DIR", localHdf5)
+
+    # Obtain the number of processors
+    numproc = ncpus()
+
+    # Build and execute the command-line processor
+    usage = "usage: make_trilinos [options] sourceDir"
+    parser = optparse.OptionParser(usage=usage + "\n" + __doc__)
+    parser.add_option("-c", "--clean", action="store_true", dest="clean",
+                      default=False, help="clean before build")
+    parser.add_option("-C", "--Clean", action="store_true", dest="Clean",
+                      default=False, help="Remove ALL builds before rebuilding"+
+                      " from scratch (e.g., rm -rf ./trilinos_build)")
+    parser.add_option("--CC", action="store", dest="CC", default=None,
+                      help="set the c compiler")
+    parser.add_option("--CXX", action="store", dest="CXX", default=None,
+                      help="set the c++ compiler")
+    parser.add_option("-d", "--debug", action="store_true", dest="debug",
+                      default=False, help="build debug version(s) of Trilinos")
+    parser.add_option("-D", action="append", dest="defines",
+                      help="define a macro to be passed to cmake")
+    parser.add_option("-i", "--install", action="store_true", dest="install",
+                      default=False, help="install builds in $TRILINOS_HOME " +
+                      "(defaults to $HOME/local/trilinos)")
+    parser.add_option("-I", "--Install", action="store_true", dest="Install",
+                      default=False, help="Removes installation in " +
+                      "$TRILINOS_HOME before reinstalling (defaults to " +
+                      "$HOME/local/trilinos)")
+    parser.add_option("-n", action="store", type="int", dest="numproc",
+                      default=numproc, help="number of CPUs to build with " +
+                      ("(default %d)" % numproc))
+    configScript = "configure_trilinos.sh"
+    parser.add_option("-o", "--output", action="store", dest="configure",
+                      default=configScript, help="set the name of the output " +
+                      ("configuration file (default '%s')" % configScript))
+    parser.add_option("-p", "--parallel", action="store_true", dest="parallel",
+                      default=False, help="build parallel (MPI) version of " +
+                      "Trilinos")
+    parser.add_option("-s", "--serial", action="store_true", dest="serial",
+                      default=False, help="build serial version of Trilinos")
+    parser.add_option("-v", "--verbose", action="store_true", dest="verbose",
+                      default=False, help="use verbose output")
+    parser.add_option("-x", "--exit", action="store_true", dest="exit",
+                      default=False, help="exit before build")
+    parser.add_option("-y", "--dynamic", action="store_true", dest="dynamic",
+                      default=False, help="enable dynamic libraries and " +
+                      "PyTrilinos")
+    parser.add_option("", "--noExodus", action="store_false", dest="exodus",
+                      default=True, help="disable use of SEACAS/Exodus")
+    options, args = parser.parse_args()
+
+    # Remove the current Trilinos build directory
+    if options.Clean:
+        print("  *** Removing ALL Trilinos builds! ***")
+        print("    Location: %s" % (os.path.join(os.getcwd(), "trilinos_build")))
+        if os.path.isdir("trilinos_build"):
+          shutil.rmtree("trilinos_build")
+
+    # Remove the Trilinos installation directory
+    if options.Install:
+        print("  *** Removing Trilinos installation directory! ***")
+        print("    Location: %s" % (TRILINOS_HOME))
+        if os.path.isdir("TRILINOS_HOME"):
+          shutil.rmtree(TRILINOS_HOME)
+        options.install = True
+
+    # Check the specified Trilinos source directory
+    if len(args) == 0:
+        sys.exit("No Trilinos source directory specified\n"+usage)
+    trilinosSrcDir = args[0]
+    if not os.path.isdir(trilinosSrcDir):
+        sys.exit("'%s' is not a directory" % trilinosSrcDir)
+
+    # Deterimine the set of builds
+    builds = []
+    # check if a compiler was set in env or on the command line
+    cc = os.environ.get('CC')
+    cxx = os.environ.get('CXX')
+    if (options.CC == None and options.CXX == None and cc == None and cxx == None):
+      # DGM_DIST must be set or we're not building DGM
+      dgm_dist = os.environ.get('DGM_DIST')
+      if dgm_dist == None:
+        # Scott requested that DGM_DIST default to $HOME/dgm and
+        # testing that this directory exists and exiting with
+        # an error if not, so ordered.
+        home = os.environ['HOME']
+        if os.path.isdir(home+'/dgm'):
+          # set dgm_dist to $HOME/dgm
+          dgm_dist = home + '/dgm'
+        else:
+          # no $HOME/dgm directory so exit with error
+          raise(SystemError('Environment variable $DGM_DIST is not set'
+            ' and $HOME/dgm does not exist'))
+      # Look for .ARCH file
+      if os.path.isfile(dgm_dist+'/.ARCH'):
+        # get contents of .ARCH
+        arch = open(dgm_dist+'/.ARCH', 'r').read().replace('\n','')
+      else:
+        # no .ARCH file, probably haven't built DGM yet or
+        # the ARCH is the default for this system (e.g. GCC on most systems)
+        arch = 'GCC'
+      # grep CC and CXX from config/ARCH.inc file
+      try:
+        file = open(dgm_dist+'/config/'+arch+'.inc', 'r')
+      except:
+        print('Could not oen file ',dgm_dist+'/config/'+arch+'.inc')
+        sys.exit(-1)
+      for line in file:
+        if options.CC is None and re.search('CC\s*=', line):
+          s = line.split()
+          options.CC = s[2].strip()
+        elif options.CXX is None and re.search('CXX\s*=', line):
+          s = line.split()
+          options.CXX = s[2].strip()
+      # if building parallel and not on Cray, just use mpi wrappers
+      if arch != 'CRAY' and options.parallel:
+        options.CC = 'mpicc'
+        options.CXX = 'mpicxx'
+      # Summarize what we've done
+      print('Using ARCH = %s' % arch)
+      print('Passing CC compiler %s to CMake' % options.CC)
+      print('Passing CXX compiler %s to CMake' % options.CXX)
+
+    if options.parallel:
+        builds.append("mpi")
+    if options.serial:
+        builds.append("serial")
+
+    # Default definitions
+    if options.defines is None:
+        options.defines = []
+
+    # Construct the builders
+    builders = []
+    for build in builds:
+        mpi = (build == "mpi")
+        if options.debug: opt = "debug"
+        else:             opt = "opt"
+        builders.append(TrilinosBuilder(trilinosSrcDir, options.serial,
+                                        os.path.join("trilinos_build", build, opt),
+                                        os.path.join(TRILINOS_HOME, build, opt),
+                                        debug      = options.debug,
+                                        numproc    = options.numproc,
+                                        mpi        = mpi,
+                                        mpiPath    = MPI_BASE_DIR,
+                                        netcdfPath = NETCDF_BASE_DIR,
+                                        hdf5Path   = HDF5_BASE_DIR,
+                                        verbose    = options.verbose,
+                                        dynamic    = options.dynamic,
+                                        packages   = packages,
+                                        defines    = options.defines,
+                                        exodus     = options.exodus,
+                                        configure  = options.configure,
+                                        CC         = options.CC,
+                                        CXX        = options.CXX)
+                        )
+
+    # Build and install each requested Trilinos version
+    errorCode = 0
+    try:
+        for builder in builders:
+            if options.verbose:
+                print(builder)
+                print()
+            if options.clean:
+                builder.clean(options.exit)
+            if options.install:
+                builder.install(options.exit)
+            else:
+                builder.build(options.exit)
+    except TrilinosBuildError as e:
+        errorCode = e.errorCode()
+
+    # Output a summary for each builder
+    print("\n*** make_trilinos Summary ***\n")
+    for builder in builders:
+        print(builder)
+        print()
+
+    # Exit
+    sys.exit(errorCode)
+
+if __name__ == "__main__":
+    main()
+
+
+# To Do: PyTrilinos installation path

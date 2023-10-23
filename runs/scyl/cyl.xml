@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<DGM xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+  xsi:noNamespaceSchemaLocation="dgm.xsd">
+
+  <Problem>
+    <Title>Flow past a circular cylinder at Mach=0.4</Title>
+    
+    <Domain id="Fluid">
+      <Name>Air</Name>
+      <Physics>
+        <Euler>
+          <BC id="Jet">
+            <rho>1.0</rho>
+            <rho_u>0.1</rho_u>
+            <rho_v>0.0</rho_v>
+            <rho_E>20.341269</rho_E>
+          </BC>
+          <BC id="State">
+            <rho>1.0</rho>
+            <rho_u>1.0</rho_u>
+            <rho_v>0.0</rho_v>
+            <rho_E>20.341269</rho_E>
+          </BC>
+        </Euler>
+      </Physics>
+      <Space>
+        <p>3</p>
+        <mesh>cyl.msh</mesh>
+        <con>cyl.con</con>
+      </Space>
+      <Time>
+        <dt>1.0e-2</dt>
+        <Nt>1000</Nt>
+        <Ntout>100</Ntout>
+      </Time>
+    </Domain>
+
+    <Domain id="Viscous fluid">
+      <Name>Molasass</Name>
+      <Physics>
+        <Navier_Stokes>
+          <vis>0.001</vis>
+        </Navier_Stokes>
+      </Physics>
+      <Space>
+        <p>3</p>
+        <mesh>cyl.msh</mesh>
+        <con>cyl.con</con>
+      </Space>
+      <Time>
+        <dt>1.0e-2</dt>
+        <Nt>1000</Nt>
+        <Ntout>100</Ntout>
+      </Time>
+    </Domain>
+    
+    <Domain id="Structure">
+      <Name>Cylinder</Name>
+      <Physics>
+        <Adv_Diff>
+          <!--          <Cfield>cyl.fld</Cfield>-->
+          <Cx>1.0</Cx>
+          <Cy>0.0</Cy>
+          <vis>0.0</vis>
+        </Adv_Diff>
+      </Physics>
+      <Space>
+        <mesh>cyl.msh</mesh>
+        <con>cyl.con</con>
+        <p>3</p>
+      </Space>
+      <Time>
+        <dt>0.001</dt>
+        <Nt>1000</Nt>
+        <Ntout>100</Ntout>
+      </Time>
+    </Domain>
+
+  </Problem>
+
+</DGM>

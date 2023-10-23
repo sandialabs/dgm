@@ -1,0 +1,13 @@
+eqntype  = 22
+inttype  = 4
+p        = 3
+Nt       = 500
+Ntout    = 100
+omega    = 40
+
+stab = 5
+
+matrix_solve = 1
+solver = 1
+matrix_out = 0
+tecplot = 0

@@ -1,0 +1,352 @@
+{
+  "$schema" : "http://json-schema.org/schema#",
+  "id" : "file:ROLHeirarchicalParameters.json#",
+  "title" : "Rapid Optimization Library interface to DGM",
+  "description" : "New parameter names and heirarchy",
+  "type" : "object",
+  "properties" : {
+    "General" : {
+      "description" : "Common parameters",
+      "type" : "object",
+      "properties" : {
+        "Inexact Gradient" : {
+          "description" : "Flag to indicate that an inexact gradient is used",
+          "type" : "bool",
+          "default" : "false"
+        },
+        "Inexact Hessian-Times-A-Vector" : {
+          "description" : "Flag to indicate that an inexact Hessian-times-a-vector is used",
+          "type" : "bool",
+          "default" : "false"
+        },
+        "Inexact Objective Function" : {
+          "description" : "Flag to indicate that an inexact objective function is used",
+          "type" : "bool",
+          "default" : "false"
+        },
+        "Variable Objective Function" : {
+          "description" : "Indicates use of encoding",
+          "type" : "bool",
+          "default" : "false"
+        },
+        "Krylov" : {
+          "description" : "Specifications for iterative solution of Newton direction",
+          "type" : "object",
+          "properties" : {
+            "Absolute Tolerance" : {
+              "description" : "absolute tolerance value for terminating a Krylov iteration",
+              "type" : "number",
+              "default" : 0.0001
+            },
+            "Iteration Limit" : {
+              "description" : "Terminate Krylov iteration after this number of iterates",
+              "type" : "integer",
+              "default" : 4
+            },
+            "Relative Tolerance" : {
+              "description" : "relative tolerance value for terminating a Krylov iteration",
+              "type" : "number",
+              "default" : 0.01
+            },
+            "Type" : {
+              "description" : "Which Krylov method to use",
+              "type" : "string",
+              "enum" : [
+                "Conjugate Gradients",
+                "Conjugate Residuals"
+              ],
+              "default" : "Conjugate Gradients"
+            }
+          }
+        },
+        "Secant" : {
+          "description" : "Hessian approximation through sequential low rank updates",
+          "type" : "object",
+          "properties" : {
+            "Barzilai-Borwein Type" : {
+              "description" : "Which implementation of the Barzilai-Borwein method to use",
+              "type" : "integer",
+              "default" : 1
+            },
+            "Maximum Storage" : {
+              "description" : "Number of vectors to store for a secant method",
+              "type" : "integer",
+              "default" : 10
+            },
+            "Type" : {
+              "description" : "Which secant (quasi-Newton) method to use",
+              "type" : "string",
+              "enum" : [
+                "Limited-Memory BFGS",
+                "Limited-Memory DFP",
+                "Limited-Memory SR1",
+                "Barzilai-Borwein"
+              ],
+              "default" : "Limited-Memory BFGS"
+            },
+            "Use as Hessian" : {
+              "description" : "Flag to use secant method as approximate Hessian",
+              "type" : "bool",
+              "default" : "false"
+            },
+            "Use as Preconditioner" : {
+              "description" : "Use the secant method as a preconditioner in a Newton-Krylov solve",
+              "type" : "bool",
+              "default" : "false"
+            }
+          }
+        }
+      }
+    },
+    "Status Test" : {
+      "description" : "Stopping criteria",
+      "type" : "object",
+      "properties" : {
+        "Gradient Tolerance" : {
+          "description" : "Norm of the gradient to terminate optimization",
+          "type" : "number",
+          "default" : 0.000001
+        },
+        "Iteration Limit" : {
+          "description" : "Number of iterations before terminating optimization",
+          "type" : "integer",
+          "minimum" : 1,
+          "default" : 50
+        },
+        "Step Tolerance" : {
+          "description" : "Norm of the step to terminate optimization",
+          "type" : "number",
+          "default" : 0.000000000001
+        }
+      }
+    },
+    "Step" : {
+      "description" : "Components for making an optimization step",
+      "type" : "object",
+      "properties" : {
+        "Line Search" : {
+          "description" : "Components for making a line search step",
+          "type" : "object",
+          "properties" : {
+            "Accept Last Alpha" : {
+              "description" : "Use last step length upon reaching maximum allowed objective evaluations",
+              "type" : "bool",
+              "default" : "false"
+            },
+            "Accept Linesearch Minimizer" : {
+              "description" : "Use argmin steplength if the max number of evaluations is reached without sufficient decrease",
+              "type" : "bool",
+              "default" : "false"
+            },
+            "Function Evaluation Limit" : {
+              "description" : "Maximum number of objective evaluations to make in a line search",
+              "type" : "integer",
+              "default" : 10
+            },
+            "Initial Step Size" : {
+              "description" : "First step length to use in a line search",
+              "type" : "number",
+              "default" : 10000
+            },
+            "Sufficient Decrease Tolerance" : {
+              "description" : "Parameter which defines the upper bounding tangent line",
+              "type" : "number",
+              "default" : 0.0001
+            },
+            "User Defined Initial Step Size" : {
+              "description" : "First step length to use in a user defined line search",
+              "type" : "number",
+              "default" : 10000
+            },
+            "Curvature Condition" : {
+              "description" : "Parameters which determine acceptable step lenths using directional derivatives",
+              "type" : "object",
+              "properties" : {
+                "General Parameter" : {
+                  "description" : "Factor by which to reduce the directional derivative",
+                  "type" : "number",
+                  "default" : 0.9
+                },
+                "Generalized Wolfe Parameter" : {
+                  "type" : "default",
+                  "default" : 0.6
+                },
+                "Type" : {
+                  "description" : "These conditions aim to prevent unacceptably small steps",
+                  "type" : "string",
+                  "enum" : [
+                    "Wolfe Conditions",
+                    "Strong Wolfe Conditions",
+                    "Generalized Wolfe Conditions",
+                    "Approximate Wolfe Conditions",
+                    "Goldstein Conditions",
+                    "Null Curvature Condition"
+                  ],
+                  "default" : "Wolfe Conditions"
+                }
+              }
+            },
+            "Descent Method" : {
+              "description" : "Method for computing a descent direction",
+              "type" : "object",
+              "properties" : {
+                "Nonlinear CG Type" : {
+                  "description" : "Which form of nonlinear conjugate gradient to use",
+                  "type" : "string",
+                  "enum" : [
+                    "Dai-Yuan",
+                    "Daniel (uses Hessian)",
+                    "Fletcher Conjugate Descent",
+                    "Hagar-Zhang",
+                    "Hestenes-Stiefel",
+                    "Liu-Storey",
+                    "Oren-Luenberger",
+                    "Polak-Ribiere"
+                  ],
+                  "default" : "Hagar-Zhang"
+                },
+                "Type" : {
+                  "description" : "Method for computing the descent direction",
+                  "type" : "string",
+                  "enum" : [
+                    "Steepest Descent",
+                    "Nonlinear CG",
+                    "Quasi-Newton Method",
+                    "Newton-Krylov"
+                  ],
+                  "default" : "Nonlinear CG"
+                }
+              }
+            },
+            "Line Search Method" : {
+              "description" : "Specifications for general line search",
+              "type" : "object",
+              "properties" : {
+                "Backtracking Rate" : {
+                  "description" : "Factor by which to reduce the step length",
+                  "type" : "number",
+                  "default" : 0.5
+                },
+                "Bracketing Tolerance" : {
+                  "description" : "Tolerance used in bisection intervals",
+                  "type" : "number",
+                  "default" : 0.000000001
+                },
+                "Type" : {
+                  "description" : "Which line search method to use",
+                  "type" : "string",
+                  "enum" : [
+                    "Iteration Scaling",
+                    "Path-Based Target Level",
+                    "Backtracking",
+                    "Bisection",
+                    "Golden Section",
+                    "Cubic Interpolation",
+                    "Brents",
+                    "User Defined"
+                  ],
+                  "default" : "Cubic Interpolation"
+                }
+              }
+            }
+          }
+        },
+        "Trust Region" : {
+          "description" : "Specfications for a Trust Region step",
+          "type" : "object",
+          "properties" : {
+            "Gradient Update Relative Tolerance" : {
+              "type" : "number",
+              "default" : 0.1
+            },
+            "Gradient Update Tolerance Scaling" : {
+              "type" : "number",
+              "default" : 2
+            },
+            "Intial Radius" : {
+              "type" : "number",
+              "default" : -1
+            },
+            "Maximum Radius" : {
+              "type" : "number",
+              "default" : 1000
+            },
+            "Radius Growing Threshold" : {
+              "type" : "number",
+              "default" : 0.9
+            },
+            "Radius Growing Rate" : {
+              "type" : "number",
+              "default" : 2.5
+            },
+            "Radius Shrinking Threshold" : {
+              "type" : "number",
+              "default" : 0.05
+            },
+            "Safeguard Size" : {
+              "type" : "number",
+              "default" : 100
+            },
+            "Subproblem Solver" : {
+              "type" : "string",
+              "enum" : [
+                "Truncated CG",
+                "Cauchy Point",
+                "Dogleg",
+                "Double Dogleg"
+              ],
+              "default" : "Truncated CG"
+            },
+            "Step Acceptance Threshold" : {
+              "type" : "number",
+              "default" : 0.05
+            },
+            "Inexact" : {
+              "description" : "Parameters for handling inexactness with Trust Regions",
+              "type" : "object",
+              "properties" : {
+                "Gradient" : {
+                  "description" : "Inexact gradient updating parameters",
+                  "type" : "object",
+                  "properties" : {
+                    "Relative Tolerance" : {
+                      "type" : "number",
+                      "default" : 0.01
+                    },
+                    "Tolerance Scaling" : {
+                      "type" : "number",
+                      "default" : 0.1
+                    }
+                  }
+                },
+                "Value" : {
+                  "description" : "Inexact value parameters",
+                  "type" : "object",
+                  "properties" : {
+                    "Forcing Sequence Initial Value" : {
+                      "type" : "number",
+                      "default" : 1
+                    },
+                    "Forcing Sequence Reduction Factor" : {
+                      "type" : "number",
+                      "default" : 0.1
+                    },
+                    "Forcing Sequence Update Frequency" : {
+                      "type" : "integer",
+                      "default" : 10
+                    },
+                    "Tolerance Scaling" : {
+                      "type" : "number",
+                      "default" : 0.1
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties" : false
+}

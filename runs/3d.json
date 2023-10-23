@@ -1,0 +1,63 @@
+{
+  "Title" : "3d Advection-Diffusion regression test",
+  "Domain" : {
+    "Verbosity" : 0,
+    "Title" : "Space-time domain",
+    "Type" : "Advection diffusion",
+    "Time" : {
+      "Verbosity" : 0,
+      "Integrator" : "DTK::TimeIntegrate",
+      "Method" : "TVD" // "LSRK14"
+    },
+    "Space" : {
+      "Binary mesh" : true
+    },
+    "Backward Euler" : {
+      "Read parameters from XML" : false,
+      "Write parameters to XML" : false,
+      "Nonlinear solver" : "Line search based",
+      "Line search" : {
+        "Method" : "Full step"
+      },
+      "Direction" : {
+        "Method" : "Newton",
+        "Newton" : {
+          "Linear solver" : {
+            "Aztec solver" : "GMRES",
+            "Max iterations" : 20,
+            "Size of Krylov subspace" : 20,
+            "Tolerance" : 1.0e-3,
+            "Output frequency" : 1,
+            "Preconditioner" : "None"
+          },
+          "Forcing term method" : "Constant"
+        }
+      },
+      "Solver options" : {
+        "Status test check type" : "Complete",
+        "Maximum iterations" : 4,
+        "Norm F" : 1.0e-9,
+        "Norm update" : 1.0e-19,
+        "Norm WRMS" : [ 1.0e-2, 1.0e-9 ]
+      },
+      "Printing" : {
+        "Output Precision" : 3,
+        "Output Information" : { 
+          "Outer Iteration" : true, 
+          "Outer Iteration StatusTest" : false,
+          "Inner Iteration" : false, 
+          "Parameters" : false, 
+          "Details" : false, 
+          "Test Details" : false,
+          "Stepper Iteration" : false, 
+          "Stepper Details" : false, 
+          "Stepper Parameters" : false,
+          "Linear Solver Details" : true,
+          "Warning" : true,
+          "Error" : true,
+          "Debug" : false
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,15 @@
+# DGM test case
+#
+# One-dimensional advection diffusion
+#
+# Author:  S. Scott Collis
+#
+eqntype  = 0       # advection diffusion
+inttype  = 4       # RK4 
+p        = 10      # polynomial order
+Nt       = 1000    # number of time steps
+Ntout    = 1000    # restart output interval
+ntout    = 100     # output frequency
+dt       = 0.002   # time step
+cx       = 1.0     # convection velocity in x-direction
+vis      = 0.01    # viscosity coefficient

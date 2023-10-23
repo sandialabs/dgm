@@ -1,0 +1,52 @@
+namespace DGM {
+
+/**
+
+\page DGM_Starting
+
+\section DGM_Starting Getting Started
+
+\htmlonly
+<b>Table of Contents</b>
+<ul>
+<li> <a href="DGM_Starting.html#DGM_Download">Getting DGM</a>
+<li> <a href="DGM_Starting.html#DGM_Build">Build</a>
+<li> <a href="DGM_Starting.html#DGM_Dependencies">Dependencies</a>
+<li> <a href="DGM_Starting.html#DGM_Capabilities">Capabilities</a>
+</ul>
+<hr>
+\endhtmlonly
+
+\section DGM_Build Build
+Describe how to build, install, test installation, ...
+\subsection DGM_Macro Macros
+A number of macros are defined in \c $DGM_HOME/src/Config.hpp.
+<hr>
+
+\section DGM_Dependencies Dependencies
+The DGM library depends on the DTK, PEOpt and FDM products as well as some Third Party Libraries (TPLs). 
+<ul>
+<li> <a href="DTK_Main.html">DTK</a>
+<li> <a href="PEOpt_Main.html">PEOpt</a>
+<li> <a href="FDM_Main.html">FDM</a>
+</ul>
+
+DGM also depends on a number of Third Party Libraries, some of which must be compiled
+and installed prior to building DGM. Documented below are the required dependencies
+and optional dependencies, indicating build options and macros required to build
+with the TPL enabled.
+<ul>
+<li> <a href="www.boost.org">Boost</a>
+<li> <a href="DGM_Guide.html">Netcdf</a>
+<li> <a href="DGM_Theory.html">HDF5</a>
+<li> <a href="DGM_Theory.html">ExodusII</a>
+<li> <a href="DGM_Developer.html">Trilinos</a>
+</ul>
+<hr>
+
+\section DGM_Capabilities Capabilities
+List DGM capabilities here ...
+
+**/
+
+}  // namespace DGM

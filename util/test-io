@@ -1,0 +1,18 @@
+#!/bin/sh
+#
+# Write a 256MB file
+#
+echo Writing testfile
+time dd if=/dev/zero of=testfile bs=16k count=16384
+#
+# Read the file back in
+#
+echo Reading testfile
+time dd if=testfile of=/dev/null bs=16k
+#
+# remove the file
+#
+echo Removing testfile
+/bin/rm testfile
+echo IO test complete
+exit

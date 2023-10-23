@@ -1,0 +1,19 @@
+{
+  "MultiOptProblem" : {
+    "description" : "DGM MultiOptProblem parameters",
+    "type" : "object",
+    "properties" : {
+      "Verbosity" : {
+        "type" : "integer",
+        "default" : 0,
+        "minimum" : 0,
+        "maximum" : 1
+      },
+      "Recompute state" : {
+        "type" : "boolean",
+        "default" : "true"
+      }
+    },
+    "additionalProperties" : false
+  }
+}

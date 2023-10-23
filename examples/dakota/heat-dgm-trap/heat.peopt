@@ -1,0 +1,40 @@
+{
+  "peopt" : {
+    "H_type" : "Identity",
+    "Minv_type" : "Identity",
+    "algorithm_class" : "LineSearch",
+    "delta" : 100.0,
+    "delta_max" : 100.0,
+    "dir" : "SteepestDescent",
+    "eps_grad" : 1.000000000000000e-6,
+    "eps_krylov" : 0.010,
+    "eps_dx" : 1.000000000000000e-06,
+    "eta1" : 0.10,
+    "eta2" : 0.90,
+    "history_reset" : 5,
+    "iter_max" : 30,
+    "krylov_iter_max" : 10,
+    "kind" : "Brents",
+    "eps_ls" : 0.01,
+    "linesearch_iter_max" : 20,
+    "alpha0" : 9.3998342554e-03, 
+    "msg_level" : 1,
+    "stored_history" : 0
+  },
+  "DGM" : {
+    "objective name" : "obs_t",
+    "parallel solves" : 1,
+    "restart file frequency" : 1
+  },
+  "Diagnostic" : {
+    "Gauss-Newton finite difference test" : false,
+    "Hessian symmetry check" : false,
+    "calculate objective" : false,
+    "discretize the hessian" : false,
+    "gradient finite difference test" : false,
+    "linearized state finite difference test" : -1 
+  },
+  "Reo" : {
+    "weighting scheme" : "None"
+  }
+}

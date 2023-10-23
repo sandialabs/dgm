@@ -1,0 +1,3 @@
+0 rock
+1 salt
+2 rock

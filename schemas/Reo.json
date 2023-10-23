@@ -1,0 +1,158 @@
+{
+  "$schema" : "http://json-schema.org/schema#",
+  "title" : "Reo input specification",
+  "description" : "Input specification for all Reo flow solver problems",
+  "id" : "file:Reo.json#",
+  "type" : "object",
+  "required" : [
+    "Title",
+    "Domain"
+  ],
+  "properties" : {
+    "Title" : {
+      "type" : "string",
+      "description" : "Title of this DGM setup"
+    },
+    "Problem" : {
+      "anyOf" : [
+        {
+          "$ref" : "#/definitions/Problem"
+        },
+        {
+          "$ref" : "#/definitions/OptProblem"
+        }
+      ]
+    },
+    "Domain" : {
+      "$ref" : "#definitions/ReoDomain"
+    },
+    "Field" : {
+      "$ref" : "Field.json#"
+    },
+    "Physics library" : {
+      "type" : "object",
+      "patternProperties" : {
+        "Euler" : {
+          "$ref" : "Euler.json#"
+        },
+        "Euler3d" : {
+          "$ref" : "Euler3d.json#"
+        },
+        "Navier-Stokes" : {
+          "$ref" : "NS.json#"
+        },
+        "Advection diffusion" : {
+          "$ref" : "AdvDiff.json#"
+        }
+      },
+      "additionalProperties" : false
+    },
+    "Solver library" : {
+      "type" : "object",
+      "patternProperties" : {
+        "^Solver_" : {
+          "$ref" : "Solver.json#"
+        }
+      },
+      "additionalProperties" : false
+    },
+    "Field Slice" : {
+      "$ref" : "Slice.json#"
+    },
+    "Medium Slice" : {
+      "$ref" : "Slice.json#"
+    },
+    "Solver" : {
+      "$ref" : "Solver.json#"
+    },
+    "Zoltan" : {
+      "$ref" : "Zoltan.json#"
+    },
+    "InCore" : {
+      "$ref" : "InCore.json#"
+    },
+    "Griewank" : {
+      "$ref" : "Griewank.json#"
+    },
+    "Optimizer" : {
+      "$ref" : "Optimizer.json#"
+    }
+  },
+  "additionalProperties" : false,
+  "definitions" : {
+    "Problem" : {
+      "description" : "DGM Problem parameters",
+      "type" : "object",
+      "properties" : {
+        "Type" : {
+          "type" : "string",
+          "default" : "forward"
+        },
+        "Domains" : {
+          "type" : "array",
+          "minItems" : 1,
+          "items" : {
+            "type" : "string"
+          }
+        }
+      },
+      "additionalProperties" : false
+    },
+    "OptProblem" : {
+      "description" : "DGM Optimization problem parameters",
+      "type" : "object",
+      "properties" : {
+        "Type" : {
+          "type" : "string",
+          "default" : "forward"
+        }
+      },
+      "additionalProperties" : false
+    },
+    "MultiOptProblem" : {
+      "description" : "DGM MultiOptProblem parameters",
+      "type" : "object",
+      "properties" : {
+        "Verbosity" : {
+          "type" : "integer",
+          "default" : 0,
+          "minimum" : 0,
+          "maximum" : 1
+        },
+        "Recompute state" : {
+          "type" : "boolean",
+          "default" : "true"
+        }
+      },
+      "additionalProperties" : false
+    },
+    "ReoDomain" : {
+      "allOf" : [
+        {
+          "$ref" : "Domain.json#"
+        },
+        {
+          "properties" : {
+            "Type" : {
+              "type" : "string",
+              "enum" : [
+                "Advection diffusion",
+                "Euler",
+                "Navier-Stokes",
+                "Burgers",
+                "Euler3d",
+                "Navier-Stokes 3d",
+                "Helmholtz",
+                "Darcy",
+                "iEuler",
+                "Wave",
+                "Poisson"
+              ]
+            }
+          },
+          "additionalProperties" : "false"
+        }
+      ]
+    }
+  }
+}

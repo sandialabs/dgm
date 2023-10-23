@@ -1,0 +1,2 @@
+#!/bin/bash
+dgm_mesh.exe -nsd 3 -Lx 2 -Ly 2 -Lz 2 -x0 -1 -y0 -1 -z0 -1 -nx 3 -ny 3 -nz 3 -r ex9

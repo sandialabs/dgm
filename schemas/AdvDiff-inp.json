@@ -1,0 +1,40 @@
+{
+  "$schema" : "http://json-schema.org/schema#",
+  "title" : "Advection Diffusion root.inp parameters",
+  "description" : "Parameters for Reo Advection Diffusion Physics",
+  "id" : "file:AdvDiff-inp.json#",
+  "type" : "object",
+  "properties" : {
+    "cfield" : {
+      "type" : "boolean",
+      "default" : "false"
+    },
+    "cx" : {
+      "type" : "number",
+      "default" : 1
+    },
+    "cy" : {
+      "$ref" : "#/definitions/zeroSpeed"
+    },
+    "cz" : {
+      "$ref" : "#/definitions/zeroSpeed"
+    },
+    "vis" : {
+      "type" : "number",
+      "default" : 0
+    },
+    "fv" : {
+      "type" : "integer",
+      "default" : 0,
+      "minimum" : 0,
+      "maximum" : 2
+    }
+  },
+  "additionalProperties" : true,
+  "definitions" : {
+    "zeroSpeed" : {
+      "type" : "number",
+      "default" : 0
+    }
+  }
+}

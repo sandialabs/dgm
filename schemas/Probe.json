@@ -1,0 +1,9 @@
+{
+  "$schema" : "http://json-schema.org/schema#",
+  "title" : "Probe",
+  "description" : "Allow for either a File or XYZ probe specification",
+  "oneOf" : [
+    { "$ref" : "FileProbe.json#" },
+    { "$ref" : "XYZProbe.json#" }
+  ]
+}

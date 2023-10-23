@@ -1,0 +1,262 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.0'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     10177,        214]*)
+(*NotebookOutlinePosition[     10808,        236]*)
+(*  CellTagsIndexPosition[     10764,        232]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[BoxData[{
+    \(k = 2.5\), "\[IndentingNewLine]", 
+    \(a = 0.5\), "\[IndentingNewLine]", 
+    \(c = 1.0\), "\[IndentingNewLine]", 
+    \(P0 = 0.01\), "\[IndentingNewLine]", 
+    \(\[Theta] = \[Pi]\), "\[IndentingNewLine]", 
+    \(tbeg\  = 10\), "\[IndentingNewLine]", 
+    \(tend\  = \ 20\), "\[IndentingNewLine]", 
+    \(snumr = 
+      OpenRead["\</home/gqchen/tmp/wavescat_data/180\>"]\), "\
+\[IndentingNewLine]", 
+    \(Xcord = ReadList[snumr, Number]\), "\[IndentingNewLine]", 
+    \(Ps = 
+      Sum[\(-2\)*P0*\[ImaginaryI]^\((m + 1)\)*
+            Exp[\(-\[ImaginaryI]\)*
+                ArcTan[\((BesselJ[m - 1, k*a] - 
+                        BesselJ[m + 1, k*a])\)/\((BesselY[m + 1, k*a] - 
+                        BesselY[m - 1, k*a])\)]]*
+            Sin[ArcTan[\((BesselJ[m - 1, k*a] - 
+                      BesselJ[m + 1, k*a])\)/\((BesselY[m + 1, k*a] - 
+                      BesselY[m - 1, k*a])\)]]*
+            Cos[m*\[Theta]]*\((BesselJ[m, k*r] + \[ImaginaryI]*
+                  BesselY[m, k*r])\)*Exp[\(-\[ImaginaryI]\)*k*c*t], {m, 1, 
+            10, 1}] - 
+        1*P0*\[ImaginaryI]^\((0 + 1)\)*
+          Exp[\(-\[ImaginaryI]\)*
+              ArcTan[\(-BesselJ[1, k*a]\)/BesselY[1, k*a]]]*
+          Sin[ArcTan[\(-BesselJ[1, k*a]\)/BesselY[1, k*a]]]*
+          Cos[0*\[Theta]]*\((BesselJ[0, k*r] + \[ImaginaryI]*
+                BesselY[0, k*r])\)*
+          Exp[\(-\[ImaginaryI]\)*k*c*
+              t]\[IndentingNewLine]\), "\[IndentingNewLine]", 
+    \(For[i = 1; r = i, i \[LessEqual] 200, i = i + 1, 
+      r = Abs[Xcord[\([i]\)]]; \[IndentingNewLine]N[
+          Sqrt[1\/\(tend - tbeg\)*\(\[Integral]\_tbeg\%tend Im[Ps]*
+                  Im[Ps] \[DifferentialD]t\)]] >>> 
+        pre_r_180]\), "\[IndentingNewLine]", 
+    \(Close[snumr]\), "\[IndentingNewLine]", 
+    \(\)}], "Input"],
+
+Cell[BoxData[
+    \(2.5132740800000004`\)], "Output"],
+
+Cell[BoxData[
+    \(0.5`\)], "Output"],
+
+Cell[BoxData[
+    \(1.`\)], "Output"],
+
+Cell[BoxData[
+    \(0.01`\)], "Output"],
+
+Cell[BoxData[
+    \(\[Pi]\)], "Output"],
+
+Cell[BoxData[
+    \(10\)], "Output"],
+
+Cell[BoxData[
+    \(20\)], "Output"],
+
+Cell[BoxData[
+    \(InputStream["/home/gqchen/tmp/wavescat_data/180", 4]\)], "Output"],
+
+Cell[BoxData[
+    \({\(-0.6475`\), \(-0.795`\), \(-0.9425`\), \(-1.09`\), \(-1.2375`\), \
+\(-1.385`\), \(-1.5325`\), \(-1.68`\), \(-1.8275`\), \(-1.975`\), \
+\(-2.1225`\), \(-2.27`\), \(-2.4175`\), \(-2.565`\), \(-2.7125`\), \
+\(-2.86`\), \(-3.0075`\), \(-3.155`\), \(-3.3025`\), \(-3.45`\), \
+\(-3.5975`\), \(-3.745`\), \(-3.8925`\), \(-4.04`\), \(-4.1875`\), \
+\(-4.335`\), \(-4.4825`\), \(-4.63`\), \(-4.7775`\), \(-4.925`\), \
+\(-5.0725`\), \(-5.22`\), \(-5.3675`\), \(-5.515`\), \(-5.6625`\), \
+\(-5.81`\), \(-5.9575`\), \(-6.105`\), \(-6.2525`\), \(-6.4`\), \(-6.5475`\), \
+\(-6.695`\), \(-6.8425`\), \(-6.99`\), \(-7.1375`\), \(-7.285`\), \
+\(-7.4325`\), \(-7.58`\), \(-7.7275`\), \(-7.875`\), \(-8.0225`\), \
+\(-8.17`\), \(-8.3175`\), \(-8.465`\), \(-8.6125`\), \(-8.76`\), \
+\(-8.9075`\), \(-9.055`\), \(-9.2025`\), \(-9.35`\), \(-9.4975`\), \
+\(-9.645`\), \(-9.7925`\), \(-9.94`\), \(-10.0875`\), \(-10.235`\), \
+\(-10.3825`\), \(-10.53`\), \(-10.6775`\), \(-10.825`\), \(-10.9725`\), \
+\(-11.12`\), \(-11.2675`\), \(-11.415`\), \(-11.5625`\), \(-11.71`\), \
+\(-11.8575`\), \(-12.005`\), \(-12.1525`\), \(-12.3`\), \(-12.4475`\), \
+\(-12.595`\), \(-12.7425`\), \(-12.89`\), \(-13.0375`\), \(-13.185`\), \
+\(-13.3325`\), \(-13.48`\), \(-13.6275`\), \(-13.775`\), \(-13.9225`\), \
+\(-14.07`\), \(-14.2175`\), \(-14.365`\), \(-14.5125`\), \(-14.66`\), \
+\(-14.8075`\), \(-14.955`\), \(-15.1025`\), \(-15.25`\), \(-15.3975`\), \
+\(-15.545`\), \(-15.6925`\), \(-15.84`\), \(-15.9875`\), \(-16.135`\), \
+\(-16.2825`\), \(-16.43`\), \(-16.5775`\), \(-16.725`\), \(-16.8725`\), \
+\(-17.02`\), \(-17.1675`\), \(-17.315`\), \(-17.4625`\), \(-17.61`\), \
+\(-17.7575`\), \(-17.905`\), \(-18.0525`\), \(-18.2`\), \(-18.3475`\), \
+\(-18.495`\), \(-18.6425`\), \(-18.79`\), \(-18.9375`\), \(-19.085`\), \
+\(-19.2325`\), \(-19.38`\), \(-19.5275`\), \(-19.675`\), \(-19.8225`\), \
+\(-19.97`\), \(-20.1175`\), \(-20.265`\), \(-20.4125`\), \(-20.56`\), \
+\(-20.7075`\), \(-20.855`\), \(-21.0025`\), \(-21.15`\), \(-21.2975`\), \
+\(-21.445`\), \(-21.5925`\), \(-21.74`\), \(-21.8875`\), \(-22.035`\), \
+\(-22.1825`\), \(-22.33`\), \(-22.4775`\), \(-22.625`\), \(-22.7725`\), \
+\(-22.92`\), \(-23.0675`\), \(-23.215`\), \(-23.3625`\), \(-23.51`\), \
+\(-23.6575`\), \(-23.805`\), \(-23.9525`\), \(-24.1`\), \(-24.2475`\), \
+\(-24.395`\), \(-24.5425`\), \(-24.69`\), \(-24.8375`\), \(-24.985`\), \
+\(-25.1325`\), \(-25.28`\), \(-25.4275`\), \(-25.575`\), \(-25.7225`\), \
+\(-25.87`\), \(-26.0175`\), \(-26.165`\), \(-26.3125`\), \(-26.46`\), \
+\(-26.6075`\), \(-26.755`\), \(-26.9025`\), \(-27.05`\), \(-27.1975`\), \
+\(-27.345`\), \(-27.4925`\), \(-27.64`\), \(-27.7875`\), \(-27.935`\), \
+\(-28.0825`\), \(-28.23`\), \(-28.3775`\), \(-28.525`\), \(-28.6725`\), \
+\(-28.82`\), \(-28.9675`\), \(-29.115`\), \(-29.2625`\), \(-29.41`\), \
+\(-29.5575`\), \(-29.705`\), \(-29.8525`\), \(-30\)}\)], "Output"],
+
+Cell[BoxData[
+    \(\((\(-0.0043853025074514695`\) - 
+            0.004962070837125821`\ \[ImaginaryI])\)\ \
+\[ExponentialE]\^\(\(-2.5132740800000004`\)\ \[ImaginaryI]\ t\)\ \((BesselJ[
+              0, 2.5132740800000004`\ r] + \[ImaginaryI]\ BesselY[0, 
+                2.5132740800000004`\ r])\) + \((\(\(0.005876175472299619`\)\(\
+\[InvisibleSpace]\)\) + 
+            0.0019086118731861373`\ \[ImaginaryI])\)\ \
+\[ExponentialE]\^\(\(-2.5132740800000004`\)\ \[ImaginaryI]\ t\)\ \((BesselJ[
+              1, 2.5132740800000004`\ r] + \[ImaginaryI]\ BesselY[1, 
+                2.5132740800000004`\ r])\) + \
+\((\(\(0.0006400322238274944`\)\(\[InvisibleSpace]\)\) - 
+            0.0035200856848963667`\ \[ImaginaryI])\)\ \
+\[ExponentialE]\^\(\(-2.5132740800000004`\)\ \[ImaginaryI]\ t\)\ \((BesselJ[
+              2, 2.5132740800000004`\ r] + \[ImaginaryI]\ BesselY[2, 
+                2.5132740800000004`\ r])\) - \
+\((\(\(0.0002590446142906351`\)\(\[InvisibleSpace]\)\) + 
+            3.3557686688171267`*^-6\ \[ImaginaryI])\)\ \
+\[ExponentialE]\^\(\(-2.5132740800000004`\)\ \[ImaginaryI]\ t\)\ \((BesselJ[
+              3, 2.5132740800000004`\ r] + \[ImaginaryI]\ BesselY[3, 
+                2.5132740800000004`\ r])\) - \((3.894655580808293`*^-9 - 
+            8.825706569324848`*^-6\ \[ImaginaryI])\)\ \
+\[ExponentialE]\^\(\(-2.5132740800000004`\)\ \[ImaginaryI]\ t\)\ \((BesselJ[
+              4, 2.5132740800000004`\ r] + \[ImaginaryI]\ BesselY[4, 
+                2.5132740800000004`\ r])\) + \((1.7976666162081706`*^-7 + 
+            1.6158026316452075`*^-12\ \[ImaginaryI])\)\ \
+\[ExponentialE]\^\(\(-2.5132740800000004`\)\ \[ImaginaryI]\ t\)\ \((BesselJ[
+              5, 2.5132740800000004`\ r] + \[ImaginaryI]\ BesselY[5, 
+                2.5132740800000004`\ r])\) + \((2.93243890386911`*^-16 - 
+            2.421750979712434`*^-9\ \[ImaginaryI])\)\ \
+\[ExponentialE]\^\(\(-2.5132740800000004`\)\ \[ImaginaryI]\ t\)\ \((BesselJ[
+              6, 2.5132740800000004`\ r] + \[ImaginaryI]\ BesselY[6, 
+                2.5132740800000004`\ r])\) - \((2.3164908597654772`*^-11 + 
+            2.6830649516885`*^-20\ \[ImaginaryI])\)\ \
+\[ExponentialE]\^\(\(-2.5132740800000004`\)\ \[ImaginaryI]\ t\)\ \((BesselJ[
+              7, 
+              2.5132740800000004`\ r] + \[ImaginaryI]\ BesselY[7, 
+                2.5132740800000004`\ r])\) - \((1.3696552759355065`*^-24 - 
+            1.6550862671990886`*^-13\ \[ImaginaryI])\)\ \
+\[ExponentialE]\^\(\(-2.5132740800000004`\)\ \[ImaginaryI]\ t\)\ \((BesselJ[
+              8, 2.5132740800000004`\ r] + \[ImaginaryI]\ BesselY[8, 
+                2.5132740800000004`\ r])\) + \((9.171330239033167`*^-16 + 
+            4.205664917670209`*^-29\ \[ImaginaryI])\)\ \
+\[ExponentialE]\^\(\(-2.5132740800000004`\)\ \[ImaginaryI]\ t\)\ \((BesselJ[
+              9, 2.5132740800000004`\ r] + \[ImaginaryI]\ BesselY[9, 
+                2.5132740800000004`\ r])\) + \((8.231264691844567`*^-34 - 
+            4.0574042667312725`*^-18\ \[ImaginaryI])\)\ \
+\[ExponentialE]\^\(\(-2.5132740800000004`\)\ \[ImaginaryI]\ t\)\ \((BesselJ[
+              10, 2.5132740800000004`\ r] + \[ImaginaryI]\ BesselY[10, 
+                2.5132740800000004`\ r])\)\)], "Output"],
+
+Cell[BoxData[
+    \("/home/gqchen/tmp/wavescat_data/180"\)], "Output"]
+}, Open  ]]
+},
+FrontEndVersion->"5.0 for X",
+ScreenRectangle->{{0, 1280}, {0, 1024}},
+WindowSize->{1274, 840},
+WindowMargins->{{-3, Automatic}, {Automatic, 72}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 1823, 38, 342, "Input"],
+Cell[3602, 93, 53, 1, 27, "Output"],
+Cell[3658, 96, 38, 1, 27, "Output"],
+Cell[3699, 99, 37, 1, 27, "Output"],
+Cell[3739, 102, 39, 1, 27, "Output"],
+Cell[3781, 105, 39, 1, 27, "Output"],
+Cell[3823, 108, 36, 1, 27, "Output"],
+Cell[3862, 111, 36, 1, 27, "Output"],
+Cell[3901, 114, 86, 1, 27, "Output"],
+Cell[3990, 117, 2890, 40, 203, "Output"],
+Cell[6883, 159, 3205, 49, 201, "Output"],
+Cell[10091, 210, 70, 1, 27, "Output"]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+

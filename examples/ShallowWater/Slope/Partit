@@ -1,0 +1,9 @@
+#!/bin/bash
+ln -s 2D_bore.grf 2D_bore
+#gpmetis 2D_bore 64   
+#gpmetis 2D_bore 32
+#gpmetis 2D_bore 16
+pmetis 2D_bore 96   
+pmetis 2D_bore 64   
+pmetis 2D_bore 32
+pmetis 2D_bore 16

@@ -1,0 +1,29 @@
+{
+  "Title" : "Advection diffusion",
+  "Field" : {
+    "Write weights" : true 
+  },
+  "Zoltan" : {
+    "Partition" : {
+      "algorithm" : "hypergraph"
+    }
+  } 
+/*
+  "Field Slice" : [
+    {
+      "Verbosity" : 1,
+      "Format" : "float",
+      "Frequency" : 100,
+      "Origin" : [ 0.0, 0.0, 0.0 ],
+      "Lattice" : [
+         [ 0.25, 0.0, 0.0 ],
+         [ 0.0, 0.25, 0.0 ],
+         [ 0.0, 0.0, 2.0 ]
+      ],
+      "Outputs" : [
+        { "Default" : 0.0, "Field" : "u", "File" : "u" }
+      ]
+    }
+  ]
+*/
+}

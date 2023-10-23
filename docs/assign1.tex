@@ -1,0 +1,139 @@
+%==============================================================================
+%
+% Discontinuous Galerkin Method, Assignment #1
+%
+%  Author:   S. Scott Collis
+%
+%  Written:  9-28-2001
+%
+%  Revised:  9-28-2001
+%
+%==============================================================================
+\documentclass[11pt]{article}
+\usepackage{times}
+\usepackage{fullpage}
+\usepackage{comment}
+%
+%.... Pdf links
+%
+\usepackage[pdfmark,%
+            colorlinks=true,%
+            breaklinks=true,%
+            urlcolor=blue,%
+            pdfauthor={S.S.\ Collis},%
+            bookmarksopen=false,%
+            pdfpagemode=None]{hyperref}
+
+\newcommand{\tecplot}{{\sf Tecplot}}
+\newcommand{\dgm}{\tt dgm}
+
+\begin{document}
+
+\begin{center}
+{\normalsize\bf Discontinuous Galerkin Exercises}\\
+{\normalsize S.\ Scott Collis}\\
+{\normalsize \today}
+\end{center}
+
+\section*{\normalsize\bf General Issues}
+
+On the SGI Octane, Blasius, use CVS to checkout version {\tt rel-0-14} of the
+DGM code by typing the command:
+\begin{center}
+\tt cvs checkout -r rel-0-14 dgm
+\end{center}
+This version supports the one-dimensional advection-diffusion equation as well
+as the one- and two-dimensional wave equation.  The default is currently the
+pure wave equation which is selected by compiling the code with the C++
+compiler option {\tt -DTWOD} on.  {\em To run 1-d viscous problems you must
+remove this compiler option from the Makefile!}.  Do so, them compile by
+typing {\tt gmake} at the unix prompt when in the {\tt dgm/src} directory.
+
+\medskip
+\noindent {\bf Reminder: this code is currently under develoment and under no
+conditions should copies be given to people outside of the Flow Physics and
+Simulation research group.}
+
+\section*{\normalsize\bf Experimentation}
+
+I first recommend that you experiment with the working code.  If you simply
+type {\tt dgm} at the unix prompt the code will generate a one-dimensional
+mesh with 20 elements each of polynomial order $p=5$.  An initial condition
+composed of a shifted cosine function will be set and the solution advanced in
+time for 1 time unit.  Upon completion, the code generates two \tecplot\ data
+files; one called {\tt ic.dat}, which is the initial condition, and {\tt
+output.dat} that is the final time solution.  You can plot both of these by
+reading the \tecplot\ layout file in the {\tt dgm/src} directory called {\tt
+plot.lay}.  If you type {\tt dgm -help} you will see several options that can
+be set through the command line.  This is currently the only way of changing
+run parameters without resorting to recompilation -- this will be fixed soon.
+You might try:
+\begin{enumerate}
+\item Changing the time step, {\tt -dt 0.01}
+\item Setting a positive yet small viscosity, {\tt -nu 0.002 -dt 0.01}
+\item Changing the final time, {\tt -tf 4.0}
+\item Changing the polynomial order, {\tt -p 1}
+\item Changing the number of elements, {\tt -ne 10}
+\end{enumerate}
+Once you are comfortable with the operation of the code, you can move on to
+the following exercises.
+
+\section*{\normalsize\bf Exercises}
+\begin{enumerate}
+
+\item {\bf Easy:} The current code uses fourth order Runge--Kutta time
+advancement.  Theoretically we know that this method is stable for pure
+convection problems as long as
+\[ \Delta t \le \frac{2.81}{|\lambda_{max}|} \]
+For simple numerical methods in space, like a first-order upwind difference on
+a uniform mesh, we know that $|\lambda_{max}| = c/h$ where $c$ is the
+convection velocity, $c=1$ in our problem, and $h = \Delta x$ is the mesh
+spacing.  This leads to the familiar result that
+\[ CFL \equiv \frac{c \Delta t}{h} \le 2.81 \]
+for RK4.  However, it is well known that higher order spatial discretizations
+have a more stringent stability requirement and discontinuous Galerkin is no
+exception.  As the polynomial order is increased while keeping the number of
+element fixed, you will find that smaller time-steps are required to keep the
+solution stable.  Perform numerical experiments to establish the effect of
+polynomial order and number of elements on the stability of the discontinuous
+Galerkin method for the wave equation.  Repeat for the advection diffusion
+equation.  You may want to coordinate with other students on this to help
+cover the parameter space.
+
+\item {\bf Easy:} The actual ``flow solver'' part of the code is
+localized in the {\tt Domain} class, i.e. {\tt Domain.h} and {\tt Domain.cpp}.
+Replace the working version of {\tt Domain.cpp} with the hacked version from
+my home directory by typing
+\begin{center}
+{\tt cp $\sim$collis/Domain\_hack.cpp Domain.cpp}
+\end{center}
+This version should still compile but will generate erroneous results since I
+have set the inviscid and viscous fluxes to be zero.  Where you see the
+comment {\tt /* REPLACE WITH YOUR FLUX */} you should add the appropriate
+definitions for both the inviscid and viscous fluxes.  I suggest that you
+follow the method that we discussed in class and use the Lax-Friedrichs
+inviscid flux and the Interior Penalty viscous flux.  When finished, compare
+your results and code to my implementation which is in the original {\tt
+Domain.cpp}.
+
+\item {\bf Intermediate:} Implement an appropriate method in the {\tt Line}
+element class to allow you to compute the $L_2$ norm of a function.  Use this
+method to compute the $L_2$ error in the numerical solution and plot the
+convergence of the solution with with both number of elements and polynomial
+order.
+
+\item {\bf Advanced:} While all inviscid numerical fluxes can be shown to be
+identical to Lax-Friedrichs (or a simple upwind method) for the linear wave
+equation, there are a variety of different viscous numerical fluxes in the
+literature.  A very good review of the available methods is given by Arnold et
+al. \cite{Arnold.etal:2001}.  Modify the code to support one or more of the
+viscous fluxes listed in Table 3.1 of the Arnold et al. paper.  In particular,
+I suggest that you first try the Baumann--Oden method.  If you get that
+working then you might try the Bassi--Rebay and LDG methods.  If you have
+problems with the notation in the Arnold et al. paper, don't hesitate to stop
+by and I will be happy to give more information.
+\end{enumerate}
+
+\bibliographystyle{abbrv}
+\bibliography{./bibs/flabbrev,./bibs/fem}
+\end{document}

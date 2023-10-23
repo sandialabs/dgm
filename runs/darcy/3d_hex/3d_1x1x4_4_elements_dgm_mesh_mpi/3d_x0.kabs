@@ -1,0 +1,5 @@
+** Permeabilities **
+Given
+Kabs_xx := 1.0;
+Kabs_yy := 1.0;
+Kabs_zz := 1.0;

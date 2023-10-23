@@ -1,0 +1,227 @@
+namespace DGM {
+
+//\image html logo-halfsize.jpg
+
+/**
+\mainpage Introduction and Overview 
+
+\htmlonly
+<b>Table of Contents</b>
+<ul>
+<li> <a href="index.html#DGM_Overview">Overview</a>
+<!img src="logo-halfsize.jpg" ALIGN=RIGHT>
+<li> <a href="index.html#DGM_Optimization">Optimization</a>
+<li> <a href="index.html#DGM_Directory">Directory Structure</a>
+<li> <a href="index.html#DGM_Executables">Executables: Drivers, Utilities and 
+Scripts</a>
+<li> <a href="DGM_Guide.html">Users Guide</a>
+<li> <a href="DGM_DevGuide.html">Developers Guide</a>
+<li> <a href="index.html#DGM_Copyright">Copyright and License</a>
+<li> <a href="index.html#DGM_Author">Primary Contact</a>
+<li> <a href="pages.html">Additional information</a>
+<li> <a href="DGM_FAQ.html">FAQs</a>
+</ul>
+\endhtmlonly
+
+\section DGM_Overview Overview
+
+This is the Discretization ToolKit (DTK) that includes a module for
+discontinuous Galerkin (DGM) and the beginnings of a module for
+finite-difference (FDM).  In the future, other discretizations such as finite
+volume, finite element and spectral element are envisioned.
+
+Starting with DTK, one can readily build modeling and simulation applications
+and an example is the Reo appliation that is built on DTK::DGM and supports
+hybrid, one-, two- and three-dimensional discretizations for: Adv_Diff,
+Burgers, Euler, LinEuler_quasi, Navier_Stokes,Euler3d, and Navier_Stokes3d
+equations.  Note that not all PDEs can be solved at all spatial dimensions so
+see the particular module to learn more.
+
+Reo/DGM is designed using an object-oriented approach to PDE simulation and
+optimization/inversion.  The class heirarchy begins at the highest level with
+the Problem class which defines a simple forward problem on a space-time
+Domain, \f$\Omega\f$.  One can also derive off of Problem to generate
+optimization, control, or error estimation Problems and examples of each are
+provided.
+
+The next level in the heirarchy is the Domain class that holds a space-time
+domain that logically contains a prescribed set of physics.  The physics must
+be an equivalent first-order PDE suitable for discontinuous Galerkin methods
+of the form
+
+\f[ \bU_{,t} + \bF_{i,i}(\bU) - \bF^v_{i,i}(\bU) = \bS \f]
+
+where \f$\bU\f$ is the solution vector, which in DGM notation is called a
+vField (short for vector Field).  The convective flux in the \f$i^{th}\f$
+direction is \f$\bF_i(\bU)\f$ and the diffusive (or viscous) flux in the
+\f$i^{th}\f$ direction is \f$\bF^v_i(\bU)\f$.  Note that derivatives are
+denoted by subscripts following a comma with summation over repeated indices
+and \f$t\f$ denotes time.
+
+The Domain is an (partially) abstract class that one derives off of in order
+to implement a particular system of PDEs.  For example, Euler derives off of
+Domain and implements the 2d compressible Euler equations of fluid dynamics.
+Likewise, Navier_Stokes derives off of Euler and adds the Navier-Stokes
+diffusion approximation for molecular viscosity to the Euler equations.
+
+Each Domain, holds at least two vector_Field objects, \f$\bU\f$
+and\f$\tilde\bU\f$ where \f$\bU\f$ is the primary solution variable and
+\f$\tilde\bU\f$ is a temporary solution vector, typically used to hold the
+solution value at the previous time step. Each vector_Field object is actually
+a lightweight container of Field objects.  Each Field contains a list of
+Elements that define the spatial representation of that Field component.  In
+general, the Element representations for each component can be different,
+although in practise the Element topology is usually the same for each
+component but the polynomial order of the representation may differ. Element
+itself is also a base class that one derives from to implement particular
+elements such as Line, Quad, Tri, and Hex.
+
+\image html dgm-uml.png
+\image latex dgm-uml.png "DGM overall UML" width=5in
+
+Domain objects also hold an instance of the DGM time advancement class called
+Time_Int.  Time_Int is a base class that one derives from to implement a
+variety of time advancement methods including Runge_Kutta, TVD, Multistep and
+implicit methods such as Backward_Euler and Trapezoidal.  Time_Int also, when
+compiled with Trilinos, support Trilinos enabled DGM::Backward_Euler and
+DGM::Trapezoidal.  Since the Time_Int class defines the interface for all DGM
+time integrators, it is very easy to add a new time integration method since
+it is entirely self-contained by providing the Time_Int interface.
+
+The Domain also holds both a Material object that defines the material
+properties for the particular PDE and an Response object that can query the
+solution in a number of flexible ways.  The Material base class makes it very
+easy to develop new material types in either liquid, gas, solid or
+combinations.  Finally, the Domain holds a database of both boundary
+conditions and source terms that allows for a very flexible mechanism to
+define and enforce new boundary conditions (BC) and source terms (Source).
+Likewise, all the code associated with a given BC or Source is easily
+localized making it much easier to add, revise, and maintain boundary
+conditions and source terms, which, in the author's experience is one of the
+major challenges and weaknesses of many existing simulation toolkits.
+
+\section DGM_Optimization Optimization and Inversion
+
+The true power of DGM is that it is designed from the ground up to support
+adjoint-based optimization.  This is done in such a way that the discrete
+problem setup mimics the continuous formulation and setup for optimization
+problems.  In the following discussion, we introduce some of the key classes
+within the optimization formulation.
+
+The State interface defines a base class that a Domain may derive off of to
+provide the general functionality needed for the forward problem.
+Analogously, Domains must also implement the Adjoint interface.  The Objective
+class provides the concept of an objective or merit function that is typically
+minimized. The Objective class is implemented in a very general way as a
+database of Objective::Entry that each hold an observation (Obs) object.  The
+Obs base class provides the basic functionality of an observation term within
+an objective function including the ability to compute its cost, norm,
+terminal_cost etc.
+
+Similarly, there is the Control class that is a database of Control::Entry
+that each hold and manage a Ctrl object.  Any quantity (parameter, source,
+boundary condition) that one wishes to control as part of an optimization
+problem must derive off of Ctrl and provide its basic funtionality.
+
+\image html DGM-opt-uml.png
+\image latex DGM-opt-uml.png "DTK Optimization UML" width=5in
+
+Given the objective oriented design, it is relatively easy to introduce both
+new Obs and Ctrl objects and this was one of the major thrusts of the overall
+DGM code design.
+
+In order to form the complete objective function, that involves both
+observations and controls, we use the ObjFunc class which literally takes both
+a Control database and an Objective database object and assembles them into a
+unified objective function that can evaluate itself.  In particular, the
+ObjFunc has knowledge of the underlying Time_Int object so that time integrals
+in the objective function are computed consistently.
+
+The final ingredient in the DGM optimization framework is the Optimizer class
+which provides a simple, yet general interface to large-scale optimization
+algorithms and error estimation.  In order to implement a new Optimizer in
+DGM, you simply derive off of the base Optimizer class and provide concrete
+implementations for several methods.  DGM supports BlackBox optimization which
+provides a general DAKOTA-style interface.  DGM also has a native nonlinearCG
+Optimizer as well as an adjoint-based error-estimation (ErrorEst) capability.
+Finally, there is a limited memory BFGS Optimizer, however, this remains a
+work in progress and should be used with caution.
+
+\section DGM_Directory Directory Stucture
+
+The DGM source tree is organized as:
+\li\c src - All source and headers are located here
+\li\c util  - Some useful utilities (dgm2tec, dgm2p3d, dgm_clean, dgm_test)
+\li\c regression - Beginnings of a regression test harness with scripts
+\li\c runs  - A large number of sample runs (try 1d, 2d, cyl/cyl)
+\li\c examples  - Examples demonstrating advanced capabilities
+\li\c docs  - A collection of documents (some incomplete) describing DGM
+\li\c math - Some useful Mathematica notebooks
+\li\c matlab - Some useful Matlab scripts
+\li\c test - Some stubs of tests and trial code
+
+\section DGM_Executables Executables:  Drivers, Utilites and Scripts
+
+DGM is setup to be used primarily as a library.  As such, there are a number
+of DGM drivers that each exercise different DGM capabilities.  The following
+is a partial list of DGM drivers and utilities.  Each of these builds into an
+executable with the extenstion \c cpp replaced by \c exe.
+
+\subsection DGM_Drivers Drivers
+\li\c dgm.cpp - forward solver
+\li\c dgm_opt.cpp - optimization solver using native optimizers
+\li\c dgm_dak.cpp - DAKOTA direct interface
+\li\c dgm_me.cpp - Trilinos::ModelEvaluator direct interface
+\li\c dgm_err.cpp - error estimation solver
+\li\c dgm_ctl.cpp - feedback control solver
+\li\c dgm_tdd.cpp - time-domain-decomposition solver (deprecated)
+
+\subsection DGM_Utilities Utilities
+\li\c dgm_mesh.cpp - mesh generator (1, 2 and 3-d rectangular meshes)
+\li\c dgm_n2e.cpp - pre-processor (convert nodal to element connectivity)
+\li\c dgm_post.cpp - post processor (generates Tecplot or Plot3d files)
+\li\c dgm_loc.cpp - locate the elements on which nodes live
+\li\c dgm_cpost.cpp - optimization and control post processor
+\li\c dgm_stats.cpp - statistics post-processor for turbulence simulation
+
+\subsection DGM_Scripts Scripts
+
+The \c dgm/util directory has a number of scripts that can simplify the use of
+the DGM utilities for common use cases.  These scripts set common commandline
+options and use the unix shell to loop over multiple files
+
+\li \c dgm2tec - converts \c rst files to Tecplot \c dat files
+\li \c dgm2p3d - converts \c rst files to Plot3d \c xyz and \c q files
+\li \c dgm2aux - converts \c aux files to Tecplot \c dat files
+\li \c dgm_clean - cleans output files from a DGM run directory
+\li \c dgm_test - executes multiple DGM \c tst 
+\li \c ctl2tec - converts \c ctl files to Tecplot \c dat files
+\li \c ctl2aux - extracts the gradient from the ctl and converts to Tecplot
+\li \c exo2ien - converts ExodusII mesh to IEN mesh (ready for \c dgm_n2e.exe)
+\li \c fv2tec - converts a finite-volume \c rst to Tecplot \c dat file
+
+\section DGM_Copyright Copyright and License
+
+Copyright (c)2003 Rice University.<BR>
+Copyright (c)2014 Sandia Corporation.<BR>
+Under the terms of Contract DE-AC04-94AL85000 with Sandia Corporation, the 
+U.S. Government retains certain rights in this software.
+
+%DGM is released as open source under the following <a href="License.html">license</a>.
+
+\section DGM_Author Primary Contact 
+
+S. Scott Collis,
+Computational Science and Mathematics
+Sandia National Laboratories,
+Albuquerque, NM 87175
+(505) 284-1123,
+sscoll@sandia.gov
+
+\section DGM_Contributors Contributors
+
+Noel Belcourt, Guoquan Chen, Scott Collis, Axel Gerstenberger, Kaveh Ghayour, Eric Lee, Curt Ober, James Overfelt, Srinivas Ramakrishnan, Guglielmo Scovazzi, Bart van Bloemen Waanders, and Joseph Young.
+
+**/
+
+} // namespace DGM

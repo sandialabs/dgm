@@ -1,0 +1,4 @@
+** Initial Conditions **
+Given
+ur(x,y) := sin(2*PI*(x /2 + y/4));
+ui(x,y) := 0.0;

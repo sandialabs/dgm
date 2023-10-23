@@ -1,0 +1,155 @@
+{
+  "MultiOptProblem" : {
+    "Verbosity" : 1,
+    "Recompute state" : true
+  },
+  "Domain" : {
+    "Time" : {
+      "Integrator" : "DGM::TimeInt",
+      "Save Integrator" : "DTK::TimeIntegrate",
+      "Method" : "RK4"
+    },
+    "Backward Euler" : {
+      "Read parameters from XML" : false,
+      "Write parameters to XML" : true,
+      "Nonlinear solver" : "Line search based",
+      "Line search" : {
+        "Method" : "Full step"
+      },
+      "Direction" : {
+        "Method" : "Newton",
+        "Newton" : {
+          "Linear solver" : {
+            "Aztec solver" : "GMRES",
+            "Max iterations" : 200,
+            "Size of Krylov subspace" : 200,
+            "Tolerance" : 2.0e-9,
+            "Output frequency" : 1,
+            "Preconditioner" : "None"
+          },
+          "Forcing term method" : "Constant"
+        }
+      },
+      "Solver options" : {
+        "Status test check type" : "Complete",
+        "Maximum iterations" : 4,
+        "Norm F" : 1.0e-8,
+        "Norm F relative" : 1.0e-4,
+        "Norm update" : 1.0e-19
+      },
+      "Printing" : {
+        "Output Precision" : 3,
+        "Output Information" : {
+          "Outer Iteration" : true,
+          "Outer Iteration StatusTest" : false,
+          "Inner Iteration" : false,
+          "Parameters" : false,
+          "Details" : false,
+          "Test Details" : false,
+          "Stepper Iteration" : false,
+          "Stepper Details" : false,
+          "Stepper Parameters" : false,
+          "Linear Solver Details" : true,
+          "Warning" : true,
+          "Error" : true,
+          "Debug" : false
+        }
+      }
+    },
+    "Trapezoidal" : {
+      "Read parameters from XML" : false,
+      "Write parameters to XML" : true,
+      "Nonlinear solver" : "Line search based",
+      "Line search" : {
+        "Method" : "Full step"
+      },
+      "Direction" : {
+        "Method" : "Newton",
+        "Newton" : {
+          "Linear solver" : {
+            "Aztec solver" : "GMRES",
+            "Max iterations" : 200,
+            "Size of Krylov subspace" : 200,
+            "Tolerance" : 1.0e-8,
+            "Output frequency" : 1,
+            "Preconditioner" : "None"
+          },
+          "Forcing term method" : "Constant"
+        }
+      },
+      "Solver options" : {
+        "Status test check type" : "Complete",
+        "Maximum iterations" : 4,
+        "Norm F" : 1.0e-8,
+        "Norm F relative" : 1.0e-4,
+        "Norm update" : 1.0e-19
+      },
+      "Printing" : {
+        "Output Precision" : 3,
+        "Output Information" : {
+          "Outer Iteration" : true,
+          "Outer Iteration StatusTest" : false,
+          "Inner Iteration" : false,
+          "Parameters" : false,
+          "Details" : false,
+          "Test Details" : false,
+          "Stepper Iteration" : false,
+          "Stepper Details" : false,
+          "Stepper Parameters" : false,
+          "Linear Solver Details" : true,
+          "Warning" : true,
+          "Error" : true,
+          "Debug" : false
+        }
+      }
+    }
+  },
+  "InCore" : { 
+    "Statistics" : 2,
+    "Percent of memory to use" : 100,
+    "Save as single precision" : false,
+    "Compression" : {
+      "Method" : "None",
+      "Verbosity" : 0,
+      "Shuffle" : 1,
+      "Level" : 9 
+    }
+  },
+  "Optimizer" : {
+    "Use Trust Region" : false,
+    "Use Finite Difference Hessian" : 1,
+    "Finite Difference Step Size" : 1.0,
+    "Screen Print" : false,
+    "Reset Objective Frequency" : 0,
+    "Check Gradient" : 1,
+    "Use Preconditioner" : false,
+    "Output Type" : 1,
+    "ROL" : {
+      "Step" : {
+        "Line Search" : { 
+          "Initial Step Size" : 2.0e-02,
+          "User Defined Initial Step Size" : true,
+          "Descent Method" : { 
+            "Type" : "Nonlinear CG",
+            "Nonlinear CG Type" : "Fletcher-Reeves"   
+          },
+          "Line-Search Method" : {
+            "Type" : "DGM Brent's"
+          },
+          "Curvature Condition" : {
+            "Type" : "Null Curvature Condition"
+          }
+        }
+      },    
+      "Scalar Minimization" : {
+        "Tolerance" : 1.0e-4,
+        "Iteration Limit" : 10 
+      },
+      "Status Test" : {
+        "Gradient Tolerance" : 1.0e-10,
+        "Step Tolerance"     : 1.0e-10,
+        "Iteration Limit"    : 10   
+      }
+    }
+  }
+}

@@ -1,0 +1,71 @@
+{
+  "$schema" : "http://json-schema.org/schema#",
+  "title" : "Zoltan",
+  "description" : "DGM Zoltan input specification",
+  "type" : "object",
+  "properties" : {
+    "Partition" : {
+      "type" : "object",
+      "description" : "How to partition the mesh",
+      "required" : [ "algorithm" ],
+      "properties" : {
+        "algorithm" : {
+          "type" : "string",
+          "enum" : [ "pqjagged", "hypergraph", "rcb" ]
+        },
+        "imbalance_tolerance" : {
+          "type" : "number",
+          "default" : 1.1
+        },
+        "compute_metrics" : {
+          "type" : "string",
+          "default" : "true"
+        },
+        "additionalProperties" : false
+      }
+    },
+    "Parameters" : {
+      "type" : "object",
+      "description" : "Zoltan parameters",
+      "properties" : {
+        "debug_level" : {
+          "type" : "string",
+          "default" : "basic_status"
+        },
+        "debug_procs" : {
+          "type" : "integer",
+          "default" : 0
+        },
+        "error_check_level" : {
+          "type" : "string",
+          "default" : "debug_mode_assertions"
+        }
+      },
+      "additionalProperties" : false
+    },
+    "Geometry" : {
+      "type" : "object",
+      "description" : "Zoltan geometry parameters",
+      "properties" : {
+        "bisection_num_test_cuts" : {
+          "type" : "integer",
+          "default" : 1
+        }
+      },
+      "additionalProperties" : false
+    },
+    "Weights" : {
+      "type" : "object",
+      "description" : "DGM weights database",
+      "properties" : {
+        "File" : { "type" : "string" }
+      },
+      "additionalProperties" : false
+    },
+    "Write Partition" : {
+      "type" : "boolean",
+      "default" : false
+    }
+  },
+  "additionalProperties" : false
+}

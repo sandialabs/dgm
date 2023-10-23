@@ -1,0 +1,22 @@
+#!/bin/csh -f
+#set echo
+set root = cyl
+set aeps = 1.0e-12
+set reps = 1.0e-8
+set s = 0
+if ($# == 0) then
+  if ($?PBS_NODEFILE) then
+    mpiexec pdgm.exe $root | tee $root.log
+  else
+    dgm.exe $root | tee $root.log
+  endif
+else
+  mpiexec -n $1 pdgm.exe $root | tee $root.$1.log
+endif
+@ s = $s + $status
+dgm_diff.exe -aeps $aeps -reps $reps -r1 $root.ref -r2 $root.rst $root
+@ s = $s + $status
+if ($s == 0) then
+  dgm_clean $root
+endif
+exit $s

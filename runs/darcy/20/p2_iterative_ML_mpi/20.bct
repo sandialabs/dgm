@@ -1,0 +1,17 @@
+Dirichlet bc100
+{
+  0.0 
+}
+Dirichlet bc101
+{
+  0.0 
+}
+Dirichlet bc102
+{
+  0.0 
+}
+Dirichlet bc103
+{
+  0.0
+}
+

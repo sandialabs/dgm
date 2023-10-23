@@ -1,0 +1,26 @@
+# DGM test case
+#
+# CO_2 fingering
+#
+# Author:  A. Gerstenberger
+#
+nsd = 2
+eqntype  = 74     # advection diffusion
+inttype  = 4      # time integration
+p        = 4      # polynomial order
+Nt       = 10    # number of time steps
+Ntout    = 10    # restart output interval
+dt       = 1.0   # time step
+tmax     = 1000000
+CFLmax   = 0.1
+
+diffusivity_D = 0.000000002 # viscosity coefficient
+tortuosity_tau = 1.0
+porosity_phi = 0.3 
+
+
+rho_CO2   = 1260.35    # rho1
+rho_water =  994.56    # rho2
+
+stab = 1.0
+tecplot = 0

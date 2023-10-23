@@ -1,0 +1,21 @@
+namespace DGM {
+
+/**
+
+\page DGM_FAQ DGM FAQs
+
+\htmlonly
+<b>Table of Contents</b>
+\endhtmlonly
+  -# <a href="DGM_FAQ.html#DGM_FAQ_Building">How do you build and install DGM?</a>
+
+<b>Responses to FAQs</b>
+
+ -# \anchor DGM_FAQ_Building How do you build and install DGM? <br>
+    \htmlonly
+      Details are in the <a href="../../Install.html">DGM Install Instructions.</a>
+    \endhtmlonly
+
+*/
+
+}  // namespace DGM

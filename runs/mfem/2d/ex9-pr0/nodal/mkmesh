@@ -1,0 +1,2 @@
+#!/bin/bash
+dgm_mesh.exe -nodal -nsd 2 -Lx 2 -Ly 2 -x0 -1 -y0 -1 -nx 12 -ny 12 -nz 12 -r ex9

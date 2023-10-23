@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:complexType name="stateBCtype">
+    <xs:sequence>
+      <xs:element name="rho" type="xs:double"/>
+      <xs:element name="rho_u" type="xs:double"/>
+      <xs:element name="rho_v" type="xs:double"/>
+      <xs:element name="rho_w" type="xs:double" minOccurs="0"/>
+      <xs:element name="rho_E" type="xs:double"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="vortextype">
+    <xs:sequence>
+      <xs:element name="x0" type="xs:double"/>
+      <xs:element name="y0" type="xs:double"/>
+      <xs:element name="radius" type="xs:double"/>
+      <xs:element name="amp" type="xs:double"/>
+      <xs:element name="Ma" type="xs:double"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Eulertype">
+    <xs:sequence>
+      <xs:element name="BC" minOccurs="0" maxOccurs="unbounded">
+        <xs:complexType>
+          <xs:sequence>
+            <xs:element name="rho" type="xs:double"/>
+            <xs:element name="rho_u" type="xs:double"/>
+            <xs:element name="rho_v" type="xs:double"/>
+            <xs:element name="rho_E" type="xs:double"/>
+          </xs:sequence>
+          <xs:attribute name="id" type="xs:string" use="required"/>
+        </xs:complexType>
+      </xs:element>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:group name="Cgroup">
+    <xs:sequence>
+      <xs:element name="Cx" type="xs:double" default="1.0" minOccurs="1"/>
+      <xs:element name="Cy" type="xs:double" default="0.0" minOccurs="1"/>
+      <xs:element name="Cz" type="xs:double" default="0.0" minOccurs="0"/>
+    </xs:sequence>
+  </xs:group>
+
+  <xs:complexType name="Adv_Difftype">
+    <xs:sequence>
+    <xs:choice>
+      <xs:element name="Cfield" type="xs:string"/>
+      <xs:group ref="Cgroup"/>
+    </xs:choice>
+    <xs:element name="vis" type="xs:double"/>
+    </xs:sequence>
+  </xs:complexType>
+
+  <xs:complexType name="Burgerstype">
+    <xs:sequence>
+      <xs:element name="vis" type="xs:double"/>
+    </xs:sequence>    
+  </xs:complexType>
+
+  <xs:complexType name="Navier_Stokestype"> 
+    <xs:sequence>
+      <xs:element name="vis" type="xs:double"/>
+    </xs:sequence>    
+  </xs:complexType>
+
+  <xs:complexType name="Physicstype">
+    <xs:choice>
+      <xs:element name="Adv_Diff" type="Adv_Difftype"/>
+      <xs:element name="Euler" type="Eulertype"/>
+      <xs:element name="Burgers" type="Burgerstype"/>
+      <xs:element name="Navier_Stokes" type="Navier_Stokestype"/>
+    </xs:choice>
+  </xs:complexType>
+
+  <xs:element name="DGM">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Problem">
+          <xs:complexType>
+            <xs:sequence>
+              <xs:element name="Title" type="xs:string"/>
+              <xs:element name="Domain" maxOccurs="unbounded">
+                <xs:complexType>
+                  <xs:sequence>
+                    <xs:element name="Name" type="xs:string"/>
+                    <xs:element name="Physics" type="Physicstype"/>
+                    <xs:element name="Space">
+                      <xs:complexType>
+                        <xs:all>
+                          <xs:element name="mesh" type="xs:string"/>
+                          <xs:element name="con" type="xs:string"/>
+                          <xs:element name="p" type="xs:positiveInteger"/>
+                        </xs:all>
+                      </xs:complexType>
+                    </xs:element>
+                    <xs:element name="Time">
+                      <xs:complexType>
+                        <xs:all>
+                          <xs:element name="dt" type="xs:double"/>
+                          <xs:element name="Nt" type="xs:positiveInteger"/>
+                          <xs:element name="Ntout" type="xs:positiveInteger"/>
+                        </xs:all>
+                      </xs:complexType>
+                    </xs:element>
+                  </xs:sequence>
+                  <xs:attribute name="id" type="xs:string" use="required"/>
+                </xs:complexType>
+              </xs:element>
+            </xs:sequence>
+            <xs:attribute name="id" type="xs:string" use="optional"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

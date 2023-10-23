@@ -1,0 +1,9 @@
+#!/bin/csh -f
+#
+# Make all versions of DGM code
+#
+cd ~/chamisa/GCCp
+make -j2 pdgm ADDONS="GCC4 MPICH_IGNORE_CXX_SEEK"
+make -j2 popt ADDONS="GCC4 MPICH_IGNORE_CXX_SEEK"
+#make -j2 ptdd
+exit

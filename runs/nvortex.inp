@@ -1,0 +1,7 @@
+eqntype = 2      # Navier-Stokes
+inttype = 4      # fourth-order Runge-Kutta 
+dt      = 0.001  # time step
+Nt      = 100    # number of time steps
+Ntout   = 10     # major output interval
+p       = 10     # default polynomial order
+vis     = 0.00   # viscosity

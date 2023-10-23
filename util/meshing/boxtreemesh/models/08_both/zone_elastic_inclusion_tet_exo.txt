@@ -1,0 +1,4 @@
+1 elastic
+2 inclusion
+3 elastic
+4 elastic

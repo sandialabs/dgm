@@ -1,0 +1,76 @@
+#!/bin/bash
+usage() {
+cat << EOF
+Usage: $0 [options]
+
+Select the version of dgm to use
+
+Options:
+  -h    Show this message
+  -o    Optimized build
+  -d    Debug build
+  -r    Release build
+  -m    Maximally optimized build (same as release)
+  -t    Use Trilinos builds (used with o, d, or r/m)
+  -v    Verbose output
+EOF
+}
+#set -x
+TRILINOS=
+TYPE=opt
+while getopts "hdomtrv" OPTION
+do
+  case $OPTION in
+    h)
+      usage
+      exit 1
+      ;;
+    t)
+      TRILINOS=trilinos
+      ;;
+    o)
+      TYPE=opt
+      ;;
+    d)
+      TYPE=debug
+      ;;
+    m)
+      TYPE=mopt
+      ;; 
+    r)
+      TYPE=mopt
+      ;;
+    v)
+      VERBOSE=1
+      ;;
+    \?)
+      usage
+      exit
+      ;;
+  esac
+done
+#
+# If valid options then execute
+#
+if [ -z $DGM_HOME ]; then
+  DGM_HOME=$HOME/local/dgm
+  if [ $VERBOSE ]; then
+    echo "DGM_HOME is not set in your environment. Using the default value..."
+    echo "  DGM_HOME=$DGM_HOME"
+  fi
+fi
+if [ ! -d $DGM_HOME/current ]; then
+  mkdir $DGM_HOME/current
+  echo "Made $DGM_HOME/current, make sure that this is in your path"
+fi
+cd $DGM_HOME/current
+rm mpi serial
+ln -s ../$TRILINOS/mpi/$TYPE mpi
+ln -s ../$TRILINOS/serial/$TYPE serial
+if [ $VERBOSE ]; then
+  ls -l $DGM_HOME/current
+fi
+#
+# End
+#
+exit

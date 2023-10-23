@@ -1,0 +1,6 @@
+# Initial Condition at M_\infty = 0.3
+Given
+R := 1;
+U := 1;
+V := 0;
+E := 20.34;

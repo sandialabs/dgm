@@ -1,0 +1,9 @@
+#!/bin/csh -f
+#
+# sed's multiple files 
+#
+foreach i ($argv[2-])
+  sed $1 $i >! $i.tmp
+  /bin/mv $i.tmp $i
+end
+exit

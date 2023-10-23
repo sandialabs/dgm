@@ -1,0 +1,36 @@
+\documentclass[11pt]{amsart}
+\usepackage[margin=1in]{geometry}
+\geometry{letterpaper}
+\usepackage[parfill]{parskip}     % Empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\title{DGM Performance Notes}
+\author{S.\ Scott Collis}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Notes on \texttt{DGM::Hex} Performance}
+While normal Hex elements are relatively efficient because of the tensor product structure of the Legendre basis, curved Hex elements can suffer from a significant performance penalty due to the loss of orthogonality in the presence of the non-constant Jacobian.  This leads to a block-diagonal mass matrix for each element (and each component of a vector solution field).
+
+The current approach to solve this system is to do a Cholesky (or optionally LU although Cholesky is preferred since the blocks are symmetric) decomposition and a back solve is then performed for each Galerkin projection (actually as part of the \texttt{backward\_transform} method on the Element).
+
+There are several approaches that may help to alleviate this performance penalty
+\subsection{Block solve} 
+Perhaps the first thing to do is to do a multi-vector Cholesky over the vector field components.  Right now, a Cholesky back-solve is done for each \texttt{vField} component and this can be very inefficient for large vector fields.  Instead, we can implement the \texttt{project} method at the \texttt{vField} level to do a block Cholesky simultaneously over all components.  I suspect that for large numbers of field components, this may have a significant performance improvement.  The downside is that this approach still scales like $p^3$.  However, it may be that this makes the default method usable for slightly larger $p$.
+\subsection{Spectral element} 
+Use a \emph{spectral element} approach in which the mass matrix is collocated using a Gauss quadrature leading to a diagonal mass matrix.  One issue with this is that the quadrature is not exact therefore often requiring some form of filtering or dissipation to account for aliasing errors.
+
+Consider the following transport equation
+\[ u_{,t} + c u_{,x} - s = 0 \]
+Introducing a weighting function, $w$ and integrating over the space-time domain $Q$ leads to
+\[ \int_Q w \cdot ( u_{,t} + c u_{,x} - s ) \, dQ = 0 \]
+We can define the mass matrix as 
+
+\subsection{Iterative methods} 
+Use an iterative solver for the block diagonals.  This might have promise at high polynomial orders as one can use a preconditioned conjugate-gradient method where the preconditioned is the spectral-element diagonal matrix.  This may help break the $p^3$ performance penalty.  Clearly a downside is that this may introduce iteration error if the mass solve tolerance is not sufficiently small.
+\end{document}  

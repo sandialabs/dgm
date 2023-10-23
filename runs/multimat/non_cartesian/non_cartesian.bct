@@ -1,0 +1,20 @@
+dirichlet_function bc100
+{
+  X1(x,y) := 0.01 + 0.01*sin(8*PI*x);
+}
+
+Neumann bc101
+{
+  0.0
+}
+
+Neumann bc102
+{
+  0.0 
+}
+
+Neumann bc103
+{
+  0.0
+}
+

@@ -1,0 +1,18 @@
+{ "Domain": { "Space": { "Binary mesh": true},
+              "Time": { "Integrator": "DTK::TimeIntegrate",
+                        "Method": "LSRK14"}},
+  "Field Slice": [ { "Dimensions": [1300, 500, 1],
+                     "Format": "float",
+                     "Frequency": 100,
+                     "Lattice": [ [0.01, 0.0, 0.0],
+                                  [0.0, 0.01, 0.0],
+                                  [0.0, 0.0, 1.0]],
+                     "Origin": [-6.5, -2.5, 0],
+                     "Outputs": [ { "Default": 0.0,
+                                    "Field": "u",
+                                    "File": "u"}],
+                     "Verbosity": 1}]
+  // "_comment": "ximage style=normal n1=1300 n2=500 d1=0.01 d2=0.01 hbox=500 wbox=1000 cmap=hsv2 < u.100.bin"
+}
+
+

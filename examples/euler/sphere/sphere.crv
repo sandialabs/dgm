@@ -1,0 +1,66 @@
+{
+  "Title" : "Curved side specification",
+  "Verbosity" : 1,
+  "Curved side location" : "Inline",
+  "Curve types" : [
+    {
+      "Verbosity" : 1,
+      "Type" : "Sphere",
+      "Name" : "sphere",
+      "Radius" : -0.5,
+      "Center" : [ 0.0, 0.0, 0.0 ],
+      "Check center" : false 
+    }
+  ],
+  "Curved sides" : [
+    {"Element" : 1977, "Side" : 0, "Curve" : "sphere"},
+    {"Element" : 2177, "Side" : 0, "Curve" : "sphere"},
+    {"Element" : 2342, "Side" : 0, "Curve" : "sphere"},
+    {"Element" : 2444, "Side" : 0, "Curve" : "sphere"},
+    {"Element" : 2934, "Side" : 0, "Curve" : "sphere"},
+    {"Element" : 3081, "Side" : 0, "Curve" : "sphere"},
+    {"Element" : 3083, "Side" : 0, "Curve" : "sphere"},
+    {"Element" : 3095, "Side" : 0, "Curve" : "sphere"},
+    {"Element" : 3257, "Side" : 0, "Curve" : "sphere"},
+    {"Element" : 3267, "Side" : 0, "Curve" : "sphere"},
+    {"Element" : 3827, "Side" : 0, "Curve" : "sphere"},
+    {"Element" : 3828, "Side" : 0, "Curve" : "sphere"},
+    {"Element" : 3968, "Side" : 0, "Curve" : "sphere"},
+    {"Element" : 4281, "Side" : 0, "Curve" : "sphere"},
+    {"Element" : 4330, "Side" : 0, "Curve" : "sphere"},
+    {"Element" : 4644, "Side" : 3, "Curve" : "sphere"},
+    {"Element" : 6062, "Side" : 0, "Curve" : "sphere"},
+    {"Element" : 6114, "Side" : 0, "Curve" : "sphere"},
+    {"Element" : 6184, "Side" : 0, "Curve" : "sphere"},
+    {"Element" : 6606, "Side" : 0, "Curve" : "sphere"},
+    {"Element" : 6830, "Side" : 0, "Curve" : "sphere"},
+    {"Element" : 7354, "Side" : 0, "Curve" : "sphere"},
+    {"Element" : 7362, "Side" : 0, "Curve" : "sphere"},
+    {"Element" : 19853, "Side" : 2, "Curve" : "sphere"}
+  ]
+}
+24 curved sides
+sphere       1977          0
+sphere       2177          0
+sphere       2342          0
+sphere       2444          0
+sphere       2934          0
+sphere       3081          0
+sphere       3083          0
+sphere       3095          0
+sphere       3257          0
+sphere       3267          0
+sphere       3827          0
+sphere       3828          0
+sphere       3968          0
+sphere       4281          0
+sphere       4330          0
+sphere       4644          3
+sphere       6062          0
+sphere       6114          0
+sphere       6184          0
+sphere       6606          0
+sphere       6830          0
+sphere       7354          0
+sphere       7362          0
+sphere      19853          2

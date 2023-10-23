@@ -1,0 +1,15 @@
+#
+# Crontab for DGM testing
+#
+SHELL=/bin/bash
+PATH=/bin:/usr/bin:/usr/local/bin
+MAILTO=you@me.com
+DGM_DIST=/home/you/dgm
+#
+# Set to a particular time for testing
+#
+#58 9 * * * $DGM_DIST/autobuild &> $DGM_DIST/build.out
+#
+# Run daily for production
+#
+@daily $DGM_DIST/autobuild &> $DGM_DIST/build.out

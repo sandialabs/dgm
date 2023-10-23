@@ -1,0 +1,44 @@
+\documentclass[11pt]{amsart}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{epstopdf}
+\DeclareGraphicsRule{.tif}{png}{.png}{`convert #1 `dirname #1`/`basename #1 .tif`.png}
+
+\title{Local TV Regularization}
+\author{S.\ Scott Collis}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\section{Background}
+The local Total-Variation (TV) regularization is given by
+\[ J_{TV}(u) = \alpha \sqrt{ \gamma + \nabla u \cdot \nabla u}  \]
+and the gradient is then
+\[ J_{TV}'(u) = \alpha \frac{\left( \nabla u \cdot \nabla u' \right)}
+{\sqrt{\gamma + \nabla u \cdot \nabla u}} \]
+which we can rewrite as
+\[ J_{TV}'(u) = \alpha \frac{\left( \nabla u \cdot \nabla u' \right)}
+{J_{TV}(u)} \]
+If we consider just the numerator and write this in terms of a discrete derivative operator (in one space dimension), then we get
+\[ \nabla u \cdot \nabla u' \approx D^h u \cdot D^h u' \]
+Which can be written as
+\[ D_{ij} u_j D_{in} u'_{n} = K_n u'_{n} \]
+which means that we just need to evaluate the elements of the vector 
+\[ K_n = D_{ij} u_j D_{in} \]
+In multiple space-dimensions, there will be a sum of terms in each coordinate direction.
+
+\section{Implementation}
+\begin{enumerate}
+\item Evaluate the local derivative operators.  There is an element method to compute these but I'm not sure if its implementation is optimal or correct (especially for general element types).
+\item Implement a unit-test to make sure that the local derivative operator is correct by testing the action of this operator on a vector against the element derivative operator.
+\item Once this operator is verified, use to correct the \texttt{LocalTV::gradient()} method.
+\item While local TV will be an improvement, I believe that we may also need some control over inter-element jumps.  This could be accomplished by adding a second regularization term of the form
+\[ J_{JV} = \beta \sqrt{ \gamma + [[u]] \cdot [[u]] } \]
+\end{enumerate}
+
+\end{document}  

@@ -1,0 +1,24 @@
+Neumann_Function BC_SIDE0
+{
+  h(x,y) := 0.00;
+}
+
+Neumann_Function BC_SIDE1
+{
+  h(y) := 0.5*(1.0-2.0*y);
+}
+
+Neumann_Function BC_SIDE2
+{
+  h(x) := 0.5*(1.0-2.0*x);
+}
+
+Neumann_Function BC_SIDE3
+{
+  u(y) := -(y-9.5);
+}
+
+Neumann_Function BC_SIDE4
+{
+  v(x) := -(x-9.5);
+}

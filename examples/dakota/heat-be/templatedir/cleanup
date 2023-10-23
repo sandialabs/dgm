@@ -1,0 +1,2 @@
+/bin/rm *.dat *.rst *.ocs *.ctl *.his *.wgt *.out
+/bin/rm -r /tmp/dgm*

@@ -1,0 +1,31 @@
+#  DAKOTA INPUT FILE - dgm interface 
+#  
+method,                                         \
+#       dot_frcg                                \
+        npsol_sqp	                        \
+# 	optpp_cg	                        \
+#       optpp_q_newton                          \
+#       conmin_frcg                             \
+          convergence_tolerance = 1.0e-8 	\
+          max_iterations = 20                   \
+#         search_method gradient_based_line_search \
+	  output quiet				
+
+variables,					\
+	continuous_design = 51			
+#	cdv_initial_point    0.0		\
+#	cdv_lower_bounds    -2.0		\
+#	cdv_upper_bounds     2.0		\
+#	cdv_descriptor       'x1'
+
+interface,					\
+	direct,					\
+	analysis_driver = 'dgm'			\
+	analysis_components = 'heat'
+  
+responses,                                      \
+	num_objective_functions = 1             \
+ 	analytic_gradients			\
+#	numerical_gradents			\
+# 	  fd_gradient_step_size = 1.0e-1	\
+	no_hessians

@@ -1,0 +1,12 @@
+{
+  "$schema" : "http://json-schema.org/schema#",
+  "title" : "FuncSource",
+  "description" : "A source term that parses expressions",
+  "type" : "object",
+  "properties": {
+     "Name" : { "type" : "string" },
+     "Expressions" : { "type" : "array", "items" : { "type": "string",
+                       "minItems" : 1 } }
+  },
+  "additionalProperties" : false
+}

@@ -1,0 +1,6 @@
+eqntype = 6
+vis     = 0.01
+dt      = 0.001
+Nt      = 1000
+Ntout   = 200
+p       = 2

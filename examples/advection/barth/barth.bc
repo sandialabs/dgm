@@ -1,0 +1,39 @@
+**BOUNDARY CONDITION DATA**
+32 nbc
+
+bl	0	0
+bl	1	0
+bl	2	0
+bl	3	0
+br	4	0
+br	5	0
+br	6	0
+br	7	0
+
+S	7	1
+S	15	1
+S	23	1
+S	31	1
+S	39	1
+S	47	1
+S	55	1
+S	63	1
+
+S	56	2
+S	57	2
+S	58	2
+S	59	2
+S	60	2
+S	61	2
+S	62	2
+S	63	2
+
+S	0	3
+S	8	3
+S	16	3
+S	24	3
+S	32	3
+S	40	3
+S	48	3
+S	56	3
+

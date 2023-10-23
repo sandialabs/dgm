@@ -1,0 +1,1 @@
+dgm_mesh.exe -nsd 2 -Lx 6 -Ly 1 -nx 6 -ny 1 -r darcy

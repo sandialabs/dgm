@@ -1,0 +1,7 @@
+#!/bin/bash
+#
+# Regular optimization with OpenBlas 
+#
+env USE_OPENBLAS=1 ./make_dgm "$@" -spy \
+  -a CLANG -b OpenBLAS -D JSONCPP_CASE_SENSITIVE -D DGM_JSON_TO_TABLE
+exit

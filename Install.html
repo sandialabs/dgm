@@ -1,0 +1,1956 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+<title>DGM Installation Guide</title>
+<meta name="date" content="Mon Feb 17 02:37:44 MST 2014 (2014-02-17)" />
+<meta name="copyright" content="2014 Sandia National Laboratories" />
+<style type="text/css">
+
+/*
+:Author: David Goodger (goodger@python.org)
+:Id: $Id: html4css1.css 7952 2016-07-26 18:15:59Z milde $
+:Copyright: This stylesheet has been placed in the public domain.
+
+Default cascading style sheet for the HTML output of Docutils.
+
+See http://docutils.sf.net/docs/howto/html-stylesheets.html for how to
+customize this style sheet.
+*/
+
+/* used to remove borders from tables and images */
+.borderless, table.borderless td, table.borderless th {
+  border: 0 }
+
+table.borderless td, table.borderless th {
+  /* Override padding for "table.docutils td" with "! important".
+     The right padding separates the table cells. */
+  padding: 0 0.5em 0 0 ! important }
+
+.first {
+  /* Override more specific margin styles with "! important". */
+  margin-top: 0 ! important }
+
+.last, .with-subtitle {
+  margin-bottom: 0 ! important }
+
+.hidden {
+  display: none }
+
+.subscript {
+  vertical-align: sub;
+  font-size: smaller }
+
+.superscript {
+  vertical-align: super;
+  font-size: smaller }
+
+a.toc-backref {
+  text-decoration: none ;
+  color: black }
+
+blockquote.epigraph {
+  margin: 2em 5em ; }
+
+dl.docutils dd {
+  margin-bottom: 0.5em }
+
+object[type="image/svg+xml"], object[type="application/x-shockwave-flash"] {
+  overflow: hidden;
+}
+
+/* Uncomment (and remove this text!) to get bold-faced definition list terms
+dl.docutils dt {
+  font-weight: bold }
+*/
+
+div.abstract {
+  margin: 2em 5em }
+
+div.abstract p.topic-title {
+  font-weight: bold ;
+  text-align: center }
+
+div.admonition, div.attention, div.caution, div.danger, div.error,
+div.hint, div.important, div.note, div.tip, div.warning {
+  margin: 2em ;
+  border: medium outset ;
+  padding: 1em }
+
+div.admonition p.admonition-title, div.hint p.admonition-title,
+div.important p.admonition-title, div.note p.admonition-title,
+div.tip p.admonition-title {
+  font-weight: bold ;
+  font-family: sans-serif }
+
+div.attention p.admonition-title, div.caution p.admonition-title,
+div.danger p.admonition-title, div.error p.admonition-title,
+div.warning p.admonition-title, .code .error {
+  color: red ;
+  font-weight: bold ;
+  font-family: sans-serif }
+
+/* Uncomment (and remove this text!) to get reduced vertical space in
+   compound paragraphs.
+div.compound .compound-first, div.compound .compound-middle {
+  margin-bottom: 0.5em }
+
+div.compound .compound-last, div.compound .compound-middle {
+  margin-top: 0.5em }
+*/
+
+div.dedication {
+  margin: 2em 5em ;
+  text-align: center ;
+  font-style: italic }
+
+div.dedication p.topic-title {
+  font-weight: bold ;
+  font-style: normal }
+
+div.figure {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+div.footer, div.header {
+  clear: both;
+  font-size: smaller }
+
+div.line-block {
+  display: block ;
+  margin-top: 1em ;
+  margin-bottom: 1em }
+
+div.line-block div.line-block {
+  margin-top: 0 ;
+  margin-bottom: 0 ;
+  margin-left: 1.5em }
+
+div.sidebar {
+  margin: 0 0 0.5em 1em ;
+  border: medium outset ;
+  padding: 1em ;
+  background-color: #ffffee ;
+  width: 40% ;
+  float: right ;
+  clear: right }
+
+div.sidebar p.rubric {
+  font-family: sans-serif ;
+  font-size: medium }
+
+div.system-messages {
+  margin: 5em }
+
+div.system-messages h1 {
+  color: red }
+
+div.system-message {
+  border: medium outset ;
+  padding: 1em }
+
+div.system-message p.system-message-title {
+  color: red ;
+  font-weight: bold }
+
+div.topic {
+  margin: 2em }
+
+h1.section-subtitle, h2.section-subtitle, h3.section-subtitle,
+h4.section-subtitle, h5.section-subtitle, h6.section-subtitle {
+  margin-top: 0.4em }
+
+h1.title {
+  text-align: center }
+
+h2.subtitle {
+  text-align: center }
+
+hr.docutils {
+  width: 75% }
+
+img.align-left, .figure.align-left, object.align-left, table.align-left {
+  clear: left ;
+  float: left ;
+  margin-right: 1em }
+
+img.align-right, .figure.align-right, object.align-right, table.align-right {
+  clear: right ;
+  float: right ;
+  margin-left: 1em }
+
+img.align-center, .figure.align-center, object.align-center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table.align-center {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.align-left {
+  text-align: left }
+
+.align-center {
+  clear: both ;
+  text-align: center }
+
+.align-right {
+  text-align: right }
+
+/* reset inner alignment in figures */
+div.align-right {
+  text-align: inherit }
+
+/* div.align-center * { */
+/*   text-align: left } */
+
+.align-top    {
+  vertical-align: top }
+
+.align-middle {
+  vertical-align: middle }
+
+.align-bottom {
+  vertical-align: bottom }
+
+ol.simple, ul.simple {
+  margin-bottom: 1em }
+
+ol.arabic {
+  list-style: decimal }
+
+ol.loweralpha {
+  list-style: lower-alpha }
+
+ol.upperalpha {
+  list-style: upper-alpha }
+
+ol.lowerroman {
+  list-style: lower-roman }
+
+ol.upperroman {
+  list-style: upper-roman }
+
+p.attribution {
+  text-align: right ;
+  margin-left: 50% }
+
+p.caption {
+  font-style: italic }
+
+p.credits {
+  font-style: italic ;
+  font-size: smaller }
+
+p.label {
+  white-space: nowrap }
+
+p.rubric {
+  font-weight: bold ;
+  font-size: larger ;
+  color: maroon ;
+  text-align: center }
+
+p.sidebar-title {
+  font-family: sans-serif ;
+  font-weight: bold ;
+  font-size: larger }
+
+p.sidebar-subtitle {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+p.topic-title {
+  font-weight: bold }
+
+pre.address {
+  margin-bottom: 0 ;
+  margin-top: 0 ;
+  font: inherit }
+
+pre.literal-block, pre.doctest-block, pre.math, pre.code {
+  margin-left: 2em ;
+  margin-right: 2em }
+
+pre.code .ln { color: grey; } /* line numbers */
+pre.code, code { background-color: #eeeeee }
+pre.code .comment, code .comment { color: #5C6576 }
+pre.code .keyword, code .keyword { color: #3B0D06; font-weight: bold }
+pre.code .literal.string, code .literal.string { color: #0C5404 }
+pre.code .name.builtin, code .name.builtin { color: #352B84 }
+pre.code .deleted, code .deleted { background-color: #DEB0A1}
+pre.code .inserted, code .inserted { background-color: #A3D289}
+
+span.classifier {
+  font-family: sans-serif ;
+  font-style: oblique }
+
+span.classifier-delimiter {
+  font-family: sans-serif ;
+  font-weight: bold }
+
+span.interpreted {
+  font-family: sans-serif }
+
+span.option {
+  white-space: nowrap }
+
+span.pre {
+  white-space: pre }
+
+span.problematic {
+  color: red }
+
+span.section-subtitle {
+  /* font-size relative to parent (h1..h6 element) */
+  font-size: 80% }
+
+table.citation {
+  border-left: solid 1px gray;
+  margin-left: 1px }
+
+table.docinfo {
+  margin: 2em 4em }
+
+table.docutils {
+  margin-top: 0.5em ;
+  margin-bottom: 0.5em }
+
+table.footnote {
+  border-left: solid 1px black;
+  margin-left: 1px }
+
+table.docutils td, table.docutils th,
+table.docinfo td, table.docinfo th {
+  padding-left: 0.5em ;
+  padding-right: 0.5em ;
+  vertical-align: top }
+
+table.docutils th.field-name, table.docinfo th.docinfo-name {
+  font-weight: bold ;
+  text-align: left ;
+  white-space: nowrap ;
+  padding-left: 0 }
+
+/* "booktabs" style (no vertical lines) */
+table.docutils.booktabs {
+  border: 0px;
+  border-top: 2px solid;
+  border-bottom: 2px solid;
+  border-collapse: collapse;
+}
+table.docutils.booktabs * {
+  border: 0px;
+}
+table.docutils.booktabs th {
+  border-bottom: thin solid;
+  text-align: left;
+}
+
+h1 tt.docutils, h2 tt.docutils, h3 tt.docutils,
+h4 tt.docutils, h5 tt.docutils, h6 tt.docutils {
+  font-size: 100% }
+
+ul.auto-toc {
+  list-style-type: none }
+
+</style>
+</head>
+<body>
+<div class="document" id="dgm-installation-guide">
+<h1 class="title">DGM Installation Guide</h1>
+<table class="docinfo" frame="void" rules="none">
+<col class="docinfo-name" />
+<col class="docinfo-content" />
+<tbody valign="top">
+<tr><th class="docinfo-name">Date:</th>
+<td>Mon Feb 17 02:37:44 MST 2014 (2014-02-17)</td></tr>
+<tr><th class="docinfo-name">Revision:</th>
+<td>1.2</td></tr>
+<tr><th class="docinfo-name">Copyright:</th>
+<td>2014 Sandia National Laboratories</td></tr>
+</tbody>
+</table>
+<div class="contents topic" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="auto-toc simple">
+<li><a class="reference internal" href="#building-this-documentation" id="toc-entry-1">1&nbsp;&nbsp;&nbsp;Building this Documentation</a></li>
+<li><a class="reference internal" href="#dgm-quick-build-and-install" id="toc-entry-2">2&nbsp;&nbsp;&nbsp;DGM Quick Build and Install</a><ul class="auto-toc">
+<li><a class="reference internal" href="#obtaining-dgm" id="toc-entry-3">2.1&nbsp;&nbsp;&nbsp;Obtaining DGM</a></li>
+<li><a class="reference internal" href="#setting-up-environment" id="toc-entry-4">2.2&nbsp;&nbsp;&nbsp;Setting Up Environment</a></li>
+<li><a class="reference internal" href="#building-and-installing-dgm" id="toc-entry-5">2.3&nbsp;&nbsp;&nbsp;Building and Installing DGM</a></li>
+<li><a class="reference internal" href="#testing-dgm" id="toc-entry-6">2.4&nbsp;&nbsp;&nbsp;Testing DGM</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#detailed-information" id="toc-entry-7">3&nbsp;&nbsp;&nbsp;Detailed Information</a><ul class="auto-toc">
+<li><a class="reference internal" href="#obtaining-software" id="toc-entry-8">3.1&nbsp;&nbsp;&nbsp;Obtaining Software</a></li>
+<li><a class="reference internal" href="#setting-up-environment-1" id="toc-entry-9">3.2&nbsp;&nbsp;&nbsp;Setting Up Environment</a></li>
+<li><a class="reference internal" href="#building-dgm" id="toc-entry-10">3.3&nbsp;&nbsp;&nbsp;Building DGM</a></li>
+<li><a class="reference internal" href="#installing-dgm" id="toc-entry-11">3.4&nbsp;&nbsp;&nbsp;Installing DGM</a></li>
+<li><a class="reference internal" href="#customizing-the-installation" id="toc-entry-12">3.5&nbsp;&nbsp;&nbsp;Customizing the Installation</a></li>
+<li><a class="reference internal" href="#testing-dgm-build" id="toc-entry-13">3.6&nbsp;&nbsp;&nbsp;Testing DGM Build</a></li>
+<li><a class="reference internal" href="#building-dgm-with-rol" id="toc-entry-14">3.7&nbsp;&nbsp;&nbsp;Building DGM with ROL</a></li>
+<li><a class="reference internal" href="#building-dgm-with-peopt" id="toc-entry-15">3.8&nbsp;&nbsp;&nbsp;Building DGM with peopt</a></li>
+<li><a class="reference internal" href="#building-with-json" id="toc-entry-16">3.9&nbsp;&nbsp;&nbsp;Building with JSON</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#required-third-party-libraries" id="toc-entry-17">4&nbsp;&nbsp;&nbsp;Required Third-Party Libraries</a><ul class="auto-toc">
+<li><a class="reference internal" href="#atlas" id="toc-entry-18">4.1&nbsp;&nbsp;&nbsp;ATLAS</a></li>
+<li><a class="reference internal" href="#openmpi" id="toc-entry-19">4.2&nbsp;&nbsp;&nbsp;OpenMPI</a></li>
+<li><a class="reference internal" href="#boost" id="toc-entry-20">4.3&nbsp;&nbsp;&nbsp;Boost</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#optional-third-party-libraries" id="toc-entry-21">5&nbsp;&nbsp;&nbsp;Optional Third-Party Libraries</a><ul class="auto-toc">
+<li><a class="reference internal" href="#hdf5" id="toc-entry-22">5.1&nbsp;&nbsp;&nbsp;HDF5</a></li>
+<li><a class="reference internal" href="#netcdf" id="toc-entry-23">5.2&nbsp;&nbsp;&nbsp;NetCDF</a></li>
+<li><a class="reference internal" href="#exodusii" id="toc-entry-24">5.3&nbsp;&nbsp;&nbsp;ExodusII</a></li>
+<li><a class="reference internal" href="#trilinos" id="toc-entry-25">5.4&nbsp;&nbsp;&nbsp;Trilinos</a></li>
+<li><a class="reference internal" href="#metis" id="toc-entry-26">5.5&nbsp;&nbsp;&nbsp;Metis</a></li>
+<li><a class="reference internal" href="#flex" id="toc-entry-27">5.6&nbsp;&nbsp;&nbsp;Flex</a></li>
+<li><a class="reference internal" href="#jsoncpp" id="toc-entry-28">5.7&nbsp;&nbsp;&nbsp;JsonCpp</a></li>
+<li><a class="reference internal" href="#scons" id="toc-entry-29">5.8&nbsp;&nbsp;&nbsp;SCons</a></li>
+<li><a class="reference internal" href="#shared-libraries" id="toc-entry-30">5.9&nbsp;&nbsp;&nbsp;Shared Libraries</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#troubleshooting" id="toc-entry-31">6&nbsp;&nbsp;&nbsp;Troubleshooting</a><ul class="auto-toc">
+<li><a class="reference internal" href="#undefined-symbols-dgm-yylex" id="toc-entry-32">6.1&nbsp;&nbsp;&nbsp;Undefined symbols: &quot;_dgm_yylex&quot;</a></li>
+<li><a class="reference internal" href="#undefined-reference-to-s-wsfe-libf77blas-a" id="toc-entry-33">6.2&nbsp;&nbsp;&nbsp;Undefined reference to 's_wsfe'  (libf77blas.a)</a></li>
+<li><a class="reference internal" href="#comparison-signed-and-unsigned-error-in-lex" id="toc-entry-34">6.3&nbsp;&nbsp;&nbsp;Comparison signed and unsigned error in lex</a></li>
+<li><a class="reference internal" href="#dereferencing-pointer-when-building-with-peopt" id="toc-entry-35">6.4&nbsp;&nbsp;&nbsp;Dereferencing pointer when building with peopt</a></li>
+<li><a class="reference internal" href="#runtests-py-fails-undefined-reference" id="toc-entry-36">6.5&nbsp;&nbsp;&nbsp;runtests.py fails; undefined reference</a></li>
+<li><a class="reference internal" href="#no-newline-at-end-of-file" id="toc-entry-37">6.6&nbsp;&nbsp;&nbsp;No newline at end of file</a></li>
+<li><a class="reference internal" href="#openmpi-hangs" id="toc-entry-38">6.7&nbsp;&nbsp;&nbsp;OpenMPI hangs</a></li>
+<li><a class="reference internal" href="#illegal-instruction-muzia" id="toc-entry-39">6.8&nbsp;&nbsp;&nbsp;Illegal Instruction (Muzia)</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#cray-instructions" id="toc-entry-40">7&nbsp;&nbsp;&nbsp;Cray Instructions</a></li>
+<li><a class="reference internal" href="#romio-setup" id="toc-entry-41">8&nbsp;&nbsp;&nbsp;ROMIO Setup</a></li>
+<li><a class="reference internal" href="#graph-weights-setup" id="toc-entry-42">9&nbsp;&nbsp;&nbsp;Graph Weights Setup</a><ul class="auto-toc">
+<li><a class="reference internal" href="#building-the-weights-database" id="toc-entry-43">9.1&nbsp;&nbsp;&nbsp;Building the weights database</a></li>
+<li><a class="reference internal" href="#using-the-weights-database" id="toc-entry-44">9.2&nbsp;&nbsp;&nbsp;Using the weights database</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="section" id="building-this-documentation">
+<h1><a class="toc-backref" href="#toc-entry-1">1&nbsp;&nbsp;&nbsp;Building this Documentation</a></h1>
+<p>If you have <tt class="docutils literal">Docutils</tt> available on your system, you can build the HTML
+version of this documentation using the command:</p>
+<pre class="literal-block">
+% rst2latex.py --documentoptions=letter \
+  --stylesheet=fullpage,parskip Install.rst Install.tex
+% pdflatex Install
+</pre>
+<p>Likewise, you can build an HTML version of this documentation using:</p>
+<pre class="literal-block">
+% rst2html.py Install.rst Install.html
+</pre>
+<p>You can find <tt class="docutils literal">Docutils</tt> at <tt class="docutils literal"><span class="pre">http://docutils.sourceforge.net</span></tt>.</p>
+</div>
+<div class="section" id="dgm-quick-build-and-install">
+<h1><a class="toc-backref" href="#toc-entry-2">2&nbsp;&nbsp;&nbsp;DGM Quick Build and Install</a></h1>
+<p>These are the basic steps to build DGM assuming,</p>
+<ul class="simple">
+<li>the Third Party Libraries (TPL) are already setup in
+<tt class="docutils literal">~/local</tt> (if not see details below in the Third Party
+Libraries section),</li>
+<li>you are performing a default installation, and</li>
+<li>you are using the GCC compilers.</li>
+</ul>
+<p>Additional and customization information on each of the steps is
+given in the detail sections below.</p>
+<div class="section" id="obtaining-dgm">
+<h2><a class="toc-backref" href="#toc-entry-3">2.1&nbsp;&nbsp;&nbsp;Obtaining DGM</a></h2>
+<p>There are three basic ways to accessing a copy of DGM: download a
+copy from the svn repository:</p>
+<pre class="literal-block">
+% cd /path/to/distribution/location
+% svn checkout svn+ssh://software.sandia.gov/svn/private/dgm/trunk dgm
+</pre>
+<p>obtain a tarball from a DGM developer, or use a copy installed in
+a &quot;projects&quot; directory (e.g., <tt class="docutils literal">/home/dgm</tt>) by another developer or
+by a nightly build system, e.g., Jenkins.</p>
+</div>
+<div class="section" id="setting-up-environment">
+<h2><a class="toc-backref" href="#toc-entry-4">2.2&nbsp;&nbsp;&nbsp;Setting Up Environment</a></h2>
+<p>Get a copy of Jenkins environment setup script, and modify it for
+your directory structure and machine.  Do not directly edit this
+file, as it is used by Jenkins for builds; make a personal copy.
+For more details on setting up your environment, see the detail
+information below.:</p>
+<pre class="literal-block">
+% export DGM_DIST=/path/to/distribution/location/dgm
+% cp $DGM_DIST/regression/jenkins/dgm-env-setup-&lt;machine&gt;.bsh \
+     $HOME/dgm-env-setup-&lt;machine&gt;.bsh
+# vi and set DGM_DIST, DGM_TPL, TRILINOS_DIST, NETCDF_DIR, ...
+% source $HOME/dgm-env-setup-&lt;machine&gt;.bsh
+</pre>
+</div>
+<div class="section" id="building-and-installing-dgm">
+<h2><a class="toc-backref" href="#toc-entry-5">2.3&nbsp;&nbsp;&nbsp;Building and Installing DGM</a></h2>
+<pre class="literal-block">
+% cd $DGM_DIST
+% ./make_dgm -cisp               # build serial and parallel versions
+% ./make_dgm -cispd              # and install in ~/local/dgm
+</pre>
+<p>Or to build with Trilinos:</p>
+<pre class="literal-block">
+% ./make_dgm -cispdT
+% ./make_dgm -m                  # build the Doxygen documentation
+</pre>
+<p>You should now have executables in the default location <tt class="docutils literal">$DGM_TPL/dgm</tt>.</p>
+</div>
+<div class="section" id="testing-dgm">
+<h2><a class="toc-backref" href="#toc-entry-6">2.4&nbsp;&nbsp;&nbsp;Testing DGM</a></h2>
+<pre class="literal-block">
+% cd $DGM_DIST/runs
+% runtests.py
+</pre>
+<p>For instructions for building DGM on Cray systems, please see the section
+near the end of this document entitled <a class="reference internal" href="#cray-instructions">Cray Instructions</a>.</p>
+</div>
+</div>
+<div class="section" id="detailed-information">
+<h1><a class="toc-backref" href="#toc-entry-7">3&nbsp;&nbsp;&nbsp;Detailed Information</a></h1>
+<div class="section" id="obtaining-software">
+<h2><a class="toc-backref" href="#toc-entry-8">3.1&nbsp;&nbsp;&nbsp;Obtaining Software</a></h2>
+<p>For external users/developers or individuals without access to the DGM
+repository, please contact</p>
+<blockquote>
+<div class="line-block">
+<div class="line">Scott Collis</div>
+<div class="line">Computational Science and Mathematics</div>
+<div class="line">Sandia National Laboratories</div>
+<div class="line"><a class="reference external" href="mailto:sscoll&#64;sandia.gov">sscoll&#64;sandia.gov</a></div>
+</div>
+</blockquote>
+<p>to obtain a DGM download package, and follow the unpacking instructions.</p>
+<p>For internal users/developers with access to the DGM repository, a
+copy of DGM can be obtained via an svn checkout:</p>
+<pre class="literal-block">
+% cd /path/to/distribution/location
+% svn checkout svn+ssh://software.sandia.gov/svn/private/dgm/trunk dgm
+% export DGM_DIST=/path/to/distribution/location/dgm
+</pre>
+</div>
+<div class="section" id="setting-up-environment-1">
+<h2><a class="toc-backref" href="#toc-entry-9">3.2&nbsp;&nbsp;&nbsp;Setting Up Environment</a></h2>
+<p>Fill-in details.</p>
+</div>
+<div class="section" id="building-dgm">
+<h2><a class="toc-backref" href="#toc-entry-10">3.3&nbsp;&nbsp;&nbsp;Building DGM</a></h2>
+<p>Assuming that you have the required Third-Party Libraries (TPL)
+installed and available to DGM (see the section below on Third-Party
+Libraries), you can build DGM simply by executing autobuild:</p>
+<pre class="literal-block">
+% cd $DGM_DIST
+% ./make_dgm -cisp            # build serial and parallel versions
+% ./make_dgm -cispd           # and install in ~/local/dgm
+</pre>
+<p>Or to build with Trilinos:</p>
+<pre class="literal-block">
+% ./make_dgm -cispT
+% ./make_dgm -cispdT
+
+% ./make_dgm -m               # build the Doxygen documentation
+</pre>
+<p>or:</p>
+<pre class="literal-block">
+% cd $DGM_DIST
+% ./autobuild                 # script to do above plus an svn update
+                              # and build DGM/Trilinos
+</pre>
+<p>This will build serial, parallel, optimized and debug versions of
+DGM and its utilities (via <tt class="docutils literal">make_dgm</tt>).  autobuild will also build
+versions of DGM that use Trilinos (via <tt class="docutils literal">make_dgm <span class="pre">-T</span></tt>).  Lastly it will
+generate doxygen webpages, and pdf User's Guide.</p>
+<p>If you wish to build individual versions, use <tt class="docutils literal">make_dgm <span class="pre">-h</span></tt>
+to see the usage.  By default, <tt class="docutils literal">make_dgm</tt> will build an
+optimized serial version.  <tt class="docutils literal">make_dgm <span class="pre">-sp</span></tt> will build an optimized
+serial and parallel versions.</p>
+<p>If you want to build with shared libraries and Trilinos, then you would:</p>
+<pre class="literal-block">
+% cd $DGM_DIST
+% ./make_dgm -ispyT
+</pre>
+<p>Note that on Linux, this requires that you have built (or have
+available to you) shared library versions of all TPLs.  On MacOS-X
+(Darwin), everything is always dynamic anyway so this shouldn't be
+an issue.</p>
+</div>
+<div class="section" id="installing-dgm">
+<h2><a class="toc-backref" href="#toc-entry-11">3.4&nbsp;&nbsp;&nbsp;Installing DGM</a></h2>
+<p>To install DGM in the default location (<tt class="docutils literal">$HOME/local/dgm</tt> or
+<tt class="docutils literal">$DGM_TPL/dgm</tt>), you can use the <tt class="docutils literal">make_dgm</tt> script with the <tt class="docutils literal"><span class="pre">-i</span></tt> flag.
+This also rebuilds DGM before installing:</p>
+<pre class="literal-block">
+% make_dgm -cisp
+</pre>
+<p>and/or:</p>
+<pre class="literal-block">
+% make_dgm -cispd
+</pre>
+<p>This will install both the serial and parallel builds of DGM in the
+default locations:</p>
+<pre class="literal-block">
+$DGM_TPL/dgm/{serial,mpi}/{opt,debug}
+</pre>
+<p>If <tt class="docutils literal">$DGM_HOME</tt> is defined, then the builds will go to
+<tt class="docutils literal"><span class="pre">$DGM_HOME/{serial,mpi}/{opt,debug}</span></tt></p>
+<p>The user may wish to add to their environment (<tt class="docutils literal">.cshrc</tt> or <tt class="docutils literal">.bashrc</tt>) the
+path to the DGM executables (serial and parallel) and utilities, e.g.,:</p>
+<pre class="literal-block">
+% export DGM_HOME=$DGM_TPL/dgm
+% export PATH=$DGM_HOME/serial/opt/bin:$DGM_HOME/mpi/opt/bin:$PATH
+</pre>
+<p>The executables, headers and the DGM library are copied to the
+corresponding <tt class="docutils literal">bin/</tt>, <tt class="docutils literal">include/</tt> and <tt class="docutils literal">lib/</tt> directories, e.g.,:</p>
+<pre class="literal-block">
+$DGM_HOME/serial/opt/bin
+$DGM_HOME/serial/opt/include
+$DGM_HOME/serial/opt/lib
+$DGM_HOME/mpi/opt/bin
+$DGM_HOME/mpi/opt/include
+$DGM_HOME/mpi/opt/lib
+</pre>
+<p>and for debug:</p>
+<pre class="literal-block">
+$DGM_HOME/serial/debug/bin
+$DGM_HOME/serial/debug/include
+$DGM_HOME/serial/debug/lib
+$DGM_HOME/mpi/debug/bin
+$DGM_HOME/mpi/debug/include
+$DGM_HOME/mpi/debug/lib
+</pre>
+<p>The <tt class="docutils literal">DGM_HOME</tt> environment variable can be modified by the user to point
+to whichever set of executables and utilities.</p>
+</div>
+<div class="section" id="customizing-the-installation">
+<h2><a class="toc-backref" href="#toc-entry-12">3.5&nbsp;&nbsp;&nbsp;Customizing the Installation</a></h2>
+<p>If you want full control over the installation location, you can
+override all of this by setting the environment variable, <tt class="docutils literal">DGM_DEST</tt>.
+To install the executables to a custom location, you would do
+something similar to the following to reproduce the default
+installation:</p>
+<pre class="literal-block">
+% env DGM_DEST=$DGM_HOME/serial/opt make_dgm -is
+% env DGM_DEST=$DGM_HOME/serial/debug make_dgm -isd
+% env DGM_DEST=$DGM_HOME/mpi/opt make_dgm -ip
+% env DGM_DEST=$DGM_HOME/mpi/debug make_dgm -ipd
+</pre>
+<p>Note that using <tt class="docutils literal">DGM_DEST</tt> requires that you manage the differences
+between serial, mpi, debug and optimized build locations yourself.
+An alternative is to set <tt class="docutils literal">DGM_HOME</tt> such as:</p>
+<pre class="literal-block">
+% env DGM_HOME=$HOME/my_local make_dgm -isp
+</pre>
+<p>and this would install using the &quot;normal&quot; installation sub-paths within
+this <tt class="docutils literal">DGM_HOME</tt> location.</p>
+<p>You may also using the <tt class="docutils literal">make install</tt> build option and specify
+the destination directly to the build system using:</p>
+<pre class="literal-block">
+% cd $DGM_DIST/GCC
+% make install DGM_DEST=/your/custom/destination/serial/opt
+% cd $DGM_DIST/GCCp
+% make pinstall DGM_DEST=/your/custom/destination/mpi/opt
+</pre>
+<p>For a Trilinos-enabled build, the typical user can type:</p>
+<pre class="literal-block">
+% make_dgm -isp -t $DGM_TPL/trilinos
+</pre>
+<p>to build and install Trilinos-enabled version of DGM as long as you
+follow the structure of your Trilinos installs that I do which is::</p>
+<pre class="literal-block">
+$DGM_TPL/trilinos/mpi/opt
+$DGM_TPL/trilinos/mpi/debug
+$DGM_TPL/trilinos/serial/opt
+$DGM_TPL/trilinos/serial/debug
+</pre>
+</div>
+<div class="section" id="testing-dgm-build">
+<h2><a class="toc-backref" href="#toc-entry-13">3.6&nbsp;&nbsp;&nbsp;Testing DGM Build</a></h2>
+<p>To test the build, you will need to run the following:</p>
+<pre class="literal-block">
+% export DGM_HOME=$DGM_TPL/dgm
+% export PATH=$DGM_HOME/serial/opt/bin:$DGM_HOME/mpi/opt/bin:$PATH
+% cd $DGM_DIST/runs
+% runtests.py
+</pre>
+<p>If successful you should see output similar to:</p>
+<pre class="literal-block">
+Fri Dec 10 09:18:45 2010
+Test Results from Directory: $DGM_DIST/runs
+Total number of test(s): 29
+------------------------------------------------------------------------
+  pass         1.96s  1d.tst
+...
+  skipped      0.05s  poisson/poisson.tst
+------------------------------------------------------------------------
+ Pass: 25    Fail: 0    Skipped: 4    Total: 29
+
+Total Runtime:     256.13s
+</pre>
+<p>Skipped tests are expected as some tests are in development or take
+too long to run for a simple installation test.  So long as there are
+no failing tests, the build is good.</p>
+<p>If you are not using a Trilinos enabled build of DGM, then you should
+instead do:</p>
+<pre class="literal-block">
+% runtests.py -K Trilinos
+</pre>
+<p>and this will make sure to exclude Trilinos-enabled tests.</p>
+</div>
+<div class="section" id="building-dgm-with-rol">
+<h2><a class="toc-backref" href="#toc-entry-14">3.7&nbsp;&nbsp;&nbsp;Building DGM with ROL</a></h2>
+<p>First get a copy of ROL, e.g. from the Trilinos repository,
+(See Trilinos install section, but for reference):</p>
+<pre class="literal-block">
+% git clone https://github.com/trilinos/Trilinos.git
+% cd Trilinos/packages/rol
+% python rol_install.py $DGM_TPL/trilinos/mpi/opt/include
+% python rol_install.py $DGM_TPL/trilinos/serial/opt/include
+</pre>
+<p>Also set DGM_USE_ROL:</p>
+<pre class="literal-block">
+% export DGM_USE_ROL=1
+</pre>
+<p>or:</p>
+<pre class="literal-block">
+% make_dgm -D DGM_USE_ROL
+</pre>
+<p>First get a copy of ROL, e.g. from the rol-only repository,:</p>
+<pre class="literal-block">
+% cd $DGM_TPL
+% git clone software.sandia.gov:/git/rol rol-only
+</pre>
+<p>Then install in both the parallel and serial include directories.:</p>
+<pre class="literal-block">
+% cd rol-only/rol
+% export ROL_HOME=$DGM_TPL/trilinos/mpi/opt
+% ./install.sh
+% export ROL_HOME=$DGM_TPL/trilinos/serial/opt
+% ./install.sh
+</pre>
+</div>
+<div class="section" id="building-dgm-with-peopt">
+<h2><a class="toc-backref" href="#toc-entry-15">3.8&nbsp;&nbsp;&nbsp;Building DGM with peopt</a></h2>
+<p>First one needs to obtain a copy of peopt, e.g.,:</p>
+<pre class="literal-block">
+% cd /path/to/distribution/location
+% svn checkout --username guest https://teamforge.sandia.gov/svn/repos/peopt/trunk peopt
+% cd peopt
+% setenv PEOPT_HOME /path/to/place/of/peopt/install
+% mkdir build
+% cd build
+% cmake -DCMAKE_INSTALL_PREFIX=$PEOPT_HOME ../src
+% make install
+</pre>
+<p>Then one can proceed with the normal build and installation steps, e.g.:</p>
+<pre class="literal-block">
+% make_dgm -isp
+% make_dgm -ispd
+</pre>
+<p>So, by making sure that PEOPT_HOME is defined, you will automatically get
+pdgm_tropt.exe.  One may wish to add the PEOPT_HOME environment variable
+to their .bashrc for subsequent builds, or alternatively use:</p>
+<pre class="literal-block">
+% PEOPT_HOME=/path/to/place/of/peopt/install make_dgm -isp
+% PEOPT_HOME=/path/to/place/of/peopt/install make_dgm -ispd
+</pre>
+<p>Note that peopt does not currently support a serial build but the build
+system is smart enough just to ignore a request for a serial build.</p>
+</div>
+<div class="section" id="building-with-json">
+<h2><a class="toc-backref" href="#toc-entry-16">3.9&nbsp;&nbsp;&nbsp;Building with JSON</a></h2>
+<p>In order to enable JsonCpp, which is required for PEOPT, we must turn on
+the JsonCPP compile flag:</p>
+<pre class="literal-block">
+% export USE_JSON=1
+</pre>
+<p>Then one can proceed with the normal build and installation steps
+for DGM, e.g.:</p>
+<pre class="literal-block">
+% cd $DGM_DIST
+% make_dgm -isp
+% make_dgm -ispd    # optional debug builds
+</pre>
+<p>So, by making sure that PEOPT_HOME is defined, you will automatically get
+pdgm_peopt.exe.  One may wish to add the PEOPT_HOME environment variable
+to their .bashrc for subsequent builds, or alternatively use:</p>
+<pre class="literal-block">
+% cd $DGM_DIST
+% env USE_JSON=1 PEOPT_HOME=/path/to/distribution/location/peopt make_dgm -sp
+% env USE_JSON=1 PEOPT_HOME=/path/to/distribution/location/peopt make_dgm -spd
+</pre>
+<p>Note that peopt does not currently support a serial build but the build
+system is smart enough just to ignore a request for a serial build.</p>
+</div>
+</div>
+<div class="section" id="required-third-party-libraries">
+<h1><a class="toc-backref" href="#toc-entry-17">4&nbsp;&nbsp;&nbsp;Required Third-Party Libraries</a></h1>
+<p>IF you are on machine that has a DGM project directory (e.g.,
+<tt class="docutils literal">/home/dgm</tt>), you should be able to link against the Third-Party
+Libraries (TPL) in the project directory (e.g., <tt class="docutils literal">/home/dgm/local</tt>).
+There may be a link_local script there to help you.</p>
+<p>Anotherwise you may need to build the TPLs yourself.  The following
+should be helpful in this case.</p>
+<p>For this build to be successful, DGM requires access to several
+Third-Party Libraries (TPL).  These are:</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field"><th class="field-name">ATLAS:</th><td class="field-body">Automatically tuned versions of BLAS and (some) LAPack</td>
+</tr>
+<tr class="field"><th class="field-name">Boost:</th><td class="field-body">smart pointers and optionally random number generators</td>
+</tr>
+<tr class="field"><th class="field-name">Trilinos:</th><td class="field-body">For linear, nonlinear, and optimization solvers and,
+optionally smart pointers. Trilinos is optional, but is highly
+recommended and in future versions of DGM it may be required.</td>
+</tr>
+</tbody>
+</table>
+<p>By default, DGM is configured to use Boost, ITL, GSL and FFTW and
+unless specified directly, these are assumed to be installed in a
+directory called <tt class="docutils literal">$HOME/local</tt> where <tt class="docutils literal">$HOME</tt> is the users home
+directory.</p>
+<p>If you don't wish to have a <tt class="docutils literal">$HOME/local</tt> directory, the build
+system supports two optional approaches.  The first is to specify
+the TPL installation directory using an environmental variable, e.g.:</p>
+<pre class="literal-block">
+% cd $DGM_HOME/SERIAL
+% make dgm DGM_TPL=&lt;put your TPL location here&gt;
+</pre>
+<p>If you have set <tt class="docutils literal">DGM_TPL</tt> in your environment, the <tt class="docutils literal">make_dgm</tt> script will
+automatically try to use this version.</p>
+<p>Another approach is to create a symbolic link in your build directory
+to the TPL installation directory.  For example:</p>
+<pre class="literal-block">
+% cd $DGM_HOME/SERIAL
+% ln -s &lt;your TPL installation directory&gt; local
+% make dgm
+</pre>
+<p>Note that (excepting JsonCpp) no third-party libraries are distributed with
+DGM so that you are responsible for downloading and installing any TPL that
+you wish to use in accordance with is associated license.</p>
+<div class="section" id="atlas">
+<h2><a class="toc-backref" href="#toc-entry-18">4.1&nbsp;&nbsp;&nbsp;ATLAS</a></h2>
+<p>In reality, DGM doesn't require ATLAS, but instead needs working versions of
+BLAS and several routines from LAPACK. However, I perfer to get my BLAS and
+LAPACK from ATLAS as I have usually found it to provide greater performance
+for DGM operations relative to a default BLAS
+and most vendor-supplied BLAS/LAPACK.  This is because, ATLAS, when built, is
+automatically tuned for the given architecture and for a variety of data sizes.
+For the sometimes small data sizes used by DGM, this proves advantageous over
+vendor BLAS which are typically optimized for large vector/matrix sizes.</p>
+<ul>
+<li><p class="first">Get version of ATLAS from
+<a class="reference external" href="http://sourceforge.net/projects/math-atlas/files/Developer">http://sourceforge.net/projects/math-atlas/files/Developer</a> (unstable)</p>
+<pre class="literal-block">
+% cd $DGM_TPL   # (e.g., $HOME/local)
+% rm atlas
+% tar --bzip2 -xf atlas3.9.21.tar.bz2
+%  (or 'bunzip2 -c atlas3.9.21.tar.bz2 | tar xfm -')
+% mv ATLAS atlas-3.9.21
+</pre>
+</li>
+<li><p class="first">Checkout errata at
+<a class="reference external" href="http://math-atlas.sourceforge.net/errata.html">http://math-atlas.sourceforge.net/errata.html</a>. Topics I found interesting</p>
+<ul class="simple">
+<li>How about C++ header files for the C interfaces?</li>
+<li>ATLAS install fails on G4 when using gnu gcc instead of Apple's gcc</li>
+<li>Search doesn't work with cpu throttling.</li>
+<li>Building a complete LAPACK library</li>
+<li>Problems with linking/missing LAPACK routines on OS X</li>
+</ul>
+</li>
+<li><p class="first">Turn off the CPU throttling (not necessarily recommended)</p>
+<ul>
+<li><p class="first">on Linux (fedora 14) CPU throttling must be turned off otherwise
+'configure' will fail.  The ATLAS notes suggest the following command
+that allowed the configure to proceed.:</p>
+<pre class="literal-block">
+% cpufreq-selector -g performance
+</pre>
+</li>
+<li><p class="first">For a Mac OSX, I found the following
+<a class="reference external" href="https://discussions.apple.com/message/3480072">https://discussions.apple.com/message/3480072</a></p>
+</li>
+<li><p class="first">Copy the folder named <tt class="docutils literal">IOPlatformPluginFamily.kext</tt> which is in
+<tt class="docutils literal">/System/Library/Extensions</tt> and put it on a thumbdrive or other
+external media.</p>
+</li>
+<li><p class="first">Move the entire folder named above to the trash and empty it.</p>
+</li>
+<li><p class="first">Then restart.</p>
+</li>
+<li><p class="first">You can drag the folder back to its location and restart when you
+want to reactivate speed step.  You may need to repair permissions
+using Disk Utility.</p>
+</li>
+</ul>
+</li>
+<li><p class="first">Create build directory:</p>
+<pre class="literal-block">
+% cd atlas-3.9.21
+% mkdir Build
+</pre>
+</li>
+<li><p class="first">Configure ATLAS for build, assuming</p>
+<ul class="simple">
+<li>that we do not want/need a full LAPACK library and Fortran APIs.</li>
+<li>that CPU throtting has been turned off.</li>
+</ul>
+<pre class="literal-block">
+% cd Build
+%
+% # Machine is not loaded (no other processes running) (-D c -DWALL)
+% # 64-bit architecture (-b 64)
+% ../configure -v 2 -b 64 --dylibs -D c -DWALL \
+%  --prefix=$DGM_TPL/atlas-3.9.21-install
+%
+% # Want to build dynamic/shared libraries ( --dylibs -Fa alg -fPIC)
+% ../configure -b 64 --dylibs -Fa alg -fPIC \
+%  --prefix=$DGM_TPL/atlas-3.9.21-install
+%
+% # For MacBook Pro Snow Leopard (64 bit)
+% ../configure --nof77 -b 64 --dylibs \
+%  --prefix=$DGM_TPL/atlas-3.9.21-install
+%
+% # For Mac Leopard (32 bit) (ictinus)
+% ../configure --nof77 -b 32 --dylibs
+%  --prefix=/Users/dgm/local/atlas-3.9.21-install
+%
+% make build        # This took about 2-3 hours on Mac OS 10.6
+% cd lib
+% make cdylib       # Not needed if --dylibs or --share used with configure
+% cd ..
+% make check        # Will fail if not built with F77
+% make time         # Will fail if not built with F77
+% make install      # For Macs it will try to install *.so and it will not
+%                     find them.  This is OK.
+</pre>
+</li>
+<li><p class="first">Set links to ATLAS:</p>
+<pre class="literal-block">
+% cd $DGM_TPL
+% ln -s atlas-3.9.21-install atlas
+</pre>
+</li>
+<li><p class="first">On fedora 18 with the standard ATLAS libs installed, the makefile attempts
+to link with <tt class="docutils literal">libatlas_clapack</tt> which does not exist.  This seems like an
+error; a work around was to create a symbolic link:</p>
+<pre class="literal-block">
+% ln -s /usr/lib64/atlas/libclapack.so /usr/lib64/atlas/libatlas_clapack.so
+</pre>
+</li>
+<li><p class="first">For RHEL6, see previous note, with the exception that the target library
+may be <tt class="docutils literal">/usr/lib64/atlas/libclapack.so.3</tt> or similar.  Also, the make script
+does not seem to be picking up <tt class="docutils literal">LD_LIBRARY_PATH</tt>, so the link may have to be
+created in <tt class="docutils literal">$HOME/local/atlas/lib</tt>.</p>
+</li>
+<li><p class="first">If using ATLAS 3.11.11, you may get the use error:
+<tt class="docutils literal"><span class="pre">ATL_gemm.c:(.text+0x13c):</span> undefined reference to ATL_sammm</tt>
+This is a known issue in this version of ATLAS.  No fix yet.  You may
+want to try an older, more stable version.</p>
+</li>
+</ul>
+</div>
+<div class="section" id="openmpi">
+<h2><a class="toc-backref" href="#toc-entry-19">4.2&nbsp;&nbsp;&nbsp;OpenMPI</a></h2>
+<p>To run in parallel, DGM requires some form of MPI.  The following instructions
+are for OpenMPI, but you may also use MPICH2 as well as vendor provided
+versions of MPI.</p>
+<ol class="arabic">
+<li><p class="first">Download the latest version from <a class="reference external" href="http://www.open-mpi.org/software/ompi/v1.6/">http://www.open-mpi.org/software/ompi/v1.6/</a></p>
+</li>
+<li><p class="first">In the directory where you want to put the OpenMPI installation, execute:</p>
+<pre class="literal-block">
+% cd $DGM_TPL   (e.g., $HOME/local)
+% tar zxf openmpi-1.6.3.tar.gz
+</pre>
+</li>
+<li><p class="first">Configure OpenMPI:</p>
+<pre class="literal-block">
+% cd openmpi-1.6.3
+% ./configure --prefix=$DGM_TPL/openmpi-1.6.3_build
+</pre>
+</li>
+<li><p class="first">Build OpenMPI:</p>
+<pre class="literal-block">
+% make all install
+</pre>
+</li>
+<li><p class="first">Set link to new OpenMPI:</p>
+<pre class="literal-block">
+% cd $DGM_TPL
+% ln -s openmpi-1.6.3_build openmpi
+</pre>
+</li>
+<li><p class="first">You will likely need to do a clean build
+(at least if not rebuild everything):</p>
+<pre class="literal-block">
+% cd $DGM_DIST
+% make_dgm -cisp
+</pre>
+</li>
+<li><p class="first">If you are on a laptop or workstation that is using VPN you may find that
+VPN blocks the TCP communication used by the Out-of-Band communication during
+startup i.e. <tt class="docutils literal">MPI_Init</tt>.  In this case, you may want to add the following
+to your <tt class="docutils literal">.bash_profile</tt>.  First set the main transport to be shared
+memory and don't use TCP:</p>
+<pre class="literal-block">
+% export OMPI_MCA_blt=&quot;^tcp,sm,self&quot;
+</pre>
+</li>
+</ol>
+<blockquote>
+<p>Now make sure that Out of Band communication (i.e. setup) uses localhost:</p>
+<pre class="literal-block">
+% export OMPI_MCA_oob_tcp_if_include=&quot;127.0.0.0/24&quot;
+</pre>
+<p>This last variable can also be set from the <tt class="docutils literal">mpiexec</tt> command line using:</p>
+<pre class="literal-block">
+% mpiexec -mca oob_tcp_if_include 127.0.0.0/24 pdgm.exe root
+</pre>
+<p>The important thing here is that OpenMPI tries to use the TCP stack from
+your current host for setup and VPN likely blocks that host resulting in
+a timeout.  By setting OOB TCP to use the localhost, you should be able to
+run.</p>
+</blockquote>
+</div>
+<div class="section" id="boost">
+<h2><a class="toc-backref" href="#toc-entry-20">4.3&nbsp;&nbsp;&nbsp;Boost</a></h2>
+<p>While may Boost capabilities are fully templated and available soley in C++
+headers, DGM makes use of several Boost packages that must be built into
+libraries before they can be used.  This includes <tt class="docutils literal"><span class="pre">boost::mpi</span></tt>,
+<tt class="docutils literal"><span class="pre">boost::filesystem</span></tt>, and <tt class="docutils literal"><span class="pre">boost::random</span></tt>.  The following instructions
+describe how to build the required boost libraries on a typical Linux-like
+system.</p>
+<ol class="arabic">
+<li><p class="first">Download the latest version from <a class="reference external" href="http://www.boost.org/">http://www.boost.org/</a></p>
+</li>
+<li><p class="first">In the directory where you want to put the Boost installation, execute:</p>
+<pre class="literal-block">
+% cd $DGM_TPL   (e.g., $HOME/local)
+% tar --bzip2 -xf boost_1_55_0.tar.bz2
+</pre>
+</li>
+<li><p class="first">Configure boost with libraries:</p>
+<pre class="literal-block">
+% cd boost_1_55_0
+% export BOOST_DIST=/Users/ccober/local/boost_1_55_0
+% ./bootstrap.sh \
+%  --with-libraries=system,filesystem,random,signals,serialization,mpi,program_options \
+%  --prefix=$DGM_TPL/boost_1_55_0
+</pre>
+</li>
+</ol>
+<blockquote>
+<p>Building the boost::mpi library requires you to modify file
+<tt class="docutils literal"><span class="pre">$BOOST_DIST/tools/build/v2/user-config.jam</span></tt> to include the line
+<tt class="docutils literal">using mpi ;</tt> Note: if you want to specify the compiler, such as in
+<tt class="docutils literal">$DGM_TPL/openmpi</tt>, then the line you add should be
+<tt class="docutils literal">using mpi : <span class="pre">&lt;full-path-to-mpicxx&gt;</span> ;</tt> where you fill in the full
+path name, e.g., <tt class="docutils literal">using mpi : /Users/ccober/local/openmpi/bin/mpicxx ;</tt></p>
+<p>Note, as of Boost v1.56.0 the location of <tt class="docutils literal"><span class="pre">user-config.jam</span></tt> has changed
+and is now at:</p>
+<pre class="literal-block">
+$BOOST_DIST/tools/build/example/user-config.jam
+</pre>
+<p>You now need to copy that example to your distribution directory:</p>
+<pre class="literal-block">
+% cp $BOOST_DIST/tools/build/example/user-config.jam $BOOST_DIST
+</pre>
+<p>And then edit the file as described above. Note that you also have to
+set <tt class="docutils literal"><span class="pre">BOOST_BUILD_PATH=$BOOST_DIST</span></tt> so that your <tt class="docutils literal"><span class="pre">user-config.jam</span></tt> can be
+located</p>
+</blockquote>
+<ol class="arabic" start="4">
+<li><p class="first">Build boost:</p>
+<pre class="literal-block">
+% ./b2 install
+</pre>
+<p>or with a custom user-config.jam you would do:</p>
+<pre class="literal-block">
+% env BOOST_BUILD_PATH=$BOOST_DIST ./b2 install
+</pre>
+<p>so that the build system will find your <tt class="docutils literal"><span class="pre">user-config.jam</span></tt>.</p>
+</li>
+<li><p class="first">Set link to new boost:</p>
+<pre class="literal-block">
+% cd $DGM_TPL
+% ln -s boost_1_55_0 boost
+</pre>
+</li>
+<li><p class="first">You will likely need to do a clean build:</p>
+<pre class="literal-block">
+% cd $DGM_DIST
+% make_dgm -cisp
+</pre>
+</li>
+<li><p class="first">Need to add the boost library path to your environment:</p>
+<pre class="literal-block">
+% export LD_LIBRARY_PATH=$DGM_TPL/boost/lib:$LD_LIBRARY_PATH
+</pre>
+</li>
+</ol>
+<blockquote>
+<p>or for Darwin (Mac OS-X) you would set:</p>
+<pre class="literal-block">
+% export DYLD_LIBRARY_PATH=$DGM_TPL/boost/lib:$DYLD_LIBRARY_PATH
+</pre>
+</blockquote>
+<ol class="arabic" start="8">
+<li><p class="first">Under Mac OS X 10.10 (El Capitan) and later, security settings have been
+changed so that you can no longer set <tt class="docutils literal">DYLD_LIBRARY_PATH</tt> and expect
+that it will be propogated to a sub-shell.  This is inconvient for the
+DGM testing system in particular as we often use subshells to execute runs.</p>
+<p>So, we need use <tt class="docutils literal">otool <span class="pre">-L</span> dgm.exe</tt> to see where the OS is trying to find
+dynamic libraries and if the paths are not correct (or incomplete) you need
+to use <tt class="docutils literal">install_name_tool <span class="pre">-id</span> path</tt> on the dylib to set it correct. For
+boost, I've found that it doesn't set the install name in the dylibs
+correctly so that you need to do that by hand.  If I can figure out how
+to make the boost build system do it, I'll add that in here.</p>
+</li>
+</ol>
+</div>
+</div>
+<div class="section" id="optional-third-party-libraries">
+<h1><a class="toc-backref" href="#toc-entry-21">5&nbsp;&nbsp;&nbsp;Optional Third-Party Libraries</a></h1>
+<p>The following third-party libraries are optional but can be included to
+actively significant enhanced capabilities within DGM such as implicit time
+integration, iterative linear and nonlinear solvers, and the ability to
+translate ExodusII files to DGM formats.</p>
+<div class="section" id="hdf5">
+<h2><a class="toc-backref" href="#toc-entry-22">5.1&nbsp;&nbsp;&nbsp;HDF5</a></h2>
+<p>HDF5 is a hierarchical file format that is designed for scientific data.
+Both Netcdf and ExodusII formats require HDF5 to build.</p>
+<ol class="arabic">
+<li><p class="first">Download hdf5-1.8.9 from
+<a class="reference external" href="http://www.hdfgroup.org/ftp/HDF5/current/src/hdf5-1.8.9.tar.gz">http://www.hdfgroup.org/ftp/HDF5/current/src/hdf5-1.8.9.tar.gz</a></p>
+</li>
+<li><p class="first">Move and uncompress HDF5 in build location (e.g., <tt class="docutils literal">$HOME/local</tt> or
+<tt class="docutils literal">$DGM_TPL</tt>):</p>
+<pre class="literal-block">
+% mv hdf5-1.8.9.tar.gz $DGM_TPL/.
+% cd $DGM_TPL   # (e.g., $HOME/local)
+% tar zxvf hdf5-1.8.9.tar.gz
+</pre>
+</li>
+<li><p class="first">Build HDF5 twice, once serial, once parallel:</p>
+<pre class="literal-block">
+% cd hdf5-1.8.9
+% ./configure --prefix=$DGM_TPL/hdf5-1.8.9/serial/opt
+</pre>
+</li>
+</ol>
+<blockquote>
+<p>or</p>
+<pre class="literal-block">
+% CC=/Users/ccober/local/openmpi/bin/gcc-mp-4.4 \
+  CXX=/Users/ccober/local/openmpi/bin/g++-mp-4.4 \
+  FC=/Users/ccober/local/openmpi/bin/gfortran-mp-4.4 \
+  ./configure --prefix=$DGM_TPL/hdf5-1.8.9/serial/opt
+% make install
+% ./configure --prefix=$DGM_TPL/hdf5-1.8.9/mpi/opt --enable-parallel
+</pre>
+<p>or</p>
+<pre class="literal-block">
+% CC=/Users/ccober/local/openmpi/bin/mpicc \
+  CXX=/Users/ccober/local/openmpi/bin/mpicxx \
+  FC=/Users/ccober/local/openmpi/bin/mpif77 \
+  ./configure --prefix=$DGM_TPL/hdf5-1.8.9/mpi/opt --enable-parallel
+</pre>
+<p>or if you get the following during configuring, <tt class="docutils literal">configure: error: unable
+to link a simple <span class="pre">MPI-IO</span> application</tt>, try something like:</p>
+<pre class="literal-block">
+% CC=/Users/ccober/local/openmpi/bin/mpicc ./configure \
+  --prefix=$DGM_TPL/hdf5-1.8.9/mpi/opt --enable-parallel
+% make install
+</pre>
+</blockquote>
+<ol class="arabic" start="4">
+<li><p class="first">Create link and add HDF5 to your environment for ExodusII build.:</p>
+<pre class="literal-block">
+% cd $DGM_TPL ; ln -s hdf5-1.8.9 hdf5
+% export HDF5_BASE_DIR=$DGM_TPL/hdf5/mpi/opt
+</pre>
+</li>
+</ol>
+</div>
+<div class="section" id="netcdf">
+<h2><a class="toc-backref" href="#toc-entry-23">5.2&nbsp;&nbsp;&nbsp;NetCDF</a></h2>
+<p>ExodusII requires NetCDF version 4.2 or greater to build.</p>
+<ol class="arabic">
+<li><p class="first">Download version 4.2 or later from
+<a class="reference external" href="http://www.unidata.ucar.edu/downloads/netcdf/netcdf-4_2/index.jsp">http://www.unidata.ucar.edu/downloads/netcdf/netcdf-4_2/index.jsp</a>
+(netcdf-4.2.tar.gz)</p>
+</li>
+<li><p class="first">Move and uncompress NetCDF in build location (e.g., <tt class="docutils literal">$HOME/local</tt>
+or <tt class="docutils literal">$DGM_TPL</tt>):</p>
+<pre class="literal-block">
+% mv netcdf-4.2.tar.gz $DGM_TPL/.
+% cd $DGM_TPL   # (e.g., $HOME/local)
+% tar zxvf netcdf-4.2.tar.gz
+</pre>
+</li>
+<li><p class="first">Edit files per ExodusII README (Greg Sjaardema):</p>
+<pre class="literal-block">
+% cd netcdf-4.2
+% vi include/netcdf.h
+</pre>
+</li>
+</ol>
+<blockquote>
+<p>Make the following changes to these defines:</p>
+<pre class="literal-block">
+#define NC_MAX_DIMS 65536   /* max dimensions per file */
+#define NC_MAX_VARS 524288  /* max variables per file */
+#define NC_MAX_VAR_DIMS 8   /* max per variable dimensions */
+</pre>
+<p>and then make sure to make the stack size unlimited in your shell:</p>
+<pre class="literal-block">
+% ulimit -s unlimited       # To pass tests w/ new changes
+
+or
+
+% ulimit -Ss 65532
+</pre>
+</blockquote>
+<ol class="arabic simple" start="4">
+<li>Configure and build serial and parallel netcdf.
+On the Mac you may have to disable doxygen (<tt class="docutils literal"><span class="pre">--disable-doxygen</span></tt>)
+in order to build successfully.
+On Redsky, you need to disable shared libraries (<tt class="docutils literal"><span class="pre">--disable-shared</span></tt>) or
+you can build HDF5 with shared library support enabled and set your
+runtime library path.  Jenkins doesn't do this so it requires static
+libraries at this time</li>
+</ol>
+<blockquote>
+<pre class="literal-block">
+% export HDF5_BASE_DIR=$DGM_TPL/hdf5/serial/opt
+% ./configure --prefix=$DGM_TPL/netcdf-4.2/serial/opt \
+ --disable-shared \
+ CXX=/usr/bin/g++ \
+ CC=/usr/bin/gcc  \
+ CPPFLAGS=-I$DGM_TPL/hdf5/serial/opt/include \
+ LDFLAGS=-L$DGM_TPL/hdf5/serial/opt/lib
+% make check install    # May fail but a 'make install' seems to still work.
+</pre>
+<p>and for an MPI enabled build:</p>
+<pre class="literal-block">
+% export HDF5_BASE_DIR=$DGM_TPL/hdf5/mpi/opt
+% ./configure --prefix=$DGM_TPL/netcdf-4.2/mpi/opt \
+  --disable-shared \
+  CXX=mpicxx \
+  CC=mpicc   \
+  CPPFLAGS=-I$DGM_TPL/hdf5/mpi/opt/include \
+  LDFLAGS=-L$DGM_TPL/hdf5/mpi/opt/lib
+% make check install    # May fail but a 'make install' seems to still work.
+</pre>
+</blockquote>
+<ol class="arabic simple" start="5">
+<li>Create link and add netcdf to your environment for ExodusII build</li>
+</ol>
+<blockquote>
+<pre class="literal-block">
+% cd $DGM_TPL
+% ln -s netcdf-4.2 netcdf
+% export NETCDF_DIR=$DGM_TPL/netcdf
+</pre>
+</blockquote>
+</div>
+<div class="section" id="exodusii">
+<h2><a class="toc-backref" href="#toc-entry-24">5.3&nbsp;&nbsp;&nbsp;ExodusII</a></h2>
+<p>This is ONLY needed if you do not build with SEACAS/Exodus from Trilinos.
+To build some of the utilities (e.g., <tt class="docutils literal">exo2ien</tt> for converting Cubit meshes),
+one needs ExodusII built.  If you haven't already done so, make sure that you
+have built and installed both HDF5 and NetCDF as described in the preceeding
+sections.</p>
+<ol class="arabic">
+<li><p class="first">Download the latest version from <a class="reference external" href="http://sourceforge.net/projects/exodusii/">http://sourceforge.net/projects/exodusii/</a></p>
+</li>
+<li><p class="first">In the directory where you want to put the exodusii installation, execute:</p>
+<pre class="literal-block">
+% cd $DGM_TPL                      # (e.g., $HOME/local)
+% tar zxvf exodusii-4.98.tar.gz
+</pre>
+</li>
+<li><p class="first">Configure exodusii:</p>
+<pre class="literal-block">
+% ln -s exodusii-4.98 exodusii
+% cd exodusii
+</pre>
+</li>
+</ol>
+<blockquote>
+<pre class="literal-block">
+% cmake -DCMAKE_INSTALL_PREFIX=$DGM_TPL/exodusii \
+  -DNETCDF_INCLUDE_DIR=$NETCDF_DIR/include \
+  -DCMAKE_CXX_COMPILER=/usr/bin/g++ .
+</pre>
+<p>Do not forget to include the &quot;.&quot; at the end of this command as it must be
+there.</p>
+</blockquote>
+<ol class="arabic" start="4">
+<li><p class="first">Make, test and install:</p>
+<pre class="literal-block">
+% make check install
+</pre>
+</li>
+</ol>
+</div>
+<div class="section" id="trilinos">
+<h2><a class="toc-backref" href="#toc-entry-25">5.4&nbsp;&nbsp;&nbsp;Trilinos</a></h2>
+<ol class="arabic">
+<li><p class="first">First off, set up your environment for DGM builds by getting a copy
+of Jenkins environment setup script, and modify it for your directory
+structure and machine:</p>
+<pre class="literal-block">
+% cp $DGM_DIST/regression/jenkins/dgm-env-setup-&lt;machine&gt;.bsh \
+% $HOME/dgm-env-setup-&lt;machine&gt;.bsh
+% # vi and set DGM_DIST, DGM_TPL, TRILINOS_DIST, NETCDF_DIR, ...
+% source $HOME/dgm-env-setup-&lt;machine&gt;.bsh
+</pre>
+</li>
+<li><p class="first">Obtain a copy of the Trilinos source.  Following notes are from a
+Trilinos email.</p>
+<dl class="docutils">
+<dt>How to get Trilinos from github:</dt>
+<dd><p class="first">Github allows both https and ssh access. Both are equally
+valid and both have their pros and cons in a Sandia environment.
+SSH is what we have been using so it may be more natural to
+continue with it, but the choice can be made on an individual
+basis</p>
+<dl class="docutils">
+<dt>https:</dt>
+<dd><p class="first last">% git clone <a class="reference external" href="https://github.com/trilinos/Trilinos.git">https://github.com/trilinos/Trilinos.git</a></p>
+</dd>
+</dl>
+<p>Note that if you choose to use https you will need to make
+sure your proxies are set correctly on every machine that
+you intend to do work from. You can find the information for
+Sandia’s proxies here:</p>
+<p><a class="reference external" href="https://sems.sandia.gov/qa/how-do-i-configure-sandia-proxy-settings">https://sems.sandia.gov/qa/how-do-i-configure-sandia-proxy-settings</a></p>
+<dl class="docutils">
+<dt>ssh:</dt>
+<dd><p class="first last"><a class="reference external" href="mailto:git&#64;github.com">git&#64;github.com</a>:trilinos/Trilinos.git</p>
+</dd>
+</dl>
+<p>Note that if you choose to use ssh you will need to upload
+your public key to github for each machine that you intend
+to do work from. Github has a convenient way to add keys to
+your profile through the website. You can find instructions
+on how to add keys at:</p>
+<p class="last"><a class="reference external" href="https://help.github.com/articles/generating-ssh-keys/#step-4-add-your-ssh-key-to-your-account">https://help.github.com/articles/generating-ssh-keys/#step-4-add-your-ssh-key-to-your-account</a></p>
+</dd>
+</dl>
+</li>
+</ol>
+<ol class="arabic" start="4">
+<li><p class="first">Change directories to a location where you want the Trilinos
+libraries to be built.  A common location is directly in
+<tt class="docutils literal">$DGM_DIST/util</tt> directory.  The script ran in the next step will
+create (or use) the directory <tt class="docutils literal">trilinos_build</tt> in this location:</p>
+<pre class="literal-block">
+% cd $DGM_DIST/util
+</pre>
+</li>
+<li><p class="first">Run the <tt class="docutils literal">$DGM_DIST/util/make_trilinos</tt> script.  You can no longer
+make and install several Trilinos builds at the same time.  You
+have to separately build Trilinos for serial and parallel due to HDF5.:</p>
+<pre class="literal-block">
+% export TRILINOS_HOME=$DGM_TPL/trilinos
+</pre>
+</li>
+</ol>
+<blockquote>
+<pre class="literal-block">
+% # serial
+% export NETCDF_BASE_DIR=$DGM_TPL/netcdf/serial/opt
+% export HDF5_BASE_DIR=$DGM_TPL/hdf5/serial/opt
+% ./make_trilinos -cisn 8 $TRILINOS_DIST
+</pre>
+<p>Use the following to rebuild from scratch:</p>
+<pre class="literal-block">
+% ./make_trilinos -CIsn 8 $TRILINOS_DIST
+</pre>
+<p>but do not use the &quot;-CI&quot; during the parallel build as it will remove
+the serial build.:</p>
+<pre class="literal-block">
+% # parallel
+% export NETCDF_BASE_DIR=$DGM_TPL/netcdf/mpi/opt
+% export HDF5_BASE_DIR=$DGM_TPL/hdf5/mpi/opt
+% ./make_trilinos -cipn 8 $TRILINOS_DIST
+</pre>
+<p>If you want debug Trilinos builds, you'll need to build and
+install debug builds of both HDF5 and Netcdf before building
+Trilinos.</p>
+<p>You may need to remove any previous build of Trilinos to build without
+errors.:</p>
+<pre class="literal-block">
+% rm -rf trilinos_build
+</pre>
+<p>This command no longer works but the option set is still valid:</p>
+<pre class="literal-block">
+% ./make_trilinos -ispydn 4 $TRILINOS_DIST
+</pre>
+<p>will make serial (<tt class="docutils literal"><span class="pre">-s</span></tt>) and parallel (<tt class="docutils literal"><span class="pre">-p</span></tt>) versions of optimized and
+debug (<tt class="docutils literal"><span class="pre">-d</span></tt>) builds of Trilinos with dynamic libraries and PyTrilinos
+enabled (<tt class="docutils literal"><span class="pre">-y</span></tt>), using 4 processors (<tt class="docutils literal"><span class="pre">-n</span> 4</tt>) and then install (<tt class="docutils literal"><span class="pre">-i</span></tt>) the
+builds in <tt class="docutils literal">$HOME/local</tt> with the following directories:</p>
+<pre class="literal-block">
+$HOME/local/trilinos/mpi/debug
+$HOME/local/trilinos/mpi/opt
+$HOME/local/trilinos/serial/debug
+$HOME/local/trilinos/serial/opt
+</pre>
+<p>You can change the installation destination by setting the
+environment variable <tt class="docutils literal">TRILINOS_HOME</tt>.  You can also specify the
+location of the MPI compilers with environment variable
+<tt class="docutils literal">MPI_BASE_DIR</tt> (if this is not set, <tt class="docutils literal">make_trilinos</tt> will first look in
+<tt class="docutils literal">~/local/openmpi</tt>, and if that is not present the script will let the
+Trilinos build system look for it).</p>
+<p>Note:  If the <tt class="docutils literal"><span class="pre">-y</span></tt> option is specified, then <tt class="docutils literal">make_trilinos</tt> will check
+for the prerequisites for PyTrilinos (python, swig and numpy).  If
+these are present, then PyTrilinos will be enabled.  The TriKota
+package requires the user to copy the Dakota source into the
+<tt class="docutils literal">packages/TriKota</tt> directory of the Trilinos source.  If this has been
+done, <tt class="docutils literal">make_trilinos</tt> will detect it and enable TriKota.</p>
+</blockquote>
+</div>
+<div class="section" id="metis">
+<h2><a class="toc-backref" href="#toc-entry-26">5.5&nbsp;&nbsp;&nbsp;Metis</a></h2>
+<p>Metis is both a library and a collection of command-line executables that
+enables the partitioning of mesh and graph datastructures.</p>
+<ol class="arabic">
+<li><p class="first">Obtain a copy from <a class="reference external" href="http://glaros.dtc.umn.edu/gkhome/fsroot/metis/OLD">http://glaros.dtc.umn.edu/gkhome/fsroot/metis/OLD</a>.
+These instructions are for version 4 e.g., <tt class="docutils literal"><span class="pre">metis-4.0.3.tar.gz</span></tt>.  Things
+changed quite a bit in version 5, but I have found that version 5 yeilds
+higher-quality partitions and that the command-line interface is more
+powerful, so you may want to explore that version too.</p>
+</li>
+<li><p class="first">In the directory where you want to put the metis installation, execute:</p>
+<pre class="literal-block">
+% cd $DGM_TPL   # (e.g., $HOME/local)
+% tar zxvf metis-4.0.3.tar.gz
+% cd metis-4.0.3
+</pre>
+</li>
+<li><p class="first">Follow the directions in INSTALL, e.g., change to use gcc compiler in
+<tt class="docutils literal">Makefile.in</tt>:</p>
+<pre class="literal-block">
+% vi Makefile.in  (CC = gcc)
+% make
+</pre>
+</li>
+<li><p class="first">Test the build:</p>
+<pre class="literal-block">
+% cd Graphs
+% mtest 4elt.graph
+</pre>
+</li>
+<li><p class="first">Create link to build:</p>
+<pre class="literal-block">
+% cd $DGM_TPL
+</pre>
+</li>
+</ol>
+</div>
+<div class="section" id="flex">
+<h2><a class="toc-backref" href="#toc-entry-27">5.6&nbsp;&nbsp;&nbsp;Flex</a></h2>
+<p>Flex should be available on your sytem and under most circumstances, you will
+not need the instructions that follow.  However, for some (older) systems,
+the default flex is known to have a bug and must be patched.  If you have this
+situation, please follow these steps.</p>
+<ol class="arabic">
+<li><p class="first">Download the latest version of flex and patch.
+- From <a class="reference external" href="https://launchpad.net/ubuntu/+source/flex/2.5.35-10">https://launchpad.net/ubuntu/+source/flex/2.5.35-10</a>
+- original and patch: flex_2.5.35.orig.tar.gz and flex_2.5.35-10.diff.gz</p>
+</li>
+<li><p class="first">cd /to/the/source/code/location:</p>
+<pre class="literal-block">
+% cd $DGM_TPL   # (e.g., $HOME/local)
+</pre>
+</li>
+<li><p class="first">Move original to source location:</p>
+<pre class="literal-block">
+% mv flex_2.5.35.orig.tar.gz $DGM_TPL
+% tar zxvf flex_2.5.35.orig.tar.gz
+</pre>
+</li>
+<li><p class="first">Move patch to flex directory:</p>
+<pre class="literal-block">
+% cp flex_2.5.35-10.diff.gz $DGM_TPL/flex-2.5.35
+</pre>
+</li>
+<li><p class="first">Apply patch:</p>
+<pre class="literal-block">
+% cd $DGM_TPL/flex-2.5.35
+% gunzip flex_2.5.35-10.diff.gz
+% patch -p1 &lt; flex_2.5.35-10.diff
+</pre>
+</li>
+<li><p class="first">Configure and build:</p>
+<pre class="literal-block">
+% ln -sf $DGM_TPL/flex-2.5.35 $DGM_TPL/flex
+% ./configure --prefix=$DGM_TPL/flex
+% make
+% make check      # (may fail a test but seems to still work)
+% make install
+</pre>
+</li>
+</ol>
+<blockquote>
+If you get the following, <tt class="docutils literal">/bin/sh: $HOME/local/metis/install:
+Permission denied</tt>, you may not have applied the patch.</blockquote>
+</div>
+<div class="section" id="jsoncpp">
+<h2><a class="toc-backref" href="#toc-entry-28">5.7&nbsp;&nbsp;&nbsp;JsonCpp</a></h2>
+<p>The JsonCpp library is now embedded within DGM so that you should not need
+to download and follow these instructions.  However, we are keeping them here
+just in case.</p>
+<ol class="arabic">
+<li><p class="first">The JsonCpp library can be found at <a class="reference external" href="http://jsoncpp.sourceforge.net/">http://jsoncpp.sourceforge.net/</a>:</p>
+<pre class="literal-block">
+% cd $DGM_TPL
+% tar zxvf jsoncpp-src-0.6.0-rc2.tar.gz
+</pre>
+</li>
+<li><p class="first">Can be built (please check the current READ.txt), e.g.:</p>
+<pre class="literal-block">
+% cd $DGM_TPL/jsoncpp-src-0.6.0-rc2
+% python $DGM_TPL/scons-2.0.1/bin/scons platform=linux-gcc check
+</pre>
+</li>
+<li><p class="first">At the moment, we use 0.6.0-rc2.  JsonCpp does not currently include an
+install script.  As a result, the library is found at:</p>
+<pre class="literal-block">
+jsoncpp-src-0.6.0-rc2/libs/{ARCH}/libjson_{ARCH}_libmt.a
+</pre>
+</li>
+</ol>
+<blockquote>
+<p>and the include files are found at:</p>
+<pre class="literal-block">
+jsoncpp-src-0.6.0-rc2/include/json
+</pre>
+<p>Since JsonCpp appends the architecture and compiler to the library name
+and directory, the default build REQUIRES a symbolic link in the:</p>
+<pre class="literal-block">
+jsoncpp-src-0.6.0-rc2/libs
+</pre>
+<p>directory to <tt class="docutils literal"><span class="pre">libjson_{ARCH}.a</span></tt> with the name <tt class="docutils literal">libjson.a</tt>.  For example,
+in the libs directory, the following would suffice on a Linux system:</p>
+<pre class="literal-block">
+% cd $DGM_TPL/jsoncpp-src-0.6.0-rc2/libs
+% ln -s ./linux-gcc-4.1.2/libjson_linux-gcc-4.1.2_libmt.a ./libjson.a
+</pre>
+</blockquote>
+<ol class="arabic" start="4">
+<li><p class="first">Also to complete the build you will need to set an environment variable:</p>
+<pre class="literal-block">
+% setenv USE_JSON 1
+</pre>
+</li>
+</ol>
+<blockquote>
+<p>and ensure that is in your path, e.g.:</p>
+<pre class="literal-block">
+% ln -s $DGM_TPL/jsoncpp-src-0.6.0-rc2 $DGM_TPL/jsoncpp
+</pre>
+</blockquote>
+</div>
+<div class="section" id="scons">
+<h2><a class="toc-backref" href="#toc-entry-29">5.8&nbsp;&nbsp;&nbsp;SCons</a></h2>
+<p>The SCons tool is needed to help build JsonCpp.  You can learn more about
+SCons at <a class="reference external" href="http://www.scons.org">http://www.scons.org</a>.  Since JsonCpp is now built into DGM, this
+is really no longer needed but is retained just in case.</p>
+<ol class="arabic">
+<li><p class="first">Untar:</p>
+<pre class="literal-block">
+% cd $DGM_TPL
+% tar zxvf scons-2.0.1.tar.gz
+</pre>
+</li>
+<li><p class="first">Install:</p>
+<pre class="literal-block">
+% cd $DGM_TPL/scons-2.0.1
+% python setup.py install --prefix=$DGM_TPL/scons-2.0.1
+</pre>
+</li>
+</ol>
+</div>
+<div class="section" id="shared-libraries">
+<h2><a class="toc-backref" href="#toc-entry-30">5.9&nbsp;&nbsp;&nbsp;Shared Libraries</a></h2>
+<p>A common issue when building and running DGM is that some third-party
+libraries may default to using shared (or dynamic) libraries which
+are resolved at runtime. For example, under Linux you might need
+to set:</p>
+<pre class="literal-block">
+% export LD_LIBRARY_PATH=$DGM_TPL/gsl/lib:$LD_LIBRARY_PATH
+</pre>
+<p>in your <tt class="docutils literal">.bash_profile</tt> file. In Darwin (Mac OS-X) you would set:</p>
+<pre class="literal-block">
+% export DYLD_LIBRARY_PATH=$DGM_TPL/gsl/lib:$DYLD_LIBRARY_PATH
+</pre>
+</div>
+</div>
+<div class="section" id="troubleshooting">
+<h1><a class="toc-backref" href="#toc-entry-31">6&nbsp;&nbsp;&nbsp;Troubleshooting</a></h1>
+<div class="section" id="undefined-symbols-dgm-yylex">
+<h2><a class="toc-backref" href="#toc-entry-32">6.1&nbsp;&nbsp;&nbsp;Undefined symbols: &quot;_dgm_yylex&quot;</a></h2>
+<p>This is a problem that crops up with Leopard - fortunately fixed
+in Snow Leopard.  The issue is that the version of flex that is
+distributed with Leopard was messed up.  So, use a version that is
+built that is in:</p>
+<pre class="literal-block">
+$DGM_TPL/flex/bin/flex
+</pre>
+<p>by adding the following to your path:</p>
+<pre class="literal-block">
+export PATH=$DGM_TPL/flex/bin:$PATH
+</pre>
+<p>You may need to clean the build after adding these to your path.</p>
+</div>
+<div class="section" id="undefined-reference-to-s-wsfe-libf77blas-a">
+<h2><a class="toc-backref" href="#toc-entry-33">6.2&nbsp;&nbsp;&nbsp;Undefined reference to 's_wsfe'  (libf77blas.a)</a></h2>
+<p>On Odin, you have probably built with GCC instead of ICC.  Try:</p>
+<pre class="literal-block">
+% make_dgm -cisp -a ICC
+</pre>
+</div>
+<div class="section" id="comparison-signed-and-unsigned-error-in-lex">
+<h2><a class="toc-backref" href="#toc-entry-34">6.3&nbsp;&nbsp;&nbsp;Comparison signed and unsigned error in lex</a></h2>
+<p>If you see the error:</p>
+<pre class="literal-block">
+../src/lex.yy.cpp: In function ‘int yy_get_next_buffer()’:
+../src/lex.yy.cpp:1091: warning: comparison between signed and
+unsigned integer expressions
+</pre>
+<p>You are using a version of flex which does not have the latest patch.
+Many system version do not have the patch.  Check to see which flex
+you are using:</p>
+<pre class="literal-block">
+% which flex
+  /Users/ccober/local/flex/bin/flex
+</pre>
+<p>and make sure it is your local version.  You may need to rebuild flex
+with the latest patch (possibly <tt class="docutils literal"><span class="pre">2.5.35-10</span></tt> with <tt class="docutils literal"><span class="pre">flex_2.5.35-10.diff</span></tt>).
+See the Flex section above.</p>
+<p>You may also need to remove some intermediate files, so will need to do
+a distribution clean, e.g.:</p>
+<pre class="literal-block">
+% make_dgm -CispT
+</pre>
+</div>
+<div class="section" id="dereferencing-pointer-when-building-with-peopt">
+<h2><a class="toc-backref" href="#toc-entry-35">6.4&nbsp;&nbsp;&nbsp;Dereferencing pointer when building with peopt</a></h2>
+<p>The error looks something like:</p>
+<pre class="literal-block">
+/Users/ccober/local/peopt/include/peopt/peopt.h:4633: error: dereferencing
+pointer '&lt;anonymous&gt;' does break strict-aliasing rules
+/Users/ccober/local/peopt/include/peopt/peopt.h:4633: note: initialized
+from here
+</pre>
+<p>This error occurs when using GCC 4.4 with peopt.  This was a known and fixed
+GCC bug, which was documented here:</p>
+<blockquote>
+<p><a class="reference external" href="http://gcc.gnu.org/bugzilla/show_bug.cgi?id=39390">http://gcc.gnu.org/bugzilla/show_bug.cgi?id=39390</a></p>
+<p><a class="reference external" href="http://gcc.gnu.org/bugzilla/show_bug.cgi?id=42087">http://gcc.gnu.org/bugzilla/show_bug.cgi?id=42087</a></p>
+</blockquote>
+<p>This has been fixed for GCC 4.5 and later versions.  To get around it, try
+the following:</p>
+<pre class="literal-block">
+% env MCPU=-fno-strict-aliasing ./make_dgm -ispT
+</pre>
+</div>
+<div class="section" id="runtests-py-fails-undefined-reference">
+<h2><a class="toc-backref" href="#toc-entry-36">6.5&nbsp;&nbsp;&nbsp;runtests.py fails; undefined reference</a></h2>
+<p>The full error is:</p>
+<pre class="literal-block">
+runtests.py fails; undefined reference to
+DGM::Domain::reset_system_matrix()
+</pre>
+<p>This error indicates that the executable you are using was compiled without
+trilinos. So:</p>
+<pre class="literal-block">
+% make_dgm -CispT $TRILINOS_HOME
+</pre>
+<p>and then update your path to make sure that the executable with Trilinos in
+it is picked up first. Do:</p>
+<pre class="literal-block">
+%echo $PATH
+</pre>
+<p>and check which dgm.exe comes first. Check if
+<tt class="docutils literal">$DGM_HOME/dgm/trilinos/mpi/opt/bin/dgm.exe</tt>
+(or <tt class="docutils literal">$DGM_HOME/dgm/trilinos/serial/opt/bin/dgm.exe</tt>) is early in your path.
+<tt class="docutils literal">$DGM_HOME</tt> should be set to something in your home directory and not to
+<tt class="docutils literal">/home/dgm/local</tt></p>
+</div>
+<div class="section" id="no-newline-at-end-of-file">
+<h2><a class="toc-backref" href="#toc-entry-37">6.6&nbsp;&nbsp;&nbsp;No newline at end of file</a></h2>
+<p>The error:</p>
+<pre class="literal-block">
+/ascldap/users/ccober/local/boost/include/boost/fusion/tuple/detail/
+preprocessed/tuple_tie.hpp:21:7: error: no newline at end of file
+</pre>
+<p>happens on redsky when the default architecture is used (GCC),
+but the TLCC architecture should be used, e.g., the following was simply used:</p>
+<pre class="literal-block">
+% make_dgm -isp
+</pre>
+<p>The following should fix this:</p>
+<pre class="literal-block">
+% make_dgm -ispa TLCC
+</pre>
+</div>
+<div class="section" id="openmpi-hangs">
+<h2><a class="toc-backref" href="#toc-entry-38">6.7&nbsp;&nbsp;&nbsp;OpenMPI hangs</a></h2>
+<p>Under MacOS X 10.9 (Mavericks), OpenMPI can hang in the MPI_Init()
+function if your computer is connected to the internet.  See <a class="reference external" href="http://comments.gmane.org/gmane.comp.clustering.open-mpi.user/20245">this
+thread</a>
+for more information.</p>
+<p>The best solution is to set the following environment variable:</p>
+<pre class="literal-block">
+% OMPI_MCA_oob_tcp_if_include=lo0
+</pre>
+</div>
+<div class="section" id="illegal-instruction-muzia">
+<h2><a class="toc-backref" href="#toc-entry-39">6.8&nbsp;&nbsp;&nbsp;Illegal Instruction (Muzia)</a></h2>
+<p>If after building on muzia and during execution, you get the following
+execution error:</p>
+<pre class="literal-block">
+% time aprun -q -n 128 pdgm_opt.exe -no-rst cyl
+    _pmiu_daemon(SIGCHLD): [NID 00015] [c0-0c0s7n1]
+    [Fri Jun  6 11:56:01 2014] PE RANK 51 exit signal Illegal instruction
+  ...
+</pre>
+<p>you probably have some conflicting compiler options.  Goto
+config/CRAY.inc:line 243, and make sure OPTXX is set to:</p>
+<pre class="literal-block">
+OPTXX   = $(CXXFLAGS) -O2 $(MCPU)
+</pre>
+<p>Noel Belcourt has noted that additional compiler options other than -O2
+can cause this illegal instruction.</p>
+</div>
+</div>
+<div class="section" id="cray-instructions">
+<h1><a class="toc-backref" href="#toc-entry-40">7&nbsp;&nbsp;&nbsp;Cray Instructions</a></h1>
+<p>These are details on the installation and building on Cray platforms.
+Follow the general installation instructions in Install.txt, except
+for those steps noted here.</p>
+<ol class="arabic">
+<li><p class="first">Use someone else's TPL builds if possible:</p>
+<pre class="literal-block">
+% cd ${HOME}
+% mkdir local
+% cd local
+% ln -s /home/sscoll/local/atlas .
+% ln -s /home/sscoll/local/boost .
+% ln -s /home/sscoll/local/cblas .
+% ln -s /home/sscoll/local/cmake .
+% ln -s /home/sscoll/local/git .
+% ln -s /home/sscoll/local/peopt .
+% ln -s /home/sscoll/local/trilinos .
+</pre>
+</li>
+<li><p class="first">Use Cray's build of HDF5 and NetCDF:</p>
+<pre class="literal-block">
+% mkdir hdf5
+% cd hdf5
+% mkdir serial mpi
+% cd serial
+% ln -s /opt/cray/hdf5/default/cray/83 opt
+% cd ../mpi/
+% ln -s /opt/cray/hdf5-parallel/default/cray/83 opt
+% cd ../..
+% mkdir netcdf
+% cd netcdf
+% mkdir serial mpi
+% cd serial
+% ln -s /opt/cray/netcdf/default/cray/83 opt
+% cd ../mpi
+% ln -s /opt/cray/netcdf-hdf5parallel/default/cray/83 opt
+</pre>
+</li>
+<li><p class="first">Checkout codes:</p>
+<pre class="literal-block">
+% cd ${HOME}
+% svn co svn+ssh://software.sandia.gov/svn/private/dgm/trunk dgm
+% svn co svn+ssh://dev.sandia.gov/usr/local/svn/peopt/trunk peopt
+% ~/local/git/bin/git clone software.sandia.gov:/space/git/Trilinos
+% ~/local/git/bin/git clone software.sandia.gov:/space/git/preCopyrightTrilinos
+% cd Trilinos/
+% ln -sf ../preCopyrightTrilinos .
+</pre>
+</li>
+<li><p class="first">Setup environment:</p>
+<pre class="literal-block">
+% cd ${HOME}
+</pre>
+</li>
+</ol>
+<blockquote>
+<p>Edit these as needed:</p>
+<pre class="literal-block">
+% cp dgm/regression/jenkins/dgm-env-setup-curie.bsh .
+</pre>
+</blockquote>
+<ol class="arabic simple" start="5">
+<li>Build Trilinos</li>
+</ol>
+<blockquote>
+<p>Building Trilinos for a Cray XK-6, use the following:</p>
+<pre class="literal-block">
+% # serial
+% module load cray-hdf5 cray-netcdf
+% export NETCDF_DIR=/opt/cray/netcdf/default/cray/83/
+% export NETCDF_BASE_DIR=/opt/cray/netcdf/default/cray/83/
+% export HDF5_BASE_DIR=/opt/cray/hdf5/default/cray/83/
+% make_trilinos -D CMAKE_C_COMPILER=&quot;cc&quot; -D MPI_CXX_COMPILER=&quot;CC&quot; \
+  -D BLAS_LIBRARY_NAMES:STRING=&quot;&quot; -D LAPACK_LIBRARY_NAMES:STRING=&quot;&quot; \
+  -D BUILD_SHARED_LIBS:BOOL=FALSE -D TPL_FIND_SHARED_LIBS:BOOL=FALSE \
+  -D Trilinos_LINK_SEARCH_START_STATIC:BOOL=ON -isn 8 $TRILINOS_DIST
+
+% # parallel
+% module load cray-netcdf-hdf5parallel cray-hdf5-parallel
+</pre>
+<p>or</p>
+<pre class="literal-block">
+% module swap cray-netcdf cray-netcdf-hdf5parallel
+% module swap cray-hdf5 cray-hdf5-parallel
+
+% export NETCDF_DIR=/opt/cray/netcdf-hdf5parallel/default/cray/83/
+% export NETCDF_BASE_DIR=/opt/cray/netcdf-hdf5parallel/default/cray/83/
+% export HDF5_BASE_DIR=/opt/cray/hdf5-parallel/default/cray/83/
+% make_trilinos -D CMAKE_C_COMPILER=&quot;cc&quot; -D MPI_CXX_COMPILER=&quot;CC&quot; \
+  -D BLAS_LIBRARY_NAMES:STRING=&quot;&quot; -D LAPACK_LIBRARY_NAMES:STRING=&quot;&quot; \
+  -D BUILD_SHARED_LIBS:BOOL=FALSE -D TPL_FIND_SHARED_LIBS:BOOL=FALSE \
+  -D Trilinos_LINK_SEARCH_START_STATIC:BOOL=ON -ipn 8 $TRILINOS_DIST
+
+% export NETCDF_DIR=/opt/cray/netcdf/default/cray/83/
+% export NETCDF_BASE_DIR=/opt/cray/netcdf/default/cray/83/
+% export HDF5_BASE_DIR=/opt/cray/hdf5/default/cray/83/
+% module swap cray-netcdf-hdf5parallel cray-netcdf
+% module swap cray-hdf5-parallel cray-hdf5
+</pre>
+</blockquote>
+<ol class="arabic" start="6">
+<li><p class="first">Build DGM:</p>
+<pre class="literal-block">
+% cd ${DGM_DIST}
+% make_dgm -ispT -a CRAY
+</pre>
+</li>
+<li><p class="first">Build DGM utilities:</p>
+<pre class="literal-block">
+% cd ${DGM_DIST}/util
+% make
+</pre>
+</li>
+</ol>
+</div>
+<div class="section" id="romio-setup">
+<h1><a class="toc-backref" href="#toc-entry-41">8&nbsp;&nbsp;&nbsp;ROMIO Setup</a></h1>
+<p>On the RedSky platform, it is necessary to configure options to the ROMIO system
+to get acceptable performance on the Lustre filesystem.  <cite>These changes are not necessary on Cray platforms.</cite></p>
+<p>Create a <tt class="docutils literal"><span class="pre">.romio-hints</span></tt> file in your home directory and put the following into
+that file:</p>
+<pre class="literal-block">
+cb_nodes 1
+romio_no_indep_rw true
+</pre>
+<p>Set your environment to point to the hints file:</p>
+<pre class="literal-block">
+export ROMIO_HINTS=$HOME/.romio-hints
+</pre>
+</div>
+<div class="section" id="graph-weights-setup">
+<h1><a class="toc-backref" href="#toc-entry-42">9&nbsp;&nbsp;&nbsp;Graph Weights Setup</a></h1>
+<p>In order for Zoltan to use the graph weights during parallel mesh
+decomposition, the graph weights database must be generated.</p>
+<div class="section" id="building-the-weights-database">
+<h2><a class="toc-backref" href="#toc-entry-43">9.1&nbsp;&nbsp;&nbsp;Building the weights database</a></h2>
+<ol class="arabic">
+<li><p class="first">Build serial DGM:</p>
+<ul class="simple">
+<li>ensure <tt class="docutils literal">dgm.exe</tt> is in your <tt class="docutils literal">PATH</tt></li>
+<li>ensure <tt class="docutils literal">PYTHONPATH</tt> can find <tt class="docutils literal">dgm_test_support.py</tt></li>
+</ul>
+</li>
+<li><p class="first">Checkout and change to this test directory:</p>
+<pre class="literal-block">
+% cd dgm/runs/graph_weights
+</pre>
+</li>
+<li><p class="first">Run the test, it may run for several hours so consider
+running the tests in the background:</p>
+<pre class="literal-block">
+% nohup ./physics.tst &amp;
+</pre>
+</li>
+<li><p class="first">When the graph weights test has completed, the database
+will be written to:</p>
+<pre class="literal-block">
+$DGM_HOME/performance/dgm_weights.txt
+</pre>
+</li>
+<li><p class="first">In order for Zoltan to use the weights database, you must
+manually copy the file from:</p>
+<pre class="literal-block">
+$DGM_HOME/performance/dgm_weights.txt
+</pre>
+</li>
+</ol>
+<blockquote>
+<p>to</p>
+<pre class="literal-block">
+$DGM_HOME/trilinos/mpi/opt/bin
+</pre>
+</blockquote>
+</div>
+<div class="section" id="using-the-weights-database">
+<h2><a class="toc-backref" href="#toc-entry-44">9.2&nbsp;&nbsp;&nbsp;Using the weights database</a></h2>
+<p>A DGM test will use the weights database if:</p>
+<ul>
+<li><p class="first">a Trilinos-enabled build of <tt class="docutils literal">pdgm.exe</tt> is used</p>
+</li>
+<li><p class="first">The weights database resides in the bin directory or resides in the
+test directory.  If the test Json input supplies a path to the weights
+database, that file will be used if it exists.</p>
+</li>
+<li><p class="first">The test.json file enables Zoltan and the graph weights:</p>
+<pre class="literal-block">
+&quot;Zoltan&quot; : {
+  &quot;Partition&quot; : {
+    &quot;algorithm&quot; : &quot;hypergraph&quot;
+  },
+  &quot;Weights&quot; : {
+    &quot;File&quot; : &quot;dgm_weights.txt&quot;
+  },
+  &quot;Write Partition&quot; : true
+}
+</pre>
+</li>
+<li><p class="first">Zoltan will be used only if a binary mesh is specified in the
+input (<tt class="docutils literal">bmesh = 1</tt>)</p>
+</li>
+<li><p class="first">The test is parallel (<tt class="docutils literal">np &gt; 1</tt>)</p>
+</li>
+<li><p class="first">No <tt class="docutils literal">root.part.np</tt> file exists.  If this partition file exists for
+the requested number of processors, this file will be used and Zoltan
+will not.</p>
+</li>
+</ul>
+</div>
+</div>
+</div>
+</body>
+</html>

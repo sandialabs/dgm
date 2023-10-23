@@ -1,0 +1,7 @@
+# Initial Condition for M_\infy = 0.675
+Given
+R := 1;
+U := 1;
+V := 0;
+E := 4.4192631785224377817;
+

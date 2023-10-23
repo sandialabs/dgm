@@ -1,0 +1,59 @@
+#!/bin/bash
+
+. /opt/modules/default/etc/modules.sh
+
+module use /projects/EMPIRE/mutrino/tpls/hsw/modulefiles
+module load devpack/20180124/cray/7.6.2/intel/17.0.4
+module load netcdf-exo/4.4.1.1/cray/7.6.2/intel/17.0.4
+module load hdf5/1.10.1/cray/7.6.2/intel/17.0.4
+module load gcc/4.9.3
+module load cmake/3.9.0
+module load cray-libsci
+
+# module load cray-netcdf-hdf5parallel cray-hdf5-parallel
+# module load craype-interlagos
+
+# Seems to be required now on Curie
+# export CRAY_CPU_TARGET=x86-64
+
+# DGM
+# Distribution, third-party libraries and home (install) directories
+export DGM_DIST=/projects/kbelco/fwi/dgm           # Standard location
+export DGM_TPL=/projects/kbelco/fwi/local
+export DGM_HOME=$DGM_TPL/dgm
+
+export DGM_NO_SCRATCH=1
+export DGM_SCRATCH=.
+
+export TRILINOS_DIST=$HOME/Trilinos
+export TRILINOS_HOME=$DGM_TPL/trilinos
+#export TRILINOS_DEST=$TRILINOS_HOME/mpi/opt    # For example
+
+export PEOPT_HOME=$DGM_TPL/peopt        # Standard location
+
+# export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+export LD_LIBRARY_PATH=$DGM_TPL/boost/lib:$LD_LIBRARY_PATH
+
+# export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/opt/cray/libsci_acc/3.0.00/GNU/48/x86_64/lib
+
+export NETCDF_DIR=/projects/EMPIRE/mutrino/tpls/hsw/netcdf-exo/4.4.1.1/cray/7.6.2/intel/17.0.4 
+export NETCDF_BASE_DIR=/projects/EMPIRE/mutrino/tpls/hsw/netcdf-exo/4.4.1.1/cray/7.6.2/intel/17.0.4 
+export HDF5_BASE_DIR=/projects/EMPIRE/mutrino/tpls/hsw/hdf5/1.10.1/cray/7.6.2/intel/17.0.4
+
+# Cmake
+export PATH=$DGM_TPL/cmake/bin:$PATH
+
+# Cubit
+export PATH=$PATH:/home/kbelco/Cubit/bin
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:/home/kbelco/Cubit/bin
+
+export PATH=$DGM_HOME/trilinos/mpi/opt/bin:$PATH
+export PATH=$DGM_HOME/trilinos/serial/opt/bin:$PATH
+export PATH=$DGM_HOME/trilinos/mpi/opt/python:$PATH
+export PYTHONPATH=$DGM_HOME/trilinos/mpi/opt/python:$PYTHONPATH
+
+# Numpy and Scipy
+module load python/2.7-anaconda-5.0.1
+
+# dgm/util requires SYSTEM be defined
+export SYSTEM=mutrino

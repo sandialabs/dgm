@@ -1,0 +1,529 @@
+\documentclass[10pt, oneside]{article}
+\usepackage{geometry}
+\geometry{letterpaper} 
+\usepackage[parfill]{parskip}
+\usepackage{graphicx}
+\usepackage{array}
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{fullpage}
+\usepackage{color}
+\usepackage[]{algorithm2e}
+\usepackage{comment}
+%
+%... define local commands
+%
+\newcommand{\average}[1]{\ensuremath{\langle#1\rangle} }
+\newcommand{\jump}[1]{\ensuremath{[\![#1]\!]} }
+\newcommand{\dgm}{\textsf{DGM}\xspace}
+\newtheorem{theorem}{Theorem}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{definition}{Definition}
+\newcommand{\eg}{{\em e.g.}\xspace}
+\newcommand{\vect}[1]{\mathbf{#1}}
+\newcommand{\nofig}[2]{\leavevmode{\vbox {\hrule \hbox to #1{\vrule height #2%
+\hfill \vrule} \hrule}}}
+\newcommand{\bPhi}{\vect{\Phi}}
+\newcommand{\bx}{\vect{x}}
+\newcommand{\Jobs}{J_\mathrm{obs}}
+\newcommand{\Jreg}{J_\mathrm{reg}}
+\newcommand{\bM}{\vect{M}}
+\newcommand{\sQ}{\mathsf{Q}}
+\newcommand{\sD}{\mathsf{D}}
+\newcommand{\hp}{\hat p}
+\newcommand{\bU}{\vect{U}}
+\newcommand{\bhU}{\hat\bU}
+\newcommand{\bR}{\vect{R}}
+\newcommand{\bA}{\vect{A}}
+\newcommand{\bW}{\vect{W}}
+\newcommand{\sP}{\mathsf{P}}
+\newcommand{\sOmega}{\mathsf{\Omega}}
+\newcommand{\bF}{\vect{F}}
+\newcommand{\bS}{\vect{S}}
+\newcommand{\sGamma}{\mathsf{\Gamma}}
+\newcommand{\cW}{\mathcal{W}}
+\newcommand{\bn}{\vect{n}}
+\newcommand{\bT}{\vect{T}}
+\newcommand{\bLambda}{\vect{\Lambda}}
+\newcommand{\cU}{\mathcal{U}}
+\newcommand{\tp}{{\tilde p}}
+\newcommand{\tv}{{\tilde v}}
+\newcommand{\bv}{\vect{v}}
+\newcommand{\bg}{\vect{g}}
+\newcommand{\bB}{\vect{B}}
+\newcommand{\bP}{\vect{P}}
+\newcommand{\bI}{\vect{I}}
+\newcommand{\bE}{\vect{E}}
+\newcommand{\bzero}{\vect{0}}
+\newcommand{\Frechet}{Fr{\'e}chet\xspace}
+\newcommand{\fp}{f_p}
+\newcommand{\bu}{\vect{u}}
+\newcommand{\bd}{\vect{d}}
+\newcommand{\bs}{\vect{s}}
+\newcommand{\bw}{\vect{w}}
+\newcommand{\bt}{\vect{t}}
+\newcommand{\bphi}{\boldsymbol{\phi}}
+
+\title{\Large\bf Adjoint Time Integration}
+\author{S.\ Scott Collis}
+\date{\today}
+
+\begin{document}
+\maketitle
+
+\begin{comment}
+
+\section{Backward Euler}
+Starting from the initial condition
+\[ u_0 = u(t_0) \]
+then the backward Euler method is given by
+\[ u_{i} = u_{i-1} + \Delta t f_i \]
+\[ u_{i} = u_{i-1} + \Delta t  M_i u_i \]
+\[ (I - \Delta t M_i) u_{i} = u_{i-1}  \]
+\[  u_{i} = (I - \Delta t M_i)^{-1} u_{i-1}  \]
+\[  u_{i} = B_i^{-1} u_{i-1}  \]
+where $f_i = f(u_i)$.  Therefore the advancement operator is given by
+\[ \bA = 
+\begin{bmatrix}
+1 & 0 & 0 \\
+-B_i^{-1} & 1 & 0 \\
+0 & -B_i^{-1} & 1
+\end{bmatrix} \]
+While has a transpose (adjoint) given by
+\[ \tilde\bA = 
+\begin{bmatrix}
+1 & -B_i^{-T}  & 0 \\
+0 & 1 & -B_i^{-T} \\
+0 & 0 & 1
+\end{bmatrix} \]
+The solution vector is given by
+\[ \bu = \begin{Bmatrix} 
+u_0 \\
+u_1  \\
+u_n 
+\end{Bmatrix}
+\]
+The right hand side vector is given by
+\[ \bs = \begin{Bmatrix} 
+u(t_0) \\
+0 \\
+0 
+\end{Bmatrix}
+\]
+where, in general, it can also have a contribution due to an instead source term.
+%
+So that the solution is given by
+\[ \bA \bu = \bs \]
+%
+Introducing the adjoint vector $\bw$
+\[ \bw^T \bA \bu = \bw^T \bs \]
+%
+and taking the transpose
+\[ \bu^T \bA^T \bw = \bw^T \bs + \bu^T \bt - \bu^T \bt \]
+%
+Then the adjoint equation is
+%
+\[ \bA^T \bw = \bt \]
+%
+and the gradient equation is
+%
+\[ \bw^T \bs - \bu^T \bt = 0 \]
+%
+Writing the adjoint out
+\[
+\begin{bmatrix}
+1 & -B_i^{-T}  & 0 \\
+0 & 1 & -B_i^{-T} \\
+0 & 0 & 1
+\end{bmatrix} 
+\begin{Bmatrix} 
+w_0 \\
+w_1  \\
+w_n 
+\end{Bmatrix}
+= \begin{Bmatrix} 
+0 \\
+0 \\
+t_n 
+\end{Bmatrix}
+\]
+The end condition is
+\[ w_n = t_n \]
+and the first solve would be
+\[ w_1 - B_i^{-T} w_n = 0 \]
+which is the same as
+\[ B_i^T w_1 = w_n \]
+Writing this out as an adjoint residual yields
+\[ w_1= w_n + \Delta t M^T_i w_1 \]
+
+\subsection{Now try this a second way}
+\[  B_i u_{i} = u_{i-1}  \]
+Therefore the advancement operator is given by
+\[ \bA = 
+\begin{bmatrix}
+1 & 0 & 0 \\
+-1 & B_i & 0 \\
+0 & -1 & B_n
+\end{bmatrix} \]
+While has a transpose (adjoint) given by
+\[ \tilde\bA = 
+\begin{bmatrix}
+1 & -1 & 0 \\
+0 & B_i^T & -1 \\
+0 & 0 & B_n^T
+\end{bmatrix} \]
+%
+So that the solution is still given by
+\[ \bA \bu = \bs \]
+and the adjoint is determined from
+\[ \bA^T \bw = \bt \]
+%
+%
+%
+\section{Integrate with Backward Euler}
+\[ \int_T (\bu-\bd)^T(\bu-\bd) \; dt \approx (\bu-\bd)^T \bM (\bu-\bd) \]
+where
+\[ \tilde\bM = 
+\begin{bmatrix}
+0 & 0 & 0 \\
+0 & \Delta t & 0 \\
+0 & 0 & \Delta t
+\end{bmatrix} \]
+%
+%
+%
+\section{Trapezoidal}
+Starting from the initial condition
+\[ u_0 = u(t_0) \]
+then the trapezoidal method is given by
+\[ u_{i} = u_{i-1} + \frac{\Delta t}{2}\left( f_i + f_{i-1} \right) \]
+\[ u_{i} = u_{i-1} + \frac{\Delta t}{2} \left( M_i u_i  + M_{i-1} u_{i-1} \right) \]
+\[ \left(I - \frac{\Delta t}{2} M_i\right) u_{i} = \left(I + \frac{\Delta t}{2} M_{i-1}\right) u_{i-1}  \]
+\[  u_{i} = \left(I - \frac{\Delta t}{2} M_i\right)^{-1} \left(I + \frac{\Delta t}{2} M_{i-1}\right) u_{i-1}  \]
+\[  u_{i} = B_i^{-1} C_{i-1} u_{i-1}  \]
+where $f_i = f(u_i)$.  Therefore the advancement operator is given by
+\[ \bA = 
+\begin{bmatrix}
+1 & 0 & 0 \\
+-B_i^{-1}C_{i-1}  & 1 & 0 \\
+0 & -B_i^{-1}C_{i-1}  & 1
+\end{bmatrix} \]
+And the adjoint propagation matrix is
+\[ \tilde\bA = 
+\begin{bmatrix}
+1 & -C^T_{i-1}B_i^{-T}  & 0 \\
+0 & 1 & -C^T_{i-1}B_i^{-T} \\
+0 & 0 & 1
+\end{bmatrix} \]
+So, you start with the end-condition and then
+\[  w_{i-1} = C^T_{i-1} B_i^{-T} w_{i}  \]
+\[  w_{i-1} = (B_i^{T}C^{-T}_{i-1})^{-1} w_{i}  \]
+\[  B_i^{T}C^{-T}_{i-1} w_{i-1} = w_{i}  \]
+%
+Let 
+\[v_{i-1} = C^{-T}_{i-1} w_{i-1} \]
+then we solve 
+\[ B_i^{T} v_{i-1} = w_{i} \]
+and then simply post-process using
+\[ w_{i-1} = C^{T}_{i-1} v_{i-1} \]
+\textbf{\textcolor{red}{This appears like the best way of doing this.}}
+\paragraph{Implementation:}
+\begin{enumerate}
+\item The \texttt{adjoint\_residual} method will look like \[ B_i^{T} v_{i-1} = w_{i} \]
+\item Then in \texttt{poststep} we need to evaluate \[ w_{i-1} = C^{T}_{i-1} v_{i-1} \]
+\end{enumerate}
+\paragraph{Remarks:}
+\begin{enumerate}
+\item The residual looks a lot like backward Euler except that the operator $B_i$ is different and includes a $1/2$ factor.
+\item You then apply a correction at the \texttt{poststep} that looks like the application of another adjoint residual operator but with a sign flip.
+\item The \texttt{adjoint\_residual} can be written as 
+\[ \left(I - \frac{\Delta t}{2} M^T_i\right) v_{i-1} = w_i  \]
+\[ \boxed{v_{i-1} = w_i + \frac{\Delta t}{2} M^T_i v_{i-1}} \]
+\item Then the corrector at the end is
+\[ w_{i-1} = \left(I + \frac{\Delta t}{2} M^T_{i-1}\right) v_{i-1} \]
+\[ \boxed{w_{i-1} = v_{i-1} + \frac{\Delta t}{2} M^T_{i-1} v_{i-1} } \]
+\end{enumerate}
+%
+%  The following approach is "cleaner" but changes the nature of the end-condition
+%
+\subsection{Second Try}
+Or, we could work with the form
+\[  B_i u_{i} = C_{i-1} u_{i-1}  \]
+%
+\[ \bA = \begin{bmatrix}
+1 & 0 & 0 \\
+-C_{i-1}  & B_i & 0 \\
+0 & -C_{i-1}  & B_i
+\end{bmatrix} \]
+%
+And the adjoint propagation matrix is
+%
+\[ \tilde\bA = 
+\begin{bmatrix}
+1 & C^T_{i-1}  & 0 \\
+0 & B^T_i & C^T_{i-1} \\
+0 & 0 & B^T_i
+\end{bmatrix} 
+\]
+%
+Make it specific for two time-steps
+%
+\[ \bA = \begin{bmatrix}
+1 & 0 & 0 \\
+-C_{0}  & B_1 & 0 \\
+0 & -C_{1}  & B_2
+\end{bmatrix} \]
+and applied to the solution vector yields
+\[
+\begin{bmatrix}
+1 & 0 & 0 \\
+-C_{0}  & B_1 & 0 \\
+0 & -C_{1}  & B_2
+\end{bmatrix}
+\begin{Bmatrix} 
+u_0 \\
+u_1  \\
+u_n 
+\end{Bmatrix}
+\]
+The problem with this is that it changes the nature of the end-condition imposition, you basically have to do a solve at the end time and then you correct the $i-1$ value with the $C^T_{i-1}$, so in some sense, it is a deferred correction of the adjoint.
+\section{Continuous Case}
+The strong form is
+\[ \bar u_{t} + (c \bar u)_{x} - \bar s = 0 \]
+%
+Then the linearized equation is given by
+%
+\[ u_{t} + (c u)_{x} - s = 0 \]
+%
+Where we have assumed that $c$ is a fixed material property and that $\bar s$ is the control variable and $s$ is a perturbation of $\bar s$.
+% 
+We then introduce a weighting function $w$ and integrate over the space-time  domain, $Q$
+%
+\[ \int_Q w \left( u_{t} + (c u)_{x} - s \right) \; dQ = 0 \]
+%
+\[ \int_Q (w u)_t + (w c u)_x  \;dQ - \int_Q w_{t} u + w_x (c u) + w s \; dQ  = 0 \]
+%
+Use backward Euler in time yields
+%
+\begin{eqnarray}
+\sum_{i=1}^n \int_\Omega w^{i-1}\left( u^i - u^{i-1} \right) \; d\Omega + 
+  \Delta t \int_\Omega w^{i-1} \left( c u^{i} \right)_x \; d\Omega -
+  w^{i-1} s^i  + \\
+  u^i (\bar u^i - d ) - u^i (\bar u^i - d ) \; d\Omega
+  + \sum_{i=1}^n \int_\Omega (w^i u^i - w^{i-1} u^{i-1} ) \; d\Omega 
+\end{eqnarray}
+%
+So the adjoint equation becomes
+%
+\[ \sum_{i=1}^n \int_\Omega w^{i-1}\left( u^i - u^{i-1} \right) \; d\Omega - 
+   \Delta t \int_\Omega w^{i-1}_x c u^{i} \; d\Omega - u^i (\bar u^i - d ) \; d\Omega = 0 \]
+%
+\[ w^0 ( u^1 - u^0 ) + w^1 ( u^2 - u^1 ) \]
+%
+\[ u^0 ( w^0 ) + u^1 ( w^0 - w^1 ) + u^2 w^1 \]
+
+and the gradient equation is
+%
+\[  \sum_{i=1}^n \int_\Omega u^i (\bar u^i - d ) - w^{i-1} s^i  \; dQ = 0 \]
+
+What about the objective functional
+\[ J = \frac{\alpha}{2}\int_Q (\bar u-d)^2 \; dQ \]
+Therefore
+\[ J' = \alpha\int_Q (\bar u-d) u\; dQ \]
+%
+\end{comment}
+%===============================================================================
+%                                                                  T r a p e z o i d a l 
+%===============================================================================
+\section{Trapezoidal}
+
+Consider the model problem
+%
+\begin{equation} \label{e:model}
+\frac{\partial u}{\partial t} - \lambda u - s(t) = 0
+\end{equation}
+%
+and apply trapezoidal rule
+%
+\[ u_i - u_{i-1} - \frac{\lambda \Delta t}{2}\left( u_i + u_{i-1} \right) - \frac{\Delta t}{2}\left( s_i + s_{i-1}\right) = 0 \]
+%
+with the initial condition
+%
+\[ u_0 = g \] 
+%
+where $g$ and $s(t)$ are possible control variables.  We now write this as a matrix propagation operator over two time steps
+%
+\[
+\begin{bmatrix}
+1 & 0 & 0 \\
+-(1+\frac{\lambda\Delta t}{2})  &(1-\frac{\lambda\Delta t}{2}) & 0 \\[0.5ex]
+0 & -(1+\frac{\lambda\Delta t}{2})  & (1-\frac{\lambda\Delta t}{2})
+\end{bmatrix}
+\begin{Bmatrix}
+u_0 \\ u_1 \\ u_2 
+\end{Bmatrix} -
+\begin{Bmatrix}
+g \\ \frac{\Delta t}{2} s_1 + \frac{\Delta t}{2} s_0  \\[0.5ex] \frac{\Delta t}{2} s_2 + \frac{\Delta t}{2} s_1
+\end{Bmatrix} = \vect{0}
+\]
+which we can write in the form
+%
+\[ \bA \bu- \bs = \vect{0} \]
+%
+We can then take an inner-product with $\bw$
+%
+\[ \bw^T \bA \bu- \bw^T \bs = 0 \]
+%
+and taking the transpose (of a scalar equation) leads to 
+%
+\[ \bu^T \bA^T \bw- \bw^T \bs = 0 \]
+%
+Now consider an objective functional of the form
+%
+\[ J(\bar u) = \frac{\alpha}{2} \int_0^T \bar u^2 \; dt + \frac{\beta}{2} \bar u_T^2 \]
+%
+which as both a distributed (in time) observation and a terminal observation. Taking the variation of the objective with respect to perturbations of the state yields
+%
+\[ J' = \alpha\int_0^T \bar u u \; dt + \beta \bar u_T u_T \]
+%
+Discretizing with trapezoidal yields
+%
+\[ J' \approx
+\begin{Bmatrix}
+u_0 & u_1 & u_2 
+\end{Bmatrix}
+\begin{Bmatrix}
+\frac{\alpha\Delta t}{2} \bar u_0 \\
+\Delta t \bar u_1 \\
+\frac{\alpha\Delta t}{2} \bar u_2 + \beta \bar u_2
+\end{Bmatrix}
+\]
+%
+with this, we can write the 
+\paragraph{Adjoint Equation}
+\[ 
+\begin{bmatrix}
+1 & -(1+\frac{\lambda\Delta t}{2})  & 0 \\
+0 &( 1-\frac{\lambda\Delta t}{2}) & -(1+\frac{\lambda\Delta t}{2}) \\[0.5ex]
+0 & 0  & (1-\frac{\lambda\Delta t}{2})
+\end{bmatrix}
+\begin{Bmatrix}
+w_0 \\ w_1 \\ w_2 
+\end{Bmatrix} -
+\begin{Bmatrix}
+\frac{\alpha\Delta t}{2} \bar u_0 \\
+\Delta t \bar u_1 \\
+\frac{\alpha\Delta t}{2} \bar u_2 + \beta \bar u_2
+\end{Bmatrix} = \vect{0}
+\]
+and we can setup a modified adjoint equation that allows us to set the end-condition as
+%
+\begin{equation} \label{e:adjoint}
+\begin{bmatrix}
+1 & -(1+\frac{\lambda\Delta t}{2})  & 0 & 0 \\
+0 &( 1-\frac{\lambda\Delta t}{2}) & -(1+\frac{\lambda\Delta t}{2}) & 0 \\[0.5ex]
+0 & 0  & (1-\frac{\lambda\Delta t}{2}) & -1 \\
+0 & 0 & 0 & 1
+\end{bmatrix}
+\begin{Bmatrix}
+w_0 \\ w_1 \\ w_2 \\ w_e
+\end{Bmatrix} -
+\begin{Bmatrix}
+\frac{\alpha\Delta t}{2} \bar u_0 \\
+\Delta t \bar u_1 \\
+\frac{\alpha\Delta t}{2} \bar u_2 \\ 
+\beta \bar u_2
+\end{Bmatrix} = \vect{0}
+\end{equation}
+%
+\paragraph{Gradient Equation}
+\[
+\begin{Bmatrix}
+w_0 & w_1 & w_2 
+\end{Bmatrix}
+\begin{Bmatrix}
+g \\ \frac{\Delta t}{2} s_1 + \frac{\Delta t}{2} s_0  \\[0.5ex] \frac{\Delta t}{2} s_2 + \frac{\Delta t}{2} s_1
+\end{Bmatrix}
+\]
+Which can be rearranged to give
+\begin{equation} \label{e:gradient}
+\frac{\partial J}{\partial\bphi} \cdot \begin{Bmatrix}
+g \\ s_0 \\ s_1 \\ s_2 
+\end{Bmatrix} =  
+\begin{Bmatrix}
+w_0 & \frac{\Delta t}{2}w_1 & \frac{\Delta t}{2}(w_1 + w_2) &  \frac{\Delta t}{2}w_2
+\end{Bmatrix}
+\begin{Bmatrix}
+g \\ s_0 \\ s_1 \\ s_2 
+\end{Bmatrix}
+\end{equation}
+%
+\paragraph{Remarks}
+\begin{enumerate}
+\item Set the end condition, $w_e = \beta \bar u_T$
+\item Solve the adjoint equation \eqref{e:adjoint} noting that the first and last residuals are \emph{different}
+\item For a steady control, the gradient is just the sum
+\[ \sum_{i=1}^n \Delta t w_i \]
+and this is \emph{not} the trapezoidal integral of gradient!
+\item $w_0$ is only used for the gradient with respect to the \emph{initial condition}
+\item This is not what is currently implemented in \dgm.
+\end{enumerate}
+%===============================================================================
+%                                                           B a c k w a r d   E u l e r
+%===============================================================================
+\section{Backward Euler}
+Applying backward Euler to the model problem \eqref{e:model} leads to
+%
+\[ u_i - u_{i-1} - \lambda \Delta t u_i - \Delta t s_i = 0 \]
+%
+with the initial condition
+%
+\[ u_0 = g \]
+%
+where $g$ and $s(t)$ are possible control variables.  Jumping directly to the adjoint yields:
+%
+\paragraph{Adjoint Equation}
+\begin{equation} \label{e:be-adjoint}
+\begin{bmatrix}
+1 & -1  & 0 & 0 \\
+0 & (1-\lambda\Delta t) & -1 & 0 \\[0.5ex]
+0 & 0  & (1-\lambda\Delta t) & -1 \\
+0 & 0 & 0 & 1
+\end{bmatrix}
+\begin{Bmatrix}
+w_0 \\ w_1 \\ w_2 \\ w_e
+\end{Bmatrix} -
+\begin{Bmatrix}
+0 \\
+\alpha \Delta t \bar u_1 \\
+\alpha \Delta t \bar u_2 \\
+\beta \bar u_T
+\end{Bmatrix} = \vect{0}
+\end{equation}
+%
+\paragraph{Gradient Equation}
+\begin{equation} \label{e:be-gradient}
+\frac{\partial J}{\partial\bphi} \cdot \begin{Bmatrix}
+g \\ s_0 \\ s_1 \\ s_2 
+\end{Bmatrix} =  
+\begin{Bmatrix}
+w_0 & 0 & \Delta t w_1 & \Delta t w_2
+\end{Bmatrix}
+\begin{Bmatrix}
+g \\ s_0 \\ s_1 \\ s_2 
+\end{Bmatrix}
+\end{equation}
+\paragraph{Remarks}
+\begin{enumerate}
+\item There is no need to store the end-condition in the adjoint solution vector, so you only need $n+1$ storage registers for the adjoint, just like for the state.
+\item The residual at $i=0$ is simply that you copy $w_0 = w_1$ so that you can avoid actually strong $w_0$.  However, this approach is incompatible with trapezoidal so we should avoid it.
+\item There is no sensitivity to changes in $s_0$ for backward Euler
+\item For a steady control, the gradient is just the sum
+\[ \sum_{i=1}^n \Delta t w_i \]
+however, this is exactly the same as what is done in Trapezoidal!
+\item $w_0$ is only directly used for the gradient with respect to the \emph{initial condition}
+\item While this is very close to what is in \dgm, the implementation there needs to be updated to make this comparison explicit.
+\end{enumerate}
+
+
+\end{document}  

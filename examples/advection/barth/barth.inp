@@ -1,0 +1,10 @@
+eqntype  = 0
+inttype  = 4       # Used to use BackwardEuler=101
+p        = 5
+Nt       = 2000
+Ntout    = 100
+dt       = 0.001
+cx       = -1.0
+cy       = 1.0
+cfield   = 1
+vis      = 0.00

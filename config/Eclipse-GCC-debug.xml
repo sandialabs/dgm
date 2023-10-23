@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cdtprojectproperties>
+<section name="org.eclipse.cdt.internal.ui.wizards.settingswizards.IncludePaths">
+<language name="Object File">
+
+</language>
+<language name="Assembly Source File">
+
+</language>
+<language name="C++ Source File">
+<includepath>/Users/sscoll/local/boost-1.49.0/include</includepath>
+<includepath>/Users/sscoll/local/openmpi-1.4.3/include</includepath>
+<includepath>/Users/sscoll/local/atlas-3.9.20/include</includepath>
+
+</language>
+<language name="C Source File">
+
+</language>
+</section>
+<section name="org.eclipse.cdt.internal.ui.wizards.settingswizards.Macros">
+<language name="Object File">
+
+</language>
+<language name="Assembly Source File">
+
+</language>
+<language name="C++ Source File">
+<macro>
+<name>DGM_NEW_ANALYZER</name><value>1</value>
+</macro>
+<macro>
+<name>DGM_USE_JSON</name><value>1</value>
+</macro>
+<macro>
+<name>DGM_PARALLEL</name><value>1</value>
+</macro>
+
+</language>
+<language name="C Source File">
+<macro>
+<name>DGM_USE_JSON</name><value>1</value>
+</macro>
+
+</language>
+</section>
+</cdtprojectproperties>

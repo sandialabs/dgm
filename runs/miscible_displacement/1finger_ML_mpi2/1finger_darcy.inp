@@ -1,0 +1,25 @@
+eqntype   = 24
+inttype   = 3
+
+p         = 2
+
+viscosity  =  0.2;
+
+g_x        =  0.0;
+g_y        =  0.0;
+g_z        =  0.0;
+
+u_x = -1.0;
+u_y = 0.0;
+u_z = 0.0;
+
+stab       =  2.0
+
+tecplot = 0
+projavg = 0
+darcy_pin  =  0
+matrix_solve = 1
+solver = 2
+use_ldg = 0
+tolerance = 1.0e-8
+

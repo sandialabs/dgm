@@ -1,0 +1,29 @@
+{
+  "Name" : "DomainResponse",
+    "Verbosity": 1,
+    "Kernels" : {
+      "G0" : { "Type" : "Gaussian", "Standard deviation" : 0.2,
+        "Number of standard deviations" : 3 },
+      "D0" : { "Type" : "Delta", "Average" : true },
+      "E0" : { "Type" : "GaussianEllipse",
+        "Default sigma" : [ 0.2, 0.3 ],
+        "Default derivative" : [ 0, 0 ],
+        "Default direction" : [ [1.0, 0.0], [0.0, 1.0] ] },
+      "L0" : { "Type" : "Line" },
+      "GL" : { "Type" : "GaussianLineSegment", "Standard deviation" : 0.2,
+        "Number of standard deviations" : 3 },
+      "SS" : { "Type" : "Sideset" }
+    },
+    "Probes": [
+    { "Name" : "d", "Kernel" : "D0", "File" : "2d.anl" },
+    { "Name" : "g", "Kernel" : "D0",
+      "Xs": [ 0.5, 0.75 ], "Ys": [ 1.0, 0.75 ] },
+    { "Name" : "f", "Kernel" : "G0", "File" : "2d.f.anl" },
+    { "Name" : "e", "Kernel" : "E0", "Xs": [ 0.5 ], "Ys": [ 1.0 ],
+      "Direction" : [ [[1.0,0.0], [0.0,1.0]] ] },
+    { "Name" : "j", "Kernel":"D0", "Format" : "Json", "File" : "2d.j.anl" },
+    { "Name" : "s", "Kernel" : "GL",
+      "Segments" : [ [[0.5, 1.0],[0.75,1.0]],
+      [[1.0, 0.5],[1.0,0.75]] ] }
+  ]
+}

@@ -1,0 +1,4 @@
+Function  f
+{ 
+fp(x,y) := -(2*PI)^2*(sin(2*PI*x)*sin(2*PI*y)+sin(2*PI*x)*sin(2*PI*y));
+}

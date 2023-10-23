@@ -1,0 +1,5 @@
+#!/bin/bash
+cd modal; dgm_clean
+cd ../spectral; dgm_clean
+cd ../nodal; dgm_clean
+cd ..

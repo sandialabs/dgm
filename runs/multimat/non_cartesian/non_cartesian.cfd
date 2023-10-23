@@ -1,0 +1,4 @@
+*** given convective velocity field
+given
+ax(x,y) := 0.0;
+ay(x,y) := -1.0;

@@ -1,0 +1,33 @@
+# Initial Condition 
+
+Given
+R := Rinf=1.0; Uinf=1.0; Tinf=1.0; Ma=0.3; gamma=1.4; Uinf=1.0; \
+     Rinf;
+U := Rinf*Uinf;
+V := 0;
+E := Rinf*Tinf/(gamma*(gamma-1)*Ma^2) + 0.5*Rinf*Uinf^2;
+
+Given
+R := 1;
+U := 1;
+V := 0;
+E := 20.34126984126985;
+
+vortex_super
+0.75 0.5 0.1 0.5 0.3
+
+restart
+
+vortex_super
+0.75 0.75 0.2 0.5 0.3
+
+Vortex
+1
+2.0 2.0 0.3 1.0  0.5
+X0  Y0   R  amp  Ma
+
+Vortex
+2
+1.8 2.0 0.3 -1.0  0.5
+2.2 2.0 0.3  1.0  0.5
+X0  Y0   R  amp  Ma

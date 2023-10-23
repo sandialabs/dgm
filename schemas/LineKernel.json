@@ -1,0 +1,10 @@
+{
+  "type" : "object",
+  "properties" : {
+    "Type" : { "type" : "string", "enum" : [ "Line" ] },
+    "Standard deviation" : { "type": "number", "minimum": 0 },
+    "Number of standard deviations" : { "type": "number", "minimum": 0,
+                                        "default": 3.0 }
+  },
+  "additionalProperties" : false
+}

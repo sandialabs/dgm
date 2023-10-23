@@ -1,0 +1,6 @@
+** Analyzer specification **
+3 2
+NodeID    NodeX       NodeY    Nelmts    ElementID 
+0          0.55        1.00        1         0
+1          0.75        0.75        1         0
+2          0.85        1.00        1         0

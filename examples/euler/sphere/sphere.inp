@@ -1,0 +1,11 @@
+eqntype  = 0
+inttype  = 3
+p        = 2 
+Nt       = 10
+Ntout    = 10
+ntout    = 1
+dt       = 0.002
+cx       = 1.0
+cy       = 0.0
+cz       = 0.0
+vis      = 0.0

@@ -1,0 +1,9 @@
+#!/bin/csh
+#PBS -q batch 
+#PBS -l walltime=0:15:00,nodes=16:ppn=2
+#PBS -o cyl.32.out
+#PBS -j oe
+echo "Running on `hostname`"
+cd $PBS_O_WORKDIR
+mpiexec pdgm.exe cyl
+exit

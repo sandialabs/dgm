@@ -1,0 +1,11 @@
+{
+  "Title" : "3d Advection Diffusion",
+  "Problem" : {
+    "Restart" : false 
+  },
+  "Domain" : {
+    "Nt" : 500,
+    "Ntout" : 10,
+    "ntout" : 1
+  }
+}

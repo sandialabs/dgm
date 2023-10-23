@@ -1,0 +1,3 @@
+** Initial Conditions **
+Given
+u(x) := x - (exp((x-1.0)/0.0025)-exp(-1.0/.0025))/(1.0-exp(-1.0/.0025));

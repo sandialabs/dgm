@@ -1,0 +1,20 @@
+{
+  "Title" : "Advection diffusion",
+  "Verbosity" : 1,
+  "Domain" : {
+    "Nt" : 1000,
+    "Ntout" : 100,
+    "Nfout" : 1000,
+    "c_x" : 1.0,
+    "c_y" : 0.0,
+    "Cx" : 1,
+    "Cy" : 1,
+    "Cz" : 0,
+    "order" : 2,
+    "Time method" : "TVD"
+  },
+  "Initial condition" : {
+    "Type" : "Function",
+    "Expression" : "1.0 - cos(1.0 * PI * x) * cos(1.0 * PI * y);"
+  }
+}

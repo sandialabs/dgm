@@ -1,0 +1,3 @@
+#!/bin/bash
+./make_dgm "$@" -ispyT -a CLANG -D JSONCPP_CASE_SENSITIVE -D DGM_JSON_TO_TABLE
+exit

@@ -1,0 +1,12 @@
+# Initial condition
+Given
+u := sin(PI*x)*sin(PI*y);
+
+Given
+u := rho=hypot(x,y); phi=atan2(y,x); \
+     pow(sin(PI*rho),2)*sin(3*phi);
+
+Given
+u := rx = 0.45; ry = 0.25; cx = 0.0; cy = -0.2; w = 10.0; \
+     (erfc(w*(x-cx-rx))*erfc(-w*(x-cx+rx))*erfc(w*(y-cy-ry))* \
+      erfc(-w*(y-cy+ry)))/16.0;

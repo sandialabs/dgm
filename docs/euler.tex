@@ -1,0 +1,37 @@
+\documentclass[12pt]{article}
+\usepackage{fullpage}
+\usepackage{comment}
+
+\usepackage{amsbsy}
+\input{macros}
+
+\begin{document}
+
+\begin{center}
+{\Large\bf Notes on Compressible Euler and Navier--Stokes}\\[2ex]
+S.\ Scott Collis \\
+Sandia National Laboratories \\
+Computational Science \& Mathematics\\
+Albuquerque, NM 87815-0370 \\
+sscoll@sandia.gov \\[1ex]
+\today
+\end{center}
+
+\section{Introduction}
+
+Given the primative variables
+\[ V = \left\{ \rho, u, v, p \right\} \]
+and the conservation variables
+\[ U = \left\{ \rho, \rho u, \rho v, \rho E \right\} \]
+where the total energy is
+\[ E = e + \frac{1}{2} \rho u_i u_i \]
+The total energy density is $\rho E$ and the interal energy is 
+\[ e = \frac{p}{(\gamma-1)\rho} \]
+and the temperature is
+\[ T = \gamma(\gamma-1) Ma^2 e \]
+where $Ma$ is the reference Mach number.  Then the pressure is given by
+\[ p = (\gamma-1)\left(\rho E - 
+       \frac{1}{2}\left(\rho u^2 + \rho v^2\right)\right) \]
+\[ \rho E = \frac{p}{\gamma-1} + 
+            \frac{1}{2}\left(\rho u^2 + \rho v^2\right) \]
+\end{document}

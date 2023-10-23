@@ -1,0 +1,41 @@
+#!/bin/bash
+# DGM
+export DGM_DIST=/tmp/Data/dgm/dgm           # Standard location
+export DGM_TPL=/tmp/Data/dgm/local
+export DGM_HOME=$DGM_TPL/dgm
+export BOOSTDIR=/usr/local
+export USE_CMC_LAPACK=1
+
+export PEOPT_HOME=$DGM_TPL/peopt        # Standard location
+
+#export DYLD_LIBRARY_PATH=$DGM_TPL/gsl/lib:$DYLD_LIBRARY_PATH
+export DYLD_LIBRARY_PATH=$DGM_TPL/boost/lib:$DYLD_LIBRARY_PATH
+#export DYLD_LIBRARY_PATH=$DGM_TPL/fftw/lib:$DYLD_LIBRARY_PATH
+export DYLD_LIBRARY_PATH=$DGM_TPL/netcdf/lib:$DYLD_LIBRARY_PATH
+
+export PATH=$DGM_TPL/openmpi/bin:$PATH
+export DYLD_LIBRARY_PATH=$DGM_TPL/openmpi/lib:$DYLD_LIBRARY_PATH
+
+#export PATH=$PATH:$DGM_TPL/git/bin
+export PATH=$DGM_HOME/trilinos/serial/opt/bin:$PATH
+export PATH=$DGM_HOME/trilinos/mpi/opt/bin:$PATH
+
+# Python
+export PATH=/usr/local/bin:$PATH
+export PATH=$DGM_HOME/trilinos/mpi/opt/python:$PATH
+export PYTHONPATH=$DGM_HOME/trilinos/mpi/opt/python:$PYTHONPATH
+
+# Cubit
+export PATH=$PATH:$DGM_TPL/cubit/bin
+
+# Cmake
+export PATH=$PATH:$DGM_TPL/cmake/bin
+
+# Flex
+#export PATH=$DGM_TPL/flex/include:$DGM_TPL/flex/lib:$DGM_TPL/flex/bin:$PATH
+
+# for make_trilinos script
+export MPI_BASE_DIR=$DGM_TPL/openmpi
+export TRILINOS_HOME=$DGM_TPL/trilinos
+export NETCDF_BASE_DIR=$DGM_TPL/netcdf/serial/opt
+export HDF5_BASE_DIR=$DGM_TPL/hdf5/serial/opt

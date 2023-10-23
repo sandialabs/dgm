@@ -1,0 +1,13 @@
+#!/bin/csh -f
+#
+# Make all versions of DGM code
+#
+cd ~/chamisa/GCCtd
+make -j2 ddgm ADDONS="DGM_USE_EPETRA CMC_CHECK_BOUNDS CMC_CHECK_ALL_BOUNDS" TRILINOS=$HOME/local/trilinos/serial/debug
+#
+# Parallel versions
+#
+cd ~/chamisa/GCCtpd
+make -j2 pddgm ADDONS="DGM_USE_EPETRA CMC_CHECK_BOUNDS CMC_CHECK_ALL_BOUNDS" TRILINOS=$HOME/local/trilinos/mpi/debug
+#
+exit

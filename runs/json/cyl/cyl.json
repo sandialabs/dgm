@@ -1,0 +1,84 @@
+{
+  "Title" : "Euler flow over a circular cylinder",
+  "Field" : { "Write weights" : true },
+  "Zoltan" : { "Partition" : { "algorithm" : "hypergraph" } },
+  "Problem" : {
+    "Type" : "Reo"
+  },
+  "Domain" : {
+    "Verbosity" : 1,
+    "Title" : "Space-time domain",
+    "Type" : "Euler",
+    "Time" : {
+      "Integrator" : "DTK::TimeIntegrate",
+      "Method" : "TVD",
+      "dt" : 0.001,
+      "Nt" : 1000,
+      "Ntout" : 100,
+      "ntout" : 20
+    },
+    "Space" : {
+      "bmesh" : true,
+      "p" : 3
+    },
+    "Backward Euler" : {
+      "Read parameters from XML" : false,
+      "Write parameters to XML" : true,
+      "Nonlinear solver" : "Line search based",
+      "Line search" : {
+        "Method" : "Full step"
+      },
+      "Direction" : {
+        "Method" : "Newton",
+        "Newton" : {
+          "Linear solver" : {
+            "Aztec solver" : "GMRES",
+            "Max iterations" : 1000,
+            "Size of Krylov subspace" : 1000,
+            "Tolerance" : 1.0e-3,
+            "Output frequency" : 1,
+            "Preconditioner" : "None"
+          },
+          "Forcing term method" : "Constant"
+        }
+      },
+      "Solver options" : {
+        "Status test check type" : "Complete",
+        "Maximum iterations" : 4,
+        "Norm F" : 1.0e-9,
+        "Norm F relative" : 1.0e-3,
+        "Norm update" : 1.0e-19
+      },
+      "Printing" : {
+        "Output Precision" : 3,
+        "Output Information" : {
+          "Outer Iteration" : true,
+          "Outer Iteration StatusTest" : false,
+          "Inner Iteration" : false,
+          "Parameters" : false,
+          "Details" : false,
+          "Test Details" : false,
+          "Stepper Iteration" : false,
+          "Stepper Details" : false,
+          "Stepper Parameters" : false,
+          "Linear Solver Details" : true,
+          "Warning" : true,
+          "Error" : true,
+          "Debug" : false
+        }
+      }
+    }
+  },
+  "Field Slice" : [ {
+    "Verbosity" : 0,
+    "Format" : "float",
+    "Frequency" : 1000,
+    "Lattice" : [ [ 0.1, 0.0 ], [ 0.0, 0.05 ] ],
+    "Outputs" : [
+      { "Default" : 0.0, "Field" : "r", "File" : "r" },
+      { "Default" : 0.0, "Field" : "ru", "File" : "ru" },
+      { "Default" : 0.0, "Field" : "rv", "File" : "rv" },
+      { "Default" : 0.0, "Field" : "rE", "File" : "rE" }
+    ] 
+  } ]
+}

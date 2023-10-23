@@ -1,0 +1,6 @@
+** Initial Conditions **
+Given
+u(x) := 0;
+
+Given
+u(x) := exp(-(x-0.5)^2/(0.05)^2);

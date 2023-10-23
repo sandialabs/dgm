@@ -1,0 +1,301 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%  Macros: 
+%
+%  S. Scott Collis
+%
+%  Written: 9-5-95
+%
+%  Revised: 1-29-96
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%  Change thesis to report for the technical report
+%
+\newcommand{\thesis}{thesis}
+\newcommand{\eref}[1]{\mbox{\rm(\ref{#1})}}
+%
+% LaTeX shortcuts
+%
+%\renewcommand{\S}{section\ }		% This lets you change section command
+\newcommand{\eqn}[1]{(\ref{#1})}	% Handy reference to equations
+\renewcommand{\epsilon}{\varepsilon}	% I like the other epsilon
+\newcommand{\enp}{\epsilon}		% Nonparallel epsilon
+%
+\newcommand{\refs}{[{\bf ?}]\marginpar{$\Longleftarrow$}}
+\newcommand{\eton}{\ensuremath{e^N}}
+\newcommand{\Rgas}{{\cal R}}
+\newcommand{\comma}{{\, ,}}
+\newcommand{\period}{{\, .}}
+
+% For units of measure
+\newcommand\dynpercm{\nobreak\mbox{$\;$dynes\,cm$^{-1}$}}
+\newcommand\cmpermin{\nobreak\mbox{$\;$cm\,min$^{-1}$}}
+
+% Various bold symbols
+\providecommand\bnabla{\boldsymbol{\nabla}}
+\providecommand\bcdot{\boldsymbol{\cdot}}
+\newcommand\biS{\boldsymbol{S}}
+\newcommand\etb{\boldsymbol{\eta}}
+
+% For multiletter symbols
+\newcommand\Real{\mbox{Re}} % cf plain TeX's \Re and Reynolds number
+\newcommand\Imag{\mbox{Im}} % cf plain TeX's \Im
+\newcommand\Man{\mbox{\textit{M}}}  % Mach number
+\newcommand\Ren{\mbox{\textit{Re}}}  % Reynolds number
+\newcommand\Prn{\mbox{\textit{Pr}}}  % Prandtl number, cf TeX's \Pr product
+\newcommand\Pen{\mbox{\textit{Pe}}}  % Peclet number
+
+\newcommand\Ai{\mbox{Ai}}            % Airy function
+\newcommand\Bi{\mbox{Bi}}            % Airy function
+
+\newcommand {\real} {I\!\!R}
+\newcommand {\nat} {{I\!\!N}}
+\newcommand {\half} {\mbox{$\frac{1}{2}$}}
+
+\def\frechet{Fr\'echet\ }
+\newcommand{\deq}{\raisebox{0pt}[1ex][0pt]%
+{$\stackrel{\scriptscriptstyle{\rm def}}{{}={}}$}}
+
+% For sans serif characters:
+% The following macros are setup in JFM.cls for sans-serif fonts in text
+% and math.  If you use these macros in your article, the required fonts
+% will be substitued when you article is typeset by the typesetter.
+%
+% \textsfi, \mathsfi   : sans-serif slanted
+% \textsfb, \mathsfb   : sans-serif bold
+% \textsfbi, \mathsfbi : sans-serif bold slanted (doesnt exist in CM fonts)
+%
+% For san-serif roman use \textsf and \mathsf as normal.
+%
+\newcommand\ssC{{\mathsf{C}}} % for sans serif C
+\newcommand\ssP{{\mathsf{P}}}  % for sans serif sloping P
+\newcommand\ssQ{{\mathsf{Q}}}  % for sans serif bold-sloping Q
+
+% Hat position
+\newcommand\hatp{\skew3\hat{p}}      % p with hat
+\newcommand\hatR{\skew3\hat{R}}      % R with hat
+\newcommand\hatRR{\skew3\hat{\hatR}} % R with 2 hats
+\newcommand\doubletildesigma{\skew2\tilde{\skew2\tilde{\Sigma}}}
+%       italic Sigma with double tilde
+
+% array strut to make delimiters come out right size both ends
+\newsavebox{\astrutbox}
+\sbox{\astrutbox}{\rule[-5pt]{0pt}{20pt}}
+\newcommand{\astrut}{\usebox{\astrutbox}}
+
+\newcommand\GaPQ{\ensuremath{G_a(P,Q)}}
+\newcommand\GsPQ{\ensuremath{G_s(P,Q)}}
+\newcommand\p{\ensuremath{\partial}}
+\newcommand\tti{\ensuremath{\rightarrow\infty}}
+\newcommand\kgd{\ensuremath{k\gamma d}}
+\newcommand\shalf{\ensuremath{{\scriptstyle\frac{1}{2}}}}
+\newcommand\sh{\ensuremath{^{\shalf}}}
+\newcommand\smh{\ensuremath{^{-\shalf}}}
+\newcommand\squart{\ensuremath{{\textstyle\frac{1}{4}}}}
+\newcommand\thalf{\ensuremath{{\textstyle\frac{1}{2}}}}
+\newcommand\Gat{\ensuremath{\widetilde{G_a}}}
+\newcommand\ttz{\ensuremath{\rightarrow 0}}
+\newcommand\ndq{\ensuremath{\frac{\mbox{$\partial$}}{\mbox{$\partial$} n_q}}}
+\newcommand\sumjm{\ensuremath{\sum_{j=1}^{M}}}
+\newcommand\pvi{\ensuremath{\int_0^{\infty}%
+  \mskip \ifCUPmtlplainloaded -30mu\else -33mu\fi -\quad}}
+
+%  Latin abbreviations
+
+\newcommand{\etal}{{\em et al.\@\xspace}}
+\newcommand{\etc}{{\em etc.\@\xspace}}
+\newcommand{\ie}{{\em i.e., \xspace}}
+\newcommand{\eg}{{\em e.g., \xspace}}
+\newcommand{\apriori}{{\em a priori \xspace}}
+\newcommand{\adhoc}{{\em ad hoc \xspace}}
+
+\newtheorem{lemma}{Lemma}
+\newtheorem{corollary}{Corollary}
+
+\newcommand{\bU}{{{\bf U}}}
+\newcommand{\bbU}{{\overline{\boldsymbol U}}}
+\newcommand{\cbU}{{\overline{\widetilde{{\boldsymbol U}}}}}
+\newcommand{\tbU}{{\widetilde{\boldsymbol U}}}
+\newcommand{\hbU}{{\widehat{\boldsymbol U}}}
+\newcommand{\btbU}{{\overline{\tbU}}}
+
+\newcommand{\bvbar}{{\overline{\boldsymbol v}}}
+\newcommand{\pbar}{{\overline{p}}}
+\newcommand{\bF}{{\bf F}}
+\newcommand{\hbF}{{\widehat\bF}}
+\newcommand{\boldf}{{\boldsymbol f}}
+\newcommand{\bq}{{\boldsymbol q}}
+\newcommand{\bg}{{\boldsymbol g}}
+\newcommand{\hbq}{{\widehat{\boldsymbol q}}}
+\newcommand{\bphi}{{{\boldsymbol \phi}}}
+\newcommand{\bPhi}{{{\boldsymbol \Phi}}}
+\newcommand{\hphi}{{\widehat{\phi}}}
+\newcommand{\bw}{{\boldsymbol w}}
+\newcommand{\bv}{{\boldsymbol v}}
+\newcommand{\bu}{{\boldsymbol u}}
+\newcommand{\tbv}{{\widetilde{\boldsymbol v}}}
+\newcommand{\hbv}{{\widehat{\boldsymbol v}}}
+\newcommand{\tp}{{\widetilde{p}}}
+\newcommand{\hp}{{\widehat{p}}}
+\newcommand{\hu}{{\widehat{u}}}
+\newcommand{\hw}{{\widehat{w}}}
+\newcommand{\bL}{{\mathcal L}}
+\newcommand{\tbL}{{\widetilde{\mathcal L}}}
+\newcommand{\bj}{{\boldsymbol j}}
+\newcommand{\bJ}{{\boldsymbol J}}
+\newcommand{\bI}{{\boldsymbol I}}
+\newcommand{\bk}{{\boldsymbol k}}
+\newcommand{\bm}{{\boldsymbol m}}
+\newcommand{\blambda}{{\boldsymbol\lambda}}
+\newcommand{\bsigma}{{\boldsymbol\sigma}}
+\newcommand{\tbsigma}{{\widetilde{\boldsymbol\sigma}}}
+\newcommand{\bS}{{\bf S}}
+\newcommand{\tbS}{{{\widetilde{\bf S}}}}
+\newcommand{\bs}{{\boldsymbol s}}
+\newcommand{\bx}{{\boldsymbol x}}
+\newcommand{\by}{{\boldsymbol y}}
+\newcommand{\bxi}{{\boldsymbol \xi}}
+\newcommand{\hbs}{{\widehat{\boldsymbol s}}}
+\newcommand{\tbs}{{{\widetilde{\boldsymbol s}}}}
+\newcommand{\Div}{{\mbox{div\,}}}
+\newcommand{\Def}{{\mbox{def\,}}}
+\newcommand{\Grad}{{\mbox{grad\,}}}
+\newcommand{\bG}{{\boldsymbol G}}
+\newcommand{\bA}{{\bf A}} %{{\boldsymbol B}}
+\newcommand{\bB}{{\boldsymbol B}}
+\newcommand{\bb}{{\boldsymbol b}}
+
+\newcommand{\tl} { \tilde }
+\newcommand{\wtl} { \widetilde }
+\newcommand{\who}[1] { \widehat {\overline {#1}} }
+\newcommand{\ol} { \overline }
+\newcommand{\ovl} {\overline}
+\newcommand{\wh}{ \widehat }
+\newcommand{\ou}{ \overline u }
+\newcommand{\op}{ \overline p }
+\newcommand{\odelta}{ \overline \Delta}
+\newcommand{\oDelta}{ \overline \Delta}
+
+\newcommand{\os} {\overline S}
+\newcommand{\oS} {\overline S}
+
+\newcommand{\pdt}[1] { \frac{\partial{#1}}{\partial t}}
+\newcommand{\pdi}[2] { \frac{\partial{#1}}{\partial x_{#2}} }
+\newcommand{\pdl}[2] { \frac{\partial}{\partial x_{#2}} \left({#1} \right) }
+\newcommand{\pdone}[1] { \frac{\partial{#1}}{\partial x_{1}}}
+\newcommand{\pdtwo}[1] { \frac{\partial{#1}}{\partial x_{2}} }
+\newcommand{\pdthr}[1] { \frac{\partial{#1}}{\partial x_{3}} }
+\newcommand{\pdoone} {\frac{\partial}{\partial x_{1}} }
+\newcommand{\pdotwo} {\frac{\partial}{\partial x_{2}} }
+\newcommand{\pdothr} {\frac{\partial}{\partial x_{3}} }
+\newcommand{\pdd}[1] 
+{\frac{\partial^{2}{#1}}{{\partial x_{j}}{ \partial x_{j}}} }
+
+\newcommand{\onehalf} {\frac{1}{2}}
+
+\newcommand{\into} { \int_\Omega }
+\newcommand{\intw} { \int_{\Gamma_w} }
+
+\newcommand{\intt} { \int_{t_0}^{t_0+T} }
+\newcommand{\dto} { dt \, d\Omega}
+\newcommand{\dtw} { dt \, d\Gamma}
+\newcommand{\dom} { \, d\Omega }
+
+% fluids
+
+\newcommand{\ret}{{\Ren_{\tau}}}
+
+% multiscale
+
+\newcommand{\cP}{{\mathcal P}}
+\newcommand{\cW}{{\mathcal W}}
+\newcommand{\cV}{{\mathcal V}}
+\newcommand{\cN}{{\mathcal N}}
+\newcommand{\cJ}{{\mathcal J}}
+\newcommand{\cT}{{\mathcal T}}
+
+\newcommand{\bcV}{{\overline{\cV}}}
+\newcommand{\tcV}{{\widetilde{\cV}}}
+\newcommand{\hcV}{{\widehat{\cV}}}
+\newcommand{\btcV}{{\overline\tcV}}
+
+\newcommand{\bbu}{{\overline\bu}}
+\newcommand{\cbu}{{\overline{\widetilde{\bu}}}}
+\newcommand{\tbu}{{\widetilde\bu}}
+\newcommand{\hbu}{{\widehat\bu}}
+\newcommand{\btbu}{{\overline\tbu}}
+
+\newcommand{\bW} {{\bf W}} %{{\boldsymbol W}}
+\newcommand{\bbW}{{\overline\bW}}
+\newcommand{\cbW}{{\overline{\widetilde{\bW}}}}
+\newcommand{\tbW}{{\widetilde\bW}}
+\newcommand{\hbW}{{\widehat\bW}}
+\newcommand{\btbW}{{\overline\tbW}}
+
+\newcommand{\bV} {{\boldsymbol V}}
+\newcommand{\bbV}{{\overline\bV}}
+\newcommand{\tbV}{{\widetilde\bV}}
+\newcommand{\hbV}{{\widehat\bV}}
+\newcommand{\btbV}{{\overline\tbV}}
+
+\newcommand{\bbw}{{\overline\bw}}
+\newcommand{\cbw}{{\overline{\widetilde{\bw}}}}
+\newcommand{\tbw}{{\widetilde\bw}}
+\newcommand{\hbw}{{\widehat\bw}}
+\newcommand{\btbw}{{\overline\tbw}}
+\newcommand{\bbk}{{\overline\bk}}
+
+\newcommand{\bn}{{\boldsymbol n}}
+\newcommand{\tnu}{\widetilde\nu}
+\newcommand{\tT}{\widetilde T}
+\newcommand{\trho}{\widetilde\rho}
+
+\newcommand{\bR}{{\boldsymbol R}}
+\newcommand{\bLambda}{{\boldsymbol\Lambda}}
+
+\newcommand{\bD}{{\bf D}}%{{\boldsymbol D}}
+
+% bold is used to produce bold face vectors in equations
+%\newcommand{\bold}[1]{\boldsymbol #1}
+\newcommand{\btau}{\bold{\tau}}
+
+% other stuff
+
+\newcommand{\figvcenter}{\hbox{}\vfil}
+
+% DNS and LES
+
+\newcommand{\uh}{{\hat u}}
+\newcommand{\buh}{{\bf\hat u}}
+\newcommand{\ph}{{\hat p}}
+\newcommand{\be}{{\bf e}}
+\newcommand{\fh}{{\hat f}}
+
+% DGM
+
+\newcommand{\lavg}{{\langle}}
+\newcommand{\ravg}{{\rangle}}
+\newcommand{\ljmp}{\left [}
+\newcommand{\rjmp}{\right ]}
+\newcommand{\bM}{{\bold M}}
+
+%
+% Adjustable parenthesis et al
+%
+\newcommand{\K}[1]{\left({#1}\right)}
+\newcommand{\lp}{\left(}
+\newcommand{\rp}{\right)}
+\newcommand{\lb}{\left[}
+\newcommand{\rb}{\right]}
+\newcommand{\lc}{\left\{}
+\newcommand{\rc}{\right\}}
+\newcommand{\la}{\left\langle}
+\newcommand{\ra}{\right\rangle}
+\newcommand{\Dp}[3]{\langle #1,#2 \rangle_{#3}}
+
+%
+% Space-time domains
+%
+\newcommand{\sQ}{{\sf Q}}
+\newcommand{\sP}{{\sf P}}

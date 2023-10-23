@@ -1,0 +1,8 @@
+eqntype = 2
+inttype = 3
+dt      = 0.001
+Nt      = 1000
+Ntout   = 500
+ntout   = 100
+p       = 10
+vis     = 0.02

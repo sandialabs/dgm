@@ -1,0 +1,91 @@
+#! /usr/bin/env python
+
+"""
+make_test - build one or more unit test executables and create symbolic links
+            for execution.
+"""
+
+# System imports
+from optparse import OptionParser
+from shutil   import rmtree
+import os
+import sys
+
+# Local import
+from runCommand import runCommand
+
+# Main routine
+def main():
+
+    # Parse the command line
+    parser = OptionParser()
+    parser.add_option("-b", "--build", dest="build", default=None,
+                      help="clean directory of previous builds")
+    parser.add_option("-c", "--clean", action="store_true", dest="clean",
+                      default=False, help="clean directory of previous builds")
+    parser.add_option("-d", "--debug", action="store_true", dest="debug",
+                      default=False, help="build debug version")
+    parser.add_option("-s", "--serial", action="store_true", dest="serial",
+                      default=False, help="build serial version")
+    (options, targets) = parser.parse_args()
+
+    # Initialization
+    if options.build is None:
+        options.build = \
+                      os.path.join(os.path.split(os.path.abspath(__file__))[0],
+                                   "BUILD")
+    cmakeList = ["cmake"]
+    if options.debug:
+        cmakeList.append("-D CMAKE_BUILD_TYPE:STRING=DEBUG")
+    if options.serial:
+        cmakeList.append("-D SERIAL:BOOL=TRUE")
+    if os.environ.has_key("TRILINOS_HOME"):
+        cmakeList.append("-D TRILINOS_HOME:PATH=" + os.environ["TRILINOS_HOME"])
+    if os.environ.has_key("DGM_HOME"):
+        cmakeList.append("-D DGM_HOME:PATH=" + os.environ["DGM_HOME"])
+    cmakeList.append("..")
+    cmakeCmd = " ".join(cmakeList)
+
+    # Clean the directory
+    if options.clean:
+        print "$ rm -r", options.build
+        rmtree(options.build)
+        targets = [entry for entry in os.listdir(".") if os.path.islink(entry)]
+        for target in targets:
+            print "$ rm", target
+            os.unlink(target)
+        sys.exit()
+
+    # Ensure the build directory exists and change to it
+    if os.path.exists(options.build):
+        if not os.path.isdir(options.build):
+            sys.exit("'%s' exists but is not a diretory" % options.build)
+    else:
+        print "$ mkdir", options.build
+        os.mkdir(options.build)
+    print "$ cd", options.build
+    os.chdir(options.build)
+
+    # Make the requested targets
+    if ((not os.path.isfile("CMakeCache.txt")) or
+        (not os.path.isfile("Makefile"))):
+        runCommand(cmakeCmd, True)
+    runCommand(("make " + " ".join(targets)).strip(), True)
+
+    # Set up the symbolic links
+    if len(targets) == 0:
+        targets = [entry for entry in os.listdir(".")
+                   if (os.access(entry, os.X_OK) and not os.path.isdir(entry))]
+    print "$ cd .."
+    os.chdir("..")
+    for target in targets:
+        if (os.path.isfile(target)):
+            os.remove(target)
+        source = os.path.join(options.build, target)
+        print "$ ln -s", source, target
+        os.symlink(source, target)
+
+#####
+
+if __name__ == "__main__":
+    main()

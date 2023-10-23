@@ -1,0 +1,583 @@
+%==============================================================================
+%
+%  Code notes for Discontinuous Galerkin Method with Optimization
+%
+%  Authors:  S. Scott Collis
+%
+%  Written:  8-20-2004
+%
+%  Revised:  8-20-2004
+%
+%==============================================================================
+\documentclass[12pt]{article}
+\usepackage{times}
+\usepackage{fullpage}
+\usepackage{comment}
+\usepackage[round,sort&compress]{natbib}
+%
+%.... PDF links
+%
+\usepackage[pdfmark,%
+            colorlinks=true,%
+            breaklinks=true,%
+            urlcolor=blue,%
+            pdfauthor={S.S.\ Collis},%
+            bookmarksopen=false,%
+            pdfpagemode=None]{hyperref}
+%
+%.... TeX macros
+%
+\input{nepsf}
+\newcommand{\Ren}{Re}
+\newcommand{\Man}{Ma}
+\newcommand{\sage}{{\sc DGM}}
+
+\title{Optimization Notes for \sage}
+\author{S.\ Scott Collis}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+%==============================================================================
+%                          N O N L I N E A R   C G
+%==============================================================================
+
+\section{Nonlinear CG}
+
+\begin{itemize}
+
+\item Intermediate solutions using NCG tend to be oscillatory.
+
+\item I have to run the method for many iterations to get a smooth control.
+For the {\tt heat} problem ($p=2$, $N_t=500$) I have run for 200 iterations
+and the state is still not as smooth as I get when using the TDD approach over
+a single time domain.
+
+\item The issue is that NCG messes around with the control near the end time
+(and there are many controls near the end time that yeild almost the same
+state).
+
+\item It makes NO SENSE that the State holds a cplot method whose intent is to
+plot the control.  In fact, all these method does is call the control plot
+method?  The only think that I can think of is that Guoquan wanted to use
+ntout and he didn't have it at the calling level.
+
+\item The REAL reason is that the Ctrl::plot(...) function needs a state
+vField.  However, the only reason this vField is needed is for the bc database
+and to help in extracting side coordinate data.  However, in reality, every
+Control is supposed to have a pointer to state so that this information can
+always be extracted.
+
+\item I don't understand why nonlinearCG::plot() doesn't use the readRestart
+method.  Actually, you should be able to call the plot() method on the current
+control datastructure without the need to read a restart file.
+
+\item With only one NCG iteration, the control is very different from the
+final control.
+
+\item For some reason, the gradient check becomes horrible after only 1 NCG
+iteration?  I think that something is indeed wrong.  For burgers this doesn't
+happen, however, I use 2000 time steps for that problem.  Try going to
+Nt=2000.  No this, didn't do it.  Something must be wrong.  Try using
+Dirichlet on the left boundary.  No, this isn't it.  There are several
+differences between these cases including $p$ and the IC's.
+
+\item I have tried to unify the heat and burg test cases.  Now they use the
+same IC, the same RobinControl (only the the left boundary) with Dirichlet on
+the right.  They also both now use $N_t=2000$ with $p=3$.  The quality of the
+gradient is still much better with Burgers than it is with Adv\_Diff.
+\end{itemize}
+
+%==============================================================================
+%                                  T D D
+%==============================================================================
+
+\section{Time-Domain Decomposition}
+
+\subsection{One time-domain}
+
+\begin{itemize}
+
+\item On 1 time-domain, the code effectively does a Newton linearization with
+CG as the solver.
+
+\item I typically run with the following tolerances:  --np-lin-sol-tol=1e-6 
+--np-sol-tol=1e-2.  This basically insures that I only do one Newton iteration
+
+\item I need to be able to output the control from the CTOCP.  Okay, after
+much hassle I'm finally able to do this.  The hassle was two-fold.  First, the
+CTOCP interface is a bit weird in how it outputs things -- need to talk to
+Ross about this.  Secondly, Guoqaun's control plot and restart capability is
+not very well designed (see issues identified in the prior and subsequent
+sections).
+
+\item Interesting, the control computed using 200 NCG iterations is very
+oscillatory near the end time while that computed using TDD::CG is not too
+bad.  However, the control plots are almost identical outside of the last 50
+timesteps or so.
+
+\begin{figure}
+\centering
+\epsfxsize=\linewidth
+\nepsfbox{phi_Rr_comp.eps}
+\caption{Comparison of NCG (after 200 and 300 iterations) and TDD::CG computed
+controls.}
+\label{f:phi_comp}
+\end{figure}
+
+\item It is not clear to me why there should be such a ``transient'' in the
+NCG results and it makes me wonder whether there is an error.  
+
+\item To make sure that the TDD::CG (turns out this was really GMRES) results
+are correct, I have decreased the linear solve tolerance to 1e-8.  I didn't
+see any difference.
+
+\item Then I decreased the linear solve tolerance to 1e-10 so that the
+nonlinear problem is solved to a tolerance of 8e-11!  Again no difference.
+
+\item Going the other direction, even with a linear solve tolerance of 1e-4,
+there is only a slight change in the solution with the nonlinear problem
+solved to 0.0025 residual norm.
+
+\item It turns out that what I have really been doing is using
+unpreconditioned GMRES to solve the one time-domain system.  This actually
+works very well, but I thought that I had been using CG.  Now, the version of
+GMRES that seems to work uses {\tt dot} as the scalar\_product.
+
+\item If I go back to the CTOCP\_TEST, then it really uses CG and the
+convergence is MUCH slower (if at all).  One thing that I have to watch out
+about is that there can be a temporal instability during the solves.
+
+\item Need to evaluate whether CG converges with and/or without the revised
+scalar-product.  With the scalar product and with $\Delta t = 0.0001$, CG does
+converge in 12 iterations.  
+
+\item Now I have turned off the scalar product with everything else the same
+and CG still converges, but it takes 28 iterations.
+
+\item Now, go back to full problem and run CG on it.  It takes 9 iterations
+for 0.0002 error and 17 iterations to get 3.2e-5.
+
+\item The timestep seems to have an influence on the convergence of CG (which
+makes me suspect that the adjoint may be wrong?)  The following table
+documents the results of optimizing over 500 time-steps with CG solves with
+only 20 maximum iterations available.
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{lcl}
+\hline
+$\Delta t$ & Iterations & CG tolerance \\
+\hline
+0.002   & 20 & 0.0233917  \\
+0.001   & 20 & 0.0028332  \\
+0.0001  & 20 & 7.6889e-06 \\
+0.00005 & 19 & 2.95594e-7 \\
+\hline
+\end{tabular}
+\caption{Effect of time-step on CG convergence.}
+\end{table}
+
+\item I did the same time-step study using GMRES and it was largely
+independent of the time-step and the convergence was {\sc much} faster!
+
+\begin{table}[ht]
+\centering
+\begin{tabular}{lcl}
+\hline
+$\Delta t$ & Iterations & CG tolerance \\
+\hline
+0.002   & 11 & 5.658285e-08 \\
+0.001   & 9  & 2.230541e-07 \\
+0.0001  & 7  & 9.808108e-07 \\
+0.00005 & 7  & 2.244201e-09 \\
+\hline
+\end{tabular}
+\caption{Effect of time-step on GMRES convergence: $N_t=500$, $p=2$.}
+\end{table}
+
+\item As a quick test, I also tried using $\Delta t=0.0025$ again for 500
+steps and GMRES works fine with only 12 iterations required to solve the
+problem to 1e-6.
+
+\item Going back to $\Delta t=0.002$, I then tried $N_t = 1000$ which
+optimizes over $T=2$ instead of 1.  GMRES still requires 10 iterations!  Then
+I set $N_t=2000 (T=4)$ and again GMRES took only 10 iterations and the
+nonlinear problem is solved to 2.65e-5.  Finally, I tried $N_t=4000$ which
+again only took 10 iterations!
+
+\end{itemize}
+
+\section*{6-25-2004:  Burgers}
+\begin{enumerate}
+
+\item I am running the CTOCPTester on the Burgers problem.  I have had
+  difficulties getting VERY good linearized Burgers results.  I have checked
+  the access to the StateDB and that looks okay.  Now I have linearized the
+  Lax-Friedrichs flux and this seems to work:
+
+\begin{table}[ht]
+\centering
+\begin{footnotesize}
+\begin{tabular}{lcccc}
+\hline
+$h_{\bar u_i}$ & Grad & LinState & LinAdjoint & LinGrad \\
+\hline
+1e-4 & 9.5036817487345658e-04 & 2.1987365896327369e-09 &
+       2.2949170458225463e-03 & 3.4569776948068049e-03 \\
+1e-5 & 9.5036910670637069e-04 & 7.4775531733724427e-11 & 
+       2.3260499788548311e-03 & 3.4575088392495745e-03 \\
+1e-6 & 9.5036903074173084e-04 & 3.5222950486797101e-10 &
+       2.3346459848744110e-03 & 3.4607041809579455e-03 \\
+\hline
+\hline
+1e-5 & 1.1559304114733548e-03 & 7.0489980072309627e-05 &
+       3.1366198461625378e-03 & 3.4339429801572836e-03 \\
+\hline
+\end{tabular}
+\end{footnotesize}
+\caption{Effect of finite-difference step size on Burgers relative errors.
+  Above the double line using linearized LF flux, below is full LF flux.}
+\end{table}
+
+\item Okay, I get the best results with $h_{\bar u_i} = 1e-5$.  Now turn back
+  on real LF flux and see what happens
+
+\item For the heat equation, everything is really good except for the actual
+  adjoint gradient which has an error $O(1e-3)$.  On this case I was using
+  Dirichlet control.  Robin also has an error $O(1e-3)$ while Neumann has an
+  error $O(1e-3)$.
+
+\end{enumerate}
+
+\section*{6-30-2004:  Backwards Eulers}
+\begin{enumerate}
+
+\item I have gotten Backward Euler to work for Burgers and Burgers\_Adjoint.
+  On the standard burg problem (default Burgers implementation) I get a
+  gradient check of
+\begin{verbatim}
+Second Order FD  Gradient    =  7.1471046861e+01
+Fourth order FD  Gradient    =  7.1472408135e+01
+Adjoint Formulation Gradient =  7.1472413517e+01
+err w.r.t. second order fd   =  1.9121810358e-05 (  0.00%)
+err w.r.t. fourth order fd   =  7.5298594398e-08 (  0.00%)
+\end{verbatim}
+when solving over 100 time steps using $p=8$.
+
+\item The way that I have made BE adjoint\_advance() consistent is to compile
+  with {\tt OBJFUNC\_TIME\_INT} defined so that the {\tt Time\_Int} class
+  handles all the time integration.
+
+\item Now I have compiled with {\tt BURGERS\_CONSISTENT\_BC} and {\tt
+  BURGERS\_NO\_CONVECTION} and get these results
+\begin{verbatim}
+Second Order FD  Gradient    =  4.4899123958e+01
+Fourth order FD  Gradient    =  4.4899275782e+01
+Adjoint Formulation Gradient =  4.4899770173e+01
+err w.r.t. second order fd   =  1.4392591337e-05 (  0.00%)
+err w.r.t. fourth order fd   =  1.1011098047e-05 (  0.00%)
+\end{verbatim}
+Note that the accuracy is not as good?  Why is this?  Okay, things are
+complicated.  Basically, inprecise Newton/GMRES solves in BE limit the
+accuracy of the gradient check (as one would expect).  For now, I have
+tightened the solve tolerance to 1e-5 to make sure that this is not the cause
+of the errors.
+
+Okay, with this tolerance, I do get better and better results as I increase
+$p$.  For example, with $p=6$ I get
+\begin{verbatim}
+Second Order FD  Gradient    =  4.4705600574e+01
+Fourth order FD  Gradient    =  4.4705601334e+01
+Adjoint Formulation Gradient =  4.4705603421e+01
+err w.r.t. second order fd   =  6.3673927939e-08 (  0.00%)
+err w.r.t. fourth order fd   =  4.6691157156e-08 (  0.00%)
+\end{verbatim}
+
+\item I have verified that with BE I get the same results regardless of
+  time-step which indicates that I DO have the discrete adjoint of BE in time
+  correct.
+
+\item However, I still do not get good results with $p=0$ which means that my
+  spatial adjoint is not correct!  To test this, I have turned off {\tt
+    BURGERS\_CONSISTENT\_BC} and obtain with $p=6$ over $N_t=50$
+\begin{verbatim}
+Second Order FD  Gradient    =  4.4705600574e+01
+Fourth order FD  Gradient    =  4.4705601334e+01
+Adjoint Formulation Gradient =  4.4705603421e+01
+err w.r.t. second order fd   =  6.3673927939e-08 (  0.00%)
+err w.r.t. fourth order fd   =  4.6691157156e-08 (  0.00%)
+\end{verbatim}
+Hold on, how can they be the same? Oh, I was using D, and phi\_Rr BC's.
+
+\item Now I have switched back to N and phi\_Nr BC's to see how things work.
+
+Without {\tt BURGERS\_CONSISTENT\_BC} I get:
+\begin{verbatim}
+Second Order FD  Gradient    = -9.5921744305e+00
+Fourth order FD  Gradient    = -9.5921807032e+00
+Adjoint Formulation Gradient = -9.5921974444e+00
+err w.r.t. second order fd   =  2.3992359084e-06 (  0.00%)
+err w.r.t. fourth order fd   =  1.7452949929e-06 (  0.00%)
+\end{verbatim}
+
+With {\tt BURGERS\_CONSISTENT\_BC} I get:
+\begin{verbatim}
+Second Order FD  Gradient    = -9.5921309525e+00
+Fourth order FD  Gradient    = -9.5921413378e+00
+Adjoint Formulation Gradient = -9.5922801308e+00
+err w.r.t. second order fd   =  1.5552148620e-05 (  0.00%)
+err w.r.t. fourth order fd   =  1.4469448619e-05 (  0.00%)
+\end{verbatim}
+This doesn't make much sense to me.  I don't know why it is worse with the
+``improved'' BCs?  However, if I use D instead of N then the error is
+less. Likewise, if I use D and phi\_Dr then the error is really small!
+
+\item Okay, I think that I finally have it.  At a finite resolution it is
+  possible that roundoff/inexact solves can limit accuracy to $O(1e-5)$ since
+  I use a solve tolerance of that order.  The important thing is that with
+  {\tt BURGERS\_CONSISTENT\_BC} defined and $p=0$ I still get:
+\begin{verbatim}
+Second Order FD  Gradient    = -2.2947480933e+01
+Fourth order FD  Gradient    = -2.2947480933e+01
+Adjoint Formulation Gradient = -2.2947480875e+01
+err w.r.t. second order fd   = -2.5308469542e-09 ( -0.00%)
+err w.r.t. fourth order fd   = -2.5105964307e-09 ( -0.00%)
+\end{verbatim}
+whereas without the consistent BC treatment, I get
+\begin{verbatim}
+Second Order FD  Gradient    =  8.9723739578e+00
+Fourth order FD  Gradient    =  8.9723739346e+00
+Adjoint Formulation Gradient = -5.6626641894e+01
+err w.r.t. second order fd   = -7.3112217748e+00 (-731.12%)
+err w.r.t. fourth order fd   = -7.3112217911e+00 (-731.12%)
+\end{verbatim}
+
+\item Now that I have this working for Neumann, I need to go back and fix
+  Robin and Dirichlet.  Okay for Robin, still need to work on Dirichlet\dots
+
+\item I have now changed to use the flag {\tt DGM\_CONSISTENT\_BC} in order to
+  compile with the ``correct'' BC treatment for the adjoint.  The full make
+  command looks like
+\begin{verbatim}
+make opt ADDONS="DGM_CONSISTENT_BC BURGERS_NO_CONVECTION OBJFUNC_TIME_INT"
+\end{verbatim}
+Note that it is {\em very} important to include the {\tt OBJFUNC\_TIME\_INT}
+flag in order to get the discrete adjoint in time.  I have wasted time this
+morning after having forgotten to include this flag.
+
+\item There is a discrepency between the way that BC's are set for Convection
+  and Diffusion.  However, for diffusion if I set them consistently, then I do
+  get an exact discrete adjoint.
+
+\item Now that I have have Burgers (diffusion only) working, I should run the
+  tdd\_test on it to make sure that the LinBurgers and LinBurgers\_Adjoint are
+  okay.  I should also verify that the heat equation works perfectly with the
+  TDD stuff (I think that I already have done this, but I should make sure)
+
+\item I have tested all boundary conditions for Adv\_Diff (including now
+  DirichletControl).
+
+\end{enumerate}
+
+\section*{8-5-2004}
+\begin{enumerate}
+\item I have gone back and verified that the tdd tester runs correctly on the
+  heat problem when using the random disturbance vector.  For $p=2$ with no
+  convection and Robin control on the right side everything is very good.  I
+  then turned on a little bit of convection $c_x=-0.1$ the tests are still
+  passed to good accuracy.  I then set $c_x=-1$ and all is still okay.
+\item Since the tests are passed, I also tried to run the one time-domain case
+  with $p=2$ and $c_x=-1$ and everything is fine (it took 13 GMRES
+  iterations).
+\item Then, just to make sure I switched to $p=0$ with $c_x=-1$ and the test
+  still pass and I am able to solve in 11 GMRES iterations.
+\item I then switched to $p=5$ and the tests passed (again with $c_x=-1$).  So
+  I ran the solver and it converged in 13 GMRES iterations.
+\item It is important to note that all tests passed, even with convection and
+  with the random perturbations.
+\item Switch to Dirichlet control\dots Okay, the adjoint fails since the
+  gradient is not correct. (With a plain Dirichlet BC the quality of the
+  gradient is still not that good?)  Okay, this only happens when there is
+  convection.  Since the convection is negative and I'm setting the Dirichlet
+  BC on the left boundary, this could be the problem.  Now try switching the
+  Dirichlet BC to the left side and put the control on the right.  This works
+  fine.  The problem is that we are using the DGM\_CONSISTENT\_BC for the
+  convectiver term which prevents the BC from being set through the numerical
+  flux.  Basically, we need to have different approaches to setting BC's for
+  different terms in the equation.  Why not make the concept of a {\tt Term}
+  that could be either convection, diffusion, or something else, but that
+  knows about it's BCs and can build a LHS or preconditioner for that term.
+\item Neumann works fine and so does distributed control.
+\end{enumerate}
+
+\section*{8-6-2004}
+\begin{enumerate}
+\item For Burgers, lets try distributed control of multiple time domains\dots
+\item Need to run tdd\_tester with BURGERS\_AVG\_FLUX defined
+\item For the heat equation, the limit on the FD precision tends to be the
+  solve tolerance.  With the MF-GMRES algorithm (especially with the
+  approximate step size used by the ITL, one cannot get more than about
+  $10^{-7}$ in relative residual drop in GMRES.  So, if you want more than
+  than, you have do a second Newton iteration.  This seems reasonable since
+  the best that one can likely do is $O(\sqrt{\epsilon_M})$
+\item The bottom-line is that you really cannot ask too much from the MF-GMRES
+algorithm.  
+\item With average flux, the secondary problem is still not that good?
+\item The only way that I can pass the tests is to increase spatial resoluton.
+\item I think that the problem may be the random direction used for the
+control.  This violates jump conditions at inter-element boundaries that may
+make it difficult to get reasonable solutions.
+\item I have tighten the GMRES solve tolerance for the TDD Newton iteration,
+but the convergence for the Robin problem is still not good.
+\item I then tried continuation from the $\alpha_1=100$ to $\alpha_1=1$ and
+again the linesearch has trouble at the 
+\item I have been able to start for a nCG solution and solve using the Newton
+solver, but convergence is very slow\dots
+\item The problem must be that the errors in the linearized adjoint are
+slowing convergence.  With distributed control, I can get {\em reasonably}
+good linearized adjoint and gradient checks, but it requires high $p$ and they
+are not that good $O(10^{-3})$.
+\item With $p=0$ the linearized adjoint is bad
+\item Okay, if I set periodic bc's and use a high resolution with distributed
+control, then the tests are really quite good $O(10^{-6}$
+\end{enumerate}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{comment}
+
+% Solution with ControlScalarProduct
+
+  delta_G_i_sol:
+
+  ||delta_u_bar_i_sol||inf = 2.6204314565506897e+00
+
+Checking that delta_G_i_sol == b_i ...
+
+Checking that ||delta_G_u_i_sol - b_u_i|| is sufficiently small:
+
+  rel_err( delta_G_u_i_sol, b_u_i )
+    = 2.3347050750503837e-04 <= lin_grad_sol_tol = 1.0000000000000000e-02
+
+  where:
+    ||delta_G_u_i_sol||inf = 1.4745558103005999e+02
+    ||b_u_i||inf = 1.4738826906856852e+02
+
+% Solution without ControlScalarProduct
+
+  delta_G_i_sol:
+
+  ||delta_u_bar_i_sol||inf = 2.6304146674189037e+00
+
+Checking that delta_G_i_sol == b_i ...
+
+Checking that ||delta_G_u_i_sol - b_u_i|| is sufficiently small:
+
+  rel_err( delta_G_u_i_sol, b_u_i )
+    = 1.9108525710481345e-04 <= lin_grad_sol_tol = 1.0000000000000000e-02
+
+  where:
+    ||delta_G_u_i_sol||inf = 1.4744788899717511e+02
+    ||b_u_i||inf = 1.4738826906856852e+02
+
+\end{comment}
+
+%==============================================================================
+%                               D A K O T A
+%==============================================================================
+
+\section{DAKOTA}
+
+\subsection{Initial effort}
+
+\begin{itemize}
+\item ASV = Active Set Vector.  \\ ASV syntax: 1 = value of response function,
+  2 = gradient of response function, 4 = Hessian of response function, and
+  combinations similar to {\tt chmod}).
+
+\item I need to set my driver to read in {\tt params.in.X} and evaluate the
+  objective function (and gradient and Hessian if requested).
+
+\item Let's first just setup a driver to use numerical\_gradients.
+
+\item I have implemented a BlackBox optimizer class that supports the Dakota
+  active set vector interface for gradient free methods.  I need to add
+  additional support for the gradient.
+
+\item I have tested this a heat-equation example.
+\end{itemize}
+
+\subsection{August 24, 2004}
+
+\noindent{\bf Heat Equation}
+\begin{enumerate}
+\item I'm trying the SBO option again for the heat equation.  The low fidelity
+model using $p=0$ with $\Delta t=0.05$ with $N_t=20$ while the high fidelity
+model uses $p=2$ with $\Delta t=0.002$ with $N_t=500$.  The cost of one
+hi-fidelity solve is about 0.425 sec while a low-fidelity solve is about 0.06
+sec for a ratio of 7.083.
+
+\item Without the SBO, NPSOL_SQP takes 28.406s 
+
+\item With 2nd order additive SBO it takes 132s and with 2nd order
+multiplicative SBO it takes 132s.
+
+\item With 1st order additive SBO it takes 67.4s and with 1st order
+multiplicative SBO it takes 113s.
+
+\item With 0th order additive SBO it takes 80.9s and with 0th order
+multiplicative SBO it takes 84.7s.
+
+\item It is possible that I should loosen the tolerance on the solution of the
+optimization problems?
+
+\item I have also tried the $p=1$ case, but here the low-fidelity model costs
+0.15s to evalute which is only half that of the high-fidelity model.
+\end{enumerate}
+
+\noindent{\bf Burgers Equation}
+\begin{enumerate}
+\item I have switched over to the case where there is only one control
+variable.  This takes 26s to solve using NPSOL_SQP
+\item Trying 2nd-order additive SBO (with $p=2$ so that the surragote is
+exact): 89.9s
+\item Trying 2nd-order additive SBO (with $p=0$ so that the surragote is
+exact): 200.9s
+
+\end{enumerate}
+
+\noindent{\bf Navier-Stokes Equations}
+\begin{enumerate}
+\item Need to add a {\tt Jet} class to the Navier\_StokesBC.hpp file.
+\item It turns out that I can run with a {\tt StateBC} with constant influx
+data on one element.  I should just try this as a control with Dakota.
+\item While it ``works'' the controlled flow is not very good. 
+\end{enumerate}
+
+%==============================================================================
+%                          A C T I O N   I T E M S
+%==============================================================================
+
+\section{Action Items}
+
+\begin{enumerate}
+\item Remove {\tt State::cplot(\dots)}
+\item Either add {\tt ntout} to the {\tt Control} or remove it from {\tt
+Control::plot()}
+\item Change {\tt Control::plot()} so that it does NOT read in a control, but
+instead just plots what is in memory.
+\item Need to change {\tt Ctrl::plot()} so that the physical time is output
+\end{enumerate}
+
+%==============================================================================
+%                          B I B L I O G R A P H Y
+%==============================================================================
+
+\bibliographystyle{abbrvnat}
+\bibliography{bibs/flabbrev,bibs/fps}
+
+\end{document}

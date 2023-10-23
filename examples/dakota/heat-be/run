@@ -1,0 +1,3 @@
+#!/bin/csh -f
+dakota heat.dak
+exit

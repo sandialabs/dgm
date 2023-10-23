@@ -1,0 +1,8 @@
+#!/bin/csh
+#PBS -q default
+#PBS -l nodes=8:ppn=2
+#PBS -o vortex.out 
+#PBS -j oe
+echo "Running on `hostname`"
+cd $PBS_O_WORKDIR
+mpiexec pdgm.exe vortex 

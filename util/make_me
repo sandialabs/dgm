@@ -1,0 +1,15 @@
+#!/bin/csh -f
+#
+# Make all versions of DGM code using the ModelEvaluator
+#
+cd ~/chamisa/GCCt
+make -j2 me ADDONS="DGM_USE_EPETRA DGM_MODELEVAL_COPY" \
+  TRILINOS=$HOME/local/trilinos/serial/opt
+#
+# Parallel versions
+#
+cd ~/chamisa/GCCtp
+make -j2 pme ADDONS="DGM_USE_EPETRA DGM_MODELEVAL_COPY" \
+  TRILINOS=$HOME/local/trilinos/mpi/opt
+#
+exit 0

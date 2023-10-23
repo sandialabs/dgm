@@ -1,0 +1,5 @@
+eqntype = 1
+dt = 0.001
+Nt = 1000
+Ntout = 100
+p = 10

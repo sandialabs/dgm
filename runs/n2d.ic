@@ -1,0 +1,13 @@
+** Initial Condition **
+Given
+u(x,y) := 1.0 - cos(1.0 * PI * x) * cos(1.0 * PI * y);
+
+# Use this to use the same IC as the 2d case
+
+Restart
+2d.0.rst
+
+# Use this to restart the nodal 2d case
+
+Restart
+n2d.rst

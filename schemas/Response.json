@@ -1,0 +1,92 @@
+{
+  "$schema" : "http://json-schema.org/schema#",
+  "title" : "Response",
+  "description" : "Schema for the new DGM::Response",
+  "type" : "object",
+  "required" : [
+    "Probes",
+    "Kernels"
+  ],
+  "properties" : {
+    "Name" : {
+      "type" : "string"
+    },
+    "Verbosity" : {
+      "type" : "integer",
+      "minimum" : 0,
+      "maximum" : 3,
+      "default" : 0
+    },
+    "Format" : {
+      "type" : "string",
+      "default" : "ascii",
+      "enum" : [
+        "ascii",
+        "double",
+        "float"
+      ],
+      "description" : "File format for Response data"
+    },
+    "Type" : {
+      "type" : "string",
+      "default" : "default",
+      "enum" : [
+        "default",
+        "separate",
+        "combined"
+      ],
+      "description" : "File type for Response data"
+    },
+    "Transposed" : {
+      "type" : "boolean",
+      "default" : false,
+      "description" : "Default is probe, time"
+    },
+    "Time trace" : {
+      "type" : "boolean",
+      "default" : false,
+      "description" : "Whether there is a time probe"
+    },
+    "Max open files" : {
+      "type" : "integer",
+      "default" : 1,
+      "description" : "How many files to open at once"
+    },
+    "Probes" : {
+      "type" : "array",
+      "items" : {
+        "$ref" : "Probe.json#"
+      },
+      "minItems" : 1
+    },
+    "Kernels" : {
+      "description" : "Collection of kernel specifications",
+      "type" : "object",
+      "properties" : {},
+      "additionalProperties" : {
+        "oneOf" : [
+          {
+            "$ref" : "DeltaKernel.json#"
+          },
+          {
+            "$ref" : "GaussianKernel.json#"
+          },
+          {
+            "$ref" : "SidesetKernel.json#"
+          },
+          {
+            "$ref" : "LineKernel.json#"
+          },
+          {
+            "$ref" : "GaussianEllipseKernel.json#"
+          },
+          {
+            "$ref" : "GaussianLineSegmentKernel.json#"
+          }
+        ]
+      },
+      "minProperties" : 1
+    }
+  },
+  "additionalProperties" : false
+}

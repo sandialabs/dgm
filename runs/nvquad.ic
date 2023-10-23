@@ -1,0 +1,29 @@
+** Initial Condition **
+Vortex
+1
+2.0 2.0 0.3 1.0  0.5
+X0  Y0   R  amp  Ma
+
+Vortex
+2
+1.8 2.0 0.3 -1.0  0.5
+2.2 2.0 0.3  1.0  0.5
+X0  Y0   R  amp  Ma
+
+Given
+R(x,y) := 1.0 + 1.0e-4 * 0.5 * sin(PI * x);
+U(x,y) := 1.0e-4 * 0.5 * sin(PI * x);
+V(x,y) := 0.0;
+E(x,y) := 1.78571428571429 + 1.0e-4 * 0.5 * sin(PI * x);
+
+Given
+R := 1;
+U := 1;
+V := 0;
+E := 20.34;
+
+Given
+R := 1;
+U := x^5;
+V := 0;
+E := 14.7;

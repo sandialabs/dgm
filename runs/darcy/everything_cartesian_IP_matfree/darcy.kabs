@@ -1,0 +1,4 @@
+** Permeabilities **
+Given
+Kxx(x,y) := 7.0;
+Kyy(x,y) := 7.0;

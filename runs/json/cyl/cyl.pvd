@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<VTKFile type="Collection" version="0.1" byte_order="LittleEndian">
+<Collection>
+  <DataSet timestep="0" file="cyl.0.vtu"/>
+  <DataSet timestep="0.1" file="cyl.100.vtu"/>
+  <DataSet timestep="0.2" file="cyl.200.vtu"/>
+  <DataSet timestep="0.3" file="cyl.300.vtu"/>
+  <DataSet timestep="0.4" file="cyl.400.vtu"/>
+  <DataSet timestep="0.5" file="cyl.500.vtu"/>
+  <DataSet timestep="0.6" file="cyl.600.vtu"/>
+  <DataSet timestep="0.7" file="cyl.700.vtu"/>
+  <DataSet timestep="0.8" file="cyl.800.vtu"/>
+  <DataSet timestep="0.9" file="cyl.900.vtu"/>
+  <DataSet timestep="1.0" file="cyl.1000.vtu"/>
+</Collection>
+</VTKFile>

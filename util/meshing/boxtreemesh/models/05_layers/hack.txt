@@ -1,0 +1,8 @@
+
+# hack!!! hand edited
+# the boxes around the sides of the domain separated vs2 and vs3, 
+# so we need to put them back together again, and move vs4 up
+cubit.cmd('group "vs2" add surface in vs3')
+cubit.cmd('group "vs3" equals surface in vs4')
+# empty vs4
+cubit.cmd('group "vs4" equals')

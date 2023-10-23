@@ -1,0 +1,3 @@
+State bc1 { 0.0 }
+State bc2 { 1.0 }
+Outflow bc3 { }

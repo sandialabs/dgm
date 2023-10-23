@@ -1,0 +1,27 @@
+#!/bin/csh
+#PBS -N chan
+#PBS -l walltime=8:00:00,nodes=16:ppn=2
+#PBS -j oe
+echo "Running on `hostname`"
+cd $PBS_O_WORKDIR
+
+# Setup input files
+ 
+# Execute
+
+mpiexec pdgm.exe chan
+
+# Save stats and history
+ 
+#set i = (`~/bin/verlist chan.sts 0`)
+#@ i = $i + 1
+#/bin/mv chan.sts chan.sts.$i
+#set i = (`~/bin/verlist chan.his 0`)
+#@ i = $i + 1
+#/bin/mv chan.his chan.his.$i
+ 
+# Resubmit
+ 
+# /usr/local/pbs/bin/qsub chan.scr.32
+
+exit

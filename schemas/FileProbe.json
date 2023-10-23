@@ -1,0 +1,14 @@
+{
+ "$schema" : "http://json-schema.org/schema#",
+ "title" : "File Probe",
+ "type" : "object",
+ "required" : [ "Name", "Kernel", "File" ],
+ "properties" : {
+   "Name" : { "type" : "string" },
+   "Names" : { "type": "array", "items": {"type": "string"} },
+   "Kernel" : { "type" : "string" },
+   "Format" : { "type" : "string", "enum" : ["Text", "json"] },
+   "File" : { "type" : "string" }
+  },
+  "additionalProperties" : false
+}

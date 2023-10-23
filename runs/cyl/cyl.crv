@@ -1,0 +1,192 @@
+{
+  "Title" : "Curved side specification",
+  "Verbosity" : 0,
+  "Curved side location" : "Inline",
+  "Curve types" : [
+    {
+      "Verbosity" : 0,
+      "Type" : "Arc",
+      "Name" : "arc",
+      "Radius" : -0.5,
+      "Center" : [ 0.0, 0.0 ],
+      "Check center" : false 
+    },
+    {
+      "Verbosity" : 0,
+      "Type" : "Straight",
+      "Name" : "skew"
+    }
+  ],
+  "Curved sides" : [
+    {"Element" : 0, "Side" : 3, "Curve" : "arc"},
+    {"Element" : 6, "Side" : 3, "Curve" : "arc"},
+    {"Element" : 12, "Side" : 3, "Curve" : "arc"},
+    {"Element" : 18, "Side" : 3, "Curve" : "arc"},
+    {"Element" : 24, "Side" : 3, "Curve" : "arc"},
+    {"Element" : 30, "Side" : 3, "Curve" : "arc"},
+    {"Element" : 36, "Side" : 3, "Curve" : "arc"},
+    {"Element" : 42, "Side" : 3, "Curve" : "arc"},
+    {"Element" : 48, "Side" : 3, "Curve" : "arc"},
+    {"Element" : 54, "Side" : 3, "Curve" : "arc"},
+    {"Element" : 60, "Side" : 3, "Curve" : "arc"},
+    {"Element" : 66, "Side" : 3, "Curve" : "arc"},
+    {"Element" : 72, "Side" : 3, "Curve" : "arc"},
+    {"Element" : 78, "Side" : 3, "Curve" : "arc"},
+    {"Element" : 84, "Side" : 3, "Curve" : "arc"},
+    {"Element" : 90, "Side" : 3, "Curve" : "arc"},
+    {"Element" : 96, "Side" : 3, "Curve" : "arc"},
+    {"Element" : 102, "Side" : 3, "Curve" : "arc"},
+    {"Element" : 108, "Side" : 3, "Curve" : "arc"},
+    {"Element" : 114, "Side" : 3, "Curve" : "arc"},
+    {"Element" : 120, "Side" : 3, "Curve" : "arc"},
+    {"Element" : 126, "Side" : 3, "Curve" : "arc"},
+    {"Element" : 132, "Side" : 3, "Curve" : "arc"},
+    {"Element" : 138, "Side" : 3, "Curve" : "arc"}
+  ]
+}
+144  # Number of curved side(s)
+0 3  arc
+6 3  arc
+12 3  arc
+18 3  arc
+24 3  arc
+30 3  arc
+36 3  arc
+42 3  arc
+48 3  arc
+54 3  arc
+60 3  arc
+66 3  arc
+72 3  arc
+78 3  arc
+84 3  arc
+90 3  arc
+96 3  arc
+102 3  arc
+108 3  arc
+114 3  arc
+120 3  arc
+126 3  arc
+132 3  arc
+138 3  arc
+
+1 0 skew
+2 0 skew
+3 0 skew
+4 0 skew
+5 0 skew
+7 0 skew
+8 0 skew
+9 0 skew
+10 0 skew
+11 0 skew
+13 0 skew
+14 0 skew
+15 0 skew
+16 0 skew
+17 0 skew
+19 0 skew
+20 0 skew
+21 0 skew
+22 0 skew
+23 0 skew
+25 0 skew
+26 0 skew
+27 0 skew
+28 0 skew
+29 0 skew
+31 0 skew
+32 0 skew
+33 0 skew
+34 0 skew
+35 0 skew
+37 0 skew
+38 0 skew
+39 0 skew
+40 0 skew
+41 0 skew
+43 0 skew
+44 0 skew
+45 0 skew
+46 0 skew
+47 0 skew
+49 0 skew
+50 0 skew
+51 0 skew
+52 0 skew
+53 0 skew
+55 0 skew
+56 0 skew
+57 0 skew
+58 0 skew
+59 0 skew
+61 0 skew
+62 0 skew
+63 0 skew
+64 0 skew
+65 0 skew
+67 0 skew
+68 0 skew
+69 0 skew
+70 0 skew
+71 0 skew
+73 0 skew
+74 0 skew
+75 0 skew
+76 0 skew
+77 0 skew
+79 0 skew
+80 0 skew
+81 0 skew
+82 0 skew
+83 0 skew
+85 0 skew
+86 0 skew
+87 0 skew
+88 0 skew
+89 0 skew
+91 0 skew
+92 0 skew
+93 0 skew
+94 0 skew
+95 0 skew
+97 0 skew
+98 0 skew
+99 0 skew
+100 0 skew
+101 0 skew
+103 0 skew
+104 0 skew
+105 0 skew
+106 0 skew
+107 0 skew
+109 0 skew
+110 0 skew
+111 0 skew
+112 0 skew
+113 0 skew
+115 0 skew
+116 0 skew
+117 0 skew
+118 0 skew
+119 0 skew
+121 0 skew
+122 0 skew
+123 0 skew
+124 0 skew
+125 0 skew
+127 0 skew
+128 0 skew
+129 0 skew
+130 0 skew
+131 0 skew
+133 0 skew
+134 0 skew
+135 0 skew
+136 0 skew
+137 0 skew
+139 0 skew
+140 0 skew
+141 0 skew
+142 0 skew
+143 0 skew

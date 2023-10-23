@@ -1,0 +1,36 @@
+#!/bin/bash
+# DGM
+# Distribution, third-party libraries and home (install) directories
+export DGM_DIST=/home/kbelco/dgm       # Standard location
+export DGM_TPL=/gscratch1/kbelco/local.glory
+export DGM_HOME=$DGM_TPL/dgm
+
+export TRILINOS_HOME=$DGM_TPL/trilinos
+
+export PEOPT_HOME=$DGM_TPL/peopt        # Standard location
+#export PEOPT_HOME=$WORKSPACE/peopt     # Jenkins checkout
+
+# Intel compilers
+export PATH=/projects/global/x86_64/compilers/intel/intel-compxe-2011.13.367/bin/intel64:/opt/openmpi-1.6-intel/bin:$PATH
+
+export LD_LIBRARY_PATH=$DGM_TPL/boost/lib:$LD_LIBRARY_PATH:$DGM_TPL/fftw/lib:/projects/global/x86_64/compilers/intel/intel-compxe-2011.13.367/compiler/lib/intel64:$DGM_TPL/hdf5/serial/opt/lib:/opt/openmpi-1.6-intel/lib:$DGM_TPL/netcdf/mpi/opt/lib/libnetcdf.so
+
+export HDF5_BASE_DIR=$DGM_TPL/hdf5/serial/opt
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$HDF5_BASE_DIR/lib
+export NETCDF_BASE_DIR=$DGM_TPL/netcdf/serial/opt
+export LD_LIBRARY_PATH=$LD_LIBRARY_PATH:$NETCDF_BASE_DIR/lib
+
+export PATH=$DGM_TPL/cmake/bin:$PATH
+export PATH=$DGM_HOME/trilinos/serial/opt/bin:$PATH
+export PATH=$DGM_HOME/trilinos/mpi/opt/bin:$PATH
+export PATH=/projects/dgm/local/cubit/bin:$PATH
+
+# Need newer python that support Json
+export PATH=/home/kbelco/local/python/bin:$DGM_HOME/python:$PATH
+export PYTHONPATH=/home/kbelco/local/python/bin:$DGM_HOME/python:$PYTHONPATH
+
+export MANPATH=$MANPATH:/projects/global/x86_64/compilers/intel/intel-compxe-2011.13.367/man/en_US
+export ROMIO_HINTS=$HOME/.romio-hints
+
+# Intel license file
+export INTEL_LICENSE_FILE=/opt/modules/etc/license.client.intel

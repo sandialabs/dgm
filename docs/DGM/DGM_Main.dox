@@ -1,0 +1,72 @@
+namespace DGM {
+
+/**
+
+\mainpage DGM Main Page 
+
+This is a library of Discontinuous Galerkin Methods (DGM).
+Here's a link to the 
+<a href="DGM_Main.html">original DGM</a> 
+top-level web page.  This is the Discretization ToolKit (DTK) that includes 
+a module for discontinuous Galerkin (DGM) and the beginnings of a module for
+finite-difference (FDM).  In the future, other discretizations such as finite
+volume, finite element and spectral element are envisioned.
+
+\section DGM_Start Getting Started
+\htmlonly
+<ul>
+<li> <a href="DGM_Starting.html">Getting Started (under construction)</a>
+</ul>
+\endhtmlonly
+<hr>
+
+\section DGM_Documentation Documentation
+\htmlonly
+<ul>
+<li> <a href="DGM_Guide.html">Users Guide</a>
+<li> <a href="DGM_Theory.html">Theory Manual (under construction)</a>
+<li> <a href="DGM_Developer.html">Developer Manual (under construction)</a>
+</ul>
+\endhtmlonly
+<hr>
+
+\section DGM_Testing Testing
+\htmlonly
+<ul>
+<li> <a href="DGM_Testing.html">Testing (under construction)</a>
+</ul>
+\endhtmlonly
+<hr>
+
+\section DGM_Pubs Publications
+\htmlonly
+<ul>
+<li> <a href="DGM_Publications.html">Publications (under construction)</a>
+</ul>
+\endhtmlonly
+<hr>
+
+\section DGM_Contact Contact
+
+S. Scott Collis,
+Computational Science and Mathematics
+Sandia National Laboratories,
+sscoll@sandia.gov,
+(505) 284-1123
+<hr>
+
+\section DGM_Contributors Contributors
+
+Noel Belcourt, Guoquan Chen, Scott Collis, Axel Gerstenberger, 
+Kaveh Ghayour, Eric Lee, Vince Mousseau, Curt Ober, James Overfelt, 
+Srinivas Ramakrishnan, Hans Schwaiger, Guglielmo Scovazzi, 
+Bill Spotz, Tom Smith, Bart van Bloemen Waanders, and Joseph Young.
+<hr>
+
+\section DGM_Copyright Copyright
+
+(c)2013 Sandia National Laboratories
+
+**/
+
+}  // namespace DGM

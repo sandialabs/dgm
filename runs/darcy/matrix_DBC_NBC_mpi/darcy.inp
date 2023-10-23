@@ -1,0 +1,13 @@
+eqntype  = 24     # 25 is the Poisson solver
+inttype  = 4
+p        = 5
+Ntout    = 1
+
+stab = 1
+
+matrix_solve = 1
+solver = 0
+tecplot = 0
+gmsh_post = 0
+use_ldg = 0
+

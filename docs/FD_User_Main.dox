@@ -1,0 +1,93 @@
+namespace DGM {
+
+/**
+
+\page FDM_Main FDM User Guide
+
+\section ConceptsTerminology Concepts and Terminology
+
+FDM can define data structures that are one-, two-, or
+three-dimensional, suitable for the implementation of finite
+difference algorithms.  For simplicity of illustration, figures here
+will be two-dimensional.
+
+Global region: this refers to a global multidimensional set of indexes
+that discretizes a physical region.  It can be defined by a tuple of
+one, two, or three dimensions, called the globalShape.
+
+\image html images/FDM_GlobalRegion.png
+
+Boundaries: this refers to the outer edges of the global region.  Some
+finite difference algorithms need to loop over the interior of a
+global region, defined as the global region minus the boundaries.  In
+serial, this is trivial to implement, by changing loop bounds from
+(0,n) to (1,n-1).  In parallel, this is far less trivial because some
+processors see boundary edges, and others do not.  It is therefore
+highly convenient for FDM data structures to track boundaries.
+
+Ghost region: some finite difference algorithms are defined to access
+non-physical grid points outside the global region.  FDM supports
+these ghost regions as a contiguous part of the data that is
+allocated, but is not generally treated as part of the ultimate
+solution.
+
+\image html images/FDM_GhostRegions.png
+
+MDMap: a map defines the decomposition of a global region plus ghost
+regions into sub-regions that are assigned to individual processing
+units.  This is accomplished by choosing a number of processors along
+each axis, and decomposing each axis in a contiguous fashion so that
+each processor receives the same number of indexes, modulo one.  This
+decomposition is made on the global region, and is computed by
+excluding ghost points.
+
+\image html images/FDM_MDMap.png
+
+Local region: this refers to a multidimensional set of indexes that
+discretize a sub-region of a global region and that lives on the
+current processor.  It can be defined by a tuple of origin indexes and
+a tuple of dimensions.
+
+Halos: halos are extensions to a local region that represent overlap
+data that lives on another processor.  This introduces the idea of
+ownership.  Every index [e.g., (i,j,k) in 3D] is owned by one and only
+one processor.  Halos represent data that is accessible on the current
+processor, but owned by another processor.  This data can be made
+current by calling an updateHalos() method.
+
+\image html images/FDM_LocalRegion.png
+
+MDVector: a data structure built on top of an MDMap.  This is
+analogous to Epetra_Vectors and Tpetra::Vectors built on top of
+Epetra_Maps and Tpetra::Maps, respectively.  Conceptually, it is an
+array of scalar data (typically int or double) assigned to every index
+in the local region.
+
+Mesh: a collection of MDVectors (one for each dimension) that each
+share the same underlying MDMap and that represent coordinate
+data. The user can define the name of each coordinate (e.g. "x", "y"
+and "z", or "lat" and "lon"), as well as their orientation with
+respect to one another (i.e. increasing or decreasing with increasing
+index values).
+
+CartesianMesh: a Mesh whose coordinates are aligned with the
+coordinate system.  The contained MDVectors are thus 1D, even for a 2D
+or 3D CartesianMesh.
+
+Field: represents a field of data that lives on a Mesh.  It therefore
+encapsulates a Mesh object and an MDVector object, both of which share
+the same MDMap.  Fields also support the concept of staggering.  A
+Field scalar can live at a mesh vertex, or it can live at the midpoint
+between adjacent vertices along each axis.  A Field is either
+staggered or unstaggered along each axis, defined by flags when the
+Field is constructed.
+
+\image html images/FDM_Staggering.png
+
+Domain: a collection of Fields that live on the same Mesh.
+
+
+**/
+
+}  // namespace DGM
+

@@ -1,0 +1,11 @@
+{
+  "$schema" : "http://json-schema.org/schema#",
+  "title" : "ConstSource",
+  "description" : "A constant valued in space and time Source",
+  "type" : "object",
+  "properties": {
+     "Values" : { "type" : "array", "items" : { "type": "number" }, 
+                  "minItems" : 1 }
+  },
+  "additionalProperties" : false
+}

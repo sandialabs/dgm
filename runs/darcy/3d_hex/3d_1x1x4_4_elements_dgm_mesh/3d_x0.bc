@@ -1,0 +1,4 @@
+**BOUNDARY CONDITION DATA**
+2 nBC_SIDE
+bc102      0      0
+bc102      3      5

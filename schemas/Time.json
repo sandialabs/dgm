@@ -1,0 +1,18 @@
+{
+  "$schema" : "http://json-schema.org/schema#",
+  "title" : "DGM Time",
+  "description" : "DGM Time input specification",
+  "type" : "object",
+  "properties" : { 
+    "Integrator" : { "type" : "string", "default" : "DGM::TimeInt" },
+    "Method" : { "type" : "string", "default" : "RK4" },
+    "Nt" : { "type" : "integer", "default" : 100, "minimum" : 0 },
+    "Ntout" : { "type" : "integer", "default" : 10, "minimum" : 0 },
+    "ntout" : { "type" : "integer", "default" : 1, "minimum" : 0 },
+    "dt" : { "type" : "number", "default" : 0.001, "minimum" : 0.0 },
+    "tf" : { "type" : "number", "default" : 1.0, "minimum" : 0.0 },
+    "Verbosity" : { "type" : "integer", "default" : 1,
+                    "minimum" : 0, "maximum" : 3}
+  },
+  "additionalProperties" : false
+}

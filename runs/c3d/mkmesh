@@ -1,0 +1,2 @@
+#!/bin/sh
+dgm_mesh.exe -spectral -nsd 3 -Lx 4 -Ly 4 -Lz 4 -nx 2 -ny 2 -nz 2 -r 3d

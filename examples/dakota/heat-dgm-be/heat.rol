@@ -1,0 +1,15 @@
+<ParameterList name="ROL">
+<Parameter name="Descent Type" type="string" value="Nonlinear CG"/>
+<Parameter name="Nonlinear CG Type" type="string" value="Hestenes-Stiefel"/>
+<Parameter name="Linesearch Type" type="string" value="Brents"/>
+<Parameter name="Use Trust-Regions" type="bool" value="false"/>
+<Parameter name="Gradient Tolerance" type="double" value="1.0e-6"/>
+<Parameter name="Step Tolerance" type="double" value="1.0e-12"/>
+<Parameter name="Maximum Number of Iterations" type="int" value="10"/>
+<Parameter name="Use Inexact Hessian-Times-A-Vector" type="bool" value="true"/>
+<Parameter name="Scale FD Hessian-Times-A-Vector Step Size" type="double" value="1.0"/>
+<Parameter name="Linesearch Curvature Condition" type="string" 
+ value="Null Curvature Condition"/>
+<Parameter name="Initial Linesearch Parameter" type="double" value="1.7294e-02"/>
+<Parameter name="User Defined Linesearch Parameter" type="bool" value="false"/>
+</ParameterList> 

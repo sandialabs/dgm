@@ -1,0 +1,64 @@
+{
+  "$schema" : "http://json-schema.org/schema#",
+  "title" : "InCore",
+  "description" : "DGM in-core memory storage",
+  "id" : "http://www.sandia.gov/schemas/DGM/InCore.json",
+  "type" : "object",
+  "properties" : {
+    "Statistics" : {
+      "type" : "number",
+      "default" : 1,
+      "minimum" : 0,
+      "maximum" : 10
+    },
+    "Processors per node" : {
+      "type" : "number",
+      "default" : 1,
+      "minimum" : 1
+    },
+    "Use out-of-core memory" : {
+      "type" : "boolean",
+      "default" : "true"
+    },
+    "Save as single precision" : {
+      "type" : "boolean",
+      "default" : "false"
+    },
+    "Use asynchronous I/O" : {
+      "type" : "boolean",
+      "default" : "false"
+    },
+    "Percent of memory to use" : {
+      "type" : "number",
+      "default" : 100,
+      "minimum" : 1
+    },
+    "Megabytes of memory to use" : {
+      "type" : "number",
+      "default" : 1000000000,
+      "minimum" : 1
+    },
+    "Limit by available memory" : {
+      "type" : "boolean",
+      "default" : "true"
+    },
+    "Compression" : {
+      "title" : "Use Compression when storing data",
+      "description" : "Can specify a variety of compression techniques to use when writing/reading back the data.  This will only be enabled when compiled with DGM_USE_BLOSC",
+      "type" : "object",
+      "properties" : {
+        "Method" : {
+          "title" : "The type of compression to use.",
+          "type" : "string",
+          "enum" : [ "None", "blosclz", "lz4", "lz4hc", "snappy", "zlib" ],
+          "default" : "None"
+        },
+        "Verbosity" : { "type" : "integer", "default" : 0, "minimum" : 0, "maximum" : 10 },
+        "Shuffle" : { "type" : "integer", "default" : 1, "minimum" : 0, "maximum" : 1 },
+        "Level" : { "type" : "integer", "default" : 9, "minimum" : 0, "maximum" : 9 },
+        "Save as single precision" : { "type" : "boolean", "description" : "Set from Save as single precision above."}
+      }
+    }
+  },
+  "additionalProperties" : false
+}

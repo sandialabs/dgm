@@ -1,0 +1,7 @@
+Nnodes Nsd
+4 2
+NodeID   NodeX   NodeY   Nelmts   EID
+0        2     2     0
+1       -2     2     0
+2       -2    -2     0
+3        2    -2     0

@@ -1,0 +1,311 @@
+{
+  "$schema" : "http://json-schema.org/schema#",
+  "id" : "Optimizer",
+  "description" : "Choice of optimization package",
+  "type" : "object",
+  "properties" : {
+    "Optimizer Type" : {
+      "type" : "string",
+      "enum" : [
+        "ROL",
+        "DGM",
+        "PEOPT"
+      ]
+    },
+    "ROL" : {
+      "title" : "Rapid Optimization Library",
+      "type" : "object",
+      "properties" : {
+        "Algorithm" : {
+          "description" : "Select a general optimization algorithms",
+          "type" : "string",
+          "enum" : [
+            "Linesearch with Steepest Descent",
+            "Linesearch with Nonlinear CG",
+            "Linesearch with Quasi-Newton Method",
+            "Linesearch with Newton-Krylov",
+            "Trust-Region with Cauchy Point",
+            "Trust-Region with Truncated CG",
+            "Trust-Region with Dogleg",
+            "Trust-Region with Double Dogleg",
+            "Trust-Region Truncated CG"
+          ],
+          "default" : [
+            "Linesearch with Nonlinear CG"
+          ]
+        },
+        "Maximum Number of Iterations" : {
+          "description" : "Termination condition by iterate count",
+          "type" : "integer",
+          "minimum" : 1,
+          "default" : 50
+        },
+        "Gradient Tolerance" : {
+          "description" : "Termination condition by norm of gradient",
+          "type" : "number",
+          "default" : 0.000001
+        },
+        "Step Tolerance" : {
+          "description" : "Termination condition by norm of step",
+          "type" : "number",
+          "default" : 0.000000000001
+        },
+        "Use Inexact Hessian-Times-A-Vector" : {
+          "description" : "Use approximation of Hessian-vector product, such as finite difference",
+          "type" : "bool",
+          "default" : false
+        },
+        "Linesearch" : {
+          "title" : "Linesearch Method Specification",
+          "description" : "Compute a descent direction and take an acceptable step in that direction.",
+          "type" : "object",
+          "properties" : {
+            "Linesearch Type" : {
+              "description" : "Method for generating step lengths",
+              "type" : "string",
+              "enum" : [
+                "Iteration Scaling",
+                "Path-Based Target Level",
+                "Backtracking",
+                "Bisection",
+                "Golden Section",
+                "Cubic Interpolation",
+                "Brents",
+                "User Defined"
+              ],
+              "default" : "Cubic Interpolation"
+            },
+            "Curvature Condition" : {
+              "description" : "These conditions aim to prevent unacceptably small steps",
+              "type" : "string",
+              "enum" : [
+                "Wolfe Conditions",
+                "Strong Wolfe Conditions",
+                "Generalized Wolfe Conditions",
+                "Approximate Wolfe Conditions",
+                "Goldstein Conditions",
+                "Null Curvature Condition"
+              ],
+              "default" : "Wolfe Conditions"
+            },
+            "Nonlinear CG Type" : {
+              "description" : "Which form of nonlinear conjugate gradient to use",
+              "type" : "string",
+              "enum" : [
+                "Dai-Yuan",
+                "Daniel (uses Hessian)",
+                "Hestenes-Stiefel",
+                "Polak-Ribiere",
+                "Fletcher Conjugate Descent",
+                "Liu-Storey",
+                "Hagar-Zhang"
+              ],
+              "default" : "Hagar-Zhang"
+            },
+            "Quasi-Newton Method" : {
+              "description" : "Hessian approximation by sequential low-rank updates which require the step to satisfy a secant equation",
+              "type" : "object",
+              "properties" : {
+                "Secant Type" : {
+                  "description" : "Which Hessian approximation method to use",
+                  "type" : "string",
+                  "enum" : [
+                    "Limited-Memory BFGS",
+                    "Limited-Memory DFP",
+                    "Limited-Memory SR1",
+                    "Barzilai-Borwein"
+                  ],
+                  "default" : "Limited-Memory BFGS"
+                },
+                "Maximum Secant Storage" : {
+                  "description" : "Number of vectors to store when computing step directions",
+                  "type" : "integer",
+                  "default" : 10
+                }
+              }
+            },
+            "Newton-Krylov" : {
+              "description" : "Approximately solve for the Newton search direction with a Krylov method",
+              "type" : "object",
+              "properties" : {
+                "Krylov Type" : {
+                  "description" : "Krylov method to use",
+                  "type" : "string",
+                  "enum" : [
+                    "Conjugate Gradients",
+                    "Conjugate Residuals"
+                  ],
+                  "default" : "Conjugate Gradients"
+                },
+                "Maximum Number of Iterations" : {
+                  "type" : "integer",
+                  "default" : 4
+                },
+                "Absolute Krylov Tolerance" : {
+                  "description" : "Krylov termination condition",
+                  "type" : "number",
+                  "default" : 0.0001
+                },
+                "Relative Krylov Tolerance" : {
+                  "description" : "Krylov termination condition",
+                  "type" : "number",
+                  "default" : 0.01
+                },
+                "Use Secant Hessian-Times-A-Vector" : {
+                  "description" : "Approximate the action of the Hessian with a quasi-Newton method",
+                  "type" : "bool",
+                  "default" : "false"
+                },
+                "Use Secant Preconditioning" : {
+                  "description" : "Precondition system with a quasi-Newton method",
+                  "type" : "bool",
+                  "default" : "false"
+                }
+              }
+            },
+            "Initial Linesearch Parameter" : {
+              "description" : "Initial Step Length",
+              "type" : "string",
+              "default" : 10000
+            },
+            "Sufficient Decrease Parameter" : {
+              "description" : "Parameter which defines the upper bounding tangent line",
+              "type" : "number",
+              "default" : 0.0001
+            },
+            "Curvature Conditions Parameter" : {
+              "description" : "Factor by which to reduce the directional derivative",
+              "type" : "number",
+              "default" : 0.9
+            },
+            "Backtracking Rate" : {
+              "description" : "Factor by which to reduce the step length",
+              "type" : "number",
+              "default" : 0.5
+            },
+            "Maximum Number of Function Evaluations" : {
+              "description" : "Maximum number of linesearch evaluations to make",
+              "type" : "number",
+              "default" : 10
+            }
+          }
+        }
+      },
+      "Trust-Region" : {
+        "title" : "Trust-Region Method Specification",
+        "description" : "Compute a constrained model minimizer.",
+        "type" : "object",
+        "properties" : {
+          "Trust-Region Subproblem Solver Type" : {
+            "description" : "Subproblem Solver Type",
+            "type" : "string",
+            "default" : "Truncated CG"
+          },
+          "Initial Trust-Region Radius" : {
+            "type" : "number",
+            "default" : 1
+          },
+          "Minimium Trust-Region Radius" : {
+            "type" : "number",
+            "default" : 0.000000000001
+          },
+          "Maximium Trust-Region Radius" : {
+            "type" : "number",
+            "default" : 5000
+          },
+          "Step Acceptance Parameter" : {
+            "type" : "number",
+            "default" : 0.05
+          },
+          "Radius Shrinking Threshold" : {
+            "type" : "number",
+            "default" : 0.05
+          },
+          "Radius Growing Threshold" : {
+            "type" : "number",
+            "default" : 0.9
+          },
+          "Radius Shrinking Rate (Negative rho)" : {
+            "type" : "number",
+            "default" : "0.0625"
+          },
+          "Radius Shrinking Rate (Positive rho)" : {
+            "type" : "number",
+            "default" : "0.25"
+          },
+          "Trust-Region Safeguard" : {
+            "type" : "number",
+            "default" : "1.e4"
+          }
+        }
+      },
+      "Gradient Check" : {
+        "description" : "Specify the gradient check parameters used by ROL"
+      }
+    },
+    "DGM" : {
+      "title" : "DGM Optimizer",
+      "type" : "object",
+      "properties" : {
+        "Gradient Check Order" : {
+          "description" : "Order(s) of the finite difference approximation to use",
+          "type" : [
+            "integer",
+            "array"
+          ],
+          "default" : "1"
+        },
+        "Gradient Check Steps" : {
+          "description" : "Number of step sizes to sweep over",
+          "type" : "integer",
+          "default" : "9"
+        },
+        "Gradient Check Largest Step" : {
+          "description" : "Largest step size to start sweep with",
+          "type" : "number",
+          "default" : "1.0e0"
+        },
+        "Gradient Check Step Reduction Factor" : {
+          "description" : "Successively reduce step size by this factor",
+          "type" : "number",
+          "default" : "1.0e-1"
+        }
+      }
+    },
+    "PEOPT" : {
+      "title" : "Parameter Estimation Using Optimization"
+    },
+    "Check Gradient" : {
+      "type" : "integer",
+      "default" : 0
+    },
+    "Reset Objective Frequency" : {
+      "type" : "integer",
+      "default" : 0
+    },
+    "Use Finite Difference Hessian" : {
+      "type" : "integer",
+      "default" : 0
+    },
+    "Finite Difference Step Size" : {
+      "type" : "number",
+      "default" : 1
+    },
+    "Use Trust Region" : {
+      "type" : "bool",
+      "default" : "false"
+    },
+    "Use Preconditioner" : {
+      "type" : "bool",
+      "default" : "false"
+    },
+    "Output Type" : {
+      "type" : "integer",
+      "default" : 0
+    },
+    "Print Header" : {
+      "type" : "integer",
+      "default" : 0
+    }
+  }
+}

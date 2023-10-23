@@ -1,0 +1,29 @@
+# DGM example case
+#
+# Author:  S. Scott Collis <sscoll@sandia.gov>
+#
+# This exampe case is intended to demonstrate the use of a Dirac delta
+# function source on the RHS of the Advection-Diffusion equation.
+#
+# The mesh is 20 elements from x \in [0,1] with a default polynomial order
+# of 5 which gives an expected convergence rate of 6th order accuracy. 
+# 
+# Note that this case does not work well with the 3-step Adams-Bashforth 
+# time integrator, especially in the presence of diffusion. By default
+# the diffusion coefficient but you may uncomment the vis line and include
+# diffusion if you want.
+#
+# The default boundary conditions are homogeneous Dirichlet on the left
+# and a non-reflecting outflow condition on the right
+#
+# The initial condition is zero although you can select different expressions
+# in 1d.ic.
+#
+eqntype  = 0		# advection-diffusion
+inttype  = 3		# 3rd order Runge-Kutta
+p        = 5 		# 5th order polynomials
+Nt       = 1000		# number of time steps
+Ntout    = 50		# restart output interval
+dt       = 0.001	# time step
+cx       = 1.0		# convective velocity in the x-direction
+#vis     = 0.002	# diffusion coefficient

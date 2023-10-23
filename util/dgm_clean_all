@@ -1,0 +1,6 @@
+#!/bin/bash
+echo "============================================================================="
+echo Performing a dgm_clean recursively from: `pwd`
+echo "============================================================================="
+find . -type d -exec sh -c 'cd "{}" && pwd && dgm_clean' \;
+exit

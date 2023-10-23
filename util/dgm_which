@@ -1,0 +1,44 @@
+#!/bin/bash
+usage() {
+cat << EOF
+Usage: $0 [options]
+
+Show which versions of dgm will be used
+
+Options:
+  -h    Show this message
+  -v    Verbose output
+EOF
+}
+#
+# Use getopts to parse the arguments
+#
+while getopts "hv" OPTION
+do
+  case $OPTION in
+    h)
+      usage
+      exit 1
+      ;;
+    v) 
+      VERBOSE=1
+      ;;
+    \?)
+      usage
+      exit
+      ;;
+  esac
+done
+if [ -z $DGM_HOME ]; then
+  DGM_HOME=$HOME/local/dgm
+  if [ $VERBOSE ]; then
+    echo "DGM_HOME is not set in your environment. Using the default value..."
+    echo "  DGM_HOME=$DGM_HOME"
+  fi
+fi
+if [ ! -d $DGM_HOME/current ]; then
+  echo $DGM_HOME/current does not exist, please setup properly
+  exit 1
+fi
+ls -l $DGM_HOME/current
+exit

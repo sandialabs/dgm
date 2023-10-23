@@ -1,0 +1,20 @@
+#!/bin/bash
+#
+#   S. Scott Collis
+#
+#   6-11-97
+#
+/bin/rm *.rst *.dat *.x *.q *.[RUVE] *.bdt *.cp *.frc *.u *.his *.prb *.ocs *.wgt *.out *.tri *.scn *.bin *.rak
+#
+find . -name "TEST-package.xml" -delete
+find . -name "*.sts" -delete
+find . -name "*.hdr" -delete
+find . -name "*.bin" -delete
+find . -name "*.bin" -or -name "*.sts" -or -name "*.prb" -or \
+-name "TEST-package.xml" -or -name "echo.inp" -delete
+find . -name "*-imp.xml" -delete
+find . -name "dgm-$USER-*" -delete
+#
+dgm_clean_all
+#
+exit

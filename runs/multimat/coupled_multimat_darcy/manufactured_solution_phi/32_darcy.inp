@@ -1,0 +1,22 @@
+eqntype   = 24
+inttype   = 3
+
+p         = 2
+
+Mu_avg     =  1.0;
+ChiT       =  0.0;
+
+g_x        =  0.0;
+g_y        =  0.0;
+g_z        =  0.0;
+
+stab       =  5.0;
+
+iterations =  5000
+dim_krylov =  10000
+tolerance  =  1e-12
+
+matrix_solve = 1
+solver = 0
+tecplot = 0
+use_ldg = 0

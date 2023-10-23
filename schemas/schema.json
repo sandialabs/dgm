@@ -1,0 +1,54 @@
+{
+  "$schema" : "http://json-schema.org/schema#",
+  "id" : "file:schema.json#",
+  "title" : "Test schema",
+  "description" : "This is a test of a DGM schema using references",
+  "type" : "object",
+  "properties" : {
+    "Title" : {
+      "$ref" : "#/definitions/title"
+    },
+    "Problem" : {
+      "$ref" : "Problem.json#"
+    },
+    "MultiOptProblem" : {
+      "$ref" : "MultiOptProblem.json#"
+    },
+    "Domain" : {
+      "$ref" : "Domain.json#"
+    },
+    "AdvDiff" : {
+      "$ref" : "AdvDiff.json#"
+    },
+    "Field Slice" : {
+      "$ref" : "Slice.json#"
+    },
+    "Medium Slice" : {
+      "$ref" : "Slice.json#"
+    },
+    "Solver" : {
+      "$ref" : "Solver.json#"
+    },
+    "Zoltan" : {
+      "$ref" : "Zoltan.json#"
+    },
+    "InCore" : {
+      "$ref" : "InCore.json#"
+    },
+    "Griewank" : {
+      "$ref" : "Griewank.json#"
+    },
+    "Optimizer" : {
+      "$ref" : "Optimizer.json#"
+    },
+    "Field" : {
+      "$ref" : "Field.json#"
+    }
+  },
+  "additionalProperties" : false,
+  "definitions" : {
+    "title" : {
+      "type" : "string"
+    }
+  }
+}

@@ -1,0 +1,79 @@
+if [ -n "${BOOSTDIR}" ]; then
+  echo Using Boost in ${BOOSTDIR}
+else
+  echo Environment variable BOOSTDIR is not set.
+  exit 1
+fi
+
+export NETCDF_DIR=/opt/cray/netcdf/4.1.3/cray/73/
+export NETCDF_BASE_DIR=/opt/cray/netcdf/4.1.3/cray/73/
+export HDF5_BASE_DIR=/opt/cray/hdf5/1.8.7/cray/73/
+
+make_trilinos -is \
+-D CMAKE_C_COMPILER="cc" \
+-D MPI_CXX_COMPILER="CC" \
+-D BUILD_SHARED_LIBS:BOOL=OFF \
+-D TPL_FIND_SHARED_LIBS:BOOL=OFF \
+-D Trilinos_LINK_SEARCH_START_STATIC:BOOL=ON \
+-D TPL_ENABLE_Boost:BOOL=ON \
+-D Boost_INCLUDE_DIRS:FILEPATH="$BOOSTDIR/include" \
+-D Boost_LIBRARY_DIRS:FILEPATH="$BOOSTDIR/lib" \
+-D BLAS_LIBRARY_NAMES:STRING="" \
+-D LAPACK_LIBRARY_NAMES:STRING="" \
+-D Trilinos_ENABLE_Rythmos:BOOL=ON \
+-D Trilinos_ENABLE_Stratimikos:BOOL=ON \
+-D Trilinos_ENABLE_Anasazi:BOOL=ON \
+-D Trilinos_ENABLE_OptiPack:BOOL=ON \
+-D Trilinos_ENABLE_Galeri:BOOL=ON \
+-D Trilinos_ENABLE_Piro:BOOL=ON \
+-D Trilinos_ENABLE_TriKota:BOOL=OFF \
+-D Trilinos_ENABLE_Zoltan:BOOL=OFF \
+-D Trilinos_ENABLE_Sacado:BOOL=ON \
+-D Trilinos_ENABLE_STK:BOOL=OFF \
+-D Trilinos_ENABLE_Zoltan2:BOOL=ON \
+-D Trilinos_ENABLE_STRONG_C_COMPILE_WARNINGS:BOOL=OFF \
+-D Trilinos_ENABLE_STRONG_CXX_COMPILE_WARNINGS:BOOL=OFF \
+-D NOX_ENABLE_Epetra=ON \
+$TRILINOS_HOME
+
+
+export NETCDF_DIR=/opt/cray/netcdf-hdf5parallel/4.1.3/cray/73/
+export NETCDF_BASE_DIR=/opt/cray/netcdf-hdf5parallel/4.1.3/cray/73/
+export HDF5_BASE_DIR=/opt/cray/hdf5-parallel/1.8.7/cray/73/
+. ${MODULESHOME}/init/bash swap netcdf netcdf-hdf5parallel
+. ${MODULESHOME}/init/bash swap hdf5 hdf5-parallel
+
+make_trilinos -ip \
+-D CMAKE_C_COMPILER="cc" \
+-D MPI_CXX_COMPILER="CC" \
+-D BUILD_SHARED_LIBS:BOOL=OFF \
+-D TPL_FIND_SHARED_LIBS:BOOL=OFF \
+-D Trilinos_LINK_SEARCH_START_STATIC:BOOL=ON \
+-D TPL_ENABLE_Boost:BOOL=ON \
+-D Boost_INCLUDE_DIRS:FILEPATH="$BOOSTDIR/include" \
+-D Boost_LIBRARY_DIRS:FILEPATH="$BOOSTDIR/lib" \
+-D BLAS_LIBRARY_NAMES:STRING="" \
+-D LAPACK_LIBRARY_NAMES:STRING="" \
+-D Trilinos_ENABLE_Rythmos:BOOL=ON \
+-D Trilinos_ENABLE_Stratimikos:BOOL=ON \
+-D Trilinos_ENABLE_Anasazi:BOOL=ON \
+-D Trilinos_ENABLE_OptiPack:BOOL=ON \
+-D Trilinos_ENABLE_Galeri:BOOL=ON \
+-D Trilinos_ENABLE_Piro:BOOL=ON \
+-D Trilinos_ENABLE_TriKota:BOOL=OFF \
+-D Trilinos_ENABLE_Zoltan:BOOL=OFF \
+-D Trilinos_ENABLE_Sacado:BOOL=ON \
+-D Trilinos_ENABLE_STK:BOOL=OFF \
+-D Trilinos_ENABLE_Zoltan2:BOOL=ON \
+-D Trilinos_ENABLE_STRONG_C_COMPILE_WARNINGS:BOOL=OFF \
+-D Trilinos_ENABLE_STRONG_CXX_COMPILE_WARNINGS:BOOL=OFF \
+-D NOX_ENABLE_Epetra=ON \
+$TRILINOS_HOME
+
+export NETCDF_DIR=/opt/cray/netcdf/4.1.3/cray/73/
+export NETCDF_BASE_DIR=/opt/cray/netcdf/4.1.3/cray/73/
+export HDF5_BASE_DIR=/opt/cray/hdf5/1.8.7/cray/73/
+. ${MODULESHOME}/init/bash swap netcdf-hdf5parallel netcdf
+. ${MODULESHOME}/init/bash swap hdf5-parallel hdf5
+
+

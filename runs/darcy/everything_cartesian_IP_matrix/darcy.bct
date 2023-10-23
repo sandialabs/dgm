@@ -1,0 +1,21 @@
+Dirichlet xm
+{
+  1.00 
+}
+
+Dirichlet xp
+{
+  2.00
+}
+
+Neumann yp
+{
+  0.5
+}
+
+Neumann ym
+{
+  0.5
+}
+
+

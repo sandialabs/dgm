@@ -1,0 +1,527 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 8.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     15599,        518]
+NotebookOptionsPosition[     13622,        446]
+NotebookOutlinePosition[     14135,        466]
+CellTagsIndexPosition[     14092,        463]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["The Shallow water equations", "Title",
+ CellChangeTimes->{{3.5689790787982197`*^9, 3.56897908316494*^9}}],
+
+Cell["S. Scott Collis", "Subtitle",
+ CellChangeTimes->{{3.568979097526187*^9, 3.5689791294201803`*^9}}],
+
+Cell["\<\
+Sandia National Laboratories
+2-4-2013\
+\>", "Subsubtitle",
+ CellChangeTimes->{{3.568979105565815*^9, 3.568979123084181*^9}}],
+
+Cell[CellGroupData[{
+
+Cell["Two dimensional shallow water equations", "Section",
+ CellChangeTimes->{{3.5689791389418917`*^9, 3.5689791578305283`*^9}}],
+
+Cell["Define the State vector", "Text",
+ CellChangeTimes->{{3.5689779472370157`*^9, 3.5689779513406677`*^9}}],
+
+Cell[BoxData[
+ RowBox[{"U", "  ", ":=", " ", 
+  RowBox[{"{", " ", 
+   RowBox[{"\[Phi]", ",", " ", "\[Theta]", ",", " ", "\[Psi]"}], 
+   "}"}]}]], "Input",
+ CellChangeTimes->{{3.5689777152994823`*^9, 3.56897776878275*^9}}],
+
+Cell["The convective flux for Shallow Water is", "Text",
+ CellChangeTimes->{{3.5689779566517467`*^9, 3.568977964819738*^9}}],
+
+Cell[BoxData[
+ RowBox[{"F", " ", ":=", " ", 
+  RowBox[{"{", 
+   RowBox[{"\[Theta]", ",", " ", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"\[Theta]", "^", "2"}], "/", "\[Phi]"}], "  ", "+", " ", 
+     RowBox[{
+      RowBox[{"\[Phi]", "^", "2"}], "/", "2"}]}], ",", " ", 
+    RowBox[{"\[Theta]", " ", 
+     RowBox[{"\[Psi]", "/", "\[Phi]"}]}]}], "}"}]}]], "Input",
+ CellChangeTimes->{{3.568977777387569*^9, 3.568977879858026*^9}, {
+  3.568978067349246*^9, 3.568978112473977*^9}, {3.5689784085741253`*^9, 
+  3.568978413478641*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"F", "//", "MatrixForm"}]], "Input",
+ CellChangeTimes->{{3.568977884848412*^9, 3.568977889050318*^9}}],
+
+Cell[BoxData[
+ TagBox[
+  RowBox[{"(", "\[NoBreak]", 
+   TagBox[GridBox[{
+      {"\[Theta]"},
+      {
+       RowBox[{
+        FractionBox[
+         SuperscriptBox["\[Theta]", "2"], "\[Phi]"], "+", 
+        FractionBox[
+         SuperscriptBox["\[Phi]", "2"], "2"]}]},
+      {
+       FractionBox[
+        RowBox[{"\[Theta]", " ", "\[Psi]"}], "\[Phi]"]}
+     },
+     GridBoxAlignment->{
+      "Columns" -> {{Center}}, "ColumnsIndexed" -> {}, "Rows" -> {{Baseline}},
+        "RowsIndexed" -> {}},
+     GridBoxSpacings->{"Columns" -> {
+         Offset[0.27999999999999997`], {
+          Offset[0.5599999999999999]}, 
+         Offset[0.27999999999999997`]}, "ColumnsIndexed" -> {}, "Rows" -> {
+         Offset[0.2], {
+          Offset[0.4]}, 
+         Offset[0.2]}, "RowsIndexed" -> {}}],
+    Column], "\[NoBreak]", ")"}],
+  Function[BoxForm`e$, 
+   MatrixForm[BoxForm`e$]]]], "Output",
+ CellChangeTimes->{
+  3.568977889844942*^9, {3.5689780703805637`*^9, 3.568978087231579*^9}, 
+   3.568978119307867*^9, 3.568978417139819*^9, 3.569954170505569*^9}]
+}, Open  ]],
+
+Cell["Define the flux Jacobian", "Text",
+ CellChangeTimes->{{3.5689779699715033`*^9, 3.568977975619343*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"A", " ", "=", " ", 
+  RowBox[{"D", "[", 
+   RowBox[{"F", ",", 
+    RowBox[{"{", "U", "}"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.5689778949510937`*^9, 3.568977901662236*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"0", ",", "1", ",", "0"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"-", 
+       FractionBox[
+        SuperscriptBox["\[Theta]", "2"], 
+        SuperscriptBox["\[Phi]", "2"]]}], "+", "\[Phi]"}], ",", 
+     FractionBox[
+      RowBox[{"2", " ", "\[Theta]"}], "\[Phi]"], ",", "0"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"\[Theta]", " ", "\[Psi]"}], 
+       SuperscriptBox["\[Phi]", "2"]]}], ",", 
+     FractionBox["\[Psi]", "\[Phi]"], ",", 
+     FractionBox["\[Theta]", "\[Phi]"]}], "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{
+  3.568977902934712*^9, {3.568978074469946*^9, 3.568978120993976*^9}, 
+   3.56897843365652*^9, 3.569954170544187*^9}]
+}, Open  ]],
+
+Cell["Verify that the flux is *not* homogeneous of degree one in U", "Text",
+ CellChangeTimes->{{3.568977919116187*^9, 3.5689779409909687`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"FullSimplify", "[", 
+  RowBox[{"F", " ", "-", " ", 
+   RowBox[{"A", ".", "U"}]}], "]"}]], "Input",
+ CellChangeTimes->{{3.568977909195986*^9, 3.568977912125366*^9}, {
+  3.568978041730489*^9, 3.568978046833839*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"0", ",", 
+   RowBox[{"-", 
+    FractionBox[
+     SuperscriptBox["\[Phi]", "2"], "2"]}], ",", "0"}], "}"}]], "Output",
+ CellChangeTimes->{
+  3.568977912871027*^9, {3.568978047281975*^9, 3.568978122831799*^9}, 
+   3.568978437178934*^9, 3.5699541709131527`*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"A", " ", "//", " ", "MatrixForm"}]], "Input",
+ CellChangeTimes->{{3.568977981119628*^9, 3.568977987580386*^9}}],
+
+Cell[BoxData[
+ TagBox[
+  RowBox[{"(", "\[NoBreak]", GridBox[{
+     {"0", "1", "0"},
+     {
+      RowBox[{
+       RowBox[{"-", 
+        FractionBox[
+         SuperscriptBox["\[Theta]", "2"], 
+         SuperscriptBox["\[Phi]", "2"]]}], "+", "\[Phi]"}], 
+      FractionBox[
+       RowBox[{"2", " ", "\[Theta]"}], "\[Phi]"], "0"},
+     {
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{"\[Theta]", " ", "\[Psi]"}], 
+        SuperscriptBox["\[Phi]", "2"]]}], 
+      FractionBox["\[Psi]", "\[Phi]"], 
+      FractionBox["\[Theta]", "\[Phi]"]}
+    },
+    GridBoxAlignment->{
+     "Columns" -> {{Center}}, "ColumnsIndexed" -> {}, "Rows" -> {{Baseline}}, 
+      "RowsIndexed" -> {}},
+    GridBoxSpacings->{"Columns" -> {
+        Offset[0.27999999999999997`], {
+         Offset[0.7]}, 
+        Offset[0.27999999999999997`]}, "ColumnsIndexed" -> {}, "Rows" -> {
+        Offset[0.2], {
+         Offset[0.4]}, 
+        Offset[0.2]}, "RowsIndexed" -> {}}], "\[NoBreak]", ")"}],
+  Function[BoxForm`e$, 
+   MatrixForm[BoxForm`e$]]]], "Output",
+ CellChangeTimes->{3.568977988385202*^9, 3.568978131180501*^9, 
+  3.568978439718186*^9, 3.569954170945229*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"At", " ", "=", " ", 
+  RowBox[{"A", "\[Transpose]"}]}]], "Input",
+ CellChangeTimes->{{3.568978146644109*^9, 3.5689781540561037`*^9}, {
+  3.5689782079362698`*^9, 3.568978208693409*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"0", ",", 
+     RowBox[{
+      RowBox[{"-", 
+       FractionBox[
+        SuperscriptBox["\[Theta]", "2"], 
+        SuperscriptBox["\[Phi]", "2"]]}], "+", "\[Phi]"}], ",", 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"\[Theta]", " ", "\[Psi]"}], 
+       SuperscriptBox["\[Phi]", "2"]]}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"1", ",", 
+     FractionBox[
+      RowBox[{"2", " ", "\[Theta]"}], "\[Phi]"], ",", 
+     FractionBox["\[Psi]", "\[Phi]"]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", "0", ",", 
+     FractionBox["\[Theta]", "\[Phi]"]}], "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{3.568978210238867*^9, 3.568978444729373*^9, 
+  3.569954170983786*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"At", " ", "//", " ", "MatrixForm"}]], "Input",
+ CellChangeTimes->{{3.56897821537763*^9, 3.568978218124177*^9}}],
+
+Cell[BoxData[
+ TagBox[
+  RowBox[{"(", "\[NoBreak]", GridBox[{
+     {"0", 
+      RowBox[{
+       RowBox[{"-", 
+        FractionBox[
+         SuperscriptBox["\[Theta]", "2"], 
+         SuperscriptBox["\[Phi]", "2"]]}], "+", "\[Phi]"}], 
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{"\[Theta]", " ", "\[Psi]"}], 
+        SuperscriptBox["\[Phi]", "2"]]}]},
+     {"1", 
+      FractionBox[
+       RowBox[{"2", " ", "\[Theta]"}], "\[Phi]"], 
+      FractionBox["\[Psi]", "\[Phi]"]},
+     {"0", "0", 
+      FractionBox["\[Theta]", "\[Phi]"]}
+    },
+    GridBoxAlignment->{
+     "Columns" -> {{Center}}, "ColumnsIndexed" -> {}, "Rows" -> {{Baseline}}, 
+      "RowsIndexed" -> {}},
+    GridBoxSpacings->{"Columns" -> {
+        Offset[0.27999999999999997`], {
+         Offset[0.7]}, 
+        Offset[0.27999999999999997`]}, "ColumnsIndexed" -> {}, "Rows" -> {
+        Offset[0.2], {
+         Offset[0.4]}, 
+        Offset[0.2]}, "RowsIndexed" -> {}}], "\[NoBreak]", ")"}],
+  Function[BoxForm`e$, 
+   MatrixForm[BoxForm`e$]]]], "Output",
+ CellChangeTimes->{3.568978218755069*^9, 3.5689784475515833`*^9, 
+  3.5699541710298986`*^9}]
+}, Open  ]],
+
+Cell[BoxData[
+ RowBox[{"G", " ", ":=", " ", 
+  RowBox[{"{", 
+   RowBox[{"\[Psi]", ",", " ", 
+    RowBox[{"\[Theta]", " ", 
+     RowBox[{"\[Psi]", "/", "\[Phi]"}]}], " ", ",", " ", 
+    RowBox[{
+     RowBox[{
+      RowBox[{"\[Psi]", "^", "2"}], "/", "\[Phi]"}], "+", " ", 
+     RowBox[{
+      RowBox[{"\[Phi]", "^", "2"}], "/", "2"}]}]}], "}"}]}]], "Input",
+ CellChangeTimes->{{3.568978361691421*^9, 3.568978388737831*^9}, {
+  3.568978469893291*^9, 3.5689784725025597`*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"B", " ", "=", " ", 
+  RowBox[{"D", "[", 
+   RowBox[{"G", ",", 
+    RowBox[{"{", "U", "}"}]}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.568978493783162*^9, 3.56897849790876*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"0", ",", "0", ",", "1"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"\[Theta]", " ", "\[Psi]"}], 
+       SuperscriptBox["\[Phi]", "2"]]}], ",", 
+     FractionBox["\[Psi]", "\[Phi]"], ",", 
+     FractionBox["\[Theta]", "\[Phi]"]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{
+     RowBox[{"\[Phi]", "-", 
+      FractionBox[
+       SuperscriptBox["\[Psi]", "2"], 
+       SuperscriptBox["\[Phi]", "2"]]}], ",", "0", ",", 
+     FractionBox[
+      RowBox[{"2", " ", "\[Psi]"}], "\[Phi]"]}], "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{3.5689784983146753`*^9, 3.569954171094771*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"B", " ", "//", " ", "MatrixForm"}]], "Input",
+ CellChangeTimes->{{3.5689785021041594`*^9, 3.568978505746861*^9}}],
+
+Cell[BoxData[
+ TagBox[
+  RowBox[{"(", "\[NoBreak]", GridBox[{
+     {"0", "0", "1"},
+     {
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{"\[Theta]", " ", "\[Psi]"}], 
+        SuperscriptBox["\[Phi]", "2"]]}], 
+      FractionBox["\[Psi]", "\[Phi]"], 
+      FractionBox["\[Theta]", "\[Phi]"]},
+     {
+      RowBox[{"\[Phi]", "-", 
+       FractionBox[
+        SuperscriptBox["\[Psi]", "2"], 
+        SuperscriptBox["\[Phi]", "2"]]}], "0", 
+      FractionBox[
+       RowBox[{"2", " ", "\[Psi]"}], "\[Phi]"]}
+    },
+    GridBoxAlignment->{
+     "Columns" -> {{Center}}, "ColumnsIndexed" -> {}, "Rows" -> {{Baseline}}, 
+      "RowsIndexed" -> {}},
+    GridBoxSpacings->{"Columns" -> {
+        Offset[0.27999999999999997`], {
+         Offset[0.7]}, 
+        Offset[0.27999999999999997`]}, "ColumnsIndexed" -> {}, "Rows" -> {
+        Offset[0.2], {
+         Offset[0.4]}, 
+        Offset[0.2]}, "RowsIndexed" -> {}}], "\[NoBreak]", ")"}],
+  Function[BoxForm`e$, 
+   MatrixForm[BoxForm`e$]]]], "Output",
+ CellChangeTimes->{3.568978506380961*^9, 3.569954171146845*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Bt", " ", "=", " ", 
+  RowBox[{"B", "\[Transpose]"}]}]], "Input",
+ CellChangeTimes->{{3.5689785097710876`*^9, 3.568978513906829*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{
+   RowBox[{"{", 
+    RowBox[{"0", ",", 
+     RowBox[{"-", 
+      FractionBox[
+       RowBox[{"\[Theta]", " ", "\[Psi]"}], 
+       SuperscriptBox["\[Phi]", "2"]]}], ",", 
+     RowBox[{"\[Phi]", "-", 
+      FractionBox[
+       SuperscriptBox["\[Psi]", "2"], 
+       SuperscriptBox["\[Phi]", "2"]]}]}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"0", ",", 
+     FractionBox["\[Psi]", "\[Phi]"], ",", "0"}], "}"}], ",", 
+   RowBox[{"{", 
+    RowBox[{"1", ",", 
+     FractionBox["\[Theta]", "\[Phi]"], ",", 
+     FractionBox[
+      RowBox[{"2", " ", "\[Psi]"}], "\[Phi]"]}], "}"}]}], "}"}]], "Output",
+ CellChangeTimes->{3.568978517152069*^9, 3.569954171200839*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Bt", " ", "//", " ", "MatrixForm"}]], "Input",
+ CellChangeTimes->{{3.568978520507613*^9, 3.5689785234757757`*^9}}],
+
+Cell[BoxData[
+ TagBox[
+  RowBox[{"(", "\[NoBreak]", GridBox[{
+     {"0", 
+      RowBox[{"-", 
+       FractionBox[
+        RowBox[{"\[Theta]", " ", "\[Psi]"}], 
+        SuperscriptBox["\[Phi]", "2"]]}], 
+      RowBox[{"\[Phi]", "-", 
+       FractionBox[
+        SuperscriptBox["\[Psi]", "2"], 
+        SuperscriptBox["\[Phi]", "2"]]}]},
+     {"0", 
+      FractionBox["\[Psi]", "\[Phi]"], "0"},
+     {"1", 
+      FractionBox["\[Theta]", "\[Phi]"], 
+      FractionBox[
+       RowBox[{"2", " ", "\[Psi]"}], "\[Phi]"]}
+    },
+    GridBoxAlignment->{
+     "Columns" -> {{Center}}, "ColumnsIndexed" -> {}, "Rows" -> {{Baseline}}, 
+      "RowsIndexed" -> {}},
+    GridBoxSpacings->{"Columns" -> {
+        Offset[0.27999999999999997`], {
+         Offset[0.7]}, 
+        Offset[0.27999999999999997`]}, "ColumnsIndexed" -> {}, "Rows" -> {
+        Offset[0.2], {
+         Offset[0.4]}, 
+        Offset[0.2]}, "RowsIndexed" -> {}}], "\[NoBreak]", ")"}],
+  Function[BoxForm`e$, 
+   MatrixForm[BoxForm`e$]]]], "Output",
+ CellChangeTimes->{3.568978524048542*^9, 3.569954171246428*^9}]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+},
+WindowToolbars->"EditBar",
+WindowSize->{740, 847},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+PrintingCopies->1,
+PrintingPageRange->{1, Automatic},
+PrivateNotebookOptions->{"VersionedStylesheet"->{"Default.nb"[8.] -> False}},
+FrontEndVersion->"9.0 for Mac OS X x86 (32-bit, 64-bit Kernel) (January 25, \
+2013)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[579, 22, 111, 1, 92, "Title"],
+Cell[693, 25, 103, 1, 51, "Subtitle"],
+Cell[799, 28, 134, 4, 49, "Subsubtitle"],
+Cell[CellGroupData[{
+Cell[958, 36, 128, 1, 80, "Section"],
+Cell[1089, 39, 109, 1, 30, "Text"],
+Cell[1201, 42, 221, 5, 28, "Input"],
+Cell[1425, 49, 124, 1, 30, "Text"],
+Cell[1552, 52, 527, 13, 28, "Input"],
+Cell[CellGroupData[{
+Cell[2104, 69, 125, 2, 28, "Input"],
+Cell[2232, 73, 1043, 30, 100, "Output"]
+}, Open  ]],
+Cell[3290, 106, 108, 1, 30, "Text"],
+Cell[CellGroupData[{
+Cell[3423, 111, 204, 5, 28, "Input"],
+Cell[3630, 118, 802, 24, 52, "Output"]
+}, Open  ]],
+Cell[4447, 145, 144, 1, 30, "Text"],
+Cell[CellGroupData[{
+Cell[4616, 150, 237, 5, 28, "Input"],
+Cell[4856, 157, 298, 8, 49, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[5191, 170, 135, 2, 28, "Input"],
+Cell[5329, 174, 1145, 33, 102, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[6511, 212, 208, 4, 30, "Input"],
+Cell[6722, 218, 753, 23, 52, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[7512, 246, 135, 2, 28, "Input"],
+Cell[7650, 250, 1127, 33, 110, "Output"]
+}, Open  ]],
+Cell[8792, 286, 473, 12, 28, "Input"],
+Cell[CellGroupData[{
+Cell[9290, 302, 201, 5, 28, "Input"],
+Cell[9494, 309, 701, 21, 52, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[10232, 335, 137, 2, 28, "Input"],
+Cell[10372, 339, 1068, 31, 102, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[11477, 375, 157, 3, 30, "Input"],
+Cell[11637, 380, 699, 21, 52, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[12373, 406, 138, 2, 28, "Input"],
+Cell[12514, 410, 1068, 31, 112, "Output"]
+}, Open  ]]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+(* End of internal cache information *)

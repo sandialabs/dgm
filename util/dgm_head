@@ -1,0 +1,40 @@
+#!/usr/bin/env python
+
+# System import
+import sys
+
+# Get the script name
+script_name = sys.argv[0]
+
+# Check the usage
+if len(sys.argv) != 2:
+  print >>sys.stderr, "usage: %s <filename>" % script_name
+  sys.exit(-1)
+
+# Get the filename
+filename = sys.argv[1]
+
+# Open the file
+try:
+  f = open(filename,'r')
+except IOError:
+  print >>sys.stderr, "%s: file '%s' not found" % (script_name, filename)
+  sys.exit(-2)
+
+# Process the file
+lb = 0
+found_open_bracket = 0
+for line in f:
+  lb += line.count('{');
+  if (lb != 0) :
+    sys.stdout.write(line),
+    found_open_bracket = 1
+  lb -= line.count('}');
+  if (lb == 0) : 
+    if (not found_open_bracket) :
+      print >>sys.stderr, "Json header not found in first line of file '%s'" \
+            % filename
+    break;
+
+# Close the file
+f.close()

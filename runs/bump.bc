@@ -1,0 +1,23 @@
+**BOUNDARY CONDITION DATA**
+
+18 number of boundary sides
+
+W 0 0
+S 0 2
+W 2 0
+S 3 2
+W 4 2
+W 5 2
+W 7 1
+W 9 0
+W 10 1
+W 13 2
+S 15 2
+W 16 1
+S 16 2
+W 17 2
+W 18 0
+W 19 2
+W 21 0
+W 22 1
+

@@ -1,0 +1,27 @@
+#!/bin/csh -f
+#
+# Make all versions of DGM code
+#
+#cvs update
+
+if (1) then
+  cd ~/chamisa/GCC
+  make -j8 all ADDONS="GCC4" USE_NEW_BISON=1
+  cd ~/chamisa/GCCp
+  make -j8 pall ADDONS="GCC4 MPICH_IGNORE_CXX_SEEK"  USE_NEW_BISON=1
+endif
+
+if (0) then
+  cd ~/dgm_opt/dgm/GCC
+  make -j4 all ADDONS="GCC4 DGM_USE_EPETRA" TRILINOS=$HOME/local/trilinos/serial
+# make -j4 tdd ADDONS="DGM_USE_EPETRA" TRILINOS=$HOME/local/trilinos/serial
+  make -j4 err ADDONS="GCC4 DGM_USE_EPETRA" TRILINOS=$HOME/local/trilinos/serial
+# cd ~/dgm_opt/dgm/GCCp
+# make -j4 pdgm ADDONS="DGM_USE_EPETRA" TRILINOS=$HOME/local/trilinos/parallel
+# make -j4 popt ADDONS="DGM_USE_EPETRA" TRILINOS=$HOME/local/trilinos/parallel
+# make -j4 ptdd
+# cd ~/dgm_opt/dgm/GCCgm
+# make -j4 pall GM=1 ADDONS="CHANNEL NX=8 NY=8 NZ=8"
+endif
+
+exit

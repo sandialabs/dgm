@@ -1,0 +1,10 @@
+{
+  "Title" : "Two-dimensional Shallow Water test problem, source inversion.",
+  "Griewank" : { },
+  "InCore" : {
+    "Processors per node"       : 1,
+    "Statistics"                : 2,
+    "Use out-of-core memory"    : false,
+    "Megabytes of memory to use": 4000
+  }
+}

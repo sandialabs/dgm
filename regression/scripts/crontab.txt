@@ -1,0 +1,6 @@
+#
+# Example Cron script
+#
+DGM_DIST=/Users/sscoll/dgm
+#
+1  1  *  *  *  cd $DGM_DIST/regression/scripts; ./dgm_master.sh

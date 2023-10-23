@@ -1,0 +1,10 @@
+**BOUNDARY CONDITION DATA**
+8 nbc
+BC_SIDE1      0      3
+BC_SIDE2      3      1
+BC_SIDE3      2      2
+BC_SIDE3      3      2
+BC_SIDE4      2      3
+BC_SIDE5      1      1
+BC_SIDE6      0      2
+BC_SIDE6      1      2

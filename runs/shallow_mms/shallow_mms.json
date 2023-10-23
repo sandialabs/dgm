@@ -1,0 +1,7 @@
+{ "Domain": { "Space": { "Binary mesh": true}},
+  "Griewank": { },
+  "InCore": { "Megabytes of memory to use": 4000,
+              "Processors per node": 1,
+              "Statistics": 2,
+              "Use out-of-core memory": false},
+  "Title": "Two-dimensional Shallow Water test problem"}

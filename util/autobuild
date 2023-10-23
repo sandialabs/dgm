@@ -1,0 +1,43 @@
+#!/bin/bash
+#
+# Used to quickly build all of DGM
+#
+echo Starting DGM Autobuild script at `date`
+if [ $DGM_HOME ]; then
+  echo The installation directory DGM_HOME is set to $DGM_HOME
+else
+  echo Installing DGM in the default location
+fi
+if [ ! $DGM_DIST ]; then
+  DGM_DIST=$HOME/dgm
+  echo Using the default build location:  $DGM_DIST
+else
+  echo Building from DGM_DIST = $DGM_DIST
+fi
+if [ ! -e $DGM_DIST ]; then
+  echo Build directory $DGM_DIST does not exist, exiting...
+  exit 1
+fi
+cd $DGM_DIST 
+if [ -e .svn ]; then
+  svn update
+fi
+if [ -e .ARCH ]; then
+  OPTIONS="-sp -a `cat .ARCH`"
+else
+  OPTIONS=-sp
+fi
+./make_dgm -i $OPTIONS 
+./make_dgm -i -d $OPTIONS
+#./make_tdgm
+cd docs 
+if which doxygen > /dev/null; then
+  dox_version=`doxygen --version`
+  if [[ $dox_version == [1-9].[7-9].* ]]; then
+    make docs
+  else
+    echo WARNING:  version of doxygen is too old:  $dox_version
+  fi
+fi
+echo Finished DGM Autobuild script at `date`
+exit

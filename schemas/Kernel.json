@@ -1,0 +1,13 @@
+{
+  "oneOf" : [
+    {
+      "$ref" : "DeltaKernel.json#"
+    },
+    {
+      "$ref" : "GaussianKernel.json#"
+    },
+    {
+      "$ref" : "SidesetKernel.json#"
+    }
+  ]
+}

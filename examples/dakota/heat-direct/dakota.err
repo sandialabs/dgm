@@ -1,0 +1,8 @@
+Warning: analysis_driver "dgm" not available at construct time in DirectApplicInterface.
+         Subsequent interface plug-in may resolve.
+Warning: not enough available processors to support 2 procs_per_server.
+         Reducing to 1.
+Warning: not enough available processors to support 2 procs_per_server.
+         Reducing to 1.
+Warning: analysis_driver "dgm" not available at construct time in DirectApplicInterface.
+         Subsequent interface plug-in may resolve.

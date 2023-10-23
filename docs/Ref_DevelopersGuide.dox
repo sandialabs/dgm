@@ -1,0 +1,59 @@
+namespace DGM {
+
+/**
+
+\page DGM_DevGuide DGM Developers Guide
+
+This is the DGM Developers Guide which provides information on 
+various aspects of developing in DGM and developer's description
+of design choices.  The following are quick links to some documented
+topics. 
+
+\htmlonly
+<b>Table of Contents</b>
+<ul>
+<li> <a href="DGM_DevGuide.html#DGM_32_64_bit">32 and 64 bit</a>
+</ul>
+\endhtmlonly
+
+\section DGM_32_64_bit 32 and 64 bit
+
+The use of 32 and 64 bit integer types is set by the types
+Size and Ordinal.  The definitions are
+
+-# Size:    For integral types that index quantities across the
+            whole mesh/machine, which may require integer values
+            that are larger than a 32-bit representation.
+-# Ordinal: For integral types that index quantities local to
+            an MPI rank, and may or may not require 64-bit.
+
+These types should used instead of "int" and "unsigned" directly.
+The nice thing about it is that with this approach all combinations
+should (must) work.  Our standard builds still use
+
+Size = int <br>
+Ordinal = int
+
+but we also build nightly with
+
+Size = uint64 <br>
+Ordinal = uint64
+
+Even with that, there are still a number of places in the code where we
+*have* to use a boost::numeric_cast<int> since:
+
+-# MPI is hardwired to use int for many things
+-# A good chunk of Trilinos (old stack) is stuck with int
+-# STL containers always use size_t but this type varies by platform/OS
+
+When we really run big problems, a likely setup for us will be
+
+Size = uint64_t <br>
+Ordinal = size_t
+
+since size_t is designed to be large enough to address things locally
+whereas we almost certainly need a full 64bits for huge models globally.
+
+*/
+
+}  // namespace DGM

@@ -1,0 +1,9 @@
+#!/bin/sh
+#
+# This command will tell you all the default defines on a platform
+#
+cpp -dM -E < /dev/null
+#
+# Sometimes you need:  icc -E -dM - < /dev/null
+#
+exit

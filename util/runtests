@@ -1,0 +1,31 @@
+#!/bin/bash -f
+cd $DGM_HOME/runs
+$DGM_HOME/util/dgm_test \
+./1d.tst \
+./1dlayer2.tst \
+./2dtri.tst \
+./burg1d.tst \
+./ctri.tst \
+./shock.tst \
+./vquad.tst \
+./1dlayer.tst \
+./2d.tst \
+./burger1d.tst \
+./cvquad.tst \
+./tri.tst \
+./vtri2.tst \
+./3d.tst \
+./c2d.tst \
+./cvtri.tst \
+./vhex.tst \
+./vtri.tst \
+./2dtri2.tst \
+./bump.tst \
+./cbshock.tst \
+./oned.tst \
+./vortex.tst \
+./2dwave.tst \
+./bump.tst | tee $DGM_HOME/runtests.out
+cd $DGM_HOME/runs/cyl 
+$DGM_HOME/util/dgm_test \
+./cyl.tst | tee -a $DGM_HOME/runtests.out

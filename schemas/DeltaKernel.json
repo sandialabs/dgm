@@ -1,0 +1,16 @@
+{
+  "type" : "object",
+  "properties" : {
+    "Type" : {
+      "type" : "string",
+      "enum" : [
+        "Delta"
+      ]
+    },
+    "Average" : {
+      "type" : "boolean",
+      "default" : false
+    }
+  },
+  "additionalProperties" : false
+}

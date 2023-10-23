@@ -1,0 +1,31 @@
+#!/bin/sh
+#
+# Make all serial versions of DGM code
+#
+ncpus=`util/ncpus`
+echo Building DGM on $ncpus processors at `date`
+if [ ! -d GCC ] ; then 
+  mkdir GCC; 
+fi
+cd GCC 
+if [ ! -e Makefile ] ; then
+  ln -s ../src/Makefile .
+fi
+make -j $ncpus all
+make -j $ncpus err
+#
+# make all parallel versions of DGM code
+#
+cd ..
+if [ ! -d GCCp ] ; then 
+  mkdir GCCp; 
+fi
+cd GCCp
+if [ ! -e Makefile ] ; then
+  ln -s ../src/Makefile .
+fi
+make -j $ncpus pall
+#
+echo Completed DGM build at `date`
+#
+exit 0

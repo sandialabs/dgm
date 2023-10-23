@@ -1,0 +1,95 @@
+<html>
+<head>
+<script src="tv4.js"></script>
+<script type="text/javascript"> 
+function validate() {
+alert("Validating Json input");
+var schema = {
+  "definitions" : {
+    "Slice" : { 
+      "description" : "Slice of DGM fields",
+      "type" : "array",
+      "minItems" : 1,
+      "items" : {
+        "id" : "0",
+        "type" : "object",
+        "properties" : {
+          "Verbosity" : { "type" : "integer", "default" : 0, "minimum" : 0,
+                          "maximum" : 10 },
+          "Format" : { "type" : "string", "default" : "ASCII" },
+          "Frequency" : { "type" : "integer", "default" : 100, "minimum" : 0 },
+          "Lattice" : {
+            "id" : "Lattice",
+            "required" : true,
+            "type" : "array",
+            "items" : {
+              "id" : "lattice items",
+              "type" : "array",
+              "items" : { "type" : "number", "minItems" : 1 }
+            }
+          },
+          "Outputs" : {
+            "id" : "Outputs",
+            "required" : true,
+            "type" : "array",
+            "minItems" : 1,
+            "items" : {
+              "id" : "Output items",
+              "type" : "object",
+              "properties" : {
+                "Default" : { "type" : "number", "default" : 0.0 },
+                "Field" : { "type" : "string", "required" : true },
+                "File" : { "type" : "string", "required" : true }
+              }
+            }
+          }
+        },
+        "additionalProperties" : false
+      }
+    }
+  },
+  "type" : "object",
+  "properties" : {
+    "Field slice" : { "$ref" : "#/definitions/Slice" }
+  },
+  "additionalProperties" : false
+};
+var input = { 
+  "Field slice" : [
+    {
+      "Verbosity" : 4,
+      "Format" : "float",
+      "Frequency" : 100,
+      "Lattice" : [
+         [ 0.1, 0.0 ],
+         [ 0.0, 0.05 ]
+      ],
+      "Outputs" : [
+        { "Default" : 0.0, "Field" : "r", "File" : "r" },
+        { "Default" : 0.0, "Field" : "ru", "File" : "ru" },
+        { "Default" : 0.0, "Field" : "rv", "File" : "rv" },
+        { "Default" : 0.0, "Field" : "rE", "File" : "rE" }
+      ]
+    }
+  ]
+};
+alert("input: " + tv4.validate(input, schema)); 
+alert("error: " + JSON.stringify(tv4.error, null, 2));
+alert("missing: " + JSON.stringify(tv4.missing));
+}
+</script>
+<script type="text/javascript">
+function myFunction() {
+alert("Hello World!");
+}
+</script>
+</head>
+<body>
+<script type="text/javascript">
+document.write('<b>Json validator</b>');
+</script>
+<br>
+<!--button onclick="myFunction()">Try it</button> -->
+<button onclick="validate();">Validate JSON</button>
+</body>
+</html>

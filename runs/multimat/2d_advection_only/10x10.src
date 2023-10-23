@@ -1,0 +1,5 @@
+Function  f
+{ 
+fp(x,y) := 0.0;
+}
+

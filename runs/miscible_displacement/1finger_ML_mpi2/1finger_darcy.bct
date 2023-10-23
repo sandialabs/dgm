@@ -1,0 +1,17 @@
+Neumann bc100
+{
+  0.0 
+}
+Neumann bc101
+{
+  0.0 
+}
+Dirichlet bc102
+{
+  0.0 
+}
+Neumann bc103
+{
+  0.0
+}
+

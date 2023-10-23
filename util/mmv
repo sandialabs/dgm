@@ -1,0 +1,11 @@
+#!/bin/csh -f
+#
+# mv ext files
+#
+#   Changes the extension on files to ext
+#
+foreach i ($argv[2-])
+	/bin/mv $i $i:r.$1
+end
+endif
+exit

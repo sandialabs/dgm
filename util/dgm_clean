@@ -1,0 +1,25 @@
+#!/bin/bash
+#
+#  S. Scott Collis
+#
+#  6-11-97
+#
+if (( $# > 0 )); then
+  #echo I am here with $#
+  root=$1
+  /bin/rm -f $root[._]*.rst $root[._]*.dat $root[._]*.grf \
+  $root[._]*.wgt $root[._]*.prb $root[._]*.rak $root[._]*.log \
+  $root[._]*.bdt
+else
+  root=(\*)
+fi
+/bin/rm -f $root.rst $root.dat $root.grf $root.wgt $root.xyz $root.q \
+$root.[RUVE] $root.bdt $root.cp $root.frc $root.u $root.his $root.prb \
+$root.ocs $root.out $root.tri $root.scn trace.$root $root.log $root.ctl \
+$root.rak $root.pos $root.tec $root.bflx $root.perst \
+$root.vtu $root.pvtu $root*.pos $root.sts $root*.hdr
+/bin/rm -rf group-$root
+/bin/rm -rf $root.viz 
+/bin/rm -f tmp_A.dat
+#
+exit

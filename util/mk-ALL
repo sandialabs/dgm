@@ -1,0 +1,5 @@
+#!/bin/bash
+./mk-CLANGtm "$@" && ./mk-CLANGt "$@" && ./mk-CLANG64 "$@" && \
+./mk-LAPACK "$@" && ./mk-TEUCHOSt "$@" && ./mk-MAX "$@" && \
+./mk-GCC "$@" && ./mk-OpenBLASm "$@" && ./mk-OpenBLAStm "$@"
+exit

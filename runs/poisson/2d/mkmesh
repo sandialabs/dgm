@@ -1,0 +1,1 @@
+dgm_mesh.exe -nsd 2 -Lx 16 -Ly 16 -x0 -8 -y0 -8 -nx 8 -ny 6 -r poisson 

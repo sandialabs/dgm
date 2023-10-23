@@ -1,0 +1,16 @@
+# DGM test case
+#
+# One-dimensional advection diffusion
+#
+# Author:  Axel Gerstenberger
+#
+eqntype  = 50      # advection diffusion
+inttype  = 2       # 3-step multistep method
+p        = 10      # polynomial order
+Nt       = 1000    # number of time steps
+Ntout    = 1000    # restart output interval
+tmax     = 4
+dtmax    = 0.004
+dt       = 0.004   # time step
+cx       = 1.0     # convection velocity in x-direction
+diffusivity_D = 0.01    # viscosity coefficient

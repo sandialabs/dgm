@@ -1,0 +1,16 @@
+{
+  "$schema" : "http://json-schema.org/schema#",
+  "title" : "DGM Space",
+  "description" : "DGM Space input specification",
+  "type" : "object",
+  "properties" : { 
+    "p" : { "type" : "integer", "default" : 1, "minimum" : 0 },
+    "q" : { "type" : "integer", "default" : 3, "minimum" : 1 },
+    "Mesh" : { "type" : "string" },
+    "Connectivity" : { "type" : "string" },
+    "Binary mesh" : { "type" : "boolean", "default" : "false" },
+    "Contiguous memory storage" : { "type" : "boolean", "default" : "false" },
+    "contiguous" : { "type" : "boolean", "default" : "false" }
+  },  
+  "additionalProperties" : false
+}

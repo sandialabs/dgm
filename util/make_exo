@@ -1,0 +1,8 @@
+g++ -DGCC4 exo2ien.cpp -I/Users/sscoll/local/exodusii/include \
+-I/Users/sscoll/chamisa/src \
+-I/Users/sscoll/local/atlas/include \
+-I/Users/sscoll/local/netcdf/include \
+-L/Users/sscoll/local/exodusii/lib \
+-L/Users/sscoll/local/atlas/lib \
+-L/Users/sscoll/local/netcdf/lib \
+-lexoIIv2c -lnetcdf -o exo2ien

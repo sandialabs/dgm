@@ -1,0 +1,11 @@
+#!/bin/csh -f
+#set echo on
+foreach i ($argv[1-])
+  if( -e $i ) then 
+    echo Processing $i
+    dgm_post.exe -r $i $i:ar > /dev/null
+    #mv $i:r.dat $i:r.tec
+  else
+    echo File: $i does not exist.
+  endif
+end

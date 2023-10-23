@@ -1,0 +1,20 @@
+** Initial Condition **
+Given
+u(x,y) := 1.0 - cos(1.0 * PI * x) * cos(1.0 * PI * y);
+
+Given
+u(x,y) := 1.0 - cos(1.0 * PI * x);
+
+Vortex
+1
+2.0 2.0 0.3 1.0  0.5
+X0  Y0   R  amp  Ma
+
+Given
+R(x,y) := 1.0 + 1.0e-4 * 0.5 * sin(PI * x);
+U(x,y) := 1.0e-4 * 0.5 * sin(PI * x);
+V(x,y) := 0.0;
+E(x,y) := 1.78571428571429 + 1.0e-4 * 0.5 * sin(PI * x);
+
+Restart
+2d.rst

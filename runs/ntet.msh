@@ -1,0 +1,26 @@
+**MESH DATA**
+6 3 NE NSD
+ELEMENT 0  NODALTET
+-1 -1  1  1
+-1 -1 -1  1
+-1  1  1  1
+ELEMENT 1  NODALTET
+-1  1  1  1
+-1 -1 -1  1
+-1  1 -1  1
+ELEMENT 2 NODALTET
+-1  1  1  1
+-1 -1  1  1
+-1 -1 -1  1
+ELEMENT 3 NODALTET
+-1  1 -1  1
+-1  1  1  1
+-1 -1 -1  1
+ELEMENT 4 NODALTET
+-1 -1 -1  1
+-1  1  1  1
+-1 -1  1  1
+ELEMENT 5 NODALTET
+-1 -1 -1  1
+-1  1 -1  1
+-1  1  1  1

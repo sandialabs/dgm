@@ -1,0 +1,13 @@
+namespace DGM {
+
+//\image html logo-halfsize.jpg
+
+/**
+
+\page DTK_Main DTK
+
+The Discretization Toolkit library ... 
+
+**/
+
+} // namespace DGM

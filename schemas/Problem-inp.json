@@ -1,0 +1,16 @@
+{
+  "$schema" : "http://json-schema.org/schema#",
+  "title" : "DGM Problem root input parameters",
+  "description" : "Description of root.inp input parameters for DGM::Problem",
+  "id" : "file:Problem-inp.json#",
+  "type" : "object",
+  "properties" : {
+    "eqntype" : {
+      "type" : "integer",
+      "default" : 1,
+      "description" : "type of physics/equation solved on this domain"
+    }
+  },
+  "additionalProperties" : true,
+  "definitions" : {}
+}

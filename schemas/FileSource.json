@@ -1,0 +1,10 @@
+{
+  "$schema" : "http://json-schema.org/schema#",
+  "title" : "FileSource",
+  "description" : "A source term read from a file",
+  "type" : "object",
+  "properties": {
+     "File" : { "type" : "string" }
+  },
+  "additionalProperties" : false
+}

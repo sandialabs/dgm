@@ -1,0 +1,21 @@
+/** \page DGM_Bibliography DGM Bibliography
+
+\li \anchor Collis2001 S.S. Collis <i>The DGM Reference Manual</i>, Sandia
+National Laboratories, Albuquerque, NM.
+
+\li \anchor Karniadakis1999 George Em Karniadakis and Spencer J. Sherwin
+<i>Spectral/hp elment methods for CFD</i>, Oxford University Press, 1999.
+
+\li \anchor Toro1999 E.F. Toro, <i>Riemann Solvers and Numerical Methods
+for Fluid Dynamics</i>, 2nd Edition, Springer, 1999.
+
+\li \anchor Warburton1999 Timothy Warburton, <i>Spectral/hp Methods on
+Polymorphic Multi-Domains: Algorithms and Applications</i>, Ph.D. Thesis,
+Brown University, 1999.
+
+\htmlonly
+<hr>
+<br><b><a href="InputSpec.html#DGM_InputSpec">Previous chapter</a></b>
+\endhtmlonly
+
+*/

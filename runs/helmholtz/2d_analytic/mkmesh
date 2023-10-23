@@ -1,0 +1,1 @@
+dgm_mesh.exe -nsd 2 -nx 4 -ny 4 -Lx 2 -Ly 4 -r 2d_analytic

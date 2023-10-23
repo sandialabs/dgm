@@ -1,0 +1,21 @@
+#!/bin/csh -f
+#set echo on
+set s = 0
+foreach i ($argv[1-])
+  if( -e $i ) then 
+    echo Processing $i
+    if ($# == 0) then
+      if ($?PBS_NODEFILE || $?SLURM_JOB_NODELIST) then
+        mpiexec pdgm_post.exe -paraview -notec -r $i $i:ar > post.out 
+      else
+        dgm_post.exe -paraview -notec -r $i $i:ar > post.out 
+      endif
+    else
+      mpiexec -n $1 pdgm_post.exe -paraview -notec -r $i $i:ar > post.out 
+    endif
+  else
+    echo File: $i does not exist.
+  endif
+  @ s = $s + $status
+end
+exit $s

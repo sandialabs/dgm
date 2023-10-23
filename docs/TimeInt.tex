@@ -1,0 +1,679 @@
+%==============================================================================
+%
+%  Time advancement methods for DGM code including Adjoints
+%
+%  Authors:  S. Scott Collis
+%
+%  Written:  8-28-2001
+%
+%  Revised:  8-28-2001
+%
+%==============================================================================
+\documentclass[10pt]{article}
+\usepackage{times}
+\usepackage{fullpage}
+\usepackage{comment}
+\usepackage[round,sort&compress]{natbib}
+%
+%.... PDF links
+%
+\usepackage[pdfmark,%
+            colorlinks=true,%
+            breaklinks=true,%
+            urlcolor=blue,%
+            pdfauthor={S.S.\ Collis},%
+            bookmarksopen=false,%
+            pdfpagemode=None]{hyperref}
+%
+%.... TeX macros
+%
+\input{nepsf}
+
+\title{Time-Advancement Methods for State and Adjoint}
+\author{S.\ Scott Collis}
+\date{\today}
+\begin{document}
+
+\maketitle
+
+%==============================================================================
+%
+%==============================================================================
+\section*{Introduction}
+
+Consider a state equation of the form
+\begin{equation}
+\frac{dU(t)}{dt} + f(U(t)) = 0
+\end{equation}
+for $t\in(0,T]$ and $U(0)=g_{ic}$.  We will consider semi-discrete
+approximations to this problem using various time-advancement methods.  The
+goal is to cast the semi-discrete unsteady optimization problem in a
+convenient form that mimics the continuous formulation as close as possible.
+
+%==============================================================================
+%
+%==============================================================================
+\section*{Continuous Formulation}
+
+Introduce weighting functions $\Psi$ which will play the role of adjoint
+variables in the following
+\begin{equation}
+\Psi \cdot \frac{dU(t)}{dt} + \Psi \cdot f(U(t)) = 0 \qquad 
+\forall \Psi\in{\cal W}
+\end{equation}
+Linearize
+\begin{equation}
+\Psi \cdot \frac{dU'(t)}{dt} + \Psi \cdot f'( U'(t) ; U(t) ) = 0 
+\qquad \forall \Psi\in{\cal W}
+\end{equation}
+For an Euler--Lagrange identity
+\begin{equation}
+\Psi \cdot \frac{dU'(t)}{dt} + \Psi \cdot f(U'(t);U(t)) = 
+-U' \cdot \frac{d\Psi(t)}{dt} + U' \cdot f^*(\Psi(t);U(t)) +
+\left[ \Psi \cdot U' \right]_0^T
+\end{equation}
+
+%==============================================================================
+%
+%==============================================================================
+\section*{Trapezoidal}
+
+Let $g_{ic}$ be the initial condition, $g_i$ for $i=0,1,\dots,N$ be the
+control,$ \Delta t_i = t_i - t_{i-1}$ for $i=1,\dots,N$, and the semi-discrete
+state is given by $U_i$ for $i=0,1,\dots,N$.  The linearized semi-discrete
+equation is given by
+\begin{equation}
+\left[ \begin{array}{ccc} 
+I & 0 & 0 \\
+-I + \frac{\Delta t_i}{2} f_{i-1} & I + \frac{\Delta t_i}{2} f_i & 0 \\
+0 & -I + \frac{\Delta t_N}{2} f_{N-1} & I + \frac{\Delta t_N}{2} f_N
+\end{array} \right] 
+\left\{\begin{array}{c} U_0 \\ U_i \\ U_N \end{array} \right\} -
+\left\{\begin{array}{c} g_{ic} \\ \frac{\Delta t_i}{2}(g_{i-1} + g_i) \\ 
+\frac{\Delta t_N}{2}(g_{N-1} + g_N)\end{array} \right\} = 0 
+\end{equation}
+%
+Introduce adjoint variables
+\begin{eqnarray}
+\left\{\begin{array}{c} \Psi_0 \\ \Psi_i \\\Psi_N \end{array}\right\}
+\cdot
+\left[ \begin{array}{ccc} 
+I & 0 & 0 \\
+-I + \frac{\Delta t_i}{2} f_{i-1} & I + \frac{\Delta t_i}{2} f_i & 0 \\
+0 & -I + \frac{\Delta t_N}{2} f_{N-1} & I + \frac{\Delta t_N}{2} f_N
+\end{array} \right] 
+\left\{\begin{array}{c} U_0 \\ U_i \\ U_N \end{array} \right\} - \nonumber\\
+\left\{\begin{array}{c} \Psi_0 \\ \Psi_i \\\Psi_N \end{array}\right\}
+\cdot
+\left\{\begin{array}{c} g_{ic} \\ \frac{\Delta t_i}{2}(g_{i-1} + g_i) \\ 
+\frac{\Delta t_N}{2}(g_{N-1} + g_N)\end{array} \right\} = \\
+\left\{\begin{array}{c} U_0 \\ U_i \\ U_N \end{array}\right\}
+\cdot
+\left[ \begin{array}{ccc} 
+I & -I + \frac{\Delta t_i}{2} f^*_{0} & 0 \\
+0 & I + \frac{\Delta t_i}{2} f^*_i & -I + \frac{\Delta t_{i+1}}{2} f^*_{i} \\
+0 &  0 & I + \frac{\Delta t_N}{2} f^*_N
+\end{array} \right] 
+\left\{\begin{array}{c} \Psi_0 \\ \Psi_i \\ \Psi_N \end{array} \right\} - 
+\nonumber\\
+\left\{\begin{array}{c} \Psi_0 \\ \Psi_i \\\Psi_N \end{array}\right\}
+\cdot
+\left\{\begin{array}{c} g_{ic} \\ \frac{\Delta t_i}{2}(g_{i-1} + g_i) \\ 
+\frac{\Delta t_N}{2}(g_{N-1} + g_N)\end{array} \right\} 
+\end{eqnarray}
+From this adjoint operator, it is clear that the Trapezoidal method is not
+self-adjoint --- i.e. the discrete adjoint of Trapezoidal is not Trapezoidal
+on the continuous adjoint equation.  One can readily see this by looking at
+the locations for which $f^*$ is evaluated at a given time-level.  There is
+also a discrepency due to the staggered value of $\Delta t_i$ used at each
+time level, assuming that $\Delta t_i$ is not constant.
+
+Consider an objective functional that has both distributed (in time) and
+terminal observation
+\begin{equation}
+J_{obs}(U) = \frac{\alpha}{2} \langle (U-\hat U)^2 \rangle_{T} +
+       \frac{\omega}{2} \int_0^T \langle (U-\tilde U)^2 \rangle dt
+\end{equation}
+where $T = t_N$.  For consistency, we will always compute time integrals in
+the objective funcitonal using the same time-discretization used to integrate
+the state equation.  Thus, we can write a the observation term, discretized
+using trapezoidal rule as
+\begin{equation} \label{e:objective}
+J_{obs}(U) \approx \frac{\alpha}{2} \langle (U-\hat U)^2 \rangle_{t_N} +
+\frac{\omega}{2} \sum_{i=1}^{N} \frac{\Delta t_i}{2} 
+\left( \langle (U-\tilde U)^2 \rangle_{t_{i-1}} +
+\langle (U-\tilde U)^2 \rangle_{t_i} \right) 
+\end{equation}
+Linearize
+\begin{equation}
+J'_{obs}(U) \approx \alpha \langle (\bar U-\hat U) U \rangle_{t_N} +
+\omega \sum_{i=1}^{N} \frac{\Delta t_i}{2} 
+\left( \langle (\bar U-\tilde U) U \rangle_{t_{i-1}} +
+\langle (\bar U-\tilde U) U \rangle_{t_i} \right)
+\end{equation}
+Note that $J'_{obs}(U)$ can be written in the following form
+\begin{equation}
+J'_{obs}(U) = 
+\left\{\begin{array}{c} U_0 \\ U_i \\ U_N \end{array}\right\}
+\cdot
+\left\{\begin{array}{c} 
+\omega\frac{\Delta t_1}{2} (\bar U_0 - \tilde U_0)  \\ 
+\omega\frac{(\Delta t_i+\Delta t_{i+1})}{2} (\bar U_i - \tilde U_i) \\ 
+\omega\frac{\Delta t_N}{2} (\bar U_N - \tilde U_N) + 
+\alpha (\bar U_N - \hat U_N)
+\end{array}\right\}
+\end{equation}
+Adding and subtracting this term yields an adjoint equation of the form
+\begin{eqnarray}
+\left\{\begin{array}{c} U_0 \\ U_i \\ U_N \end{array}\right\}
+\cdot
+\left[ \begin{array}{ccc} 
+I & -I + \frac{\Delta t_i}{2} f^*_{0} & 0 \\
+0 & I + \frac{\Delta t_i}{2} f^*_i & -I + \frac{\Delta t_{i+1}}{2} f^*_{i} \\
+0 &  0 & I + \frac{\Delta t_N}{2} f^*_N
+\end{array} \right] 
+\left\{\begin{array}{c} \Psi_0 \\ \Psi_i \\ \Psi_N \end{array} \right\} - 
+\nonumber \\
+\left\{\begin{array}{c} U_0 \\ U_i \\ U_N \end{array}\right\}
+\cdot
+\left\{\begin{array}{c} 
+\omega\frac{\Delta t_1}{2} (\bar U_0 - \tilde U_0)  \\ 
+\omega\frac{(\Delta t_i+\Delta t_{i+1})}{2} (\bar U_i - \tilde U_i) \\ 
+\omega\frac{\Delta t_N}{2} (\bar U_N - \tilde U_N) +
+\alpha (\bar U_N - \hat U_N)
+\end{array}\right\} = 0
+\end{eqnarray}
+which must hold for all $U\in{\cal V}$.  Thus the adjoint equation in strong
+form is simply
+\begin{eqnarray}
+\left[ \begin{array}{ccc} 
+I & -I + \frac{\Delta t_i}{2} f^*_{0} & 0 \\
+0 & I + \frac{\Delta t_i}{2} f^*_i & -I + \frac{\Delta t_{i+1}}{2} f^*_{i} \\
+0 &  0 & I + \frac{\Delta t_N}{2} f^*_N
+\end{array} \right] 
+\left\{\begin{array}{c} \Psi_0 \\ \Psi_i \\ \Psi_N \end{array} \right\} - 
+\left\{\begin{array}{c} 
+\omega\frac{\Delta t_1}{2} (\bar U_0 - \tilde U_0)  \\ 
+\omega\frac{(\Delta t_i+\Delta t_{i+1})}{2} (\bar U_i - \tilde U_i) \\ 
+\omega\frac{\Delta t_N}{2} (\bar U_N - \tilde U_N) +
+\alpha (\bar U_N - \hat U_N)
+\end{array}\right\} = 0
+\end{eqnarray}
+This yields the gradient equation
+\begin{eqnarray}
+\left\{\begin{array}{c} U_0 \\ U_i \\ U_N \end{array}\right\}
+\cdot
+\left\{\begin{array}{c} 
+\omega\frac{\Delta t_1}{2} (\bar U_0 - \tilde U_0)  \\ 
+\omega\frac{(\Delta t_i+\Delta t_{i+1})}{2} (\bar U_i - \tilde U_i) \\ 
+\omega\frac{\Delta t_N)}{2} (\bar U_N - \tilde U_N) +
+\alpha (\bar U_N - \hat U_N)
+\end{array}\right\} =
+\left\{\begin{array}{c} \Psi_0 \\ \Psi_i \\\Psi_N \end{array}\right\}
+\cdot
+\left\{\begin{array}{c} g_{ic} \\ \frac{\Delta t_i}{2}(g_{i-1} + g_i) \\ 
+\frac{\Delta t_N}{2}(g_{N-1} + g_N)\end{array} \right\}
+\end{eqnarray}
+From the gradient equation, we see that due to the manner in which controls are
+coupled in Trapezoidal integration, it is a linear combination of adjoint
+quantities that yeilds the gradient for each control.
+\begin{eqnarray} \label{e:trap_grad}
+\left\{\begin{array}{c} \nabla_{g_0} J \\ \nabla_{g_i} J \\ \nabla_{g_N} J 
+\end{array}\right\}
+= \left\{\begin{array}{c} 
+\frac{\Delta t_1}{2} \Psi_1 \\ 
+\frac{(\Delta t_i \Psi_i + \Delta t_{i+1} \Psi_{i+1} )}{2} \\ 
+\frac{\Delta t_N}{2} \Psi_N 
+\end{array}\right\}
+\end{eqnarray}
+while the gradient with respect to the initial condition is given by
+\begin{equation}
+\nabla_{g_{ic}} J = \Psi_0
+\end{equation}
+In most of our applications, we are not interested in $\nabla_{g_{ic}} J$ so
+that we can take the $\Psi_i$ vector and convert it to the $\nabla_g J$ vector.
+
+During computation, just compute, extract and place the adjoint information
+used to compute the gradient in the gradient vector.  Then one needs to just
+go through, from $i=0,\dots,N$, and process the gradient vector using
+(\ref{e:trap_grad}) which can be rewritten as
+\begin{eqnarray}
+\left\{\begin{array}{c} 
+\nabla_{g_{ic}} J \\ \nabla_{g_0} J \\ \nabla_{g_i} J \\ \nabla_{g_N} J 
+\end{array}\right\} = 
+\left[ \begin{array}{ccc} 
+1 & 0 & 0 \\
+0 & \frac{\Delta t_1}{2} & 0 \\
+0 & \frac{\Delta t_i}{2} & \frac{\Delta t_{i+1}}{2} \\
+0 & 0 & \frac{\Delta t_N}{2}
+\end{array} \right] 
+\left\{\begin{array}{c} \Psi_0 \\ \Psi_i \\\Psi_N \end{array}\right\}
+\end{eqnarray}
+for $i=1,\dots,N-1$.
+
+\subsection*{Add an artifical end state}
+The advantage of this formulation is that one explicitly sees the impact of
+the initial and end conditions just as in the continuous formulation.  In
+other words, we obtain the time-boundary term explicily.  To help in the
+implementation, the adjoint variables are shifted by -1 compared to the
+previous section.
+\begin{eqnarray}
+\left\{\begin{array}{c} 
+\Lambda \\ \Psi_{i-1} \\\Psi_{N-1} \\ \Psi_N 
+\end{array}\right\}
+\cdot
+\left[ \begin{array}{cccc} 
+I & 0 & 0 & 0 \\
+-I + \frac{\Delta t_i}{2} f_{i-1} & I + \frac{\Delta t_i}{2} f_i & 0 & 0 \\
+0 & -I + \frac{\Delta t_N}{2} f_{N-1} & I + \frac{\Delta t_N}{2} f_N & 0 \\
+0 & 0 & -I & I  
+\end{array} \right] 
+\left\{\begin{array}{c} U_0 \\ U_i \\ U_N \\ Y \end{array} \right\} - 
+\nonumber\\
+\left\{\begin{array}{c} 
+\Lambda \\ \Psi_{i-1} \\ \Psi_{N-1} \\ \Psi_N \end{array}\right\}
+\cdot
+\left\{\begin{array}{c} g_{ic} \\ \frac{\Delta t_i}{2}(g_{i-1} + g_i) \\ 
+\frac{\Delta t_N}{2}(g_{N-1} + g_N) \\ 0 \end{array} \right\} = \\
+\left\{\begin{array}{c} U_0 \\ U_i \\ U_N \\ Y \end{array}\right\}
+\cdot
+\left[ \begin{array}{cccc} 
+I & -I + \frac{\Delta t_i}{2} f^*_{0} & 0 & 0 \\
+0 & I + \frac{\Delta t_i}{2} f^*_i & -I + \frac{\Delta t_{i+1}}{2} f^*_{i} &0\\
+0 &  0 & I + \frac{\Delta t_N}{2} f^*_N & -I \\
+0 &  0 & 0 & I \\
+\end{array} \right] 
+\left\{\begin{array}{c} 
+\Lambda \\ \Psi_{i-1} \\ \Psi_{N-1} \\ \Psi_N 
+\end{array} \right\} - 
+\nonumber\\
+\left\{\begin{array}{c} 
+\Lambda \\ \Psi_{i-1} \\\Psi_{N-1} \\ \Psi_N 
+\end{array}\right\}
+\cdot
+\left\{\begin{array}{c} g_{ic} \\ \frac{\Delta t_i}{2}(g_{i-1} + g_i) \\ 
+\frac{\Delta t_N}{2}(g_{N-1} + g_N) \\ 0 \end{array} \right\} 
+\end{eqnarray}
+where $i=1,\dots,N-1$.  So the adjoint equation becomes
+\begin{eqnarray}
+\left[ \begin{array}{cccc} 
+I & -I + \frac{\Delta t_i}{2} f^*_{0} & 0 & 0 \\
+0 & I + \frac{\Delta t_i}{2} f^*_i & -I + \frac{\Delta t_{i+1}}{2} f^*_{i} &0\\
+0 &  0 & I + \frac{\Delta t_N}{2} f^*_N & -I \\
+0 &  0 & 0 & I \\
+\end{array} \right] 
+\left\{\begin{array}{c} 
+\Lambda \\ \Psi_{i-1} \\ \Psi_{N-1} \\ \Psi_N
+\end{array} \right\} - 
+\left\{\begin{array}{c} 
+\omega\frac{\Delta t_1}{2} (\bar U_0 - \tilde U_0)  \\ 
+\omega\frac{(\Delta t_i+\Delta t_{i+1})}{2} (\bar U_i - \tilde U_i) \\ 
+\omega\frac{\Delta t_N}{2} (\bar U_N - \tilde U_N) \\
+\alpha (\bar U_N - \hat U_N)
+\end{array}\right\} = 0
+\end{eqnarray}
+In the semi-discrete (trapezoidal) setting, the time-boundary term takes the
+form\[ \left(\Psi_N - \alpha(\bar U_N - \hat U_N)\right) Y - \Lambda \left( U_0
+- g_{ic} \right) \] which allows one to directly see the dependence on the
+initial and end conditions.
+
+Thus, you can still think of terminal observation as an end condition, but, if
+you do so, then there are too many adjoint variables.  However, $\Lambda$ is
+only used to give the sensitivity to an initial condition, likewise, $\Psi_N$
+is actually unneeded as it does not influence the gradient with respect to
+$g$.
+
+In this formulation, the gradient is given by
+\begin{eqnarray}
+\left\{\begin{array}{c} 
+\nabla_{g_{ic}} \\ \nabla_{g_0} J \\ \nabla_{g_i} J \\ \nabla_{g_N} J 
+\end{array}\right\} = 
+\left[ \begin{array}{ccc} 
+1 & 0 & 0 \\
+0 & \frac{\Delta t_1}{2} & 0 \\
+0 & \frac{\Delta t_{i}}{2} & \frac{\Delta t_{i+1}}{2} \\
+0 & 0 & \frac{\Delta t_N}{2}
+\end{array} \right] 
+\left\{\begin{array}{c} 
+\Lambda \\ \Psi_{i-1} \\ \Psi_{N-1} 
+\end{array}\right\}
+\end{eqnarray}
+for $i=1,\dots,N-1$.
+
+I would store $\Psi_i$ for $i=0,\dots,N$ although for the gradient, only
+values from $\i=0,\dots,N-1$ would be used.  Since {\tt computeGrad} is
+currently called in {\tt prestep}, I need to make sure that I call it after
+completing the last time step.
+
+\subsection*{Implementation}
+
+After much thought, I think that I prefer the first approach. All that needs
+to be done is to initially solve an auxilary problem for $\Psi_N$ given the
+end-condition.
+
+%==============================================================================
+%
+%==============================================================================
+\section*{Backward Euler}
+
+Let $g_{ic}$ be the initial condition, $g_i$ for $i=1,\dots,N$ be the
+controls, $\Delta t_i = t_i - t_{i-1}$ for $i=1,\dots,N$, and the
+semi-discrete state is given by $U_i$ for $i=0,1,\dots,N$.  The linearized
+semi-discrete equation is given by
+\begin{equation}
+\left[ \begin{array}{ccc} 
+I & 0 & 0 \\
+-I & I + \Delta t_i f_i & 0 \\
+0 & -I & I + \Delta t_N f_N
+\end{array} \right] 
+\left\{\begin{array}{c} U_0 \\ U_i \\ U_N \end{array} \right\} -
+\left\{\begin{array}{c} 
+g_{ic} \\ \Delta t_i g_i \\ \Delta t_N g_N\end{array} \right\} = 0 
+\end{equation}
+%
+Introduce adjoint variables
+\begin{eqnarray}
+\left\{\begin{array}{c} \Psi_0 \\ \Psi_i \\\Psi_N \end{array}\right\}
+\cdot
+\left[\begin{array}{ccc} 
+I & 0 & 0 \\
+-I & I + \Delta t_i f_i & 0 \\
+0 & -I & I + \Delta t_N f_N
+\end{array}\right] 
+\left\{\begin{array}{c} U_0 \\ U_i \\ U_N \end{array} \right\} -
+\left\{\begin{array}{c} \Psi_0 \\ \Psi_i \\\Psi_N \end{array}\right\}
+\cdot
+\left\{\begin{array}{c} 
+g_{ic} \\ \Delta t_i g_i \\ \Delta t_N g_N \end{array} \right\} =
+\nonumber \\
+\left\{\begin{array}{c} U_0 \\ U_i \\ U_N \end{array}\right\}
+\cdot
+\left[ \begin{array}{ccc} 
+I & -I & 0 \\
+0 & I + \Delta t_i f^*_i & -I \\
+0 &  0 & I + \Delta t_N f^*_N
+\end{array} \right] 
+\left\{\begin{array}{c} \Psi_0 \\ \Psi_i \\ \Psi_N \end{array} \right\} - 
+\left\{\begin{array}{c} \Psi_0 \\ \Psi_i \\\Psi_N \end{array}\right\}
+\cdot
+\left\{\begin{array}{c} g_{ic} \\ \Delta t_i g_i \\ \Delta t_N g_N
+\end{array} \right\}
+\end{eqnarray}
+From this adjoint operator, it is clear that Backward Euler is self-adjoint
+--- i.e. the discrete adjoint of Backward Euler is Backward Euler applied to
+the continuous adjoint equation.  The only potential impediment is in the
+indexing of the adjoint solution. Similar to the Trapezoidal method
+investigated above, there is an ``off-by-one'' issue.
+
+Using the objective function (\ref{e:objective}), but now integrating using
+Backward Euler yields a discretized, linearized objective function of the form
+\begin{equation}
+J'_{obs}(U) \approx \alpha \langle (\bar U-\hat U) U \rangle_{t_N} +
+\omega \sum_{i=1}^{N} \Delta t_i \langle (\bar U-\tilde U) U \rangle_{t_i} 
+\end{equation}
+Note that $J'_{obs}(U)$ can be written in the following form
+\begin{equation}
+J'_{obs}(U) = 
+\left\{\begin{array}{c} U_0 \\ U_i \\ U_N \end{array}\right\}
+\cdot
+\left\{\begin{array}{c} 
+0 \\ 
+\omega\Delta t_i(\bar U_i - \tilde U_i) \\ 
+\omega\Delta t_N(\bar U_N - \tilde U_N) + \alpha (\bar U_N - \hat U_N)
+\end{array}\right\}
+\end{equation}
+Thus, the adjoint equation is
+\begin{eqnarray}
+\left\{\begin{array}{c} U_0 \\ U_i \\ U_N \end{array}\right\}
+\cdot
+\left[ \begin{array}{ccc} 
+I & -I & 0 \\
+0 & I + \Delta t_i f^*_i & -I \\
+0 &  0 & I + \Delta t_N f^*_N
+\end{array} \right] 
+\left\{\begin{array}{c} \Psi_0 \\ \Psi_i \\ \Psi_N \end{array} \right\} - 
+\left\{\begin{array}{c} U_0 \\ U_i \\ U_N \end{array}\right\}
+\cdot
+\left\{\begin{array}{c} 
+0 \\ 
+\omega\Delta t_i (\bar U_i - \tilde U_i) \\ 
+\omega\Delta t_N (\bar U_N - \tilde U_N) + \alpha (\bar U_N - \hat U_N)
+\end{array}\right\} = 0
+\end{eqnarray}
+which must hold for all $U\in{\cal V}$.  Thus the adjoint equation in strong
+form is simply
+\begin{eqnarray}
+\left[ \begin{array}{ccc} 
+I & -I & 0 \\
+0 & I + \Delta t_i f^*_i & -I \\
+0 &  0 & I + \Delta t_N f^*_N
+\end{array} \right] 
+\left\{\begin{array}{c} \Psi_0 \\ \Psi_i \\ \Psi_N \end{array} \right\} - 
+\left\{\begin{array}{c} 
+0 \\ 
+\omega\Delta t_i (\bar U_i - \tilde U_i) \\ 
+\omega\Delta t_N (\bar U_N - \tilde U_N) + \alpha (\bar U_N - \hat U_N)
+\end{array}\right\} = 0
+\end{eqnarray}
+and the resulting gradient equation is
+\begin{eqnarray}
+\left\{\begin{array}{c} U_0 \\ U_i \\ U_N \end{array}\right\}
+\cdot
+\left\{\begin{array}{c} 
+0 \\ 
+\omega\Delta t_i (\bar U_i - \tilde U_i) \\ 
+\omega\Delta t_N (\bar U_N - \tilde U_N) + \alpha (\bar U_N - \hat U_N)
+\end{array}\right\}
+=
+\left\{\begin{array}{c} \Psi_0 \\ \Psi_i \\\Psi_N \end{array}\right\}
+\cdot
+\left\{\begin{array}{c} 
+g_{ic} \\ \Delta t_i g_i \\ \Delta t_N g_N \end{array} \right\}
+\end{eqnarray}
+From the gradient equation, we see that for Backward Euler there is a direct
+relationship between the adjoint variables and the gradient of the objective
+function with respect to the control
+\begin{eqnarray} \label{e:backward_euler_grad}
+\left\{\begin{array}{c} 
+\nabla_{g_{ic}} \\ \nabla_{g_1} J \\ \nabla_{g_i} J \\ \nabla_{g_N} J 
+\end{array}\right\}
+= \left\{\begin{array}{c} 
+\Psi_0 = \Psi_1 \\
+\Delta t_1 \Psi_1 \\ 
+\Delta t_{i} \Psi_{i} \\ 
+\Delta t_N \Psi_N 
+\end{array}\right\}
+\end{eqnarray}
+where $i=2,\dots,N-1$.
+
+\subsection*{Add an artificial end state}
+
+Similar to Trapezoidal, we can shift the adjoint variables so that
+\begin{eqnarray}
+&\left\{\begin{array}{c} \Psi_0^- \\ \Psi_0 \\ \Psi_{i-1} \\ 
+\Psi_{N-1} \\ \Psi_N^- 
+\end{array}\right\}
+\cdot
+\left[\begin{array}{ccccc} 
+I & 0 & 0 & 0 & 0 \\
+-I & I + \Delta t_1 f_1 & 0 & 0 & 0 \\
+0 & -I & I + \Delta t_i f_i & 0 & 0 \\
+0 & 0 & -I & I + \Delta t_N f_N & 0 \\
+0 & 0 & 0 & -I & I \\
+\end{array}\right] 
+\left\{\begin{array}{c} 
+U_0^- \\ U_1 \\ U_i \\ U_N \\ U_N^+ 
+\end{array} \right\} -
+\left\{\begin{array}{c} 
+\Psi_0^- \\ \Psi_0 \\ \Psi_{i-1} \\ \Psi_{N-1} \\ \Psi_N^- 
+\end{array}\right\}
+\cdot
+\left\{\begin{array}{c} 
+g_{ic} \\ \Delta t_1 g_1 \\ \Delta t_i g_i \\ \Delta t_N g_N \\ 0 
+\end{array} \right\} 
+& =
+\nonumber \\
+&\left\{\begin{array}{c} 
+U_0^- \\ U_1 \\ U_i \\ U_N \\ U_N^+ 
+\end{array} \right\}
+\cdot
+\left[ \begin{array}{ccccc} 
+I & -I & 0 & 0 & 0 \\
+0 & I + \Delta t_1 f^*_1 & -I & 0 & 0 \\
+0 & 0 & I + \Delta t_i f^*_i & -I & 0 \\
+0 & 0 & 0 & I + \Delta t_N f^*_N & -I \\
+0 & 0 & 0 & 0 & I \\
+\end{array} \right] 
+\left\{\begin{array}{c} 
+\Psi_0^- \\ \Psi_0 \\ \Psi_{i-1} \\ \Psi_{N-1} \\ \Psi_N^- 
+\end{array}\right\}
+-
+\left\{\begin{array}{c} 
+\Psi_0^- \\ \Psi_0 \\ \Psi_{i-1} \\ \Psi_{N-1} \\ \Psi_N^- 
+\end{array}\right\}
+\cdot
+\left\{\begin{array}{c} g_{ic} \\ \Delta t_1 g_1 \\ \Delta t_i g_i \\ 
+\Delta t_N g_N \\ 0 
+\end{array} \right\} &
+\end{eqnarray}
+Using the objective function (\ref{e:objective}), but now integrating using
+Backward Euler yields a discretized, linearized objective function of the form
+\begin{equation}
+J'_{obs}(U) = 
+\left\{\begin{array}{c} U_0^- \\ U_1 \\ U_i \\ U_N \\ U^+_N \end{array}\right\}
+\cdot
+\left\{\begin{array}{c} 
+0 \\
+\omega\Delta t_1(\bar U_1 - \tilde U_1) \\ 
+\omega\Delta t_i(\bar U_i - \tilde U_i) \\ 
+\omega\Delta t_N(\bar U_N - \tilde U_N) \\
+\alpha (\bar U_N - \hat U_N)
+\end{array}\right\}
+\end{equation}
+So, the adjoint equation is
+\begin{eqnarray}
+\left[ \begin{array}{ccccc} 
+I & -I & 0 & 0 & 0 \\
+0 & I + \Delta t_1 f^*_1 & -I & 0 & 0 \\
+0 & 0 & I + \Delta t_i f^*_i & -I & 0 \\
+0 & 0 & 0 & I + \Delta t_N f^*_N & -I \\
+0 & 0 & 0 & 0 & I \\
+\end{array} \right] 
+\left\{\begin{array}{c} 
+\Psi_0^- \\ \Psi_0 \\ \Psi_{i-1} \\ \Psi_{N-1} \\ \Psi_N^- 
+\end{array}\right\}
+=
+\left\{\begin{array}{c} 
+0 \\
+\omega\Delta t_1(\bar U_1 - \tilde U_1) \\ 
+\omega\Delta t_i(\bar U_i - \tilde U_i) \\ 
+\omega\Delta t_N(\bar U_N - \tilde U_N) \\
+\alpha (\bar U_N - \hat U_N)
+\end{array}\right\}
+\end{eqnarray}
+And the resulting gradient equation
+\begin{equation}
+\left\{\begin{array}{c} U_0^- \\ U_1 \\ U_i \\ U_N \\ U^+_N \end{array}\right\}
+\cdot
+\left\{\begin{array}{c} 
+0 \\
+\omega\Delta t_1(\bar U_1 - \tilde U_1) \\ 
+\omega\Delta t_i(\bar U_i - \tilde U_i) \\ 
+\omega\Delta t_N(\bar U_N - \tilde U_N) \\
+\alpha (\bar U_N - \hat U_N)
+\end{array}\right\}
+=
+\left\{\begin{array}{c} 
+\Psi_0^- \\ \Psi_0 \\ \Psi_{i-1} \\ \Psi_{N-1} \\ \Psi_N^- 
+\end{array}\right\}
+\cdot
+\left\{\begin{array}{c} g_{ic} \\ \Delta t_1 g_1 \\ \Delta t_i g_i \\ 
+\Delta t_N g_N \\ 0 
+\end{array} \right\}
+\end{equation}
+So that the gradient of the objective function with respect to the control is
+\begin{eqnarray} \label{e:backward_euler_grad_2}
+\left\{\begin{array}{c} 
+\nabla_{g_{ic}} J \\ \nabla_{g_1} J \\ \nabla_{g_i} J \\ \nabla_{g_N} J 
+\end{array}\right\}
+= \left\{\begin{array}{c}
+\Psi_0^- = \Psi_0 \\ 
+\Delta t_1 \Psi_0 \\ 
+\Delta t_{i} \Psi_{i-1} \\ 
+\Delta t_N \Psi_{N-1} 
+\end{array}\right\}
+\end{eqnarray}
+where $i=2,\dots,N-1$.
+
+\subsection*{Implementation}
+
+Currently in the State, I set the IC corresponding to $i=0$ and then solve the
+State equation for $i=1,\dots,N$.
+
+For the Adjoint, I need to set the EC corresponding to $i=N$ and then solve
+the Adjoint equation for $i=N-1,\dots,0$.  However, solving for $\Psi_i$
+requires that you use State and Control information from $i+1$.  Likewise, the
+gradient contribution is also at $i+1$.
+
+Or, $lstep=N,\dots,1$ and we solve for $\Psi_{lstep-1}$ which requires State
+and Control information from $lstep$ and the Gradient is stored at $lstep$.
+
+%==============================================================================
+%
+%==============================================================================
+\section*{Discontinuous Galerkin in Time}
+
+\begin{equation}
+W \cdot \frac{dU(t)}{dt} + W \cdot f(U(t)) = 0 \qquad 
+\forall \Psi\in{\cal W}
+\end{equation}
+Linearize
+\begin{equation}
+W \cdot \frac{dU'(t)}{dt} + W \cdot f'( U'(t) ; U(t) ) = 0 
+\qquad \forall \Psi\in{\cal W}
+\end{equation}
+Form an Euler--Lagrange identity
+\begin{eqnarray}
+\int_{t_i}^{t_{i+1}} W \cdot \frac{dU'(t)}{dt} dt + 
+\int_{t_i}^{t_{i+1}} W \cdot f(U'(t);U(t)) dt = \nonumber\\
+\int_{t_i}^{t_{i+1}} -U' \cdot \frac{dW(t)}{dt} + 
+\int_{t_i}^{t_{i+1}} U' \cdot f^*(W(t);U(t)) +
+\left[ W \cdot U' \right]_{t_i}^{t_{i+1}} + 
+\left[ W \cdot \widehat U'(U^-,U^+) - U' \right]_{t_i}^{t_{i+1}}
+\end{eqnarray}
+where we have introduced an upwind numerical flux $\widehat U'(U^-,U^+) =
+U^-$.  Thus,
+\begin{eqnarray}
+\int_{t_i}^{t_{i+1}} W \cdot \frac{dU'(t)}{dt} dt + 
+\int_{t_i}^{t_{i+1}} W \cdot f(U'(t);U(t)) dt = \nonumber\\
+\int_{t_i}^{t_{i+1}} -U' \cdot \frac{dW(t)}{dt} + 
+\int_{t_i}^{t_{i+1}} U' \cdot f^*(W(t);U(t)) +
+\left[ W \cdot \widehat U'(U^-,U^+)\right]_{t_i}^{t_{i+1}}
+\end{eqnarray}
+If we use piecewise constants for our trial and test function spaces, then
+this simplifies to
+\begin{eqnarray}
+W_{i+1}^- \int_{t_i}^{t_{i+1}} \cdot f(U'(t);U(t)) dt = 
+\int_{t_i}^{t_{i+1}} U_{i}^+ \cdot f^*(W(t);U(t)) +
+( W_{i+1}^- \cdot U_{i+1}^- - W_{i}^+ \cdot U_{i}^- )
+\end{eqnarray}
+
+%==============================================================================
+%
+%==============================================================================
+\section*{RK-4}
+
+\subsection*{State}
+
+\[ dU/dt + F(U) = 0 \]
+\[ R[0] = F(U) \]
+\[ U_t = U - a[0] dt R[0] \]
+\[ R[0] = -b[0] R[0] \]
+
+\subsection*{Adjoint}
+
+%==============================================================================
+%
+%==============================================================================
+
+\end{document}

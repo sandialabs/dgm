@@ -1,0 +1,8 @@
+# Initial condition
+Given
+u := rx = 0.45; ry = 0.25; cx = 0.0; cy = -0.2; w = 10.0; \
+     s = (1.0 + 0.25*cos(2*PI*z)); rx = rx*s; ry = ry*s; \
+     (erfc(w*(x-cx-rx))*erfc(-w*(x-cx+rx))*erfc(w*(y-cy-ry))* \
+      erfc(-w*(y-cy+ry)))/16.0;
+
+u := ( erfc(10*(x-0.45*(1.0+0.25*cos(2*PI*z))))*erfc(-10*(x+0.45*(1.0+0.25*cos(2*PI*z)))) * erfc(10*(y+0.2-0.25*(1.0+0.25*cos(2*PI*z))))*erfc(-10*(y+0.2+0.25*(1.0+0.25*cos(2*PI*z)))) ) / 16;

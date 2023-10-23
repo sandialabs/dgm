@@ -1,0 +1,10 @@
+eqntype  = 27     # 27 is the Poisson solver
+inttype  = 4
+p        = 5
+Ntout    = 1
+
+stab = 1.0
+matrix_solve = 1
+solver = 0
+solver = 0
+tecplot = 0

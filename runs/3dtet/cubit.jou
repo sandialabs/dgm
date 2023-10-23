@@ -1,0 +1,32 @@
+## /projects/cubit/claro.Lin64.14.0/bin/clarox
+## Cubit Version 14.0
+## Cubit Build 387434
+## Revised 2013-07-31 11:16:24 -0600 (Wed, 31 Jul 2013)
+## Running 10/03/2013 10:21:04 AM
+## Command Options:
+## -warning = On
+## -information = On
+set geometry engine acis
+brick x 10
+volume 1 interval 10
+volume 1 interval 1
+volume 1 interval 1
+mesh volume 1
+volume 1 scheme tetmesh
+set tetmesher interior points off
+set tetmesher optimize level 3 optimize overconstrained off sliver off
+set tetmesher boundary recovery off
+delete mesh volume 1 propagate
+mesh volume 1
+set duplicate block elements off
+block 1 volume 1
+sideset 1 surface 1
+sideset 2 surface 2
+sideset 3 surface 3
+sideset 4 surface 4
+sideset 5 surface 5
+sideset 6 surface 6
+set large exodus file on
+export genesis "/home/jroverf/cubit/TetMeshes/Tet.g" dimension 3 overwrite
+save as "/home/jroverf/cubit/TetMeshes/cubit14.cub" overwrite
+

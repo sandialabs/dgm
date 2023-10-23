@@ -1,0 +1,20 @@
+{
+  "Field Slice" : [
+    {
+      "Verbosity" : 0,
+      "Format" : "float",
+      "Frequency" : 1000,
+      "Lattice" : [
+         [ 0.1, 0.0 ],
+         [ 0.0, 0.1 ]
+      ],
+      "Outputs" : [
+        {
+          "Default" : 0.0,
+          "Field" : "u",
+          "File" : "n2d.u"
+        }
+      ]
+    }
+  ]
+}

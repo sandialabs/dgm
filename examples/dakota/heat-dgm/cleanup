@@ -1,0 +1,3 @@
+/bin/rm -r workdir*
+/bin/rm *.dat *.rst fort.* idr* result* *.out *.log *.ctl heat.grf heat.ocs \
+heat.wgt heat.ros heat.his dgm-$USER-*

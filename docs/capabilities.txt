@@ -1,0 +1,99 @@
+DGM Capabilities
+----------------
+
+ * Libraries for implementing the Discontinuous-Galerkin method (DGM).
+   - Physics independent
+   - C++, Object-oriented design
+   - 32 and 64-bit builds
+
+ * Built on the DTK Library interface
+   - Reuse of software with other packages, e.g. Finite-Difference method (FDM).
+
+ * Python interface via Cython
+
+ * Other Third-Party Libraries (TPLs)
+   - Atlas
+   - BLAS
+   - Boost
+   - Dakota
+   - Doxygen
+   - JSONCPP
+   - LAPACK
+   - OpenMPI
+   - PEOpt
+   - Trilinos
+
+ * Serial and Parallel builds
+   - Asynchronous MPI communication
+   - Parallel I/O (MPI-IO)
+   - Scales to 100,000 cores
+   - Load balancing with internal and Zoltan decompositon
+
+ * I/O
+   - Parallel output
+   - FieldSlice
+   - On-the-fly runtime modification
+
+ * Utilitizes unstructured meshes
+   - Exodus format (e.g., from Cubit)
+   - Gmesh
+   - DGM meshing utility, dgm_mesh.exe
+
+ * Refinement capability
+   - Polynomial-order refinement (p-refinement) for both solution and media.
+   - Cell refinement (h-refinement) via hanging-nodes; tris, quads, hexes.
+
+ * Various element types (not all combinations)
+   - Triangles, quadrilaterals, tetrahedrals, and hexahedrals
+   - Modal, nodal, spectral, continuous
+   - Affine elements for computational savings
+   - Curved-sided elements
+
+ * Several explicit and implicit time integrators
+   - Forward Euler
+   - Backward Euler
+   - Second order, two-step method
+   - Third-order, TVD Runge-Kutta method
+   - Fourth-order Runge-Kutta
+   - Trapezoidal method
+   - Strongly-stable Runge-Kutta method
+   - Seven-stage Runge-Kutta method
+   - Jameson's dissipative Runge-Kutta method
+   - Sixth-order, seven-stage Runge-Kutta method 
+
+ * Optimization and Inversion
+   - Adjoint-based optimization/inversion
+   - Several optimization Controls
+     . source inversion, BC inversion, IC inversion, media inversion
+   - Several Observations
+     . full-observation, probe obserations, ...
+   - Transient optimization
+   - Several optimization packages
+     . DGM::Optimizer
+     . PEOpt
+     . DAKOTA
+     . Optipack, Globipack
+     . Trilinos::MOOCHO, Trilinos::Aristos
+   - Griewank re-compute strategies
+     . InCore storage
+     . OutCore storage
+   - Regularization
+   - Constrained optimization?
+
+ * Regression Testing
+   - Build and testing scripts
+   - Nightly regression via Jenkins
+     . Linux, Mac, Clusters
+   - Order verification
+
+ * Software Quality
+   - Version control using SVN
+   - Issue and feature tracking using Trac
+   - Doxygen documentation
+
+ * Several example physics included
+   - Wave equation
+   - Burgers equation
+   - Advection-diffusion
+   - Fluid dynamics, Reo
+   - Darcy flow

@@ -1,0 +1,25 @@
+# DGM test case
+#
+# Author:  G. Scovazzi & A. Gerstenberger
+#
+nsd = 2
+eqntype  = 72     # Miscible Displacement
+inttype  = 4      # time integration
+p        = 2      # polynomial order
+Nt       = 20    # number of time steps (run ~2000 steps to see the finger)
+Ntout    = 10    # restart output interval
+dt       = 1.0   # time step
+tmax     = 2.5e2
+CFLmax   = 0.15
+
+diffusivity_D = 1.0 # viscosity coefficient
+tortuosity_tau = 1.0
+porosity_phi = 1.0 
+
+log_mobility_ratio = 3.0
+
+rho_1 = 1.0
+rho_2 = 1.0
+
+stab = 1.0
+tecplot = 0

@@ -1,0 +1,3 @@
+// Configuration file for FDM unit tests
+
+#cmakedefine SERIAL

@@ -1,0 +1,14 @@
+#!/bin/csh -f
+#
+# This makes changes a filename extension
+#
+# Usage:  cext new_ext *.old_ext
+#
+if ($#argv == 0) then
+  echo "usage:  cext new_ext *.old_ext"
+  exit
+endif
+#
+foreach i ($argv[2-])
+	mv $i {$i:r}.$1
+end

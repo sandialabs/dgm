@@ -1,0 +1,300 @@
+\documentclass[10pt]{article}
+\usepackage{times}
+\usepackage{fullpage}
+\usepackage{comment}
+\usepackage{epsf}
+%
+%.... Pdf links
+%
+\usepackage[pdfmark,%
+            colorlinks=true,%
+            breaklinks=true,%
+            urlcolor=blue,%
+            pdfauthor={S.S.\ Collis},%
+            bookmarksopen=false,%
+            pdfpagemode=None]{hyperref}
+
+\begin{document}
+
+\begin{center}
+{\bf Cluster Working Notes}\\
+S.\ Scott Collis\\
+\today
+\end{center}
+
+\section*{\normalsize Building MPICH-GM}
+
+\begin{enumerate}
+
+\item I have build the GM (i.e. Myrinet) enabled version of MPICH in the
+directory {\tt /home/collis/mpich-1.2.1..7}.  This version was obtained from
+the \href{http://www.myri.com/scs/#documentation}{Myrinet web site} using
+login (comrade) and password (ruckus).  This is the latest Myrinet supported
+version.  Oddly the number is less than the version that Brent has, but the
+dates make it more current -- go figure.  Anyway, this version compiles with
+GCC just fine and seems to work well.  It also supports the shared-memory
+device by default which appears to be the best.  Note that my results indicate
+that performance is improved when using shared memory on the nodes.
+
+\item Marek compiled the ``older'' version of MPICH-GM using the PGI
+compilers.  However, this does not seem to work for GCC.  Likewise, the PGI C++
+compiler is apparently not very good so that I would not want to depend on
+this compiler for my code.
+
+\begin{figure}[bh]
+\centering
+\epsfxsize=3.5in
+\epsfbox{speedup.eps}
+\caption{Speedup on 12 processors of the MEMS Pentium IV cluster as well as an
+SGI Origin 2000 with R12k processors (MAPY)}.
+\label{f:speedup}
+\end{figure}
+
+\item Figure \ref{f:speedup} shows the parallel performance of the DGM code on
+the cluster and Mapy.  Note that the speedup is comparable to the SGI,
+especially when using shared memory on the nodes.  If Myrinet is used for all
+communication then there is the onset of diminishing returns as number of
+processors increases.  With shared memory, the curve is linear out to twelve
+processors.
+
+\end{enumerate}
+
+\section*{\normalsize Notes on 1/3/2002}
+
+\begin{enumerate}
+
+\item To start an interactive PBS job on one processor using shared memory on
+the nodes type {\tt qsub -I -l nodes=n2:ppn=2}
+
+\item From an interactive PBS job, type {\tt mpiexec -np 1 dgm 2d}.  This
+works since shared memory is not used for a single processor job.
+
+\item However, {\tt mpiexec -np 2 dgm 2d} returns the error
+\begin{verbatim}
+[0] smpi_init:error in opening shared memory file 
+    </tmp/pbstmp.135.cluster.master.cluster/gmpi-shmem>: 2
+    Process aborting...
+[1] smpi_init:error in opening shared memory file 
+    </tmp/pbstmp.135.cluster.master.cluster/gmpi-shmem>: 2
+    Process aborting...
+\end{verbatim}
+
+\item To start an interactive PBS job on two processors using shared
+memory on the nodes type {\tt qsub -I -l nodes=n2:ppn=2+n5:ppn=2}.
+
+\item You can explicitly turn off the shared memory (shared memory is the
+default in this version of MPICH-GM) by executing the code with the command
+{\tt mpiexec -no-shmem -np 2 dgm 2d}.
+
+\item PBS does not log into the directory for which it was launched.  Isn't
+this the default behavior?  You have to explicitly include {\tt cd
+\$PBS\_O\_WORKDIR}.
+
+\item Sometimes PBS responds very slowly and I get the message: {\tt qstat:
+cannot connect to server cluster (errno=15007)}?
+
+\item Now I get the msg:
+\begin{verbatim}
+GM error in gm_open: busy
+ERROR: mpi node 0, cannot open GM board 0 gm_port 4
+Process aborting...
+GM error in gm_open: busy
+ERROR: mpi node 1, cannot open GM board 0 gm_port 2
+Process aborting...
+\end{verbatim}
+This may also be a problem with the RAID.  I am experience intermittent
+problems with the RAID.
+
+\item Something at the end of my program (my guess is the MPI-IO) is causing
+the system to hang -- this used to work?  It appears to be the RAID, this
+causes problems even doing an {\tt ls}.
+
+\item Brent says that I can install things into {\tt /usr/local} since Marek
+and I are in the {\tt devel} group. Need to install:
+\begin{enumerate}
+\item ATLAS
+\item FFTW
+\item Intel compilers
+\item KAI compilers
+\end{enumerate}
+
+\end{enumerate}
+
+\section*{\normalsize Comments from Brent with my responses 1-3-2002}
+
+\begin{enumerate}
+\item I will copy the master password list from MEMS and copy it onto the
+cluster. This will provide a local authentication method. I will need to
+rely on someone in the MEMS department to let me know when a new account(new
+faculty/student, visiting faculty/student) needs to be created and if that
+account is needed to be the same as an account in the MEMS {\tt NIS} maps.
+
+{\em Sounds fine.  We have an account request form that will be modified to
+specifically request accounts on the cluster.}
+
+\item I will consider allowing rlogin and telnet access ONLY from the mems
+network after I discuss it with Colin. I'm still a little bit confused as to
+why you can't use ssh for your remote terminal access needs. The speed
+differences are milliseconds.
+
+{\em The difference are far greater than milliseconds in my experience.  It
+virtually renders any X-app useless over the network.  Likewise, the
+transfer of large files is significantly slower.  I have spent some time
+trying to turn off encription in SSH to no avail.  It is either an
+undocumented feature or one that must be explicitly compiled in.}
+
+\item {\tt rsh} is available to you at this time between the cluster master
+and the cluster nodes but rlogin is not. I will not allow rlogin access to the
+nodes. This is how I am configuring the cluster based on design principles set
+by beowulf creator Donald Becker. The way a beowulf cluster should work is
+this:
+\begin{enumerate}
+\item Customer logs into central job host (master node)
+\item Customer submits job(s) to scheduler (pbs in this case)
+\item Scheduler runs jobs on cluster nodes
+\item Scheduler produces job output on central job host.
+\end{enumerate}
+
+{\em This is fine -- I thought that rsh was off too, but that problem appears
+to be because some of the nodes didn't have the RAID mounted.}
+
+\item There is a specific pbs qsub directive that you put into your pbs
+submission script that tells pbs to use the job's local node temporary
+directory. I will research this and get back to you today with an answer.
+
+{\em I can likely find this, however I am used to this being the default PBS
+behavior on the systems that I have used.}
+
+\end{enumerate}
+
+\section*{\normalsize Notes on 1/4/2002}
+\begin{enumerate}
+\item Now that the RAID is working, I am still encountering problems with the
+MPI-IO for some reason?
+
+\item This used to work with MPICH-GM so I don't know why it isn't working
+now.  The only thing that could have possibly changed is that one error I
+found in the parallel connectivity list.  I am going to try the P4 device on
+both prandtl and cluster to see if MPI-IO work for this device.
+
+\item Even with comiled against {\tt /opt/mpich-1.2.2} the MPI-IO stalls on
+the cluster.
+
+\item On prandtl, all works fine.
+
+\item Okay, the problem is with the way that the RAID is mounted.  With the P4
+device, I get the error msg (after a lengthy timeout):
+\begin{verbatim}
+File locking failed in ADIOI_Set_lock. If the file system is NFS, 
+you need to use NFS version 3 and mount the directory with the 
+'noac' option (no attribute caching).
+[0] MPI Abort by user Aborting program !
+[0] Aborting program!
+p0_19664:  p4_error: : 1
+\end{verbatim}
+which indicates that the RAID {\em must} be mounted with NFS3 and using the
+``noac'' option.  A {\tt mount} on the cluster shows
+\begin{verbatim}
+192.168.0.234:/home on /home type nfs 
+  (rw,bg,soft,rsize=1024,wsize=1024,addr=192.168.0.234)
+\end{verbatim}
+which verfies the MPICH error msg.
+
+\item Brent had changed the mount command for the RAID in trying to figure out
+the problems associated with the power failer of 12-27-2001.  He has now fixed
+the mount command on the master and nodes and all works?  Now he has to reboot
+inorder to fix it \dots waiting.
+
+\item To see which version of NFS is running type 
+{\tt /usr/sbin/rpcinfo -u localhost nfs}
+
+\item It appears that the slow network access that I see is associated with
+lost TCP/IP packets from Prandtl.  I only lose packets when going to
+``cluster,'' ``hercules,'' and ``mapy.cs'', not to other local machines.  I
+added these machines to my {\tt /etc/hosts} file and now ping is fast.
+
+\item It still takes a long time for ssh to authenticate -- even to mapy.
+\end{enumerate}
+
+\section*{\normalsize Notes on 1/30/2002}
+\begin{enumerate}
+\item Believe it or not, the cluster is still not working.  The small UPS are
+unreliable and the NAS box is giving intermittent problems.
+\item I have rebuild and run the DGM code on the master, but not on any of the
+nodes.
+\item Note that only NFS version 2 is currently running on the cluster.
+\end{enumerate}
+
+\section*{\normalsize Notes on 2/4/2002}
+\begin{enumerate}
+\item Testing the cluster using my own GM enabled version of MPICH
+\item Command {\tt mpirun.ch\_gm --gm-use-shmem -np 4 ../src/dgm vortex}
+\item {\tt dmesg | grep CPU} tells about the CPU on the system
+\end{enumerate}
+
+\section*{\normalsize Notes on 2/11/2002}
+\begin{enumerate}
+\item Now PBS is working again although n38 seems to have a problem with
+Myrinet.
+\item I am trying to get the Intel compiler to work on the cluster.  I have
+single processor working fine. When I try to use the mpiCC command, it gives
+errors for the compiler optimization stuff.  Oh, I was using the wrong mpiCC.
+There is a problem with the intel stuff.  mpiCC doesn't work.  I am compiling
+my own version to see if it is just an installation problem.
+\item Need to fix the problem with boundary conditions for parallel execution
+\item Node 38 is not working.
+\item There is a problem with PBS that prevents it from accurately traking
+resources.
+\item Node 27 does not work for PBS
+\item Node 21 is down (broken)
+\item With these nodes turned off, PBS seems to work
+\item I have tried ICC with -tpp7 and -axW but it is slower than GCC?  It
+seems that it is the SSE2 commands that screw things up.  When I use just -O2
+with ICC it is a little faster than GCC.  Now try just the -tpp7 flag -- this
+slows it a little.  Now just try -O3 -- maybe a little slower?
+\item I tried to compile my own ATLAS using the ICC but it was really slow?  I
+didn't use the correct flags (-tpp7 -axW)
+\end{enumerate}
+
+\section*{\normalsize Notes on 2/12/2002}
+\begin{enumerate}
+\item Ran DGM all night and I think that it worked okay...
+\item Installed tecplot on the cluster
+\item Running post processor, currently only works on vector field solutions
+\end{enumerate}
+
+\section*{\normalsize Notes on 2/27/2002}
+\begin{enumerate}
+\item I setup a test run for Chris at LNXI
+\end{enumerate}
+
+
+\section*{\normalsize Notes on 2/26/2003}
+There is an option in Myrinet GM to kill all processes if one of them dies
+\begin{verbatim}
+#! option to kill all the processes if one of them dies
+setenv GMPIRUN_KILL 1   
+setenv GMPIRUN_VERBOSE 1
+\end{verbatim}
+There is also an API to PBS that allows you to query the queing system
+\begin{verbatim}
+#include <pbs_error.h>
+#include <pbs_ifl.h>
+
+int pbs_connect(char *server)
+extern char *pbs_server;
+
+struct batch_status *pbs_statjob(int connect, char *id, 
+                                 struct attrl *attrib, char *extend);
+
+connect is the return value of pbs_connect()
+id is the job identifier
+attrib is a pointer to the start of the attribute list.
+
+void pbs_statfree(struct batch_status *psj)
+
+This must be called to free up the batch_status struct generated by 
+pbs_statjob.
+\end{verbatim}
+
+\end{document}

@@ -1,0 +1,17 @@
+nsd = 1
+eqntype  = 74     # advection diffusion
+inttype  = 4      # time integration
+p        = 2      # polynomial order
+Nt       = 1000    # number of time steps
+Ntout    = 1000    # restart output interval
+dt       = 0.000067   # time step
+dtmax    = 0.000067
+
+diffusivity_D = 0.001 # viscosity coefficient
+
+rho_CO2   = 1    # rho1
+rho_water = 10    # rho2
+
+porosity_phi = 0.5
+
+tecplot = 0

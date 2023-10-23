@@ -1,0 +1,26 @@
+**BOUNDARY CONDITION DATA**
+24 nbc
+xm 0  3 
+xm 6  3 
+xm 12  3 
+xm 18  3 
+xm 24  3 
+xm 30  3 
+xp 5  1 
+xp 11  1 
+xp 17  1 
+xp 23  1 
+xp 29  1 
+xp 35  1 
+yp 30  2 
+yp 31  2 
+yp 32  2 
+yp 33  2 
+yp 34  2 
+yp 35  2 
+ym 0  0 
+ym 1  0 
+ym 2  0 
+ym 3  0 
+ym 4  0 
+ym 5  0 

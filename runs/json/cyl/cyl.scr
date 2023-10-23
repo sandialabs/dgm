@@ -1,0 +1,7 @@
+#!/bin/sh
+#PBS -q batch
+#PBS -l walltime=0:15:00,nodes=8:ppn=2
+#PBS -o cyl.out
+#PBS -j oe
+mpiexec pdgm.exe cyl
+exit

@@ -1,0 +1,22 @@
+{
+  "Name" : "Response",
+  "Verbosity" : 3,
+  "Probes" : [ 
+    { "Name": "a", "Kernel": "g", "File": "2d.anl" },
+    { "Name": "b", "Kernel": "d", "Xs": [0.5, 0.75], "Ys": [1.0, 0.75] },
+    { "Name": "c", "Kernel": "e", "Xs": [0.5, 0.75], "Ys": [1.0, 0.75] }, 
+    { "Name": "d", "Kernel": "s", "Xs":[0.0], "Ys": [ 1.0 ] }
+  ],
+  "Kernels" : {
+    "g" : { "Type": "Gaussian", "Standard deviation" : 1.0,
+            "Number of standard deviations": 5  },
+    "d" : { "Type": "Delta", "Average" : false },
+    "s" : { "Type": "Sideset" },
+    "e" : { "Type": "GaussianEllipse", "Default sigma": [ 1, 1, 2],
+            "Number of standard deviations": 3,
+            "Default derivative": [0, 0],
+            "Default direction": [[1,0],[0,1]] },
+    "l" : { "Type": "GaussianLineSegment", "Standard deviation":0.2,
+            "Number of standard deviations": 3 }
+  }
+}

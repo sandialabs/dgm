@@ -1,0 +1,9 @@
+eqntype = 8                # 3d Compressible Eulre (8) Navier-Stokes (9)
+inttype = 3                # 3rd order RK
+dt      = 0.001
+Nt      = 10000            # 500000
+ntout   = 1
+Ntout   = 50               # 5000 
+p       = 3 
+#vis    = 0.000625         # Re = 1600 
+bmesh   = 1

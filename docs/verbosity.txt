@@ -1,0 +1,8 @@
+Descriptions of DGM_VERBOSE levels
+==================================
+0 = DGM is basically quiet -- most output is application
+1 = Minimal DGM verbosity -- suitable for production use
+2 = More information during construction, no verbosity during execution
+3 = Very noisy construction and destruction, modest verbosity during execution
+4 = Noisy during execution
+5 = May actually dump out data, so watch out

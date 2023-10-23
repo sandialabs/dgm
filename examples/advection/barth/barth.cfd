@@ -1,0 +1,4 @@
+** Prescribed convective field **
+Given
+cx(x,y) := -y;
+cy(x,y) :=  x;

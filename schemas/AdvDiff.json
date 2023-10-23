@@ -1,0 +1,49 @@
+{
+  "$schema" : "http://json-schema.org/schema#",
+  "title" : "Advection Diffusion",
+  "description" : "Parameters for Reo Advection Diffusion Physics",
+  "type" : "object",
+  "properties" : {
+    "Wave speed" : {
+      "type" : "array",
+      "items" : {
+        "type" : "number"
+      },
+      "minItems" : 1,
+      "maxItems" : 3
+    }
+  },
+  "patternProperties" : {
+    "^cfield$|^Variable convective field$" : {
+      "type" : "boolean",
+      "default" : "false"
+    },
+    "^cx$|^X wave speed$" : {
+      "type" : "number",
+      "default" : 1
+    },
+    "^cy$|^Y wave speed$" : {
+      "$ref" : "#/definitions/zeroSpeed"
+    },
+    "^cz$|^Z wave speed$" : {
+      "$ref" : "#/definitions/zeroSpeed"
+    },
+    "^vis$|^Viscosity$" : {
+      "type" : "number",
+      "default" : 0
+    },
+    "^fv$|^Finite volume reconstruction$" : {
+      "type" : "integer",
+      "default" : 0,
+      "minimum" : 0,
+      "maximum" : 2
+    }
+  },
+  "additionalProperties" : false,
+  "definitions" : {
+    "zeroSpeed" : {
+      "type" : "number",
+      "default" : 0
+    }
+  }
+}

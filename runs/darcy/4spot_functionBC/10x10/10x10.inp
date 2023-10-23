@@ -1,0 +1,17 @@
+eqntype   = 24
+inttype   = 3
+
+p         = 2
+
+Mu_avg    = 1.0;
+ChiT      = 0.0;
+g_x       =  0.0;
+g_y       =  0.0;
+g_z       =  0.0;
+
+stab      =  2.0;
+bstab     =  2.0;
+
+iterations = 1000
+dim_krylov = 100
+tolerance  = 1e-12

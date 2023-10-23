@@ -1,0 +1,28 @@
+#!/bin/csh -f
+#
+# mdiff dest_dir file_list
+#
+#   Performs a diff on files in the current
+#   directory compared to files with the same
+#   name in the dest directory. 
+#
+#   S. Scott Collis
+#
+#   6-11-97
+#
+if ($#argv == 0) then
+  echo usage:  mdiff dest_dir file_list
+  exit
+endif
+#
+foreach i ($argv[2-])
+  diff -w $i $1/$i > $i.diff
+end
+#
+#  remove the files with zero blocks
+#
+/bin/rm `find *.diff -size 0 -print`
+#
+# no modification make
+#
+exit

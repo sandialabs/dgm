@@ -1,0 +1,14 @@
+#!/bin/csh -f
+if ($#argv != 2) then
+  echo "Incorrect number of arguments"
+  exit 1
+endif
+set start=$1
+set end=$2
+set cmd="qsub -I -l walltime=00:15:00,nodes=node""$start"":ppn=2"
+@ i = $start + 1
+while ( $i <= $end )
+  set cmd = "$cmd""+node""$i"":ppn=2"
+  @ i = $i + 1
+end
+$cmd

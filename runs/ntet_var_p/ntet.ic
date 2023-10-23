@@ -1,0 +1,6 @@
+** Initial Condition **
+Given
+u(x,y) := 1.0 - cos(1.0 * PI * x) * cos(1.0 * PI * y);
+
+Given
+u(x,y,z) := 1.0 - cos(PI * x) * cos(PI * y) * cos(PI * z);

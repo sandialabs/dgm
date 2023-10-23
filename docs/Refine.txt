@@ -1,0 +1,89 @@
+
+In the Dgm util directory there are three utilities for creating non-uniform (hanging node) meshes:
+   refine.py
+   refine3D.cpp
+   refine2D.cpp
+The refine.py is a python version of refine3D.cpp and refine2D.cpp is a restriction of refine3D to 
+two dimensions.  Refine3d has all the functionality of refine.py and refine2D.cpp but is much
+faster.  For this reason refine3d should be all that is needed to create non-conformal meshes.
+
+Refine3D only needs one input parameter to run:
+   refine3D --root seismic
+Where root is the root name of the mesh files.  In this case the files read are
+   seismic.rfn, seismic.msh, seismic.con and seismic.bc
+which are the refinement file, mesh file, the connectivity file and the boundary condition file.
+
+The output will be 
+   seismic_ref.msh, seismic_ref.con and seismic_ref.bc
+which are the refined mesh files along with the new boundary condition file.
+
+The rfn file is a text file which lists the elements in the mesh file to refine and how
+to refine each element.  This format of this file is:
+    Comment line which is ignored
+    element   x_cuts  y_cuts  z_cuts
+    element   x_cuts  y_cuts  z_cuts
+      .
+      .
+      .
+    element   x_cuts  y_cuts  z_cuts
+
+Each line is a zero based element number of an element in the mesh.  The next three
+numbers are the number of times to divide the element in the x, y and z direction.
+For example:
+   This is an example of an rfn file
+     0 0 0 1
+     1 0 1 1
+     2 1 1 1
+    12 1 2 0
+   123 1 2 3
+Which specifies to divide elements 0, 1, 2, 12 and 123 into 2, 4, 8, 6 and 24 elements
+respectively. 
+`
+The refinement across a face is not arbitrary,  Although it is allowed to have a 1-to-n 
+refinement across the face of an element, it is not allowed to have an n-to-m refinement
+across a face.  Care must be taken when specifying the divisions to respect this.
+
+Other command line arguments:
+ help         Help message
+ pause        Pause until keyboard input, for debugging purposes
+ sanity_check Extra checks for mesh consistency, can be expensive
+ heal         Attempt to fix common mesh errors, experimental
+ read_binary  Read binary mesh.grd and mesh.cn 
+ write_binary Write binary mesh.grd and mesh.cn ONLY. Useful if ASCII files would be enormous
+
+
+
+Creating an rfn file.
+
+There is one utility to help create rfn files: select_layers.py.
+
+Select_layers is a script that takes upper and lower bounds in each of the x, y and z directions
+and finds all of the elements which completely fall within those bounds.  The number of times to
+divide the found elements in each of the three directions is also input.  The result is a root.rfn
+file that can be input to the refine3D program to refine the mesh.  
+
+Examples:
+  select_layers.py --root seismic \
+     --x_lower   2300 \
+     --y_lower   2000 \
+     --z_lower   1000 \
+     --x_upper   4300 \
+     --y_upper   6300 \
+     --z_upper   8000 \
+     --x_cuts    1 \
+     --y_cuts    1 \
+     --z_cuts    0
+
+In this example a 3D block of elements in the cube (2300,4300)x(2000,6300)x(1000,8000) is refined
+once in both the x and y direction but not in the z  direction.  A seismic.rfn file would be 
+written with the appropriate element numbers and 1 1 0 as the refinement values.
+
+
+Examples:
+
+In the FWI test suite, in the regression/shallow_water/hnode/generate_meshes directory there is
+a gen_hnode_mesh.sh shell script that creates the hanging node mesh used for this regression
+test.  The refine.py python script is used multiple times to create the mesh but the refine3D could
+also have been used.  
+
+

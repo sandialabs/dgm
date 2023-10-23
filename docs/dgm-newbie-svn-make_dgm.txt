@@ -1,0 +1,132 @@
+Information on Starting on DGM
+-------------------------------------------
+
+1) DGM code
+
+   Current Philosophy
+   ------------------
+
+   Our decision at this point is to keep the DGM repository distinct
+   (for several reasons, not the least of which there are several
+   projects that use DGM).  So, you will need to do a SVN update
+   in your working directory.
+
+
+   Checkout and Build (merger of 2 emails from Scott Collis)
+   ---------------------------------------------------------
+
+   If you would like to try out the DGM code, I have setup CVS access for you
+   to "DGM" otherwise known as Chamisa on software.sandia.gov and/or
+   test.sandia.gov and/or odin.sandia.gov (our cluster).
+   
+   To check out the current, optimization, enable version, use the following:
+   
+     svn co svn+ssh://software.sandia.gov/svn/private/dgm/trunk dgm
+   
+   Here are some useful commands:
+
+     cd dgm
+     svn update
+
+   Please let me know if you would like to try this and I will have accounts
+   made for you on software, test, and odin (and have you added to the "dgm"
+   unix group).
+   
+   To build DGM you need to have a number of 3rd-party libraries including:
+   
+   Required:
+      atlas
+      boost
+      fftw
+      gsl
+      itl
+   Optional:
+      mpich
+      trilinos
+   
+   DGM expects that the required and optional libraries are available in a
+   directory called ~/local (these can be sym-links or actual installs).  To
+   make things easy, there is a tarball called local-linux.tgz in my home
+   directory on software.sandia.gov that you can copy that should work on
+   Linux systems (including both software and test).  If you are interested in
+   running on Mac OS, Cygwin, or the Sandia ICC's let me know and I can help
+   you out.  (It's been a while since I used Cygwin so we might have to dust
+   that one off a bit).
+   
+   Right now, I don't use autoconf/autotools but instead have platform
+   specific makefile include files stored in the dgm/src directly (e.g.
+   Linux.inc, Darwin.inc, etc).  Once you have checked out 'dgm' and make your
+   ~/local directory (note that on software or test you could just do a
+   symbolic link to sscoll/local) you are ready to build.
+   
+   * To build a serial 'dgm' executable you would do:
+   
+      cd ~/dgm  # assuming that is where you checked out the DGM source tree
+      ./make_dgm -is -n8
+      
+   Where -n8 indicates a parallel build on 8 processors.  This will make dgm.exe
+   (as well as a number of other useful executables) in the subfolder GCC/. 
+   The -i will also install DGM into ~/local/dgm/serial/[bin|lib|include].
+   This allows to use DGM as a library. If you omit -n8, it will automatically
+   take all available processors on your machine.
+   
+   * To make an MPI parallel version, do:
+   
+      ./make_dgm -ip
+   
+   This will make pdgm.exe and pdgm_opt.exe in the subfolder GCCp and install it
+   into /local/dgm/mpi/[bin|lib|include].
+   
+   * For a Trilinos enabled, parallel DGM version, you need to add the folder
+   with the installed Trilinos as:
+   
+      ./make_dgm -ip -t $HOME/local/trilinos
+      
+   Assumed is that within your trilinos folder, you have the following structure
+      
+      ~/local/trilinos/[mpi|serial]/[debug|opt]
+      
+   Depending on which version you build, make_dgm picks the correct folder or 
+   complains, if it isn't there. For details, look inside the make_dgm script. 
+   
+   * Finally, to build a parallel, Trilinos enabled, debug DGM, type:
+   
+      ./make_dgm -ipd -t ~/local/trilinos
+   
+   (Note the extra 'd' switch to turn on the debugable version) This command
+   will try to find Trilinos in: ~/local/trilinos/mpi/debug/
+   
+   As mentioned before, the -i switch installs dgm into ~/local/dgm/.. with more
+   subfolders depending on which dgm version you just build. Without the
+   install (no -i), you'll find the executables in ~/dgm/GCC** where the endings
+   'p', 't', and 'd' or any combination of them are added to indicate parallel,
+   trilinos-enabled, and debug versions of DGM. 
+
+   Useful environment settings: (csh shown)
+     setenv DGMDIR $HOME/local/dgm/trilinos
+     set path = ($path $DGMDIR/serial/bin $DGMDIR/mpi/bin)
+     setenv LD_LIBRARY_PATH "$HOME/local/dgm/path_to_dgm/lib:$LD_LIBRARY_PATH"
+
+   To run a serial test case of inviscid, compressible flow over a 2d cylinder
+   do the following:
+   
+      cd ~/dgm/runs/cyl
+      Serial:  ~/dgm/GCC/dgm.exe cyl
+      Parallel:  mpiexec -n 8 ~/dgm/GCCp/pdgm.exe cyl
+   
+   or, if you installed DGM:
+   
+      cd ~/dgm/runs/cyl
+      Serial:  ~/local/dgm/serial/bin/dgm.exe cyl
+      Parallel:  mpiexec -n 8 ~/local/dgm/mpi/bin/pdgm.exe cyl
+   
+   Note: on software or test this assumes that you used the mpich2 install in
+   ~/local/mpich2 and that ~/local/mpich2/bin is in your path so that you get
+   the correct mpiexec.  On both software and test you should get a nearly
+   perfect 8x speedup when running on 8 procs :-)
+   
+   There are a bunch of other "test" in the ~/dgm/runs directory that you can
+   try out.  I can easily show you how to setup new runs, build meshes with
+   Cubit, use tecplot or paraview to visualize, etc. 
+   I can also show you how to build a Trilinos enabled version as well
+   but that is a separate email.

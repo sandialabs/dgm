@@ -1,0 +1,6 @@
+#!/bin/bash
+#
+# Build DGM with maximum (release) optimizations
+#
+./make_dgm "$@" -ispyr -a CLANG
+exit

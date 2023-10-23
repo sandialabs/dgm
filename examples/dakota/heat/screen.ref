@@ -1,0 +1,74 @@
+Running MPI executable in serial mode.
+DAKOTA version 4.2+ developmental release.
+Subversion revision 5627 built Jan 20 2009 13:25:18.
+Constructing Single Method Strategy...
+Writing new restart file dakota.rst
+methodName = optpp_cg
+gradientType = analytic
+hessianType = none
+
+>>>>> Running Single Method Strategy.
+
+>>>>> Running optpp_cg iterator.
+
+------------------------------
+Begin Function Evaluation    1
+------------------------------
+Parameters for function evaluation 1:
+                      0.0000000000e+00 x1
+
+(heat.scr params.in.1 results.out.1)
+
+Active response data for function evaluation 1:
+Active set vector = { 3 } Deriv vars vector = { 1 }
+                      4.7574538753e+01 obj_fn
+ [ -4.5093751795e+01 ] obj_fn gradient
+
+
+
+------------------------------
+Begin Function Evaluation    2
+------------------------------
+Parameters for function evaluation 2:
+                      4.5093751795e+01 x1
+
+(heat.scr params.in.2 results.out.2)
+
+Active response data for function evaluation 2:
+Active set vector = { 3 } Deriv vars vector = { 1 }
+                      5.6804920096e+04 obj_fn
+ [  2.5623979591e+03 ] obj_fn gradient
+
+
+
+------------------------------
+Begin Function Evaluation    3
+------------------------------
+Parameters for function evaluation 3:
+                      7.7984771437e-01 x1
+
+(heat.scr params.in.3 results.out.3)
+
+Active response data for function evaluation 3:
+Active set vector = { 3 } Deriv vars vector = { 1 }
+                      2.9991409118e+01 obj_fn
+ [ -2.8649131678e-13 ] obj_fn gradient
+
+
+
+<<<<< Iterator optpp_cg completed.
+********************************************************
+             OPT++ TERMINATION CRITERION                
+	  SUCCESS - optpp_cg converged to a solution
+Algorithm converged - Norm of gradient is less than gradient tolerance
+********************************************************
+<<<<< Function evaluation summary: 3 total (3 new, 0 duplicate)
+<<<<< Best parameters          =
+                      7.7984771437e-01 x1
+<<<<< Best objective function  =
+                      2.9991409118e+01
+<<<<< Best data captured at function evaluation 3
+<<<<< Single Method Strategy completed.
+DAKOTA master processor execution time in seconds:
+  Total CPU        =       0.02 [parent   =   0.013801, child =   0.006199]
+  Total wall clock =    11.9788 [MPI_Init = 0.000982046, run   =    11.9778]

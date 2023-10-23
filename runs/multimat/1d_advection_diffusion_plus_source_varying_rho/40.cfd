@@ -1,0 +1,3 @@
+*** given convective velocity field
+given
+ax(x,y) := 1.0;

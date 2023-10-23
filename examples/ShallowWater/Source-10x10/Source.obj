@@ -1,0 +1,10 @@
+
+PhiTracking obs {
+  "Verbosity" : 2, 
+  "Penalty" : 1.0,
+  "Probe path" : "obj",
+  "Height only" : true,
+  "Response" : {
+    "Filename" : "Source.anl"
+  }
+}

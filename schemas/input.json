@@ -1,0 +1,82 @@
+{
+  "Title" : "This is a sample DGM JSON input file",
+  "Problem" : {
+    "Type" : "forward",
+    "Domains" : [
+      "cylinder"
+    ]
+  },
+  "MultiOptProblem" : {
+    "Verbosity" : 0,
+    "Recompute state" : false
+  },
+  "Domain" : {
+    "Type" : "Euler",
+    "Name" : "cylinder",
+    "Root" : "cyl",
+    "Time" : {
+      "Nt" : 1000,
+      "Ntout" : 100,
+      "ntout" : 20,
+      "dt" : 0.001,
+      "tf" : 1
+    },
+    "Space" : {
+      "p" : 3,
+      "q" : 5,
+      "Mesh" : "cyl.grd",
+      "Connectivity" : "cyl.cn",
+      "Binary mesh" : true
+    }
+  },
+  "Zoltan" : {
+    "Partition" : {
+      "algorithm" : "hypergraph"
+    }
+  },
+  "Response" : {
+    "Verbosity" : 2,
+    "Name" : "obs",
+    "Format" : "double",
+    "Type" : "combined"
+  },
+  "Field Slice" : [
+    {
+      "Verbesity" : 2,
+      "Format" : "float",
+      "Frequency" : 100,
+      "Lattice" : [
+        [
+          0.1,
+          0
+        ],
+        [
+          0,
+          0.05
+        ]
+      ],
+      "Outputs" : [
+        {
+          "Default" : 0,
+          "Field" : "r",
+          "File" : "r"
+        },
+        {
+          "Default" : 0,
+          "Field" : "ru",
+          "File" : "ru"
+        },
+        {
+          "Default" : 0,
+          "Field" : "rv",
+          "File" : "rv"
+        },
+        {
+          "Default" : 0,
+          "Field" : "rE",
+          "File" : "rE"
+        }
+      ]
+    }
+  ]
+}

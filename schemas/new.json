@@ -1,0 +1,20 @@
+{ 
+  "Title" : "Test of the newSchema validation",
+  "Domain" : { },
+  "AdvDiff" : { 
+    "Wave speed" : [ 1.0, 0, 0 ],
+    "cfield" : false,
+    "Variable convective field" : true,
+    "cx" : 1.0, "cy" : 0, "cz" : 0
+  },
+  "Griewank" : {
+    "Statistics" : 1, 
+    "Number of Snapshots" : 1 
+  },
+  "InCore" : { 
+    "Processors per node" : 1,
+    "Percent of memory to use" : 80 
+  },
+  "Solver" : { "Read parameters from XML" : false },
+  "Zoltan" : { "Partition" : { "algorithm" : "rcb" } }
+}

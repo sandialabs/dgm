@@ -1,0 +1,9 @@
+#!/bin/csh -f
+#
+#   S. Scott Collis
+#
+#   6-11-97
+#
+/bin/rm *.his *.rst *.dat *.x *.q *.[RUVE] *.bdt *.cp *.frc *.u TEST*
+#
+exit

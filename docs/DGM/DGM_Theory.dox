@@ -1,0 +1,17 @@
+namespace DGM {
+
+/**
+
+\page DGM_Theory
+
+\section DGM_Theory DG Forumlation
+
+This section provides a brief background on discontinuous Galerkin methods.
+
+\image html DGM-formulation.png
+<br>
+\image html DGM-flux.png
+
+**/
+
+}  // namespace DGM

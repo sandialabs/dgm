@@ -1,0 +1,10 @@
+{
+  "Problem" : {
+    "Restart" : false 
+  },
+  "Domain" : {
+    "Ntout" : 100,
+    "ntout" : 10,
+    "Nt" : 100000 
+  }
+}
