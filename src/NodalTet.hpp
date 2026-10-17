@@ -238,18 +238,9 @@ class NodalTet : public Element {
   }
   /// Returns the number of subcells for vizualizing this element
   inline virtual Ordinal ncells() const {
-    Ordinal E = 0;
     const Ordinal N = L();
-    for (Ordinal i=0; i<N-1; ++i) {
-      for (Ordinal j=0; j+i<N-1; ++j) {
-        for (Ordinal k=0; k+j+i<N-1; ++k) {
-          ++E;
-          if (i<N-2 && j+i<N-2 && k+j+i<N-2) E+=4;
-          if (0<j && 0<k) ++E;
-        }
-      }
-    }
-    return E;
+    if (N < 1) return 0;
+    return (N - 1) * (N - 1) * (N - 1);
   }
   //@}
 
